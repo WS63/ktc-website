@@ -5,8 +5,34 @@ import { aktualisiere } from './src/config.js';
 import api from './src/routes/api.js';
 import oeffentlich from './src/routes/public.js';
 
-await runMigrations();
-await aktualisiere();
+/**
+ * Beim Start die Datenbank vorbereiten.
+ *
+ * Schlaegt das fehl, ist die haeufigste Ursache eine falsche DATABASE_URL —
+ * und die Meldung von pg dazu ist unbrauchbar ("getaddrinfo EAI_AGAIN base").
+ * Deshalb hier eine, die sagt, wo man nachsehen muss.
+ */
+try {
+  await runMigrations();
+  await aktualisiere();
+} catch (err) {
+  const ziel = process.env.DATABASE_URL
+    ? process.env.DATABASE_URL.replace(/\/\/[^@]*@/, '//***@')
+    : '(nicht gesetzt — es wird SQLite benutzt)';
+  console.error('\n[Motor] Die Datenbank ist nicht erreichbar. Der Server startet nicht.\n');
+  console.error(`  DATABASE_URL: ${ziel}`);
+  console.error(`  Fehler:       ${err.code || ''} ${err.message}\n`);
+  if (err.code === 'EAI_AGAIN' || err.code === 'ENOTFOUND') {
+    console.error(`  Der Rechnername "${err.hostname || '?'}" ist unbekannt.`);
+    console.error('  Bei Coolify: die INTERNE Postgres-Adresse nehmen. Der Teil zwischen');
+    console.error('  @ und :5432 ist eine lange zufällige Zeichenfolge, kein kurzes Wort.\n');
+  } else if (err.code === 'ECONNREFUSED') {
+    console.error('  Der Rechner antwortet, aber nicht auf diesem Port. Läuft die Datenbank?\n');
+  } else if (err.code === '28P01' || /password/i.test(err.message)) {
+    console.error('  Das Passwort in der Adresse stimmt nicht.\n');
+  }
+  process.exit(1);
+}
 
 const app = express();
 app.disable('x-powered-by');

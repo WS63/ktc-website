@@ -43,11 +43,15 @@ export default {
     .hero--bild img { position: absolute; inset: 0; width: 100%; height: 100%;
       object-fit: cover; z-index: 0; }
     .hero--bild .hero__schleier { position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(180deg, rgba(30,30,24,.12) 0%, rgba(30,30,24,.30) 40%,
-        rgba(30,30,24,.78) 100%); }
+      /* Kraeftig genug, dass Schrift auch auf einem hellen Bild traegt.
+         Gemessen an der Terrasse mit den weissen Sonnenschirmen: bei .30 in
+         der Mitte war der Untertitel kaum zu lesen. */
+      background: linear-gradient(180deg, rgba(30,30,24,.18) 0%, rgba(30,30,24,.42) 45%,
+        rgba(30,30,24,.72) 70%, rgba(30,30,24,.88) 100%); }
     .hero--bild .container { position: relative; z-index: 2;
       padding-top: var(--raum-5); padding-bottom: var(--raum-5); }
-    .hero--bild .hero__titel, .hero--bild .hero__sub { color: #fff; }
+    .hero--bild .hero__titel, .hero--bild .hero__sub { color: #fff;
+      text-shadow: 0 1px 12px rgba(30,30,24,.45); }
     .hero--bild .hero__sub { color: rgba(255,255,255,.88); }
     .hero--bild .hero__pill { color: #fff; border-color: rgba(255,255,255,.65);
       background: rgba(255,255,255,.10); backdrop-filter: blur(2px); }

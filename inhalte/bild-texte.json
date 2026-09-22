@@ -1,8 +1,30 @@
 {
   "_hinweis": "Alt-Texte je Bildname. Beschreibt, was zu SEHEN ist — nicht, was es bedeutet. Ohne Alt-Text ist ein Bild für einen Vorleser nicht vorhanden.",
 
-  "terrasse": "Blick von der Terrasse über die Liegewiese auf die Sandplätze des Krifteler Tennisclubs an einem sonnigen Frühlingsmorgen",
-  "platz": "Ein frisch hergerichteter Sandplatz mit Netz und Schiedsrichterstuhl, dahinter die Banden des Krifteler Tennisclubs",
-  "clubhaus": "Das Clubhaus des Krifteler Tennisclubs mit verglaster Front und gepflastertem Weg",
-  "vereinsleben": "Sternzelt mit Loungemöbeln und Palmen auf der Anlage während eines Vereinsfestes"
+  "anlage-wiese": "Die Terrasse des Krifteler Tennisclubs mit aufgespannten Sonnenschirmen über Holzbänken, davor die Liegewiese, dahinter ein Sandplatz",
+  "anlage-zentrum-unten": "Ein gepflasterter Weg entlang eines eingezäunten Sandplatzes, Flutlichtmasten und Bäume unter blauem Himmel",
+  "anlage-zentrum-oben": "Der Weg zur Anlage, im Hintergrund die weißen Sonnenschirme der Terrasse, am Rand abgestellte Fahrräder",
+  "anlage-clubhaus-unten": "Der Bereich am Clubhaus des Krifteler Tennisclubs",
+  "anlage-platz2": "Ein Sandplatz des Krifteler Tennisclubs, umgeben von grünen Banden und Bäumen",
+  "anlage-platz67oben": "Blick über die hinteren Sandplätze des Krifteler Tennisclubs",
+  "anlage-platz67unten": "Zwei Sandplätze nebeneinander, dahinter der begrünte Zaun der Anlage",
+  "anlage-tennisplatz": "Weite Aufnahme eines Sandplatzes mit Netz und den grünen Werbebanden des Krifteler Tennisclubs",
+
+  "club-newspaper": "Mehrere Ausgaben der Clubzeitschrift KTC Drop Shot, zusammengerollt gestapelt",
+  "club-tennisnetz": "Ein gelber Tennisball liegt auf dem Pfosten eines Netzes, dahinter der rote Sand des Platzes",
+  "club-restaurant": "Ein eingedeckter Tisch mit Gläsern im Clubrestaurant",
+  "club-kalender": "Viele kleine weiße Zettel mit Notizen, verstreut auf einer Fläche",
+  "club-werkstatt": "Werkzeug und Gerät für die Platzpflege",
+
+  "sport-jugend": "Eine Reihe Kinder sitzt mit Tennisschlägern auf einer Bank, zu sehen sind nur Beine, Turnschuhe und die Schläger",
+  "sport-wettkampf1": "Eine Spielerin schlägt eine Rückhand auf dem Sandplatz",
+  "sport-wettkampf2": "Eine Spielerin verfolgt den Ball, im Hintergrund unscharfe Zuschauer",
+  "sport-wettkampf3": "Ein Spieler streckt sich nach einem Ball, weit aus dem Platz",
+  "sport-wettkampf4": "Ein Spieler rutscht auf dem Sand zu einem Ball",
+
+  "2026-he40": "Vier Spieler der Herren 40 jubeln gemeinsam auf dem Sandplatz",
+  "logo-newsglobe": "Wortwolke mit den Begriffen Neuigkeiten, Aktuelles und Ankündigungen",
+  "logo-htv": "Logo des Hessischen Tennisverbands",
+  "logo-tennisschule": "Kontaktangaben der Tennisschule Kaus",
+  "logo-restaurant": "Logo des Clubrestaurants Spice of India"
 }

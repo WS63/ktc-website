@@ -1,86 +1,495 @@
 {
- "clubhaus": {
+ "anlage-clubhaus-unten": {
   "bereich": "anlage",
-  "alt": "Das Clubhaus des Krifteler Tennisclubs mit verglaster Front und gepflastertem Weg",
+  "alt": "Der Bereich am Clubhaus des Krifteler Tennisclubs",
+  "breite": 2000,
+  "hoehe": 1200,
   "groessen": {
    "400": {
-    "pfad": "/uploads/clubhaus-400-b1ab57cf.jpg",
-    "kb": 24
+    "pfad": "/uploads/anlage-clubhaus-unten-400-0a017b3f.jpg",
+    "kb": 30
    },
    "800": {
-    "pfad": "/uploads/clubhaus-800-c413940c.jpg",
-    "kb": 95
+    "pfad": "/uploads/anlage-clubhaus-unten-800-fa696fdc.jpg",
+    "kb": 79
    },
    "1600": {
-    "pfad": "/uploads/clubhaus-1600-3e2a7dda.jpg",
-    "kb": 368
+    "pfad": "/uploads/anlage-clubhaus-unten-1600-8c593694.jpg",
+    "kb": 275
    }
   },
-  "gross": "/uploads/clubhaus-1600-3e2a7dda.jpg",
-  "mittel": "/uploads/clubhaus-800-c413940c.jpg",
-  "klein": "/uploads/clubhaus-400-b1ab57cf.jpg"
+  "gross": "/uploads/anlage-clubhaus-unten-1600-8c593694.jpg",
+  "mittel": "/uploads/anlage-clubhaus-unten-800-fa696fdc.jpg",
+  "klein": "/uploads/anlage-clubhaus-unten-400-0a017b3f.jpg"
  },
- "platz": {
+ "anlage-platz2": {
   "bereich": "anlage",
-  "alt": "Ein frisch hergerichteter Sandplatz mit Netz und Schiedsrichterstuhl, dahinter die Banden des Krifteler Tennisclubs",
+  "alt": "Ein Sandplatz des Krifteler Tennisclubs, umgeben von grünen Banden und Bäumen",
+  "breite": 2400,
+  "hoehe": 1440,
   "groessen": {
    "400": {
-    "pfad": "/uploads/platz-400-45ac0d09.jpg",
+    "pfad": "/uploads/anlage-platz2-400-af25f4e5.jpg",
+    "kb": 29
+   },
+   "800": {
+    "pfad": "/uploads/anlage-platz2-800-bfe2768b.jpg",
+    "kb": 74
+   },
+   "1600": {
+    "pfad": "/uploads/anlage-platz2-1600-3a018918.jpg",
+    "kb": 249
+   }
+  },
+  "gross": "/uploads/anlage-platz2-1600-3a018918.jpg",
+  "mittel": "/uploads/anlage-platz2-800-bfe2768b.jpg",
+  "klein": "/uploads/anlage-platz2-400-af25f4e5.jpg"
+ },
+ "anlage-platz67oben": {
+  "bereich": "anlage",
+  "alt": "Blick über die hinteren Sandplätze des Krifteler Tennisclubs",
+  "breite": 2400,
+  "hoehe": 1440,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/anlage-platz67oben-400-4d3a345f.jpg",
+    "kb": 31
+   },
+   "800": {
+    "pfad": "/uploads/anlage-platz67oben-800-26077cb3.jpg",
+    "kb": 87
+   },
+   "1600": {
+    "pfad": "/uploads/anlage-platz67oben-1600-ffc587bb.jpg",
+    "kb": 309
+   }
+  },
+  "gross": "/uploads/anlage-platz67oben-1600-ffc587bb.jpg",
+  "mittel": "/uploads/anlage-platz67oben-800-26077cb3.jpg",
+  "klein": "/uploads/anlage-platz67oben-400-4d3a345f.jpg"
+ },
+ "anlage-platz67unten": {
+  "bereich": "anlage",
+  "alt": "Zwei Sandplätze nebeneinander, dahinter der begrünte Zaun der Anlage",
+  "breite": 2000,
+  "hoehe": 1199,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/anlage-platz67unten-400-eb92c242.jpg",
     "kb": 27
    },
    "800": {
-    "pfad": "/uploads/platz-800-e081a07f.jpg",
-    "kb": 101
+    "pfad": "/uploads/anlage-platz67unten-800-99b8c19d.jpg",
+    "kb": 97
    },
    "1600": {
-    "pfad": "/uploads/platz-1600-91c417db.jpg",
+    "pfad": "/uploads/anlage-platz67unten-1600-ddfb79f8.jpg",
     "kb": 396
    }
   },
-  "gross": "/uploads/platz-1600-91c417db.jpg",
-  "mittel": "/uploads/platz-800-e081a07f.jpg",
-  "klein": "/uploads/platz-400-45ac0d09.jpg"
+  "gross": "/uploads/anlage-platz67unten-1600-ddfb79f8.jpg",
+  "mittel": "/uploads/anlage-platz67unten-800-99b8c19d.jpg",
+  "klein": "/uploads/anlage-platz67unten-400-eb92c242.jpg"
  },
- "terrasse": {
+ "anlage-wiese": {
   "bereich": "anlage",
-  "alt": "Blick von der Terrasse über die Liegewiese auf die Sandplätze des Krifteler Tennisclubs an einem sonnigen Frühlingsmorgen",
+  "alt": "Die Terrasse des Krifteler Tennisclubs mit aufgespannten Sonnenschirmen über Holzbänken, davor die Liegewiese, dahinter ein Sandplatz",
+  "breite": 2000,
+  "hoehe": 1200,
   "groessen": {
    "400": {
-    "pfad": "/uploads/terrasse-400-344cd3a9.jpg",
+    "pfad": "/uploads/anlage-wiese-400-c882b943.jpg",
     "kb": 27
    },
    "800": {
-    "pfad": "/uploads/terrasse-800-328c6eeb.jpg",
-    "kb": 99
+    "pfad": "/uploads/anlage-wiese-800-c7b4fe96.jpg",
+    "kb": 72
    },
    "1600": {
-    "pfad": "/uploads/terrasse-1600-8c0fb931.jpg",
-    "kb": 374
+    "pfad": "/uploads/anlage-wiese-1600-299364d5.jpg",
+    "kb": 261
    }
   },
-  "gross": "/uploads/terrasse-1600-8c0fb931.jpg",
-  "mittel": "/uploads/terrasse-800-328c6eeb.jpg",
-  "klein": "/uploads/terrasse-400-344cd3a9.jpg"
+  "gross": "/uploads/anlage-wiese-1600-299364d5.jpg",
+  "mittel": "/uploads/anlage-wiese-800-c7b4fe96.jpg",
+  "klein": "/uploads/anlage-wiese-400-c882b943.jpg"
  },
- "vereinsleben": {
-  "bereich": "themen",
-  "alt": "Sternzelt mit Loungemöbeln und Palmen auf der Anlage während eines Vereinsfestes",
+ "anlage-zentrum-oben": {
+  "bereich": "anlage",
+  "alt": "Der Weg zur Anlage, im Hintergrund die weißen Sonnenschirme der Terrasse, am Rand abgestellte Fahrräder",
+  "breite": 2000,
+  "hoehe": 1200,
   "groessen": {
    "400": {
-    "pfad": "/uploads/vereinsleben-400-95be59b4.jpg",
-    "kb": 26
+    "pfad": "/uploads/anlage-zentrum-oben-400-72896548.jpg",
+    "kb": 41
    },
    "800": {
-    "pfad": "/uploads/vereinsleben-800-dbcc79ea.jpg",
-    "kb": 103
+    "pfad": "/uploads/anlage-zentrum-oben-800-cf916e44.jpg",
+    "kb": 85
    },
    "1600": {
-    "pfad": "/uploads/vereinsleben-1600-db30aa28.jpg",
-    "kb": 437
+    "pfad": "/uploads/anlage-zentrum-oben-1600-b07e537f.jpg",
+    "kb": 262
    }
   },
-  "gross": "/uploads/vereinsleben-1600-db30aa28.jpg",
-  "mittel": "/uploads/vereinsleben-800-dbcc79ea.jpg",
-  "klein": "/uploads/vereinsleben-400-95be59b4.jpg"
+  "gross": "/uploads/anlage-zentrum-oben-1600-b07e537f.jpg",
+  "mittel": "/uploads/anlage-zentrum-oben-800-cf916e44.jpg",
+  "klein": "/uploads/anlage-zentrum-oben-400-72896548.jpg"
+ },
+ "anlage-zentrum-unten": {
+  "bereich": "anlage",
+  "alt": "Ein gepflasterter Weg entlang eines eingezäunten Sandplatzes, Flutlichtmasten und Bäume unter blauem Himmel",
+  "breite": 2000,
+  "hoehe": 1199,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/anlage-zentrum-unten-400-c2e9e293.jpg",
+    "kb": 24
+   },
+   "800": {
+    "pfad": "/uploads/anlage-zentrum-unten-800-35bc3c77.jpg",
+    "kb": 87
+   },
+   "1600": {
+    "pfad": "/uploads/anlage-zentrum-unten-1600-470bdf39.jpg",
+    "kb": 363
+   }
+  },
+  "gross": "/uploads/anlage-zentrum-unten-1600-470bdf39.jpg",
+  "mittel": "/uploads/anlage-zentrum-unten-800-35bc3c77.jpg",
+  "klein": "/uploads/anlage-zentrum-unten-400-c2e9e293.jpg"
+ },
+ "anlage-tennisplatz": {
+  "bereich": "themen",
+  "alt": "Weite Aufnahme eines Sandplatzes mit Netz und den grünen Werbebanden des Krifteler Tennisclubs",
+  "breite": 2560,
+  "hoehe": 819,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/anlage-tennisplatz-400-de93434f.jpg",
+    "kb": 14
+   },
+   "800": {
+    "pfad": "/uploads/anlage-tennisplatz-800-1aecd4d3.jpg",
+    "kb": 53
+   },
+   "1600": {
+    "pfad": "/uploads/anlage-tennisplatz-1600-3de7deab.jpg",
+    "kb": 181
+   }
+  },
+  "gross": "/uploads/anlage-tennisplatz-1600-3de7deab.jpg",
+  "mittel": "/uploads/anlage-tennisplatz-800-1aecd4d3.jpg",
+  "klein": "/uploads/anlage-tennisplatz-400-de93434f.jpg"
+ },
+ "club-kalender": {
+  "bereich": "themen",
+  "alt": "Viele kleine weiße Zettel mit Notizen, verstreut auf einer Fläche",
+  "breite": 2400,
+  "hoehe": 1599,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/club-kalender-400-1903fc1c.jpg",
+    "kb": 31
+   },
+   "800": {
+    "pfad": "/uploads/club-kalender-800-71a58dcb.jpg",
+    "kb": 106
+   },
+   "1600": {
+    "pfad": "/uploads/club-kalender-1600-f416ab46.jpg",
+    "kb": 307
+   }
+  },
+  "gross": "/uploads/club-kalender-1600-f416ab46.jpg",
+  "mittel": "/uploads/club-kalender-800-71a58dcb.jpg",
+  "klein": "/uploads/club-kalender-400-1903fc1c.jpg"
+ },
+ "club-newspaper": {
+  "bereich": "themen",
+  "alt": "Mehrere Ausgaben der Clubzeitschrift KTC Drop Shot, zusammengerollt gestapelt",
+  "breite": 2000,
+  "hoehe": 1199,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/club-newspaper-400-71e1c39c.jpg",
+    "kb": 15
+   },
+   "800": {
+    "pfad": "/uploads/club-newspaper-800-0eb0268e.jpg",
+    "kb": 40
+   },
+   "1600": {
+    "pfad": "/uploads/club-newspaper-1600-35ca0f80.jpg",
+    "kb": 112
+   }
+  },
+  "gross": "/uploads/club-newspaper-1600-35ca0f80.jpg",
+  "mittel": "/uploads/club-newspaper-800-0eb0268e.jpg",
+  "klein": "/uploads/club-newspaper-400-71e1c39c.jpg"
+ },
+ "club-restaurant": {
+  "bereich": "themen",
+  "alt": "Ein eingedeckter Tisch mit Gläsern im Clubrestaurant",
+  "breite": 2560,
+  "hoehe": 1095,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/club-restaurant-400-b974b2ef.jpg",
+    "kb": 9
+   },
+   "800": {
+    "pfad": "/uploads/club-restaurant-800-70401872.jpg",
+    "kb": 24
+   },
+   "1600": {
+    "pfad": "/uploads/club-restaurant-1600-f1b36ebb.jpg",
+    "kb": 68
+   }
+  },
+  "gross": "/uploads/club-restaurant-1600-f1b36ebb.jpg",
+  "mittel": "/uploads/club-restaurant-800-70401872.jpg",
+  "klein": "/uploads/club-restaurant-400-b974b2ef.jpg"
+ },
+ "club-tennisnetz": {
+  "bereich": "themen",
+  "alt": "Ein gelber Tennisball liegt auf dem Pfosten eines Netzes, dahinter der rote Sand des Platzes",
+  "breite": 2000,
+  "hoehe": 1200,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/club-tennisnetz-400-7af9dc0d.jpg",
+    "kb": 11
+   },
+   "800": {
+    "pfad": "/uploads/club-tennisnetz-800-bbc518e8.jpg",
+    "kb": 31
+   },
+   "1600": {
+    "pfad": "/uploads/club-tennisnetz-1600-03c3ccc4.jpg",
+    "kb": 91
+   }
+  },
+  "gross": "/uploads/club-tennisnetz-1600-03c3ccc4.jpg",
+  "mittel": "/uploads/club-tennisnetz-800-bbc518e8.jpg",
+  "klein": "/uploads/club-tennisnetz-400-7af9dc0d.jpg"
+ },
+ "club-werkstatt": {
+  "bereich": "themen",
+  "alt": "Werkzeug und Gerät für die Platzpflege",
+  "breite": 1000,
+  "hoehe": 667,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/club-werkstatt-400-ea0e0037.jpg",
+    "kb": 28
+   },
+   "800": {
+    "pfad": "/uploads/club-werkstatt-800-639c67c9.jpg",
+    "kb": 79
+   }
+  },
+  "gross": "/uploads/club-werkstatt-800-639c67c9.jpg",
+  "mittel": "/uploads/club-werkstatt-800-639c67c9.jpg",
+  "klein": "/uploads/club-werkstatt-400-ea0e0037.jpg"
+ },
+ "sport-jugend": {
+  "bereich": "themen",
+  "alt": "Eine Reihe Kinder sitzt mit Tennisschlägern auf einer Bank, zu sehen sind nur Beine, Turnschuhe und die Schläger",
+  "breite": 2000,
+  "hoehe": 949,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/sport-jugend-400-b7f3c25a.jpg",
+    "kb": 48
+   },
+   "800": {
+    "pfad": "/uploads/sport-jugend-800-f6302307.jpg",
+    "kb": 84
+   },
+   "1600": {
+    "pfad": "/uploads/sport-jugend-1600-c0443620.jpg",
+    "kb": 214
+   }
+  },
+  "gross": "/uploads/sport-jugend-1600-c0443620.jpg",
+  "mittel": "/uploads/sport-jugend-800-f6302307.jpg",
+  "klein": "/uploads/sport-jugend-400-b7f3c25a.jpg"
+ },
+ "sport-wettkampf1": {
+  "bereich": "themen",
+  "alt": "Eine Spielerin schlägt eine Rückhand auf dem Sandplatz",
+  "breite": 2000,
+  "hoehe": 752,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/sport-wettkampf1-400-9289d9d3.jpg",
+    "kb": 37
+   },
+   "800": {
+    "pfad": "/uploads/sport-wettkampf1-800-5bd926ca.jpg",
+    "kb": 50
+   },
+   "1600": {
+    "pfad": "/uploads/sport-wettkampf1-1600-fb30ca9d.jpg",
+    "kb": 84
+   }
+  },
+  "gross": "/uploads/sport-wettkampf1-1600-fb30ca9d.jpg",
+  "mittel": "/uploads/sport-wettkampf1-800-5bd926ca.jpg",
+  "klein": "/uploads/sport-wettkampf1-400-9289d9d3.jpg"
+ },
+ "sport-wettkampf2": {
+  "bereich": "themen",
+  "alt": "Eine Spielerin verfolgt den Ball, im Hintergrund unscharfe Zuschauer",
+  "breite": 2000,
+  "hoehe": 563,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/sport-wettkampf2-400-81bb2d14.jpg",
+    "kb": 39
+   },
+   "800": {
+    "pfad": "/uploads/sport-wettkampf2-800-4a68c210.jpg",
+    "kb": 54
+   },
+   "1600": {
+    "pfad": "/uploads/sport-wettkampf2-1600-9919fa63.jpg",
+    "kb": 92
+   }
+  },
+  "gross": "/uploads/sport-wettkampf2-1600-9919fa63.jpg",
+  "mittel": "/uploads/sport-wettkampf2-800-4a68c210.jpg",
+  "klein": "/uploads/sport-wettkampf2-400-81bb2d14.jpg"
+ },
+ "sport-wettkampf3": {
+  "bereich": "themen",
+  "alt": "Ein Spieler streckt sich nach einem Ball, weit aus dem Platz",
+  "breite": 2000,
+  "hoehe": 660,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/sport-wettkampf3-400-6ae2697d.jpg",
+    "kb": 42
+   },
+   "800": {
+    "pfad": "/uploads/sport-wettkampf3-800-a797dee9.jpg",
+    "kb": 67
+   },
+   "1600": {
+    "pfad": "/uploads/sport-wettkampf3-1600-f8fb7fd0.jpg",
+    "kb": 149
+   }
+  },
+  "gross": "/uploads/sport-wettkampf3-1600-f8fb7fd0.jpg",
+  "mittel": "/uploads/sport-wettkampf3-800-a797dee9.jpg",
+  "klein": "/uploads/sport-wettkampf3-400-6ae2697d.jpg"
+ },
+ "sport-wettkampf4": {
+  "bereich": "themen",
+  "alt": "Ein Spieler rutscht auf dem Sand zu einem Ball",
+  "breite": 2000,
+  "hoehe": 640,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/sport-wettkampf4-400-0cfd6f57.jpg",
+    "kb": 15
+   },
+   "800": {
+    "pfad": "/uploads/sport-wettkampf4-800-ce711f27.jpg",
+    "kb": 46
+   },
+   "1600": {
+    "pfad": "/uploads/sport-wettkampf4-1600-53b64dd3.jpg",
+    "kb": 131
+   }
+  },
+  "gross": "/uploads/sport-wettkampf4-1600-53b64dd3.jpg",
+  "mittel": "/uploads/sport-wettkampf4-800-ce711f27.jpg",
+  "klein": "/uploads/sport-wettkampf4-400-0cfd6f57.jpg"
+ },
+ "2026-he40": {
+  "bereich": "beitraege",
+  "alt": "Vier Spieler der Herren 40 jubeln gemeinsam auf dem Sandplatz",
+  "breite": 1600,
+  "hoehe": 1200,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/2026-he40-400-35353645.jpg",
+    "kb": 31
+   },
+   "800": {
+    "pfad": "/uploads/2026-he40-800-246e0c06.jpg",
+    "kb": 115
+   },
+   "1600": {
+    "pfad": "/uploads/2026-he40-1600-dfc8e2fe.jpg",
+    "kb": 392
+   }
+  },
+  "gross": "/uploads/2026-he40-1600-dfc8e2fe.jpg",
+  "mittel": "/uploads/2026-he40-800-246e0c06.jpg",
+  "klein": "/uploads/2026-he40-400-35353645.jpg"
+ },
+ "logo-newsglobe": {
+  "bereich": "beitraege",
+  "alt": "Wortwolke mit den Begriffen Neuigkeiten, Aktuelles und Ankündigungen",
+  "breite": 210,
+  "hoehe": 210,
+  "groessen": {
+   "210": {
+    "pfad": "/uploads/logo-newsglobe-210-47f89fa8.jpg",
+    "kb": 13
+   }
+  },
+  "gross": "/uploads/logo-newsglobe-210-47f89fa8.jpg",
+  "mittel": "/uploads/logo-newsglobe-210-47f89fa8.jpg",
+  "klein": "/uploads/logo-newsglobe-210-47f89fa8.jpg"
+ },
+ "logo-htv": {
+  "bereich": "beitraege",
+  "alt": "Logo des Hessischen Tennisverbands",
+  "breite": 686,
+  "hoehe": 236,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/logo-htv-400-617c8a85.jpg",
+    "kb": 7
+   }
+  },
+  "gross": "/uploads/logo-htv-400-617c8a85.jpg",
+  "mittel": "/uploads/logo-htv-400-617c8a85.jpg",
+  "klein": "/uploads/logo-htv-400-617c8a85.jpg"
+ },
+ "logo-tennisschule": {
+  "bereich": "logos",
+  "alt": "Kontaktangaben der Tennisschule Kaus",
+  "breite": 133,
+  "hoehe": 321,
+  "groessen": {
+   "133": {
+    "pfad": "/uploads/logo-tennisschule-133-53faceea.jpg",
+    "kb": 4
+   }
+  },
+  "gross": "/uploads/logo-tennisschule-133-53faceea.jpg",
+  "mittel": "/uploads/logo-tennisschule-133-53faceea.jpg",
+  "klein": "/uploads/logo-tennisschule-133-53faceea.jpg"
+ },
+ "logo-restaurant": {
+  "bereich": "logos",
+  "alt": "Logo des Clubrestaurants Spice of India",
+  "breite": 400,
+  "hoehe": 293,
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/logo-restaurant-400-aaf8417f.jpg",
+    "kb": 20
+   }
+  },
+  "gross": "/uploads/logo-restaurant-400-aaf8417f.jpg",
+  "mittel": "/uploads/logo-restaurant-400-aaf8417f.jpg",
+  "klein": "/uploads/logo-restaurant-400-aaf8417f.jpg"
  }
 }

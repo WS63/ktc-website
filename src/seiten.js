@@ -104,7 +104,7 @@ export const seiten = [
       sub: 'Sieben Sandplätze, ein Clubhaus mit sonniger Terrasse und über 500 Leute, die hier spielen. Komm vorbei und probier es aus.',
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       zweitLabel: 'Erst mal reinschnuppern', zweitHref: '/kontakt/',
-      bild: bild('terrasse'), bildAlt: bildAlt('terrasse'),
+      bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),
     }},
     { type: 'richtext', data: {
       titel: 'Bei uns findest du deinen Platz',
@@ -126,11 +126,11 @@ export const seiten = [
       titel: 'Sportliche Vielfalt',
       karten: [
         { titel: 'Team und Wettkampf', text: 'Über 20 Mannschaften in allen Alters- und Leistungsklassen. Wir spielen um jeden Punkt — und für die Geselligkeit.', linkLabel: 'Zu den Mannschaften', linkHref: '/sport/',
-          bild: bild('platz', 'mittel'), bildAlt: bildAlt('platz') },
+          bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
         { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung, Doppelturniere und Freundschaftsspiele gegen andere Vereine.', linkLabel: 'Zur Hobbyrunde', linkHref: '/sport/',
-          bild: bild('vereinsleben', 'mittel'), bildAlt: bildAlt('vereinsleben') },
+          bild: bild('anlage-wiese', 'mittel'), bildAlt: bildAlt('anlage-wiese') },
         { titel: 'Jugend', text: 'Fördern und fordern. Mit Spaß, Freude und einem gezielten Lernkonzept an den Tennissport heran.', linkLabel: 'Zur Jugendarbeit', linkHref: '/sport/',
-          bild: bild('clubhaus', 'mittel'), bildAlt: bildAlt('clubhaus') },
+          bild: bild('sport-jugend', 'mittel'), bildAlt: bildAlt('sport-jugend') },
       ],
     }},
     { type: 'beitragsliste', data: {
@@ -166,7 +166,7 @@ export const seiten = [
       titel: 'Tennis in jedem Alter und auf jedem Niveau',
       sub: 'Vom ersten Schläger bis zur Hessenliga. Such dir aus, was zu dir passt — wechseln kannst du jederzeit.',
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
-      bild: bild('platz'), bildAlt: bildAlt('platz'),
+      bild: bild('anlage-tennisplatz'), bildAlt: bildAlt('anlage-tennisplatz'),
     }},
     { type: 'richtext', data: {
       titel: 'Team und Wettkampf',
@@ -255,7 +255,7 @@ export const seiten = [
       sub: 'Keine Aufnahmegebühr, keine Arbeitsstunden. Im ersten Jahr zahlst du als Erwachsene oder Erwachsener nur {{facts.beitraege.neumitglied_erstes_jahr}} €.',
       ctaLabel: 'Jetzt anmelden', ctaHref: '{{facts.links.buchung}}',
       zweitLabel: 'Erst mal fragen', zweitHref: '/kontakt/',
-      bild: bild('vereinsleben'), bildAlt: bildAlt('vereinsleben'),
+      bild: bild('anlage-zentrum-unten'), bildAlt: bildAlt('anlage-zentrum-unten'),
     }},
     { type: 'preise', data: {
       titel: 'Die Beiträge',
@@ -311,6 +311,7 @@ export const seiten = [
       pill: 'Aus dem Verein',
       titel: 'Aktuelles',
       sub: 'Ergebnisse, Termine und was sonst auf der Anlage passiert.',
+      bild: bild('club-newspaper'), bildAlt: bildAlt('club-newspaper'),
     }},
     { type: 'beitragsliste', data: {
       leerText: 'Noch keine Beiträge. Sobald etwas passiert, steht es hier.',
@@ -331,7 +332,7 @@ export const seiten = [
       pill: 'Jederzeit ein offenes Ohr',
       titel: 'Kontakt und Anfahrt',
       sub: 'Ruf an, schreib uns oder komm einfach vorbei. Am schnellsten geht es über {{facts.verein.email}}.',
-      bild: bild('clubhaus'), bildAlt: bildAlt('clubhaus'),
+      bild: bild('anlage-zentrum-oben'), bildAlt: bildAlt('anlage-zentrum-oben'),
     }},
     { type: 'personen', data: {
       titel: 'Der Vorstand',

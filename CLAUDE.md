@@ -104,6 +104,53 @@ tests/               node --test
 - **Stufe 6 · teilweise** — neue Bausteine und Seitentypen sind Stufe-6-Arbeit
 - **Stufe 7 · abgeschlossen** — der Assistent. 67 Stücke, Antworten nur aus dem Bestand
 
+## Bilder
+
+**Die Originale liegen in `bilder/`, aufgeteilt nach Rolle:**
+
+| Ordner | Wofür | Lebensdauer | Personen |
+|---|---|---|---|
+| `anlage/` | Der Ort: Plätze, Clubhaus, Terrasse. Aufmacher der Hauptseiten. | Jahre | möglichst ohne |
+| `themen/` | Eyecatcher je Bereich: Wettkampf, Hobby, Jugend, Tennisschule, Minis | Jahre | gern, aber prüfen |
+| `beitraege/` | Ein Bild je Beitrag, zeigt das konkrete Ereignis | einmal | fast immer |
+
+```bash
+npm run bilder    # erzeugt drei Größen + inhalte/bilder.json
+npm run seed      # die Seiten übernehmen die neuen Adressen
+```
+
+**Ein Bild austauschen:** neue Datei unter demselben Namen in `bilder/` ablegen,
+die zwei Befehle laufen lassen. Fertig.
+
+**Nie in `data/uploads/` arbeiten.** Was dort liegt, ist erzeugt.
+
+### Warum ein Verzeichnis statt fester Dateinamen
+
+Der Dateiname trägt eine Prüfsumme des Inhalts (`terrasse-1600-8c0fb931.jpg`) — deshalb
+darf der Browser ihn ein Jahr behalten, und ein ausgetauschtes Bild bekommt von allein
+eine neue Adresse. **In der ersten Fassung standen diese Namen fest in `src/seiten.js`.**
+Damit war jeder Bildwechsel eine Suche durch den Quelltext. Jetzt beziehen sich die
+Seiten auf den **Namen**, und `inhalte/bilder.json` übersetzt ihn.
+
+`npm run bilder` räumt überholte Fassungen **eigener** Bilder weg. Was jemand über das
+Cockpit hochgeladen hat, bleibt liegen.
+
+### Quellen klein halten
+
+`bilder/` liegt im Repository — **Git vergisst nichts**, jede Fassung bleibt für immer
+in der Geschichte. Ein Handy-Original mit 5 MB kostet dauerhaft. 2400 Pixel reichen
+für die größte Ausgabe (1600) mit Reserve; das Skript warnt ab 1 MB.
+
+### Alt-Texte
+
+`inhalte/bild-texte.json`, nach Namen. **Ein Bild ohne Alt-Text ist für einen Vorleser
+nicht vorhanden.** Der Text beschreibt, was zu *sehen* ist, nicht was es bedeutet.
+
+### Persönlichkeitsrechte
+
+Das entscheidet kein Programm. Wer erkennbar ist, muss einverstanden sein — bei Kindern
+die Eltern. Im Zweifel: ein anderes Bild.
+
 ## Das Logo
 
 `assets/ktc-logo.svg` ist die aufgeräumte Fassung der Vektordatei von 2026-07-02:

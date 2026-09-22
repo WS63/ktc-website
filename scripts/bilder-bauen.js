@@ -40,6 +40,16 @@ for (const bereich of BEREICHE) {
       .replace(/[äöüß]/g, (c) => ({ ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' }[c]))
       .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+    // Quellen gehoeren ins Repository — deshalb duerfen sie nicht riesig sein.
+    // Git vergisst nichts: jede Fassung bleibt fuer immer in der Geschichte.
+    // 2400 Pixel reichen fuer die groesste Ausgabe (1600) mit Reserve.
+    const quellGroesse = readFileSync(join(ordner, datei)).length;
+    if (quellGroesse > 1_000_000) {
+      console.log(`  [WARN] ${datei} ist ${Math.round(quellGroesse / 1024)} KB. `
+        + 'Verkleinern auf 2400 px:');
+      console.log(`         sips -Z 2400 -s formatOptions 82 "${join(ordner, datei)}" --out "${join(ordner, datei)}"`);
+    }
+
     const eintrag = { bereich, alt: texte[name] || '', groessen: {} };
     for (const breite of GROESSEN) {
       const tmp = `/tmp/bild-${name}-${breite}.jpg`;
@@ -79,11 +89,25 @@ if (ohneAlt.length) {
   console.log('       für einen Vorleser nicht vorhanden.');
 }
 
-// Verwaiste Fassungen melden, aber nicht loeschen: es koennen Bilder sein,
-// die jemand ueber das Cockpit hochgeladen hat.
-const uebrig = readdirSync('data/uploads')
-  .filter((f) => f.endsWith('.jpg') && !behalten.has(f));
-if (uebrig.length) {
-  console.log(`\n[Hinweis] ${uebrig.length} Dateien in data/uploads/ stammen nicht aus bilder/.`);
-  console.log('          Entweder über das Cockpit hochgeladen oder Reste alter Fassungen.');
+/**
+ * Aufraeumen, aber nur die eigenen Reste.
+ *
+ * Eine alte Fassung erkennt man am Muster <name>-<breite>-<hash>.jpg mit einem
+ * Namen, den dieser Lauf kennt. Was anders heisst, hat jemand ueber das
+ * Cockpit hochgeladen — das bleibt liegen.
+ */
+const eigene = new RegExp(`^(${Object.keys(verzeichnis).join('|')})-(\\d+)-[0-9a-f]{8}\\.jpg$`);
+let entfernt = 0;
+const fremd = [];
+for (const f of readdirSync('data/uploads')) {
+  if (!f.endsWith('.jpg') || behalten.has(f)) continue;
+  if (Object.keys(verzeichnis).length && eigene.test(f)) {
+    unlinkSync(`data/uploads/${f}`);
+    entfernt++;
+  } else fremd.push(f);
+}
+if (entfernt) console.log(`${entfernt} überholte Fassungen entfernt.`);
+if (fremd.length) {
+  console.log(`\n[Hinweis] ${fremd.length} Dateien stammen nicht aus bilder/ —`);
+  console.log('          vermutlich über das Cockpit hochgeladen. Bleiben liegen.');
 }

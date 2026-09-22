@@ -4,3 +4,6 @@ data/
 
 # bilder/ gehoert INS Repository — dort liegen die Originale.
 # data/uploads/ nicht: das ist erzeugt.
+
+# macOS legt die ueberall an — gehoeren nicht ins Repository.
+.DS_Store

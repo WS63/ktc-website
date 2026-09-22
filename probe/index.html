@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Probe · Krifteler Tennisclub</title>
+<style>
+  :root {
+    --grund: #ffffff;
+    --text: #1e1e18;
+    --text-leise: #555555;
+    --linie: #e0e0e0;
+    --flaeche: #f5f5f5;
+    --akzent: #ffbe00;
+    --akzent-tief: #8a6600;
+    --warnung: #fa320a;
+  }
+  .v-blau   { --signal: #0050ff; --signal-hover: #0000c8; --signal-leise: #eaf0ff; }
+  .v-gruen  { --signal: #006e00; --signal-hover: #004a00; --signal-leise: #e9f4e9; }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Libre Franklin", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--text);
+    background: var(--flaeche);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .schalter {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--text); color: #fff;
+    padding: 14px 24px;
+    display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
+    font-size: 14px;
+  }
+  .schalter strong { font-weight: 500; }
+  .schalter span { color: #b8b8b0; }
+
+  .buehne { max-width: 1180px; margin: 0 auto; padding: 28px 20px 80px; }
+  .paar { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 28px; }
+  .spalte > h2 {
+    font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-leise); margin: 0 0 10px 2px;
+  }
+
+  .seite {
+    background: var(--grund);
+    border: 1px solid var(--linie);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  /* --- Kopf --- */
+  .kopf {
+    display: flex; align-items: center; gap: 22px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--linie);
+    flex-wrap: wrap;
+  }
+  .marke { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+  .marke svg { display: block; }
+  .marke b { font-size: 14px; font-weight: 500; letter-spacing: .01em; }
+  .menue { display: flex; gap: 18px; font-size: 13px; }
+  .menue a { color: var(--text); text-decoration: none; }
+  .menue a:hover { color: var(--signal); }
+  .menue a.jetzt { color: var(--signal); }
+
+  /* --- Hero --- */
+  .hero { padding: 40px 24px 34px; border-bottom: 1px solid var(--linie); }
+  .pille {
+    display: inline-block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--signal); border: 1px solid var(--signal); border-radius: 3px;
+    padding: 3px 9px; margin-bottom: 16px;
+  }
+  .hero h1 { font-size: 34px; line-height: 1.2; font-weight: 500; margin: 0 0 14px; letter-spacing: -.015em; }
+  .hero p { font-size: 16px; color: var(--text-leise); margin: 0 0 24px; max-width: 46ch; }
+
+  .knopf {
+    display: inline-block; text-decoration: none;
+    background: var(--akzent); color: var(--text);
+    font-size: 15px; font-weight: 500;
+    padding: 12px 26px; border-radius: 26px;
+  }
+  .knopf:hover { background: #e8ac00; }
+  .knopf-leise {
+    display: inline-block; text-decoration: none;
+    color: var(--signal); border: 1px solid var(--signal);
+    font-size: 15px; padding: 11px 24px; border-radius: 26px; margin-left: 10px;
+  }
+  .knopf-leise:hover { background: var(--signal-leise); }
+
+  /* --- Fliesstext --- */
+  .text { padding: 34px 24px; border-bottom: 1px solid var(--linie); }
+  .text h2 { font-size: 22px; font-weight: 500; margin: 0 0 12px; letter-spacing: -.01em; }
+  .text p { font-size: 15px; margin: 0 0 14px; max-width: 62ch; }
+  .text a { color: var(--signal); text-decoration: none; border-bottom: 1px solid var(--signal); }
+  .text a:hover { color: var(--signal-hover); border-color: var(--signal-hover); }
+
+  /* --- Karten --- */
+  .karten { padding: 34px 24px; border-bottom: 1px solid var(--linie); }
+  .karten h2 { font-size: 22px; font-weight: 500; margin: 0 0 18px; }
+  .gitter { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+  .karte {
+    border: 1px solid var(--linie); border-radius: 8px; padding: 16px 18px;
+    border-top: 3px solid var(--signal);
+  }
+  .karte h3 { font-size: 15px; font-weight: 500; margin: 0 0 6px; }
+  .karte p { font-size: 13px; color: var(--text-leise); margin: 0 0 10px; line-height: 1.6; }
+  .karte a { font-size: 13px; color: var(--signal); text-decoration: none; }
+  .karte a:hover { border-bottom: 1px solid var(--signal); }
+
+  /* --- Liste / Beitraege --- */
+  .liste { padding: 34px 24px; border-bottom: 1px solid var(--linie); }
+  .liste h2 { font-size: 22px; font-weight: 500; margin: 0 0 4px; }
+  .liste > p.zaehler { font-size: 13px; color: var(--text-leise); margin: 0 0 18px; }
+  .eintrag { display: flex; gap: 16px; padding: 14px 0; border-top: 1px solid var(--linie); }
+  .eintrag:first-of-type { border-top: none; }
+  .datum { font-size: 12px; color: var(--text-leise); white-space: nowrap; padding-top: 3px; min-width: 76px; }
+  .eintrag h3 { font-size: 15px; font-weight: 500; margin: 0 0 3px; }
+  .eintrag h3 a { color: var(--text); text-decoration: none; }
+  .eintrag h3 a:hover { color: var(--signal); }
+  .eintrag p { font-size: 13px; color: var(--text-leise); margin: 0; line-height: 1.6; }
+  .marke-thema {
+    display: inline-block; font-size: 11px; color: var(--signal);
+    background: var(--signal-leise); padding: 2px 8px; border-radius: 3px; margin-top: 6px;
+  }
+
+  /* --- Tabelle Beitraege --- */
+  .beitraege { padding: 34px 24px; border-bottom: 1px solid var(--linie); }
+  .beitraege h2 { font-size: 22px; font-weight: 500; margin: 0 0 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 9px 0; border-bottom: 1px solid var(--linie); }
+  th { font-weight: 500; font-size: 12px; color: var(--text-leise); text-transform: uppercase; letter-spacing: .06em; }
+  td.preis { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tr.hervor td { background: var(--signal-leise); font-weight: 500; }
+  tr.hervor td:first-child { border-left: 3px solid var(--signal); padding-left: 10px; }
+
+  .hinweis {
+    border-left: 3px solid var(--signal); background: var(--flaeche);
+    padding: 12px 16px; margin-top: 18px; font-size: 13px;
+  }
+  .hinweis strong { font-weight: 500; }
+
+  /* --- Fuss --- */
+  .fuss { padding: 24px; font-size: 13px; color: var(--text-leise); display: flex; gap: 18px; flex-wrap: wrap; }
+  .fuss a { color: var(--signal); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="schalter">
+  <strong>Probeseite · zwei Signalfarben</strong>
+  <span>Links Blau #0050ff · Rechts Tiefgrün #006e00 · Gelb #ffbe00 ist in beiden Varianten nur der eine Knopf</span>
+</div>
+
+<div class="buehne">
+<div class="paar">
+
+  <!-- ============ VARIANTE BLAU ============ -->
+  <div class="spalte v-blau">
+    <h2>A · Blau #0050ff</h2>
+    <div class="seite">
+
+      <div class="kopf">
+        <div class="marke">
+          <svg width="30" height="30" viewBox="0 0 100 100" aria-hidden="true">
+            <rect x="2" y="2" width="96" height="96" fill="none" stroke="#006e00" stroke-width="5"/>
+            <rect x="28" y="12" width="45" height="10" fill="#00af00"/>
+            <rect x="46" y="12" width="10" height="52" fill="#00af00"/>
+            <path d="M12 24 h11 v52 h-11 z M23 50 L40 24 h13 L34 50 L48 76 H35 z" fill="#0050ff"/>
+            <path d="M88 30 a22 22 0 1 0 0 40 v-11 a11 11 0 1 1 0-18 z" fill="#ffbe00"/>
+          </svg>
+          <b>krifteler tennisclub</b>
+        </div>
+        <nav class="menue">
+          <a href="#">Club</a><a href="#">Sport</a><a href="#">Aktuelles</a><a href="#">Kontakt</a>
+          <a href="#" class="jetzt">Platz buchen ↗</a>
+        </nav>
+      </div>
+
+      <div class="hero">
+        <span class="pille">Seit 1972 in Kriftel</span>
+        <h1>Lust auf Tennis?</h1>
+        <p>Sieben Sandplätze, ein Clubhaus mit sonniger Terrasse und über 500 Leute, die hier spielen. Komm vorbei und probier es aus.</p>
+        <a href="#" class="knopf">Mitglied werden</a>
+        <a href="#" class="knopf-leise">Schnuppertraining</a>
+      </div>
+
+      <div class="text">
+        <h2>Bei uns findest du deinen Platz</h2>
+        <p>Ob du gerade anfängst, nach zehn Jahren zurückkommst oder in der Medenrunde um jeden Punkt spielst — bei uns findest du das passende Angebot. Mehr als 20 Mannschaften gehen für den KTC an den Start, von den Kindern ab 12 bis zu den Senioren.</p>
+        <p>Rund 120 unserer Mitglieder sind Kinder und Jugendliche. Sie trainieren bei der <a href="#">Tennisschule Kaus</a>, auf die wir seit vielen Jahren vertrauen.</p>
+      </div>
+
+      <div class="karten">
+        <h2>Sportliche Vielfalt</h2>
+        <div class="gitter">
+          <div class="karte"><h3>Team &amp; Wettkampf</h3><p>Über 20 Mannschaften, von Kindern ab 12 bis Senioren 60.</p><a href="#">Zu den Mannschaften</a></div>
+          <div class="karte"><h3>Hobby &amp; Freizeit</h3><p>Doppelturniere, Hobbyrunde und der Treffpunkt auf der Terrasse.</p><a href="#">Zum Freizeitbereich</a></div>
+          <div class="karte"><h3>Jugend</h3><p>Fördern und fordern — mit geschultem Trainerteam.</p><a href="#">Zur Jugendarbeit</a></div>
+        </div>
+      </div>
+
+      <div class="liste">
+        <h2>Aktuelles</h2>
+        <p class="zaehler">14 Beiträge</p>
+        <div class="eintrag"><div class="datum">12. Juli</div><div><h3><a href="#">Start in die Mixed-Runde geschafft</a></h3><p>Bei 31 Grad im Schatten ging es los — und es hat sich gelohnt.</p><span class="marke-thema">Sport</span></div></div>
+        <div class="eintrag"><div class="datum">28. Juni</div><div><h3><a href="#">Grandioses Wochenende für den KTC</a></h3><p>Fünf Mannschaften im Einsatz, vier Siege.</p><span class="marke-thema">Sport</span></div></div>
+        <div class="eintrag"><div class="datum">2. Mai</div><div><h3><a href="#">Club-Restaurant: Neuigkeiten ab 1. Mai</a></h3><p>Neue Karte, neue Zeiten, dieselbe Terrasse.</p><span class="marke-thema">Vereinsleben</span></div></div>
+      </div>
+
+      <div class="beitraege">
+        <h2>Was es kostet</h2>
+        <table>
+          <tr><th>Mitgliedschaft</th><th class="preis">pro Jahr</th></tr>
+          <tr class="hervor"><td>Neumitglied Erwachsene, 1. Jahr</td><td class="preis">225 €</td></tr>
+          <tr><td>Aktives Mitglied</td><td class="preis">290 €</td></tr>
+          <tr><td>Jugend bis 18 Jahre</td><td class="preis">135 €</td></tr>
+          <tr><td>Passives Mitglied</td><td class="preis">60 €</td></tr>
+        </table>
+        <div class="hinweis"><strong>Keine Aufnahmegebühr, keine Arbeitsstunden.</strong> Wer ab dem 1. Juli einsteigt, zahlt für das laufende Jahr die Hälfte.</div>
+      </div>
+
+      <div class="fuss">
+        <span>Krifteler Tennisclub e.V. · Schmelzweg, 65830 Kriftel</span>
+        <a href="#">Impressum</a><a href="#">Datenschutz</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ VARIANTE GRUEN ============ -->
+  <div class="spalte v-gruen">
+    <h2>B · Tiefgrün #006e00</h2>
+    <div class="seite">
+
+      <div class="kopf">
+        <div class="marke">
+          <svg width="30" height="30" viewBox="0 0 100 100" aria-hidden="true">
+            <rect x="2" y="2" width="96" height="96" fill="none" stroke="#006e00" stroke-width="5"/>
+            <rect x="28" y="12" width="45" height="10" fill="#00af00"/>
+            <rect x="46" y="12" width="10" height="52" fill="#00af00"/>
+            <path d="M12 24 h11 v52 h-11 z M23 50 L40 24 h13 L34 50 L48 76 H35 z" fill="#0050ff"/>
+            <path d="M88 30 a22 22 0 1 0 0 40 v-11 a11 11 0 1 1 0-18 z" fill="#ffbe00"/>
+          </svg>
+          <b>krifteler tennisclub</b>
+        </div>
+        <nav class="menue">
+          <a href="#">Club</a><a href="#">Sport</a><a href="#">Aktuelles</a><a href="#">Kontakt</a>
+          <a href="#" class="jetzt">Platz buchen ↗</a>
+        </nav>
+      </div>
+
+      <div class="hero">
+        <span class="pille">Seit 1972 in Kriftel</span>
+        <h1>Lust auf Tennis?</h1>
+        <p>Sieben Sandplätze, ein Clubhaus mit sonniger Terrasse und über 500 Leute, die hier spielen. Komm vorbei und probier es aus.</p>
+        <a href="#" class="knopf">Mitglied werden</a>
+        <a href="#" class="knopf-leise">Schnuppertraining</a>
+      </div>
+
+      <div class="text">
+        <h2>Bei uns findest du deinen Platz</h2>
+        <p>Ob du gerade anfängst, nach zehn Jahren zurückkommst oder in der Medenrunde um jeden Punkt spielst — bei uns findest du das passende Angebot. Mehr als 20 Mannschaften gehen für den KTC an den Start, von den Kindern ab 12 bis zu den Senioren.</p>
+        <p>Rund 120 unserer Mitglieder sind Kinder und Jugendliche. Sie trainieren bei der <a href="#">Tennisschule Kaus</a>, auf die wir seit vielen Jahren vertrauen.</p>
+      </div>
+
+      <div class="karten">
+        <h2>Sportliche Vielfalt</h2>
+        <div class="gitter">
+          <div class="karte"><h3>Team &amp; Wettkampf</h3><p>Über 20 Mannschaften, von Kindern ab 12 bis Senioren 60.</p><a href="#">Zu den Mannschaften</a></div>
+          <div class="karte"><h3>Hobby &amp; Freizeit</h3><p>Doppelturniere, Hobbyrunde und der Treffpunkt auf der Terrasse.</p><a href="#">Zum Freizeitbereich</a></div>
+          <div class="karte"><h3>Jugend</h3><p>Fördern und fordern — mit geschultem Trainerteam.</p><a href="#">Zur Jugendarbeit</a></div>
+        </div>
+      </div>
+
+      <div class="liste">
+        <h2>Aktuelles</h2>
+        <p class="zaehler">14 Beiträge</p>
+        <div class="eintrag"><div class="datum">12. Juli</div><div><h3><a href="#">Start in die Mixed-Runde geschafft</a></h3><p>Bei 31 Grad im Schatten ging es los — und es hat sich gelohnt.</p><span class="marke-thema">Sport</span></div></div>
+        <div class="eintrag"><div class="datum">28. Juni</div><div><h3><a href="#">Grandioses Wochenende für den KTC</a></h3><p>Fünf Mannschaften im Einsatz, vier Siege.</p><span class="marke-thema">Sport</span></div></div>
+        <div class="eintrag"><div class="datum">2. Mai</div><div><h3><a href="#">Club-Restaurant: Neuigkeiten ab 1. Mai</a></h3><p>Neue Karte, neue Zeiten, dieselbe Terrasse.</p><span class="marke-thema">Vereinsleben</span></div></div>
+      </div>
+
+      <div class="beitraege">
+        <h2>Was es kostet</h2>
+        <table>
+          <tr><th>Mitgliedschaft</th><th class="preis">pro Jahr</th></tr>
+          <tr class="hervor"><td>Neumitglied Erwachsene, 1. Jahr</td><td class="preis">225 €</td></tr>
+          <tr><td>Aktives Mitglied</td><td class="preis">290 €</td></tr>
+          <tr><td>Jugend bis 18 Jahre</td><td class="preis">135 €</td></tr>
+          <tr><td>Passives Mitglied</td><td class="preis">60 €</td></tr>
+        </table>
+        <div class="hinweis"><strong>Keine Aufnahmegebühr, keine Arbeitsstunden.</strong> Wer ab dem 1. Juli einsteigt, zahlt für das laufende Jahr die Hälfte.</div>
+      </div>
+
+      <div class="fuss">
+        <span>Krifteler Tennisclub e.V. · Schmelzweg, 65830 Kriftel</span>
+        <a href="#">Impressum</a><a href="#">Datenschutz</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>

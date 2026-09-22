@@ -1,0 +1,24 @@
+{
+  "allowedBlocks": [
+    "nav",
+    "hero",
+    "richtext",
+    "cards",
+    "preise",
+    "beitragsliste",
+    "personen",
+    "faq",
+    "tabelle",
+    "infokarten",
+    "bild",
+    "galerie",
+    "formular",
+    "assistent",
+    "footer"
+  ],
+  "requiredBlocks": [
+    "nav",
+    "beitragsliste",
+    "footer"
+  ]
+}

@@ -1,0 +1,71 @@
+import 'dotenv/config';
+import express from 'express';
+import { runMigrations } from './src/db.js';
+import { aktualisiere } from './src/config.js';
+import api from './src/routes/api.js';
+import oeffentlich from './src/routes/public.js';
+
+await runMigrations();
+await aktualisiere();
+
+const app = express();
+app.disable('x-powered-by');
+
+app.get('/health', (_req, res) => res.json({ status: 'ok' }));
+
+// Hochgeladene Bilder. Der Hash im Dateinamen macht sie unveraenderlich.
+app.use('/uploads', express.static('data/uploads', { maxAge: '365d', immutable: true }));
+
+// Das Logo als Datei, falls jemand es verlinken will.
+app.use('/assets', express.static('assets', { maxAge: '7d' }));
+
+app.use('/api', api);
+
+// Das Cockpit. Die Oberflaeche selbst ist KEIN Geheimnis und wird immer
+// ausgeliefert — geschuetzt sind die Daten dahinter, unter /api/.
+//
+// Falle, hier gebaut und im Browser gefunden: wer auch app.js hinter die
+// Anmeldung stellt, sperrt das Cockpit aus sich selbst aus. Ohne app.js gibt
+// es kein Anmeldeformular, das funktioniert — und der Fehler sieht aus, als
+// waere das Passwort falsch.
+//
+// Und: wird das Cockpit gecacht, sieht der Mensch nach dem naechsten Bau die
+// alte Oberflaeche, waehrend die Versionsnummer schon die neue zeigt.
+app.use('/admin', (_req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  next();
+}, express.static('admin', { etag: false, lastModified: false }));
+
+app.use(oeffentlich);
+
+app.use((_req, res) => res.status(404).type('html').send(
+  '<!doctype html><meta charset="utf-8"><title>Nicht gefunden</title>'
+  + '<style>body{font:17px/1.7 system-ui;margin:0;display:grid;place-items:center;min-height:100vh}'
+  + 'a{color:#0050ff}</style><div><h1>Diese Seite gibt es nicht.</h1>'
+  + '<p><a href="/">Zurück zur Startseite</a></p></div>'));
+
+app.use((err, _req, res, _next) => {
+  console.error('[Motor] [FEHLER]', err);
+  res.status(500).type('html').send('<h1>Da ist etwas schiefgegangen</h1>');
+});
+
+const port = process.env.PORT || 3000;
+const server = app.listen(port,
+  () => console.log(`[Motor] läuft auf http://localhost:${port}`));
+
+/**
+ * Sauber herunterfahren. Coolify schickt SIGTERM und wartet ein paar Sekunden.
+ * In der Zeit: keine neuen Verbindungen mehr annehmen, laufende zu Ende
+ * bringen, und die gesammelten Aufrufe wegschreiben.
+ */
+for (const zeichen of ['SIGTERM', 'SIGINT']) {
+  process.on(zeichen, async () => {
+    console.log(`[Motor] ${zeichen} — fahre herunter.`);
+    server.close();
+    try {
+      const { gleichSchreiben } = await import('./src/zaehler.js');
+      await gleichSchreiben();
+    } catch { /* nicht der Rede wert beim Beenden */ }
+    setTimeout(() => process.exit(0), 300).unref();
+  });
+}

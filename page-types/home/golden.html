@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lust auf Tennis? · Krifteler Tennisclub</title>
+<meta name="description" content="Krifteler Tennisclub: sieben Sandplätze, über 500 Mitglieder, Tennis in familiärer Atmosphäre im Main-Taunus-Kreis.">
+
+<style>
+:root { --grund: #ffffff; --flaeche: #f5f5f5; --linie: #e0e0e0; --text: #1e1e18; --text-leise: #555555; --signal: #0050ff; --signal-hover: #0000c8; --signal-leise: #eaf0ff; --handlung: #ffbe00; --handlung-hover: #e8ac00; --handlung-text: #1e1e18; --warnung: #fa320a; --bestaetigt: #006e00; --font-sans: "Libre Franklin", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; --breite: 1120px; --breite-text: 68ch; --radius: 8px; --radius-knopf: 26px; --raum-1: 8px; --raum-2: 16px; --raum-3: 24px; --raum-4: 40px; --raum-5: 64px; --raum-6: 96px; }
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--grund);
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+}
+img { max-width: 100%; height: auto; display: block; }
+h1, h2, h3 { line-height: 1.2; letter-spacing: -.015em; font-weight: 500; margin: 0; }
+p { margin: 0; }
+a { color: var(--signal); }
+a:hover { color: var(--signal-hover); }
+.container { width: 100%; max-width: var(--breite); margin: 0 auto; padding: 0 var(--raum-3); }
+.section { padding: var(--raum-5) 0; }
+.section + .section { border-top: 1px solid var(--linie); }
+.nur-vorleser {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+@media (max-width: 640px) { .section { padding: var(--raum-4) 0; } }
+
+    .kopf { border-bottom: 1px solid var(--linie); background: var(--grund); }
+    .kopf__innen { display: flex; align-items: center; gap: var(--raum-4);
+      padding-top: var(--raum-2); padding-bottom: var(--raum-2); flex-wrap: wrap; }
+    .kopf__marke { display: flex; align-items: center; gap: 10px; margin-right: auto;
+      text-decoration: none; color: var(--text); }
+    .kopf__marke b { font-weight: 500; font-size: 15px; }
+    .kopf__zeichen { height: 30px; width: auto; display: block; flex: none; }
+    .kopf__menue { display: flex; gap: var(--raum-3); font-size: 15px; flex-wrap: wrap; }
+    .kopf__menue a { color: var(--text); text-decoration: none; }
+    .kopf__menue a:hover { color: var(--signal); }
+    .kopf__jetzt { color: var(--signal); text-decoration: none; white-space: nowrap; }
+    .kopf__jetzt:hover { text-decoration: underline; }
+    @media (max-width: 640px) {
+      .kopf__innen { gap: var(--raum-2); }
+      .kopf__menue { gap: var(--raum-2); font-size: 14px; width: 100%; }
+    }
+  
+
+    .hero { padding: var(--raum-6) 0 var(--raum-5); }
+    .hero__pill { display: inline-block; font-size: 12px; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--signal); border: 1px solid var(--signal);
+      border-radius: 3px; padding: 4px 10px; margin-bottom: var(--raum-3); }
+    .hero__titel { font-size: clamp(34px, 6vw, 60px); margin: 0 0 var(--raum-2); max-width: 15ch; }
+    .hero__sub { font-size: 19px; color: var(--text-leise); max-width: 46ch; }
+    .hero__knoepfe { margin-top: var(--raum-4); display: flex; gap: 12px; flex-wrap: wrap; }
+    .knopf { display: inline-block; text-decoration: none; font-weight: 500; font-size: 16px;
+      padding: 14px 30px; border-radius: var(--radius-knopf);
+      background: var(--handlung); color: var(--handlung-text); }
+    .knopf:hover { background: var(--handlung-hover); color: var(--handlung-text); }
+    .knopf--leise { background: transparent; color: var(--signal);
+      border: 1px solid var(--signal); padding: 13px 28px; font-weight: 400; }
+    .knopf--leise:hover { background: var(--signal-leise); color: var(--signal); }
+    @media (max-width: 640px) { .hero { padding: var(--raum-5) 0 var(--raum-4); } }
+  
+
+    .text__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: var(--raum-3); max-width: 24ch; }
+    .text__koerper { max-width: var(--breite-text); }
+    .text__koerper p + p { margin-top: var(--raum-2); }
+    .text__koerper a { color: var(--signal); text-decoration: none;
+      border-bottom: 1px solid var(--signal); }
+    .text__koerper a:hover { color: var(--signal-hover); border-color: var(--signal-hover); }
+  
+
+    .info__titel { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-3); }
+    .info__gitter { display: grid; gap: var(--raum-2);
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+    .info { background: var(--flaeche); border-radius: var(--radius); padding: var(--raum-3); }
+    .info__label { font-size: 12px; text-transform: uppercase; letter-spacing: .07em;
+      color: var(--text-leise); margin-bottom: 6px; }
+    .info__wert { font-size: 21px; font-weight: 500; line-height: 1.3; }
+    .info__zusatz { font-size: 14px; color: var(--text-leise); margin-top: 6px; line-height: 1.5; }
+  
+
+    .karten__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: var(--raum-3); }
+    .karten__gitter { display: grid; gap: var(--raum-2);
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+    .karte { border: 1px solid var(--linie); border-top: 3px solid var(--signal);
+      border-radius: 0 0 var(--radius) var(--radius); padding: var(--raum-3); }
+    .karte h3 { font-size: 17px; margin-bottom: 6px; }
+    .karte p { font-size: 15px; color: var(--text-leise); line-height: 1.6; }
+    .karte a { display: inline-block; margin-top: var(--raum-2); font-size: 15px;
+      color: var(--signal); text-decoration: none; }
+    .karte a:hover { border-bottom: 1px solid var(--signal); }
+  
+
+    .liste__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: 4px; }
+    .liste__zaehler { font-size: 15px; color: var(--text-leise); margin-bottom: var(--raum-3); }
+    .eintrag { display: flex; gap: var(--raum-3); padding: var(--raum-2) 0;
+      border-top: 1px solid var(--linie); max-width: var(--breite-text); }
+    .eintrag__datum { font-size: 14px; color: var(--text-leise);
+      white-space: nowrap; min-width: 88px; padding-top: 3px; }
+    .eintrag h3 { font-size: 17px; margin-bottom: 3px; }
+    .eintrag h3 a { color: var(--text); text-decoration: none; }
+    .eintrag h3 a:hover { color: var(--signal); }
+    .eintrag p { font-size: 15px; color: var(--text-leise); line-height: 1.6; }
+    .thema { display: inline-block; margin-top: 8px; font-size: 13px; color: var(--signal);
+      background: var(--signal-leise); padding: 2px 9px; border-radius: 3px; }
+    @media (max-width: 560px) { .eintrag { flex-direction: column; gap: 4px; } }
+  
+
+    .preise__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: var(--raum-3); }
+    .preise table { width: 100%; border-collapse: collapse; font-size: 16px;
+      max-width: var(--breite-text); }
+    .preise th, .preise td { text-align: left; padding: 11px 0; border-bottom: 1px solid var(--linie); }
+    .preise th { font-size: 12px; font-weight: 500; color: var(--text-leise);
+      text-transform: uppercase; letter-spacing: .07em; }
+    .preise td.wert, .preise th.wert { text-align: right;
+      font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .preise tr.hervor td { background: var(--signal-leise); font-weight: 500; }
+    .preise tr.hervor td:first-child { border-left: 3px solid var(--signal); padding-left: 12px; }
+    .hinweis { border-left: 3px solid var(--signal); background: var(--flaeche);
+      padding: var(--raum-2) var(--raum-3); margin-top: var(--raum-3);
+      font-size: 15px; max-width: var(--breite-text); }
+  
+
+    .fuss { border-top: 1px solid var(--linie); background: var(--flaeche); }
+    .fuss__innen { display: flex; gap: var(--raum-3); flex-wrap: wrap;
+      align-items: center; padding-top: var(--raum-3); padding-bottom: var(--raum-3);
+      font-size: 15px; color: var(--text-leise); }
+    .fuss__innen span { margin-right: auto; }
+    .fuss__innen a { color: var(--signal); text-decoration: none; }
+    .fuss__innen a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+      <header class="kopf"><div class="container kopf__innen">
+        <a class="kopf__marke" href="/"><svg class="kopf__zeichen" xmlns="http://www.w3.org/2000/svg" viewBox="115 116 778 610" role="img" aria-hidden="true" focusable="false">  <defs> <linearGradient> <stop style="stop-color:#bee57c;stop-opacity:1;" offset="0" /> <stop style="stop-color:#a6d904;stop-opacity:1;" offset="1" /> </linearGradient> </defs> <g> <path d="m 793.98394,240.63577 c -141.1682,0 -255.60764,107.87457 -255.60764,240.94459 0,133.07002 114.43944,240.94459 255.60764,240.94459 33.66364,0 65.792,-6.17039 95.2263,-17.31789 V 589.72307 c -25.83,20.23186 -59.01804,32.4083 -95.2263,32.4083 -82.34812,0 -149.10445,-62.92683 -149.10445,-140.55101 0,-77.62418 66.75633,-140.55101 149.10445,-140.55101 36.20826,0 69.3963,12.17644 95.2263,32.4083 V 257.95366 c -29.4343,-11.1475 -61.56266,-17.31789 -95.2263,-17.31789 z" style="display:inline;fill:#ffbe00;fill-opacity:1;fill-rule:nonzero;stroke:none" /> <path d="m 889.21024,589.72307 c -12.4511,9.75262 -26.6213,17.60584 -42.006,23.15327 -36.13032,28.20409 -63.89131,65.60846 -79.25093,108.39369 8.56264,0.81672 17.2395,1.25492 26.03063,1.25492 33.66364,0 65.792,-6.17039 95.2263,-17.31789 z" style="display:inline;fill:#fa320a;fill-opacity:1;fill-rule:nonzero;stroke:none" /> <path d="m 785.6791,240.63577 c -54.59873,0 -105.19602,16.1501 -146.72379,43.63983 42.9331,11.25262 89.89026,11.78389 136.60599,-0.75295 28.26473,-7.58524 54.1959,-19.41128 77.2774,-34.44755 -21.39943,-5.49123 -43.91457,-8.43933 -67.1596,-8.43933 z" style="display:inline;fill:#fa320a;fill-opacity:1;fill-rule:nonzero;stroke:none" /> <path d="m 279.46038,120.179 v 100.375 h 170.40625 v 431.6875 h 100.25 V 220.554 H 720.52288 V 120.179 Z" style="display:inline;fill:#00af00;fill-opacity:1;fill-rule:nonzero;stroke:none" /> <path d="m 449.88083,524.65548 v 106.57406 c 10.81929,4.9653 20.90997,11.11451 30.07149,18.29046 V 534.03601 c -9.74314,-3.68996 -19.78001,-6.82452 -30.07149,-9.38053 z" style="display:inline;fill:#006e00;fill-opacity:1;fill-rule:nonzero;stroke:none" /> <path d="m 467.26591,120.16347 c 11.06074,39.13066 31.80991,73.14567 59.20324,100.39358 7.41699,7.37763 15.32033,14.25887 23.64997,20.61206 v -20.61206 h 170.40509 v -29.05139 c -57.74895,4.39948 -112.0794,-23.72745 -138.76738,-71.34219 z" style="display:inline;mix-blend-mode:normal;fill:#006e00;fill-opacity:1;fill-rule:nonzero;stroke:none" /> <path d="M 119.09447,240.63651 V 722.52569 H 219.33276 V 506.71092 L 349.61122,722.52569 H 468.89478 L 323.9878,482.42822 469.92849,240.63651 H 350.64492 L 219.33276,458.14553 V 240.63651 Z" style="display:inline;fill:#0050ff;fill-opacity:1;fill-rule:nonzero;stroke:none" /> <path d="m 346.32215,519.44756 c -35.7701,5.07983 -69.09176,17.1344 -98.39015,34.66716 l 52.78173,87.43654 c 23.92606,-15.41307 52.84541,-24.43957 84.01221,-24.43957 7.27857,0 14.4267,0.49256 21.42594,1.44316 z m -126.98939,54.52627 c -46.24199,37.03053 -78.30228,89.27779 -87.48923,148.55112 h 87.48923 z" style="display:inline;fill:#0000c8;fill-opacity:1;fill-rule:nonzero;stroke:none" /> <path d="m 119.09447,240.63577 v 43.45159 c 2.41122,0.0634 4.83982,0.0941 7.26728,0.0941 32.80948,0 64.15098,-5.88446 92.97101,-16.50219 V 240.63575 H 119.09447 Z" style="display:inline;mix-blend-mode:normal;fill:#0000c8;fill-opacity:1;fill-rule:nonzero;stroke:none" /> <path style="fill:none;stroke:#008c00;stroke-width:15;stroke-opacity:1;paint-order:stroke markers fill;stroke-dasharray:none" width="900" height="900" x="56" y="50" /> <g transform="matrix(0.32292708,0,0,0.32313634,629.7354,320.03079)" style="fill:#f5c211;stroke:none;stroke-width:56.828"> <path style="fill:#f5c211;stroke:none;stroke-width:40.131;paint-order:stroke markers fill" d="m 499.75304,252.36893 a 248.01563,248.01563 0 0 0 -13.4384,0.36432 248.01563,248.01563 0 0 1 4.4793,-0.12144 248.01563,248.01563 0 0 1 8.9591,-0.24288 z m -13.4384,0.36432 a 248.01563,248.01563 0 0 0 -234.0136,239.50217 248.01563,248.01563 0 0 0 234.0136,-239.50217 z m 261.4543,247.66137 a 248.01563,248.01563 0 0 1 -0.5622,8.13903 248.01563,248.01563 0 0 0 -233.9615,238.98232 248.01563,248.01563 0 0 0 234.5237,-247.12135 z m -464.6306,120.2924 a 248.01563,248.01563 0 0 0 11.9301,18.82469 248.01563,248.01563 0 0 1 -11.9301,-18.82469 z m 14.8653,23.21822 a 248.01563,248.01563 0 0 0 26.3767,31.85232 248.01563,248.01563 0 0 1 -9.9943,-11.39621 248.01563,248.01563 0 0 1 -16.3824,-20.45611 z" /> <path style="fill:#f5c211;stroke:none;stroke-width:40.131;paint-order:stroke markers fill" d="m 517.40414,252.59599 a 248.01563,248.01563 0 0 1 0.61133,17.40411 248.01563,248.01563 0 0 1 -248.01535,248.01535 248.01563,248.01563 0 0 1 -17.40411,-0.61133 248.01563,248.01563 0 0 0 7.83932,46.78681 248.01563,248.01563 0 0 0 0,5.1e-4 248.01563,248.01563 0 0 0 10.4283,30.72009 248.01563,248.01563 0 0 0 43.7689,69.06555 248.01563,248.01563 0 0 0 9.99423,11.39621 248.01563,248.01563 0 0 0 12.99455,11.39672 248.01563,248.01563 0 0 0 11.39621,9.99422 248.01563,248.01563 0 0 0 5.1e-4,0 248.01563,248.01563 0 0 0 26.97407,18.0237 248.01563,248.01563 0 0 0 5.1e-4,0 248.01563,248.01563 0 0 0 29.0959,14.34848 248.01563,248.01563 0 0 0 20.2923,6.88847 248.01563,248.01563 0 0 0 10.42779,3.53984 248.01563,248.01563 0 0 0 5.2e-4,0 248.01563,248.01563 0 0 0 31.81821,6.32933 248.01563,248.01563 0 0 0 14.9686,1.50998 248.01563,248.01563 0 0 1 -0.61134,-17.4041 248.01563,248.01563 0 0 1 248.01536,-248.01536 248.01563,248.01563 0 0 1 17.4041,0.61134 248.01563,248.01563 0 0 0 -1.50998,-14.9686 248.01563,248.01563 0 0 0 -6.32933,-31.81821 248.01563,248.01563 0 0 0 0,-5.2e-4 248.01563,248.01563 0 0 0 -24.77679,-59.8165 248.01563,248.01563 0 0 0 -39.41413,-51.36534 248.01563,248.01563 0 0 0 -5.1e-4,-5.2e-4 248.01563,248.01563 0 0 0 -24.39076,-21.39043 248.01563,248.01563 0 0 0 -5.2e-4,0 248.01563,248.01563 0 0 0 -26.97406,-18.0237 248.01563,248.01563 0 0 0 -5.2e-4,0 248.01563,248.01563 0 0 0 -29.0959,-14.34848 248.01563,248.01563 0 0 0 -5.2e-4,0 248.01563,248.01563 0 0 0 -30.71957,-10.4283 248.01563,248.01563 0 0 0 -5.1e-4,0 248.01563,248.01563 0 0 0 -31.81822,-6.32933 248.01563,248.01563 0 0 0 -5.1e-4,0 248.01563,248.01563 0 0 0 -14.96808,-1.50999 z" /> </g> </g> </svg><b>krifteler tennisclub</b></a>
+        <nav class="kopf__menue" aria-label="Hauptmenü"><a href="/">Club</a><a href="/sport/">Sport</a><a href="/mitglied-werden/">Mitglied werden</a><a href="/aktuelles/">Aktuelles</a><a href="/kontakt/">Kontakt</a></nav>
+        <a class="kopf__jetzt" href="https://tennisclub-kriftel.ebusy.de" target="_blank" rel="noopener noreferrer">Platz buchen ↗</a>
+      </div></header>
+
+      <section class="section hero"><div class="container">
+        <p class="hero__pill">Kriftel im Main-Taunus-Kreis</p>
+        <h1 class="hero__titel">Lust auf Tennis?</h1>
+        <p class="hero__sub">Sieben Sandplätze, ein Clubhaus mit sonniger Terrasse und über 500 Leute, die hier spielen. Komm vorbei und probier es aus.</p>
+        <div class="hero__knoepfe">
+          <a class="knopf" href="/mitglied-werden/">Mitglied werden</a>
+          <a class="knopf knopf--leise" href="/kontakt/">Erst mal reinschnuppern</a>
+        </div>
+      </div></section>
+
+      <section class="section"><div class="container">
+        <h2 class="text__titel">Bei uns findest du deinen Platz</h2>
+        <div class="text__koerper"><p>Ob du gerade anfängst, nach zehn Jahren zurückkommst oder in der Medenrunde um jeden Punkt spielst — bei uns findest du das passende Angebot. Mehr als 20 Mannschaften gehen für den KTC an den Start, von den Kindern ab 12 bis zu den Senioren 60.</p><p>Rund 120 unserer Mitglieder sind Kinder und Jugendliche. Sie trainieren bei der <strong>Tennisschule Kaus</strong>, auf die wir seit über 35 Jahren vertrauen — mit einem eingespielten Trainerteam und einem klaren Lernkonzept.</p><p>Die Anlage liegt am Schmelzweg 6 in Kriftel, unmittelbar an der Kreissportanlage. Wie du zu uns kommst, steht auf der Seite <a href="/kontakt/">Kontakt</a>.</p></div>
+      </div></section>
+
+      <section class="section"><div class="container">
+        
+        <div class="info__gitter"><div class="info">
+      <p class="info__label">Plätze</p>
+      <p class="info__wert">7</p>
+      <p class="info__zusatz">Sandplätze, gepflegt</p>
+    </div><div class="info">
+      <p class="info__label">Mitglieder</p>
+      <p class="info__wert">über 500</p>
+      <p class="info__zusatz">davon rund 120 Kinder und Jugendliche</p>
+    </div><div class="info">
+      <p class="info__label">Mannschaften</p>
+      <p class="info__wert">mehr als 20</p>
+      <p class="info__zusatz">von U12 bis Senioren 60</p>
+    </div><div class="info">
+      <p class="info__label">Saison</p>
+      <p class="info__wert">April bis November</p>
+      <p class="info__zusatz">Start Mitte bis Ende April</p>
+    </div></div>
+      </div></section>
+
+      <section class="section"><div class="container">
+        <h2 class="karten__titel">Sportliche Vielfalt</h2>
+        <div class="karten__gitter"><article class="karte">
+        <h3>Team und Wettkampf</h3>
+        <p>Über 20 Mannschaften in allen Alters- und Leistungsklassen. Wir spielen um jeden Punkt — und für die Geselligkeit.</p>
+        <a href="/sport/#wettkampf">Zu den Mannschaften →</a>
+      </article><article class="karte">
+        <h3>Hobby und Freizeit</h3>
+        <p>Die Hobbyrunde ohne Anmeldung, Doppelturniere und Freundschaftsspiele gegen andere Vereine.</p>
+        <a href="/sport/#hobby">Zur Hobbyrunde →</a>
+      </article><article class="karte">
+        <h3>Jugend</h3>
+        <p>Fördern und fordern. Mit Spaß, Freude und einem gezielten Lernkonzept an den Tennissport heran.</p>
+        <a href="/sport/#jugend">Zur Jugendarbeit →</a>
+      </article></div>
+      </div></section>
+
+      <section class="section"><div class="container">
+        <h2 class="liste__titel">Aus dem Verein</h2>
+        <p class="liste__zaehler">6 Beiträge</p>
+        <div><article class="eintrag">
+        <div class="eintrag__datum">6. Juli 2026</div>
+        <div>
+          <h3><a href="/aktuelles/start-in-die-mixed-runde-geschafft/">Start in die Mixed-Runde … 👍🏻 Geschafft</a></h3>
+          <p>Am Samstagvormittag trafen sich vier Mixed-Teams zu einer freundschaftlichen Begegnung auf der Anlage des TC Kriftel. Bei warmen, aber gut spielbaren Bedingunge</p>
+          
+        </div>
+      </article><article class="eintrag">
+        <div class="eintrag__datum">24. Juni 2026</div>
+        <div>
+          <h3><a href="/aktuelles/kampfreiches-wochenende-fuer-den-ktc/">Kampfreiches Wochenende für den KTC</a></h3>
+          <p>Ein kampfreiches Wochenende liegt hinter dem Krifteler TC. Die Teams zeigten mal wieder Herz und Nervenstärke.</p>
+          
+        </div>
+      </article><article class="eintrag">
+        <div class="eintrag__datum">16. Juni 2026</div>
+        <div>
+          <h3><a href="/aktuelles/spektakulaere-ergebnisse-fuer-den-ktc/">Spektakuläre Ergebnisse für den KTC</a></h3>
+          <p>Ein wahres Tennisfest erlebten die 24 Teams am Wochenende – mit grandiosen 14 Siegen und dramatischen Matches wie dem knappen 5:4 der Herren 40! Von Junioren-Ka</p>
+          
+        </div>
+      </article><article class="eintrag">
+        <div class="eintrag__datum">1. Juni 2026</div>
+        <div>
+          <h3><a href="/aktuelles/grandioses-wochenende-fuer-den-ktc/">Grandioses Wochenende für den KTC</a></h3>
+          <p>Die Juniorinnen U18 fegten den TC Wetter mit 9:0 vom Platz. Die Junioren U18 erzielten einen überragenden Auswärtssieg in Stierstadt! Tim Messerschmitt eröffnet</p>
+          
+        </div>
+      </article><article class="eintrag">
+        <div class="eintrag__datum">25. Mai 2026</div>
+        <div>
+          <h3><a href="/aktuelles/hitzetest-beim-ktc/">Hitzetest beim KTC</a></h3>
+          <p>Am Pfingstsonntag konnte erstmals getestet werden wie hitzebeständig die Tennisspielerinnen und Tennisspieler beim Krifteler Tennisclub sind. Statt dem sonst üb</p>
+          
+        </div>
+      </article><article class="eintrag">
+        <div class="eintrag__datum">23. Mai 2026</div>
+        <div>
+          <h3><a href="/aktuelles/glueck-mit-dem-wetter/">Glück mit dem Wetter</a></h3>
+          <p>hatte der Krifteler-Tennis-Club an Christi Himmelfahrt. Vormittags trafen sich die Mitglieder zum Damen- und Herrendoppel. Anfangs war es noch ziemlich kalt und</p>
+          
+        </div>
+      </article></div>
+      </div></section>
+
+      <section class="section preise"><div class="container">
+        <h2 class="preise__titel">Was es kostet</h2>
+        <table>
+          <thead><tr><th>Mitgliedschaft</th><th class="wert">pro Jahr</th></tr></thead>
+          <tbody>
+      <tr class="hervor"><td>Neumitglied Erwachsene, erstes Jahr</td><td class="wert">225 €</td></tr>
+      <tr class=""><td>Aktives Mitglied</td><td class="wert">290 €</td></tr>
+      <tr class=""><td>Jugend bis 18 Jahre</td><td class="wert">135 €</td></tr>
+      <tr class=""><td>Passives Mitglied</td><td class="wert">60 €</td></tr></tbody>
+        </table>
+        <p class="hinweis"><strong>Keine Aufnahmegebühr, keine Arbeitsstunden.</strong> Alle Beitragsklassen und die Bedingungen stehen auf der Seite <a href="/mitglied-werden/">Mitglied werden</a>.</p>
+      </div></section>
+
+      <footer class="fuss"><div class="container fuss__innen">
+        <span>Krifteler Tennisclub e.V. · Schmelzweg 6, 65830 Kriftel</span><a href="/faq/">FAQ</a><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a>
+      </div></footer></body>
+</html>

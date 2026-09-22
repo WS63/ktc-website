@@ -1,0 +1,4 @@
+{
+  "label": "Beitragsuebersicht",
+  "beschreibung": "Uebersicht aller Beitraege. Speichert keine Liste, sondern fragt den Bestand ab (P3)."
+}

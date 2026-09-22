@@ -1,0 +1,13 @@
+node_modules
+data
+.env
+.env.*
+!.env.beispiel
+.git
+.gitignore
+docs
+probe
+tests
+*.md
+!CLAUDE.md
+.claude

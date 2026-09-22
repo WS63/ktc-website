@@ -1,0 +1,115 @@
+{
+  "_hinweis": "Fakten-SSOT (P2). Die KI darf formulieren, aber keine Zahl behaupten. Fehlt ein Wert, erscheint sichtbar […].",
+  "verein": {
+    "name": "Krifteler Tennisclub e.V.",
+    "kurz": "KTC",
+    "gegruendet": "",
+    "strasse": "Schmelzweg 6",
+    "plz": "65830",
+    "ort": "Kriftel",
+    "email": "info@tennisclub-kriftel.de",
+    "registergericht": "",
+    "registernummer": "",
+    "hausnummer": "6"
+  },
+  "anlage": {
+    "plaetze": "7",
+    "belag": "Sand",
+    "mitglieder": "über 500",
+    "jugendliche": "rund 120",
+    "mannschaften": "mehr als 20",
+    "saison_start": "Mitte bis Ende April",
+    "saison_ende": "November",
+    "tennisschule": "Tennisschule Kaus",
+    "tennisschule_seit": "über 35 Jahren"
+  },
+  "vorstand": {
+    "erster": {
+      "name": "Oliver Kinzel",
+      "rolle": "1. Vorsitzender",
+      "telefon": "+49 173 5764855",
+      "email": "info@tennisclub-kriftel.de"
+    },
+    "zweite": {
+      "name": "Anne Yasemin Leupold",
+      "rolle": "2. Vorsitzende",
+      "telefon": "+49 175 5984214",
+      "email": "info@tennisclub-kriftel.de"
+    },
+    "sport": {
+      "name": "Markus Messerschmitt",
+      "rolle": "Sportwart",
+      "telefon": "+49 160 8323193",
+      "email": "sport@tennisclub-kriftel.de"
+    },
+    "jugend": {
+      "name": "Oliver Kaus",
+      "rolle": "Jugendwart",
+      "telefon": "+49 172 6750873",
+      "email": "jugend@tennisclub-kriftel.de"
+    },
+    "kasse": {
+      "name": "Tobias Klug",
+      "rolle": "Kassenwart",
+      "telefon": "+49 162 2835986",
+      "email": "info@tennisclub-kriftel.de"
+    },
+    "technik": {
+      "name": "Christian Schwarzer",
+      "rolle": "Technischer Wart",
+      "telefon": "+49 179 4365454",
+      "email": "technik@tennisclub-kriftel.de"
+    },
+    "presse": {
+      "name": "Ute Walter",
+      "rolle": "Schriftführerin und Öffentlichkeitsarbeit",
+      "telefon": "+49 178 6989000",
+      "email": "presse@tennisclub-kriftel.de"
+    }
+  },
+  "beitraege": {
+    "aktiv": "290",
+    "aktiv_partner": "225",
+    "aktiv_ausbildung": "174",
+    "jugend": "135",
+    "jugend_familie": "95",
+    "passiv": "60",
+    "neumitglied_erstes_jahr": "225",
+    "aufnahmegebuehr": "keine",
+    "arbeitsstunden": "keine",
+    "kuendigungsfrist": "30. November",
+    "halber_beitrag_ab": "1. Juli"
+  },
+  "gast": {
+    "gebuehr": "15,00",
+    "dauer_einzel": "60 Minuten",
+    "dauer_doppel": "90 Minuten",
+    "max_doppel": "2"
+  },
+  "spind": {
+    "gebuehr": "30"
+  },
+  "links": {
+    "buchung": "https://tennisclub-kriftel.ebusy.de",
+    "facebook": "",
+    "instagram": "",
+    "whatsapp": "",
+    "medenrunde": ""
+  },
+  "zeiten": {
+    "anlage": "",
+    "restaurant": ""
+  },
+  "minis": {
+    "kursgebuehr_kind": "99",
+    "kursgebuehr_erwachsen": "160",
+    "einheiten": "14",
+    "tag": "mittwochs",
+    "zeit": "14–15 Uhr",
+    "gruppengroesse_kinder": "8",
+    "gruppengroesse_erwachsene": "4 bis 5",
+    "alter": "5 bis 8 Jahre",
+    "kontakt_name": "Oliver Kaus",
+    "kontakt_telefon": "+49 172 6750873"
+  }
+}

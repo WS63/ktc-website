@@ -1,0 +1,37 @@
+{
+  "_hinweis": "Design-Tokens. Nie eine Farbe direkt in einen Baustein schreiben.",
+  "farben": {
+    "grund":        "#ffffff",
+    "flaeche":      "#f5f5f5",
+    "linie":        "#e0e0e0",
+    "text":         "#1e1e18",
+    "text-leise":   "#555555",
+
+    "signal":       "#0050ff",
+    "signal-hover": "#0000c8",
+    "signal-leise": "#eaf0ff",
+
+    "handlung":       "#ffbe00",
+    "handlung-hover": "#e8ac00",
+    "handlung-text":  "#1e1e18",
+
+    "warnung":      "#fa320a",
+    "bestaetigt":   "#006e00"
+  },
+  "schriften": {
+    "sans": "\"Libre Franklin\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
+    "mono": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
+  },
+  "masse": {
+    "breite":      "1120px",
+    "breite-text": "68ch",
+    "radius":      "8px",
+    "radius-knopf":"26px",
+    "raum-1": "8px",
+    "raum-2": "16px",
+    "raum-3": "24px",
+    "raum-4": "40px",
+    "raum-5": "64px",
+    "raum-6": "96px"
+  }
+}

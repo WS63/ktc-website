@@ -73,3 +73,17 @@ for (const b of beitraege) {
 }
 
 console.log(`[Struktur] ${neu} Umleitungen angelegt.`);
+
+/**
+ * Der laufende Server haelt gerenderte Seiten im Speicher (src/cache.js).
+ *
+ * Dieses Skript ist ein EIGENER Prozess — es schreibt in die Datenbank, kann
+ * den Speicher des Servers aber nicht leeren. Der liefert danach weiter die
+ * alte Fassung aus, und man sucht den Fehler in der Datenbank.
+ *
+ * Das Cockpit leert den Cache bei jeder Aenderung selbst. Nur bei einem Lauf
+ * von der Kommandozeile muss jemand neu starten.
+ */
+console.log('\n[Hinweis] Der laufende Server hält fertige Seiten im Speicher.');
+console.log('          Damit die Änderungen sichtbar werden: Anwendung neu starten.');
+console.log('          Bei Coolify: Application → Restart. Lokal: npm run dev neu starten.\n');

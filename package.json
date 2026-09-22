@@ -17,7 +17,8 @@
     "index": "node scripts/index-bauen.js",
     "umzug": "node scripts/umzug.js",
     "sql": "node scripts/sql-export.js",
-    "generiere": "node --env-file=.env scripts/generiere.js"
+    "generiere": "node --env-file=.env scripts/generiere.js",
+    "bilder": "node scripts/bilder-bauen.js"
   },
   "keywords": [],
   "author": "",

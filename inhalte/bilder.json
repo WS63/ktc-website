@@ -1,0 +1,86 @@
+{
+ "clubhaus": {
+  "bereich": "anlage",
+  "alt": "Das Clubhaus des Krifteler Tennisclubs mit verglaster Front und gepflastertem Weg",
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/clubhaus-400-2278fee6.jpg",
+    "kb": 24
+   },
+   "800": {
+    "pfad": "/uploads/clubhaus-800-3615fe1b.jpg",
+    "kb": 93
+   },
+   "1600": {
+    "pfad": "/uploads/clubhaus-1600-686d7794.jpg",
+    "kb": 359
+   }
+  },
+  "gross": "/uploads/clubhaus-1600-686d7794.jpg",
+  "mittel": "/uploads/clubhaus-800-3615fe1b.jpg",
+  "klein": "/uploads/clubhaus-400-2278fee6.jpg"
+ },
+ "platz": {
+  "bereich": "anlage",
+  "alt": "Ein frisch hergerichteter Sandplatz mit Netz und Schiedsrichterstuhl, dahinter die Banden des Krifteler Tennisclubs",
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/platz-400-d8d5d774.jpg",
+    "kb": 26
+   },
+   "800": {
+    "pfad": "/uploads/platz-800-beaf288e.jpg",
+    "kb": 99
+   },
+   "1600": {
+    "pfad": "/uploads/platz-1600-3d9b901d.jpg",
+    "kb": 387
+   }
+  },
+  "gross": "/uploads/platz-1600-3d9b901d.jpg",
+  "mittel": "/uploads/platz-800-beaf288e.jpg",
+  "klein": "/uploads/platz-400-d8d5d774.jpg"
+ },
+ "terrasse": {
+  "bereich": "anlage",
+  "alt": "Blick von der Terrasse über die Liegewiese auf die Sandplätze des Krifteler Tennisclubs an einem sonnigen Frühlingsmorgen",
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/terrasse-400-ea240117.jpg",
+    "kb": 26
+   },
+   "800": {
+    "pfad": "/uploads/terrasse-800-ccffa1ab.jpg",
+    "kb": 98
+   },
+   "1600": {
+    "pfad": "/uploads/terrasse-1600-5c51afb3.jpg",
+    "kb": 367
+   }
+  },
+  "gross": "/uploads/terrasse-1600-5c51afb3.jpg",
+  "mittel": "/uploads/terrasse-800-ccffa1ab.jpg",
+  "klein": "/uploads/terrasse-400-ea240117.jpg"
+ },
+ "vereinsleben": {
+  "bereich": "themen",
+  "alt": "Sternzelt mit Loungemöbeln und Palmen auf der Anlage während eines Vereinsfestes",
+  "groessen": {
+   "400": {
+    "pfad": "/uploads/vereinsleben-400-8d2704e6.jpg",
+    "kb": 26
+   },
+   "800": {
+    "pfad": "/uploads/vereinsleben-800-b43d252e.jpg",
+    "kb": 101
+   },
+   "1600": {
+    "pfad": "/uploads/vereinsleben-1600-00b55f7c.jpg",
+    "kb": 423
+   }
+  },
+  "gross": "/uploads/vereinsleben-1600-00b55f7c.jpg",
+  "mittel": "/uploads/vereinsleben-800-b43d252e.jpg",
+  "klein": "/uploads/vereinsleben-400-8d2704e6.jpg"
+ }
+}

@@ -6,28 +6,23 @@
  * {{facts.pfad}} und kommen aus config/facts.json (P2).
  */
 
-const BILDER = {
-  "terrasse": {
-    "gross": "/uploads/anlage-terrasse-1600-5c51afb3.jpg",
-    "klein": "/uploads/anlage-terrasse-800-ccffa1ab.jpg",
-    "alt": "Blick von der Terrasse über die Liegewiese auf die Sandplätze des Krifteler Tennisclubs an einem sonnigen Frühlingsmorgen"
-  },
-  "platz": {
-    "gross": "/uploads/platz-netz-1600-3d9b901d.jpg",
-    "klein": "/uploads/platz-netz-800-beaf288e.jpg",
-    "alt": "Ein frisch hergerichteter Sandplatz mit Netz und Schiedsrichterstuhl, dahinter die Banden des Krifteler Tennisclubs"
-  },
-  "clubhaus": {
-    "gross": "/uploads/clubhaus-1600-686d7794.jpg",
-    "klein": "/uploads/clubhaus-800-3615fe1b.jpg",
-    "alt": "Das Clubhaus des Krifteler Tennisclubs mit verglaster Front und gepflastertem Weg"
-  },
-  "vereinsleben": {
-    "gross": "/uploads/vereinsleben-1600-00b55f7c.jpg",
-    "klein": "/uploads/vereinsleben-800-b43d252e.jpg",
-    "alt": "Sternzelt mit Loungemöbeln und Palmen auf der Anlage während eines Vereinsfestes"
-  }
-};
+/**
+ * Die Bilder kommen aus dem Verzeichnis, nicht aus fest eingetragenen Namen.
+ *
+ * Grund: der Dateiname traegt eine Pruefsumme des Inhalts. Wer ein Bild
+ * austauscht, bekommt einen neuen Namen — und haette sonst hier im Quelltext
+ * suchen muessen. So ist ein Bildwechsel: Datei ersetzen, npm run bilder,
+ * npm run seed. Nichts davon fasst diese Datei an.
+ *
+ * Fehlt ein Bild, bleibt das Feld leer. Die Seite erscheint trotzdem (P6).
+ */
+import { readFileSync, existsSync } from 'node:fs';
+
+const verzeichnis = existsSync('inhalte/bilder.json')
+  ? JSON.parse(readFileSync('inhalte/bilder.json', 'utf8')) : {};
+
+const bild = (name, groesse = 'gross') => verzeichnis[name]?.[groesse] || '';
+const bildAlt = (name) => verzeichnis[name]?.alt || '';
 
 const menue = [
   { label: 'Club',           href: '/' },
@@ -109,7 +104,7 @@ export const seiten = [
       sub: 'Sieben Sandplätze, ein Clubhaus mit sonniger Terrasse und über 500 Leute, die hier spielen. Komm vorbei und probier es aus.',
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       zweitLabel: 'Erst mal reinschnuppern', zweitHref: '/kontakt/',
-      bild: BILDER.terrasse.gross, bildAlt: BILDER.terrasse.alt,
+      bild: bild('terrasse'), bildAlt: bildAlt('terrasse'),
     }},
     { type: 'richtext', data: {
       titel: 'Bei uns findest du deinen Platz',
@@ -131,11 +126,11 @@ export const seiten = [
       titel: 'Sportliche Vielfalt',
       karten: [
         { titel: 'Team und Wettkampf', text: 'Über 20 Mannschaften in allen Alters- und Leistungsklassen. Wir spielen um jeden Punkt — und für die Geselligkeit.', linkLabel: 'Zu den Mannschaften', linkHref: '/sport/',
-          bild: BILDER.platz.klein, bildAlt: BILDER.platz.alt },
+          bild: bild('platz', 'mittel'), bildAlt: bildAlt('platz') },
         { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung, Doppelturniere und Freundschaftsspiele gegen andere Vereine.', linkLabel: 'Zur Hobbyrunde', linkHref: '/sport/',
-          bild: BILDER.vereinsleben.klein, bildAlt: BILDER.vereinsleben.alt },
+          bild: bild('vereinsleben', 'mittel'), bildAlt: bildAlt('vereinsleben') },
         { titel: 'Jugend', text: 'Fördern und fordern. Mit Spaß, Freude und einem gezielten Lernkonzept an den Tennissport heran.', linkLabel: 'Zur Jugendarbeit', linkHref: '/sport/',
-          bild: BILDER.clubhaus.klein, bildAlt: BILDER.clubhaus.alt },
+          bild: bild('clubhaus', 'mittel'), bildAlt: bildAlt('clubhaus') },
       ],
     }},
     { type: 'beitragsliste', data: {
@@ -171,7 +166,7 @@ export const seiten = [
       titel: 'Tennis in jedem Alter und auf jedem Niveau',
       sub: 'Vom ersten Schläger bis zur Hessenliga. Such dir aus, was zu dir passt — wechseln kannst du jederzeit.',
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
-      bild: BILDER.platz.gross, bildAlt: BILDER.platz.alt,
+      bild: bild('platz'), bildAlt: bildAlt('platz'),
     }},
     { type: 'richtext', data: {
       titel: 'Team und Wettkampf',
@@ -260,7 +255,7 @@ export const seiten = [
       sub: 'Keine Aufnahmegebühr, keine Arbeitsstunden. Im ersten Jahr zahlst du als Erwachsene oder Erwachsener nur {{facts.beitraege.neumitglied_erstes_jahr}} €.',
       ctaLabel: 'Jetzt anmelden', ctaHref: '{{facts.links.buchung}}',
       zweitLabel: 'Erst mal fragen', zweitHref: '/kontakt/',
-      bild: BILDER.vereinsleben.gross, bildAlt: BILDER.vereinsleben.alt,
+      bild: bild('vereinsleben'), bildAlt: bildAlt('vereinsleben'),
     }},
     { type: 'preise', data: {
       titel: 'Die Beiträge',
@@ -336,7 +331,7 @@ export const seiten = [
       pill: 'Jederzeit ein offenes Ohr',
       titel: 'Kontakt und Anfahrt',
       sub: 'Ruf an, schreib uns oder komm einfach vorbei. Am schnellsten geht es über {{facts.verein.email}}.',
-      bild: BILDER.clubhaus.gross, bildAlt: BILDER.clubhaus.alt,
+      bild: bild('clubhaus'), bildAlt: bildAlt('clubhaus'),
     }},
     { type: 'personen', data: {
       titel: 'Der Vorstand',

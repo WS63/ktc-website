@@ -1,3 +1,6 @@
 node_modules/
 data/
 .env
+
+# bilder/ gehoert INS Repository — dort liegen die Originale.
+# data/uploads/ nicht: das ist erzeugt.

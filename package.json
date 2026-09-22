@@ -15,7 +15,8 @@
     "struktur": "node scripts/seed-struktur.js",
     "passwort": "node scripts/passwort.js",
     "index": "node scripts/index-bauen.js",
-    "umzug": "node scripts/umzug.js"
+    "umzug": "node scripts/umzug.js",
+    "sql": "node scripts/sql-export.js"
   },
   "keywords": [],
   "author": "",

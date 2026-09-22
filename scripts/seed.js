@@ -55,7 +55,12 @@ for (const s of seiten) {
 }
 
 // ── Die uebernommenen Beitraege ────────────────────────────────────
-const importDatei = 'data/beitraege-import.json';
+// Die uebernommenen Beitraege liegen im Repository, nicht unter data/.
+//
+// Grund: der Server muss sich die Datenbank aus dem Repository allein
+// aufbauen koennen. data/ ist von Git ausgeschlossen (dort liegen Datenbank
+// und Uploads) — was der Seed braucht, gehoert also woandershin.
+const importDatei = 'inhalte/beitraege.json';
 if (existsSync(importDatei)) {
   const roh = JSON.parse(readFileSync(importDatei, 'utf8'));
   const { seitenBausteine } = await import('../src/seiten-teile.js');

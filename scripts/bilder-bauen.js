@@ -36,7 +36,22 @@ const QUALITAET = '50';          // gemessen: bei Fotos kaum sichtbar, spart 40 
 const texte = existsSync('inhalte/bild-texte.json')
   ? JSON.parse(readFileSync('inhalte/bild-texte.json', 'utf8')) : {};
 
-mkdirSync('data/uploads', { recursive: true });
+/**
+ * Erzeugte Bilder gehoeren ins Repository, nicht auf das Volume.
+ *
+ * Grund: dieses Skript braucht `sips` und laeuft nur auf einem Mac. Im
+ * Linux-Container gibt es das nicht — die Bilder muessen also fertig
+ * mitkommen. Und sie sind Inhalt der Website, genau wie die Seiten in
+ * src/seiten.js.
+ *
+ * data/uploads bleibt fuer das, was jemand spaeter im Cockpit hochlaedt.
+ * Zwei Orte, zwei Zwecke:
+ *   assets/bilder → /bilder/…   versioniert, kommt mit dem Deploy
+ *   data/uploads  → /uploads/…  Volume, ueberlebt Deploys
+ */
+const ZIEL_ORDNER = 'assets/bilder';
+const ZIEL_PFAD = '/bilder';
+mkdirSync(ZIEL_ORDNER, { recursive: true });
 
 const verzeichnis = {};
 const behalten = new Set();
@@ -99,11 +114,11 @@ for (const bereich of BEREICHE) {
       const hash = createHash('sha256').update(daten).digest('hex').slice(0, 8);
       const ziel = `${name}-${breite}-${hash}.jpg`;
       behalten.add(ziel);
-      if (!existsSync(`data/uploads/${ziel}`)) {
-        writeFileSync(`data/uploads/${ziel}`, daten);
+      if (!existsSync(`${ZIEL_ORDNER}/${ziel}`)) {
+        writeFileSync(`${ZIEL_ORDNER}/${ziel}`, daten);
         neu++;
       }
-      eintrag.groessen[breite] = { pfad: `/uploads/${ziel}`, kb: Math.round(daten.length / 1024) };
+      eintrag.groessen[breite] = { pfad: `${ZIEL_PFAD}/${ziel}`, kb: Math.round(daten.length / 1024) };
     }
     // Bequemlichkeit fuer die Seiten — faellt auf die naechstkleinere zurueck,
     // wenn eine Groesse fehlt, weil die Quelle zu klein war.
@@ -181,17 +196,16 @@ if (ohneAlt.length) {
 const eigene = new RegExp(`^(${Object.keys(verzeichnis).join('|')})-(\\d+)-[0-9a-f]{8}\\.jpg$`);
 let entfernt = 0;
 const fremd = [];
-for (const f of readdirSync('data/uploads')) {
+for (const f of readdirSync(ZIEL_ORDNER)) {
   if (!f.endsWith('.jpg') || behalten.has(f)) continue;
   if (Object.keys(verzeichnis).length && eigene.test(f)) {
-    unlinkSync(`data/uploads/${f}`);
+    unlinkSync(`${ZIEL_ORDNER}/${f}`);
     entfernt++;
   } else fremd.push(f);
 }
 if (entfernt) console.log(`${entfernt} überholte Fassungen entfernt.`);
 if (fremd.length) {
-  console.log(`\n[Hinweis] ${fremd.length} Dateien stammen nicht aus bilder/ —`);
-  console.log('          vermutlich über das Cockpit hochgeladen. Bleiben liegen.');
+  console.log(`\n[Hinweis] ${fremd.length} Dateien in ${ZIEL_ORDNER} stammen nicht aus bilder/.`);
 }
 
 /**

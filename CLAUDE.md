@@ -122,7 +122,19 @@ npm run seed      # die Seiten übernehmen die neuen Adressen
 **Ein Bild austauschen:** neue Datei unter demselben Namen in `bilder/` ablegen,
 die zwei Befehle laufen lassen. Fertig.
 
-**Nie in `data/uploads/` arbeiten.** Was dort liegt, ist erzeugt.
+**Nie in `assets/bilder/` arbeiten.** Was dort liegt, ist erzeugt.
+
+### Zwei Orte für Bilder, zwei Zwecke
+
+| Ort | URL | Kommt woher | Überlebt Deploy |
+|---|---|---|---|
+| `assets/bilder/` | `/bilder/…` | aus `bilder/` erzeugt, **im Repository** | ja, kommt mit |
+| `data/uploads/` | `/uploads/…` | im Cockpit hochgeladen | ja, liegt auf dem Volume |
+
+**Warum die erzeugten Bilder ins Repository gehören:** `npm run bilder` braucht `sips`
+und läuft nur auf einem Mac. Im Linux-Container gibt es das nicht — die fertigen
+Fassungen müssen also mitkommen. Und sie sind Inhalt der Website, genau wie die Seiten
+in `src/seiten.js`.
 
 ### Warum ein Verzeichnis statt fester Dateinamen
 

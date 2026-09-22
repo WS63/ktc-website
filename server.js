@@ -45,6 +45,10 @@ app.use('/uploads', express.static('data/uploads', { maxAge: '365d', immutable: 
 // Das Logo als Datei, falls jemand es verlinken will.
 app.use('/assets', express.static('assets', { maxAge: '7d' }));
 
+// Bilder, die zur Website gehoeren. Kommen mit dem Deploy, nicht vom Volume.
+// Der Inhalts-Hash im Dateinamen macht sie unveraenderlich.
+app.use('/bilder', express.static('assets/bilder', { maxAge: '365d', immutable: true }));
+
 app.use('/api', api);
 
 // Das Cockpit. Die Oberflaeche selbst ist KEIN Geheimnis und wird immer

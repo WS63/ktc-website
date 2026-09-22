@@ -6,21 +6,21 @@
   "hoehe": 1200,
   "groessen": {
    "400": {
-    "pfad": "/uploads/anlage-clubhaus-unten-400-0a017b3f.jpg",
+    "pfad": "/bilder/anlage-clubhaus-unten-400-0a017b3f.jpg",
     "kb": 30
    },
    "800": {
-    "pfad": "/uploads/anlage-clubhaus-unten-800-fa696fdc.jpg",
+    "pfad": "/bilder/anlage-clubhaus-unten-800-fa696fdc.jpg",
     "kb": 79
    },
    "1600": {
-    "pfad": "/uploads/anlage-clubhaus-unten-1600-8c593694.jpg",
+    "pfad": "/bilder/anlage-clubhaus-unten-1600-8c593694.jpg",
     "kb": 275
    }
   },
-  "gross": "/uploads/anlage-clubhaus-unten-1600-8c593694.jpg",
-  "mittel": "/uploads/anlage-clubhaus-unten-800-fa696fdc.jpg",
-  "klein": "/uploads/anlage-clubhaus-unten-400-0a017b3f.jpg"
+  "gross": "/bilder/anlage-clubhaus-unten-1600-8c593694.jpg",
+  "mittel": "/bilder/anlage-clubhaus-unten-800-fa696fdc.jpg",
+  "klein": "/bilder/anlage-clubhaus-unten-400-0a017b3f.jpg"
  },
  "anlage-platz2": {
   "bereich": "anlage",
@@ -29,21 +29,21 @@
   "hoehe": 1440,
   "groessen": {
    "400": {
-    "pfad": "/uploads/anlage-platz2-400-af25f4e5.jpg",
+    "pfad": "/bilder/anlage-platz2-400-af25f4e5.jpg",
     "kb": 29
    },
    "800": {
-    "pfad": "/uploads/anlage-platz2-800-bfe2768b.jpg",
+    "pfad": "/bilder/anlage-platz2-800-bfe2768b.jpg",
     "kb": 74
    },
    "1600": {
-    "pfad": "/uploads/anlage-platz2-1600-3a018918.jpg",
+    "pfad": "/bilder/anlage-platz2-1600-3a018918.jpg",
     "kb": 249
    }
   },
-  "gross": "/uploads/anlage-platz2-1600-3a018918.jpg",
-  "mittel": "/uploads/anlage-platz2-800-bfe2768b.jpg",
-  "klein": "/uploads/anlage-platz2-400-af25f4e5.jpg"
+  "gross": "/bilder/anlage-platz2-1600-3a018918.jpg",
+  "mittel": "/bilder/anlage-platz2-800-bfe2768b.jpg",
+  "klein": "/bilder/anlage-platz2-400-af25f4e5.jpg"
  },
  "anlage-platz67oben": {
   "bereich": "anlage",
@@ -52,21 +52,21 @@
   "hoehe": 1440,
   "groessen": {
    "400": {
-    "pfad": "/uploads/anlage-platz67oben-400-4d3a345f.jpg",
+    "pfad": "/bilder/anlage-platz67oben-400-4d3a345f.jpg",
     "kb": 31
    },
    "800": {
-    "pfad": "/uploads/anlage-platz67oben-800-26077cb3.jpg",
+    "pfad": "/bilder/anlage-platz67oben-800-26077cb3.jpg",
     "kb": 87
    },
    "1600": {
-    "pfad": "/uploads/anlage-platz67oben-1600-ffc587bb.jpg",
+    "pfad": "/bilder/anlage-platz67oben-1600-ffc587bb.jpg",
     "kb": 309
    }
   },
-  "gross": "/uploads/anlage-platz67oben-1600-ffc587bb.jpg",
-  "mittel": "/uploads/anlage-platz67oben-800-26077cb3.jpg",
-  "klein": "/uploads/anlage-platz67oben-400-4d3a345f.jpg"
+  "gross": "/bilder/anlage-platz67oben-1600-ffc587bb.jpg",
+  "mittel": "/bilder/anlage-platz67oben-800-26077cb3.jpg",
+  "klein": "/bilder/anlage-platz67oben-400-4d3a345f.jpg"
  },
  "anlage-platz67unten": {
   "bereich": "anlage",
@@ -75,21 +75,21 @@
   "hoehe": 1199,
   "groessen": {
    "400": {
-    "pfad": "/uploads/anlage-platz67unten-400-eb92c242.jpg",
+    "pfad": "/bilder/anlage-platz67unten-400-eb92c242.jpg",
     "kb": 27
    },
    "800": {
-    "pfad": "/uploads/anlage-platz67unten-800-99b8c19d.jpg",
+    "pfad": "/bilder/anlage-platz67unten-800-99b8c19d.jpg",
     "kb": 97
    },
    "1600": {
-    "pfad": "/uploads/anlage-platz67unten-1600-ddfb79f8.jpg",
+    "pfad": "/bilder/anlage-platz67unten-1600-ddfb79f8.jpg",
     "kb": 396
    }
   },
-  "gross": "/uploads/anlage-platz67unten-1600-ddfb79f8.jpg",
-  "mittel": "/uploads/anlage-platz67unten-800-99b8c19d.jpg",
-  "klein": "/uploads/anlage-platz67unten-400-eb92c242.jpg"
+  "gross": "/bilder/anlage-platz67unten-1600-ddfb79f8.jpg",
+  "mittel": "/bilder/anlage-platz67unten-800-99b8c19d.jpg",
+  "klein": "/bilder/anlage-platz67unten-400-eb92c242.jpg"
  },
  "anlage-wiese": {
   "bereich": "anlage",
@@ -98,21 +98,21 @@
   "hoehe": 1200,
   "groessen": {
    "400": {
-    "pfad": "/uploads/anlage-wiese-400-c882b943.jpg",
+    "pfad": "/bilder/anlage-wiese-400-c882b943.jpg",
     "kb": 27
    },
    "800": {
-    "pfad": "/uploads/anlage-wiese-800-c7b4fe96.jpg",
+    "pfad": "/bilder/anlage-wiese-800-c7b4fe96.jpg",
     "kb": 72
    },
    "1600": {
-    "pfad": "/uploads/anlage-wiese-1600-299364d5.jpg",
+    "pfad": "/bilder/anlage-wiese-1600-299364d5.jpg",
     "kb": 261
    }
   },
-  "gross": "/uploads/anlage-wiese-1600-299364d5.jpg",
-  "mittel": "/uploads/anlage-wiese-800-c7b4fe96.jpg",
-  "klein": "/uploads/anlage-wiese-400-c882b943.jpg"
+  "gross": "/bilder/anlage-wiese-1600-299364d5.jpg",
+  "mittel": "/bilder/anlage-wiese-800-c7b4fe96.jpg",
+  "klein": "/bilder/anlage-wiese-400-c882b943.jpg"
  },
  "anlage-zentrum-oben": {
   "bereich": "anlage",
@@ -121,21 +121,21 @@
   "hoehe": 1200,
   "groessen": {
    "400": {
-    "pfad": "/uploads/anlage-zentrum-oben-400-72896548.jpg",
+    "pfad": "/bilder/anlage-zentrum-oben-400-72896548.jpg",
     "kb": 41
    },
    "800": {
-    "pfad": "/uploads/anlage-zentrum-oben-800-cf916e44.jpg",
+    "pfad": "/bilder/anlage-zentrum-oben-800-cf916e44.jpg",
     "kb": 85
    },
    "1600": {
-    "pfad": "/uploads/anlage-zentrum-oben-1600-b07e537f.jpg",
+    "pfad": "/bilder/anlage-zentrum-oben-1600-b07e537f.jpg",
     "kb": 262
    }
   },
-  "gross": "/uploads/anlage-zentrum-oben-1600-b07e537f.jpg",
-  "mittel": "/uploads/anlage-zentrum-oben-800-cf916e44.jpg",
-  "klein": "/uploads/anlage-zentrum-oben-400-72896548.jpg"
+  "gross": "/bilder/anlage-zentrum-oben-1600-b07e537f.jpg",
+  "mittel": "/bilder/anlage-zentrum-oben-800-cf916e44.jpg",
+  "klein": "/bilder/anlage-zentrum-oben-400-72896548.jpg"
  },
  "anlage-zentrum-unten": {
   "bereich": "anlage",
@@ -144,21 +144,21 @@
   "hoehe": 1199,
   "groessen": {
    "400": {
-    "pfad": "/uploads/anlage-zentrum-unten-400-c2e9e293.jpg",
+    "pfad": "/bilder/anlage-zentrum-unten-400-c2e9e293.jpg",
     "kb": 24
    },
    "800": {
-    "pfad": "/uploads/anlage-zentrum-unten-800-35bc3c77.jpg",
+    "pfad": "/bilder/anlage-zentrum-unten-800-35bc3c77.jpg",
     "kb": 87
    },
    "1600": {
-    "pfad": "/uploads/anlage-zentrum-unten-1600-470bdf39.jpg",
+    "pfad": "/bilder/anlage-zentrum-unten-1600-470bdf39.jpg",
     "kb": 363
    }
   },
-  "gross": "/uploads/anlage-zentrum-unten-1600-470bdf39.jpg",
-  "mittel": "/uploads/anlage-zentrum-unten-800-35bc3c77.jpg",
-  "klein": "/uploads/anlage-zentrum-unten-400-c2e9e293.jpg"
+  "gross": "/bilder/anlage-zentrum-unten-1600-470bdf39.jpg",
+  "mittel": "/bilder/anlage-zentrum-unten-800-35bc3c77.jpg",
+  "klein": "/bilder/anlage-zentrum-unten-400-c2e9e293.jpg"
  },
  "anlage-tennisplatz": {
   "bereich": "themen",
@@ -167,21 +167,21 @@
   "hoehe": 819,
   "groessen": {
    "400": {
-    "pfad": "/uploads/anlage-tennisplatz-400-de93434f.jpg",
+    "pfad": "/bilder/anlage-tennisplatz-400-de93434f.jpg",
     "kb": 14
    },
    "800": {
-    "pfad": "/uploads/anlage-tennisplatz-800-1aecd4d3.jpg",
+    "pfad": "/bilder/anlage-tennisplatz-800-1aecd4d3.jpg",
     "kb": 53
    },
    "1600": {
-    "pfad": "/uploads/anlage-tennisplatz-1600-3de7deab.jpg",
+    "pfad": "/bilder/anlage-tennisplatz-1600-3de7deab.jpg",
     "kb": 181
    }
   },
-  "gross": "/uploads/anlage-tennisplatz-1600-3de7deab.jpg",
-  "mittel": "/uploads/anlage-tennisplatz-800-1aecd4d3.jpg",
-  "klein": "/uploads/anlage-tennisplatz-400-de93434f.jpg"
+  "gross": "/bilder/anlage-tennisplatz-1600-3de7deab.jpg",
+  "mittel": "/bilder/anlage-tennisplatz-800-1aecd4d3.jpg",
+  "klein": "/bilder/anlage-tennisplatz-400-de93434f.jpg"
  },
  "club-kalender": {
   "bereich": "themen",
@@ -190,21 +190,21 @@
   "hoehe": 1599,
   "groessen": {
    "400": {
-    "pfad": "/uploads/club-kalender-400-1903fc1c.jpg",
+    "pfad": "/bilder/club-kalender-400-1903fc1c.jpg",
     "kb": 31
    },
    "800": {
-    "pfad": "/uploads/club-kalender-800-71a58dcb.jpg",
+    "pfad": "/bilder/club-kalender-800-71a58dcb.jpg",
     "kb": 106
    },
    "1600": {
-    "pfad": "/uploads/club-kalender-1600-f416ab46.jpg",
+    "pfad": "/bilder/club-kalender-1600-f416ab46.jpg",
     "kb": 307
    }
   },
-  "gross": "/uploads/club-kalender-1600-f416ab46.jpg",
-  "mittel": "/uploads/club-kalender-800-71a58dcb.jpg",
-  "klein": "/uploads/club-kalender-400-1903fc1c.jpg"
+  "gross": "/bilder/club-kalender-1600-f416ab46.jpg",
+  "mittel": "/bilder/club-kalender-800-71a58dcb.jpg",
+  "klein": "/bilder/club-kalender-400-1903fc1c.jpg"
  },
  "club-newspaper": {
   "bereich": "themen",
@@ -213,21 +213,21 @@
   "hoehe": 1199,
   "groessen": {
    "400": {
-    "pfad": "/uploads/club-newspaper-400-71e1c39c.jpg",
+    "pfad": "/bilder/club-newspaper-400-71e1c39c.jpg",
     "kb": 15
    },
    "800": {
-    "pfad": "/uploads/club-newspaper-800-0eb0268e.jpg",
+    "pfad": "/bilder/club-newspaper-800-0eb0268e.jpg",
     "kb": 40
    },
    "1600": {
-    "pfad": "/uploads/club-newspaper-1600-35ca0f80.jpg",
+    "pfad": "/bilder/club-newspaper-1600-35ca0f80.jpg",
     "kb": 112
    }
   },
-  "gross": "/uploads/club-newspaper-1600-35ca0f80.jpg",
-  "mittel": "/uploads/club-newspaper-800-0eb0268e.jpg",
-  "klein": "/uploads/club-newspaper-400-71e1c39c.jpg"
+  "gross": "/bilder/club-newspaper-1600-35ca0f80.jpg",
+  "mittel": "/bilder/club-newspaper-800-0eb0268e.jpg",
+  "klein": "/bilder/club-newspaper-400-71e1c39c.jpg"
  },
  "club-restaurant": {
   "bereich": "themen",
@@ -236,21 +236,21 @@
   "hoehe": 1095,
   "groessen": {
    "400": {
-    "pfad": "/uploads/club-restaurant-400-b974b2ef.jpg",
+    "pfad": "/bilder/club-restaurant-400-b974b2ef.jpg",
     "kb": 9
    },
    "800": {
-    "pfad": "/uploads/club-restaurant-800-70401872.jpg",
+    "pfad": "/bilder/club-restaurant-800-70401872.jpg",
     "kb": 24
    },
    "1600": {
-    "pfad": "/uploads/club-restaurant-1600-f1b36ebb.jpg",
+    "pfad": "/bilder/club-restaurant-1600-f1b36ebb.jpg",
     "kb": 68
    }
   },
-  "gross": "/uploads/club-restaurant-1600-f1b36ebb.jpg",
-  "mittel": "/uploads/club-restaurant-800-70401872.jpg",
-  "klein": "/uploads/club-restaurant-400-b974b2ef.jpg"
+  "gross": "/bilder/club-restaurant-1600-f1b36ebb.jpg",
+  "mittel": "/bilder/club-restaurant-800-70401872.jpg",
+  "klein": "/bilder/club-restaurant-400-b974b2ef.jpg"
  },
  "club-tennisnetz": {
   "bereich": "themen",
@@ -259,21 +259,21 @@
   "hoehe": 1200,
   "groessen": {
    "400": {
-    "pfad": "/uploads/club-tennisnetz-400-7af9dc0d.jpg",
+    "pfad": "/bilder/club-tennisnetz-400-7af9dc0d.jpg",
     "kb": 11
    },
    "800": {
-    "pfad": "/uploads/club-tennisnetz-800-bbc518e8.jpg",
+    "pfad": "/bilder/club-tennisnetz-800-bbc518e8.jpg",
     "kb": 31
    },
    "1600": {
-    "pfad": "/uploads/club-tennisnetz-1600-03c3ccc4.jpg",
+    "pfad": "/bilder/club-tennisnetz-1600-03c3ccc4.jpg",
     "kb": 91
    }
   },
-  "gross": "/uploads/club-tennisnetz-1600-03c3ccc4.jpg",
-  "mittel": "/uploads/club-tennisnetz-800-bbc518e8.jpg",
-  "klein": "/uploads/club-tennisnetz-400-7af9dc0d.jpg"
+  "gross": "/bilder/club-tennisnetz-1600-03c3ccc4.jpg",
+  "mittel": "/bilder/club-tennisnetz-800-bbc518e8.jpg",
+  "klein": "/bilder/club-tennisnetz-400-7af9dc0d.jpg"
  },
  "club-werkstatt": {
   "bereich": "themen",
@@ -282,17 +282,17 @@
   "hoehe": 667,
   "groessen": {
    "400": {
-    "pfad": "/uploads/club-werkstatt-400-ea0e0037.jpg",
+    "pfad": "/bilder/club-werkstatt-400-ea0e0037.jpg",
     "kb": 28
    },
    "800": {
-    "pfad": "/uploads/club-werkstatt-800-639c67c9.jpg",
+    "pfad": "/bilder/club-werkstatt-800-639c67c9.jpg",
     "kb": 79
    }
   },
-  "gross": "/uploads/club-werkstatt-800-639c67c9.jpg",
-  "mittel": "/uploads/club-werkstatt-800-639c67c9.jpg",
-  "klein": "/uploads/club-werkstatt-400-ea0e0037.jpg"
+  "gross": "/bilder/club-werkstatt-800-639c67c9.jpg",
+  "mittel": "/bilder/club-werkstatt-800-639c67c9.jpg",
+  "klein": "/bilder/club-werkstatt-400-ea0e0037.jpg"
  },
  "sport-jugend": {
   "bereich": "themen",
@@ -301,21 +301,21 @@
   "hoehe": 949,
   "groessen": {
    "400": {
-    "pfad": "/uploads/sport-jugend-400-b7f3c25a.jpg",
+    "pfad": "/bilder/sport-jugend-400-b7f3c25a.jpg",
     "kb": 48
    },
    "800": {
-    "pfad": "/uploads/sport-jugend-800-f6302307.jpg",
+    "pfad": "/bilder/sport-jugend-800-f6302307.jpg",
     "kb": 84
    },
    "1600": {
-    "pfad": "/uploads/sport-jugend-1600-c0443620.jpg",
+    "pfad": "/bilder/sport-jugend-1600-c0443620.jpg",
     "kb": 214
    }
   },
-  "gross": "/uploads/sport-jugend-1600-c0443620.jpg",
-  "mittel": "/uploads/sport-jugend-800-f6302307.jpg",
-  "klein": "/uploads/sport-jugend-400-b7f3c25a.jpg"
+  "gross": "/bilder/sport-jugend-1600-c0443620.jpg",
+  "mittel": "/bilder/sport-jugend-800-f6302307.jpg",
+  "klein": "/bilder/sport-jugend-400-b7f3c25a.jpg"
  },
  "sport-wettkampf1": {
   "bereich": "themen",
@@ -324,21 +324,21 @@
   "hoehe": 752,
   "groessen": {
    "400": {
-    "pfad": "/uploads/sport-wettkampf1-400-9289d9d3.jpg",
+    "pfad": "/bilder/sport-wettkampf1-400-9289d9d3.jpg",
     "kb": 37
    },
    "800": {
-    "pfad": "/uploads/sport-wettkampf1-800-5bd926ca.jpg",
+    "pfad": "/bilder/sport-wettkampf1-800-5bd926ca.jpg",
     "kb": 50
    },
    "1600": {
-    "pfad": "/uploads/sport-wettkampf1-1600-fb30ca9d.jpg",
+    "pfad": "/bilder/sport-wettkampf1-1600-fb30ca9d.jpg",
     "kb": 84
    }
   },
-  "gross": "/uploads/sport-wettkampf1-1600-fb30ca9d.jpg",
-  "mittel": "/uploads/sport-wettkampf1-800-5bd926ca.jpg",
-  "klein": "/uploads/sport-wettkampf1-400-9289d9d3.jpg"
+  "gross": "/bilder/sport-wettkampf1-1600-fb30ca9d.jpg",
+  "mittel": "/bilder/sport-wettkampf1-800-5bd926ca.jpg",
+  "klein": "/bilder/sport-wettkampf1-400-9289d9d3.jpg"
  },
  "sport-wettkampf2": {
   "bereich": "themen",
@@ -347,21 +347,21 @@
   "hoehe": 563,
   "groessen": {
    "400": {
-    "pfad": "/uploads/sport-wettkampf2-400-81bb2d14.jpg",
+    "pfad": "/bilder/sport-wettkampf2-400-81bb2d14.jpg",
     "kb": 39
    },
    "800": {
-    "pfad": "/uploads/sport-wettkampf2-800-4a68c210.jpg",
+    "pfad": "/bilder/sport-wettkampf2-800-4a68c210.jpg",
     "kb": 54
    },
    "1600": {
-    "pfad": "/uploads/sport-wettkampf2-1600-9919fa63.jpg",
+    "pfad": "/bilder/sport-wettkampf2-1600-9919fa63.jpg",
     "kb": 92
    }
   },
-  "gross": "/uploads/sport-wettkampf2-1600-9919fa63.jpg",
-  "mittel": "/uploads/sport-wettkampf2-800-4a68c210.jpg",
-  "klein": "/uploads/sport-wettkampf2-400-81bb2d14.jpg"
+  "gross": "/bilder/sport-wettkampf2-1600-9919fa63.jpg",
+  "mittel": "/bilder/sport-wettkampf2-800-4a68c210.jpg",
+  "klein": "/bilder/sport-wettkampf2-400-81bb2d14.jpg"
  },
  "sport-wettkampf3": {
   "bereich": "themen",
@@ -370,21 +370,21 @@
   "hoehe": 660,
   "groessen": {
    "400": {
-    "pfad": "/uploads/sport-wettkampf3-400-6ae2697d.jpg",
+    "pfad": "/bilder/sport-wettkampf3-400-6ae2697d.jpg",
     "kb": 42
    },
    "800": {
-    "pfad": "/uploads/sport-wettkampf3-800-a797dee9.jpg",
+    "pfad": "/bilder/sport-wettkampf3-800-a797dee9.jpg",
     "kb": 67
    },
    "1600": {
-    "pfad": "/uploads/sport-wettkampf3-1600-f8fb7fd0.jpg",
+    "pfad": "/bilder/sport-wettkampf3-1600-f8fb7fd0.jpg",
     "kb": 149
    }
   },
-  "gross": "/uploads/sport-wettkampf3-1600-f8fb7fd0.jpg",
-  "mittel": "/uploads/sport-wettkampf3-800-a797dee9.jpg",
-  "klein": "/uploads/sport-wettkampf3-400-6ae2697d.jpg"
+  "gross": "/bilder/sport-wettkampf3-1600-f8fb7fd0.jpg",
+  "mittel": "/bilder/sport-wettkampf3-800-a797dee9.jpg",
+  "klein": "/bilder/sport-wettkampf3-400-6ae2697d.jpg"
  },
  "sport-wettkampf4": {
   "bereich": "themen",
@@ -393,21 +393,21 @@
   "hoehe": 640,
   "groessen": {
    "400": {
-    "pfad": "/uploads/sport-wettkampf4-400-0cfd6f57.jpg",
+    "pfad": "/bilder/sport-wettkampf4-400-0cfd6f57.jpg",
     "kb": 15
    },
    "800": {
-    "pfad": "/uploads/sport-wettkampf4-800-ce711f27.jpg",
+    "pfad": "/bilder/sport-wettkampf4-800-ce711f27.jpg",
     "kb": 46
    },
    "1600": {
-    "pfad": "/uploads/sport-wettkampf4-1600-53b64dd3.jpg",
+    "pfad": "/bilder/sport-wettkampf4-1600-53b64dd3.jpg",
     "kb": 131
    }
   },
-  "gross": "/uploads/sport-wettkampf4-1600-53b64dd3.jpg",
-  "mittel": "/uploads/sport-wettkampf4-800-ce711f27.jpg",
-  "klein": "/uploads/sport-wettkampf4-400-0cfd6f57.jpg"
+  "gross": "/bilder/sport-wettkampf4-1600-53b64dd3.jpg",
+  "mittel": "/bilder/sport-wettkampf4-800-ce711f27.jpg",
+  "klein": "/bilder/sport-wettkampf4-400-0cfd6f57.jpg"
  },
  "2026-he40": {
   "bereich": "beitraege",
@@ -416,21 +416,21 @@
   "hoehe": 1200,
   "groessen": {
    "400": {
-    "pfad": "/uploads/2026-he40-400-35353645.jpg",
+    "pfad": "/bilder/2026-he40-400-35353645.jpg",
     "kb": 31
    },
    "800": {
-    "pfad": "/uploads/2026-he40-800-246e0c06.jpg",
+    "pfad": "/bilder/2026-he40-800-246e0c06.jpg",
     "kb": 115
    },
    "1600": {
-    "pfad": "/uploads/2026-he40-1600-dfc8e2fe.jpg",
+    "pfad": "/bilder/2026-he40-1600-dfc8e2fe.jpg",
     "kb": 392
    }
   },
-  "gross": "/uploads/2026-he40-1600-dfc8e2fe.jpg",
-  "mittel": "/uploads/2026-he40-800-246e0c06.jpg",
-  "klein": "/uploads/2026-he40-400-35353645.jpg"
+  "gross": "/bilder/2026-he40-1600-dfc8e2fe.jpg",
+  "mittel": "/bilder/2026-he40-800-246e0c06.jpg",
+  "klein": "/bilder/2026-he40-400-35353645.jpg"
  },
  "logo-newsglobe": {
   "bereich": "beitraege",
@@ -439,13 +439,13 @@
   "hoehe": 210,
   "groessen": {
    "210": {
-    "pfad": "/uploads/logo-newsglobe-210-47f89fa8.jpg",
+    "pfad": "/bilder/logo-newsglobe-210-47f89fa8.jpg",
     "kb": 13
    }
   },
-  "gross": "/uploads/logo-newsglobe-210-47f89fa8.jpg",
-  "mittel": "/uploads/logo-newsglobe-210-47f89fa8.jpg",
-  "klein": "/uploads/logo-newsglobe-210-47f89fa8.jpg"
+  "gross": "/bilder/logo-newsglobe-210-47f89fa8.jpg",
+  "mittel": "/bilder/logo-newsglobe-210-47f89fa8.jpg",
+  "klein": "/bilder/logo-newsglobe-210-47f89fa8.jpg"
  },
  "logo-htv": {
   "bereich": "beitraege",
@@ -454,13 +454,13 @@
   "hoehe": 236,
   "groessen": {
    "400": {
-    "pfad": "/uploads/logo-htv-400-617c8a85.jpg",
+    "pfad": "/bilder/logo-htv-400-617c8a85.jpg",
     "kb": 7
    }
   },
-  "gross": "/uploads/logo-htv-400-617c8a85.jpg",
-  "mittel": "/uploads/logo-htv-400-617c8a85.jpg",
-  "klein": "/uploads/logo-htv-400-617c8a85.jpg"
+  "gross": "/bilder/logo-htv-400-617c8a85.jpg",
+  "mittel": "/bilder/logo-htv-400-617c8a85.jpg",
+  "klein": "/bilder/logo-htv-400-617c8a85.jpg"
  },
  "logo-tennisschule": {
   "bereich": "logos",
@@ -469,13 +469,13 @@
   "hoehe": 321,
   "groessen": {
    "133": {
-    "pfad": "/uploads/logo-tennisschule-133-53faceea.jpg",
+    "pfad": "/bilder/logo-tennisschule-133-53faceea.jpg",
     "kb": 4
    }
   },
-  "gross": "/uploads/logo-tennisschule-133-53faceea.jpg",
-  "mittel": "/uploads/logo-tennisschule-133-53faceea.jpg",
-  "klein": "/uploads/logo-tennisschule-133-53faceea.jpg"
+  "gross": "/bilder/logo-tennisschule-133-53faceea.jpg",
+  "mittel": "/bilder/logo-tennisschule-133-53faceea.jpg",
+  "klein": "/bilder/logo-tennisschule-133-53faceea.jpg"
  },
  "logo-restaurant": {
   "bereich": "logos",
@@ -484,12 +484,12 @@
   "hoehe": 293,
   "groessen": {
    "400": {
-    "pfad": "/uploads/logo-restaurant-400-aaf8417f.jpg",
+    "pfad": "/bilder/logo-restaurant-400-aaf8417f.jpg",
     "kb": 20
    }
   },
-  "gross": "/uploads/logo-restaurant-400-aaf8417f.jpg",
-  "mittel": "/uploads/logo-restaurant-400-aaf8417f.jpg",
-  "klein": "/uploads/logo-restaurant-400-aaf8417f.jpg"
+  "gross": "/bilder/logo-restaurant-400-aaf8417f.jpg",
+  "mittel": "/bilder/logo-restaurant-400-aaf8417f.jpg",
+  "klein": "/bilder/logo-restaurant-400-aaf8417f.jpg"
  }
 }

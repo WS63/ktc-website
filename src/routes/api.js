@@ -425,6 +425,56 @@ router.put('/config/:was', async (req, res) => {
   res.json({ ok: true });
 });
 
+// ── Generator (Stufe 4) ──────────────────────────────────────────────
+router.get('/generator', async (_req, res) => {
+  const { istBereit } = await import('../generator.js');
+  res.json({
+    bereit: istBereit(),
+    typen: alleTypen().map((t) => ({ name: t.name, label: t.label, beschreibung: t.beschreibung })),
+  });
+});
+
+router.post('/generator', async (req, res) => {
+  const { generiere } = await import('../generator.js');
+  const quelle = String(req.body?.quelle || '').trim();
+  const typ = String(req.body?.typ || 'standard');
+  const anmerkung = String(req.body?.anmerkung || '').slice(0, 2000);
+
+  if (quelle.length < 30) {
+    return res.status(400).json({ fehler: 'Zu wenig Rohmaterial. Ein paar Sätze mindestens.' });
+  }
+  try {
+    const r = await generiere({ quelle, typ, anmerkung });
+    res.json(r);
+  } catch (err) {
+    console.error('[Generator] [FEHLER]', err.message);
+    res.status(422).json({ fehler: err.message, inhalt: err.inhalt || null });
+  }
+});
+
+/** Das Ergebnis übernehmen — als Entwurf mit Status 'generated', nie veröffentlicht. */
+router.post('/generator/uebernehmen', async (req, res) => {
+  const { slug, page_type, title, description, content_json } = req.body || {};
+  const typ = getType(page_type);
+  if (!typ) return res.status(400).json({ fehler: `Seitenart '${page_type}' gibt es nicht.` });
+  const sauber = saubererSlug(slug);
+  if (!sauber) return res.status(400).json({ fehler: 'Die Adresse fehlt.' });
+  if (await queryOne('SELECT id FROM pages WHERE slug = $1', [sauber])) {
+    return res.status(409).json({ fehler: `Die Adresse /${sauber}/ ist schon vergeben.` });
+  }
+  const pruefung = validateContent(page_type, content_json);
+  if (!pruefung.ok) return res.status(400).json({ fehler: pruefung.fehler.join(' · ') });
+
+  // P5: 'generated', nicht 'published'. Ein Mensch entscheidet.
+  const id = crypto.randomUUID();
+  await query(
+    `INSERT INTO pages (id, slug, page_type, status, title, description, content_json, created_at, updated_at)
+     VALUES ($1, $2, $3, 'generated', $4, $5, $6, $7, $8)`,
+    [id, sauber, page_type, String(title || sauber).slice(0, 120),
+     String(description || '').slice(0, 200), JSON.stringify(content_json), jetzt(), jetzt()]);
+  res.json({ id, slug: sauber });
+});
+
 // ── Assistent im Cockpit ─────────────────────────────────────────────
 router.get('/assistent', async (_req, res) => {
   const { istBereit } = await import('../assistent/antworten.js');

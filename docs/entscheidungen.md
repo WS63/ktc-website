@@ -39,7 +39,7 @@
 **Stand der Stufen:**
   0 Gespräch · 0b Vorlage · 1 Motor · 2 Seiten · 3 Cockpit · 7 Assistent — abgeschlossen
   6 Erweitern — teilweise (neue Bausteine, Bilder, mobiles Menü)
-  4 Generator — offen
+  4 Generator — abgeschlossen (Modell: claude-opus-5, Stimme in inhalte/stimme.md)
   5 Öffentlich (Coolify + Postgres) — vorbereitet und geprüft, siehe docs/stufe5-oeffentlich.md
     Postgres 17, Docker-Abbild und Datenumzug sind lokal durchgetestet.
     Offen: Git-Repository anlegen, in Coolify deployen, Domain, Bilder aufs Volume.

@@ -639,6 +639,120 @@ function faktenGruppe(name, werte, prefix, lesen, setzen) {
 const huebsch = (s) => String(s).replace(/_/g, ' ')
   .replace(/^./, (c) => c.toUpperCase());
 
+// ══════════════════════════════════════════════ GENERATOR
+async function zeigeGenerator() {
+  const stand = await api('/generator');
+
+  const typWahl = el('select', {}, ...stand.typen
+    .filter((t) => t.name !== 'aktuelles')
+    .map((t) => el('option', { value: t.name, text: t.label })));
+  typWahl.value = 'beitrag';
+
+  const quelle = el('textarea', { style: 'min-height:220px',
+    placeholder: 'Notizen, Stichworte, ein Protokoll, drei Sätze nach dem Spieltag …\n\n'
+      + 'Je konkreter, desto besser. Namen, Ergebnisse, was besonders war.' });
+  const anmerkung = el('input', { placeholder: 'Optional: „kurz halten" oder „mehr über die Jugend"' });
+  const ergebnisBereich = el('div', {});
+
+  const knopf = el('button', { class: 'stark', text: 'Entwurf erzeugen', onclick: async () => {
+    if (quelle.value.trim().length < 30) {
+      return melde('Zu wenig Rohmaterial. Ein paar Sätze mindestens.', 'fehler');
+    }
+    knopf.disabled = true;
+    knopf.textContent = 'Schreibt …';
+    ergebnisBereich.replaceChildren(el('p', { class: 'hinweis',
+      text: 'Das dauert zwanzig bis vierzig Sekunden.' }));
+    try {
+      const r = await api('/generator', { method: 'POST', body: JSON.stringify({
+        quelle: quelle.value, typ: typWahl.value, anmerkung: anmerkung.value }) });
+      zeigeErgebnis(r, typWahl.value, ergebnisBereich);
+    } catch (err) {
+      ergebnisBereich.replaceChildren(el('div', { class: 'warnbox' },
+        el('strong', { text: 'Hat nicht geklappt: ' }), el('span', { text: err.message })));
+    } finally {
+      knopf.disabled = false;
+      knopf.textContent = 'Entwurf erzeugen';
+    }
+  } });
+
+  $('#buehne').replaceChildren(
+    el('div', { class: 'kopfzeile' }, el('h1', { text: 'Generator' })),
+
+    stand.bereit
+      ? el('div', { class: 'gutbox' },
+          el('strong', { text: 'Aus Notizen wird ein Entwurf. ' }),
+          el('span', { text: 'Das Ergebnis ist nie sofort öffentlich — es landet als Entwurf, '
+            + 'den du liest, änderst und dann selbst veröffentlichst.' }))
+      : el('div', { class: 'warnbox' },
+          el('strong', { text: 'Nicht eingerichtet. ' }),
+          el('span', { text: 'In der Datei .env fehlt ANTHROPIC_API_KEY.' })),
+
+    el('div', { class: 'karte' },
+      el('div', { class: 'feldreihe' }, el('label', { text: 'Was soll entstehen?' }), typWahl),
+      el('div', { class: 'feldreihe' }, el('label', { text: 'Rohmaterial' }), quelle,
+        el('p', { class: 'hinweis',
+          text: 'Zahlen über den Verein — Beiträge, Telefonnummern, Adressen — musst du nicht '
+              + 'nennen. Die holt sich der Generator aus den Fakten.' })),
+      el('div', { class: 'feldreihe' }, el('label', { text: 'Zusätzliche Anweisung' }), anmerkung),
+      el('div', { class: 'zeile' }, knopf)),
+
+    ergebnisBereich);
+}
+
+function zeigeErgebnis(r, typ, bereich) {
+  const slug = el('input', { value: zuSlug(r.title) });
+  const titel = el('input', { value: r.title });
+  const beschreibung = el('textarea', { style: 'min-height:56px' });
+  beschreibung.value = r.description;
+
+  const vorschau = (b) => {
+    const d = b.data || {};
+    const text = [d.titel, d.sub, ...(d.absaetze || [])].filter(Boolean).join('\n\n');
+    return el('div', { class: 'block' },
+      el('div', { class: 'block__kopf' },
+        el('span', { class: 'name', text: bausteinVon(b.type)?.label || b.type }),
+        el('span', { class: 'typ', text: b.type })),
+      text ? el('div', { class: 'block__leib' },
+        ...text.split('\n\n').map((a) => el('p', { style: 'margin-bottom:9px', text: a })))
+           : null);
+  };
+
+  bereich.replaceChildren(
+    el('h2', { style: 'margin:24px 0 10px', text: 'Der Entwurf' }),
+
+    r.hinweise.length ? el('div', { class: 'warnbox' },
+      el('strong', { text: 'Was du prüfen solltest:' }),
+      el('ul', { style: 'margin:6px 0 0;padding-left:18px' },
+        ...r.hinweise.map((h) => el('li', { text: h })))) : null,
+
+    r.unbekannteFelder.length ? el('div', { class: 'warnbox' },
+      el('strong', { text: 'Erfundene Felder, werden verworfen: ' }),
+      el('span', { text: r.unbekannteFelder.join(', ') })) : null,
+
+    el('div', { class: 'karte' },
+      el('div', { class: 'gitter2' },
+        el('div', {}, el('label', { text: 'Titel' }), titel),
+        el('div', {}, el('label', { text: 'Adresse' }), slug)),
+      el('div', { style: 'margin-top:14px' },
+        el('label', { text: 'Beschreibung' }), beschreibung)),
+
+    ...r.content_json.blocks.map(vorschau),
+
+    el('div', { class: 'karte' }, el('div', { class: 'zeile' },
+      el('button', { class: 'stark', text: 'Als Entwurf übernehmen', onclick: async () => {
+        try {
+          const neu = await api('/generator/uebernehmen', { method: 'POST',
+            body: JSON.stringify({ slug: slug.value, page_type: typ, title: titel.value,
+              description: beschreibung.value, content_json: r.content_json }) });
+          melde('Übernommen. Du kannst sie jetzt bearbeiten und veröffentlichen.');
+          location.hash = '#seiten';
+          setTimeout(() => oeffneSeite(neu.id), 120);
+        } catch (err) { melde(err.message, 'fehler'); }
+      } }),
+      el('span', { class: 'hinweis',
+        text: 'Landet als Entwurf. Öffentlich wird sie erst, wenn du sie veröffentlichst.' }))));
+}
+
 // ══════════════════════════════════════════════ ASSISTENT
 async function zeigeAssistent() {
   const [stand, fragen, seiten] = await Promise.all([
@@ -772,7 +886,8 @@ function zeigeHandbuch() {
 const SEITEN = {
   seiten: zeigeSeiten, navigation: zeigeNavigation, medien: zeigeMedien,
   anfragen: zeigeAnfragen, umleitungen: zeigeUmleitungen,
-  fakten: zeigeFakten, assistent: zeigeAssistent, aufrufe: zeigeAufrufe,
+  fakten: zeigeFakten, generator: zeigeGenerator,
+  assistent: zeigeAssistent, aufrufe: zeigeAufrufe,
   handbuch: zeigeHandbuch,
 };
 

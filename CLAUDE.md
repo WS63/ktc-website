@@ -97,7 +97,7 @@ tests/               node --test
 - **Stufe 1 · abgeschlossen** — Motor läuft, Startseite gerendert, 11 Tests grün
 - **Stufe 2 · abgeschlossen** — Goldreferenz liegt, 8 Seiten + 14 übernommene Beiträge, 17 Tests grün
 - **Stufe 3 · abgeschlossen** — Cockpit unter `/admin/`, 32 Tests grün, Prüfstein erfüllt
-- **Stufe 4 · offen** — der Generator. Aus Notizen wird ein Beitrag
+- **Stufe 4 · abgeschlossen** — der Generator. Aus Notizen wird ein Entwurf
 - **Stufe 5 · vorbereitet und geprüft** — Ziel: `ktc-ai.schneiderwerner-consult.com`,
   Coolify-Projekt „labor". Postgres, Abbild und Umzug sind lokal durchgetestet.
   **Die Schritte stehen in `docs/stufe5-oeffentlich.md`.**
@@ -154,6 +154,56 @@ Jedes davon ist in `tests/cockpit.test.js` festgehalten und läuft bei `npm test
 Knopf, wird das Handbuch im selben Commit mitgezogen** — eine Anleitung mit falschen
 Knopfnamen zerstört das Vertrauen in alle anderen Einträge. Die Fallstricke kommen aus
 echten Vorfällen, nicht aus Vermutungen.
+
+## Der Generator (Stufe 4)
+
+Aus Rohmaterial — Notizen, ein Protokoll, drei Sätze nach dem Spieltag — wird ein
+Entwurf. Im Cockpit unter **Generator**, oder von der Kommandozeile:
+
+```bash
+echo "drei Sätze" | npm run generiere beitrag
+npm run generiere standard notizen.txt
+```
+
+**Drei Regeln, hart durchgesetzt:**
+
+1. **Der Vertrag.** `validateContent()` prüft das Ergebnis. Fällt es durch, gibt es
+   keine Seite — der Fehler kommt an der API, nicht als kaputte Seite.
+2. **Die Fakten.** Der Prompt zeigt dem Modell **alle** verfügbaren `{{facts.…}}`-Pfade
+   mit ihren Werten. Was nicht in der Liste steht, darf es nicht schreiben — es soll
+   es stattdessen unter `hinweise` melden.
+3. **Der Status ist `generated`, nie `published`.** Ein Mensch liest, ändert, veröffentlicht.
+
+**Was das Modell bekommt:** das Schema aller erlaubten Bausteine, die Pflichtbausteine
+des Seitentyps, `inhalte/stimme.md`, `page-types/<typ>/prompt.md` und `golden.html`
+als Beispiel.
+
+### Die Stimme ist die halbe Miete
+
+`inhalte/stimme.md` geht bei jedem Lauf mit. Ohne sie schreibt das Modell
+Vereinsprosa von der Stange. Mit ihr entstehen Sätze wie *„Wer bei uns ein Punktspiel
+schaut, sitzt nicht auf einer Tribüne, sondern mit einem Kaffee neben Platz eins."*
+
+**Wer sie ändert, ändert den Ton der ganzen Website.**
+
+### Zwei Arten von Zahlen
+
+Die erste Fassung des Prompts sagte „niemals eine Zahl schreiben". Das ist zu absolut
+und hätte Spielergebnisse gekostet. Jetzt unterscheidet er:
+
+- **Fakten über den Verein** — Beiträge, Anschrift, Telefonnummern: **nie** selbst
+  schreiben, nur `{{facts.…}}`
+- **Zahlen aus dem Rohmaterial** — Spielergebnisse, Tabellenplätze: normal ausschreiben,
+  genau wie im Rohmaterial, nichts runden
+
+### Der JSON-Parser ist gehärtet
+
+Modelle liefern gelegentlich Text um das JSON herum, Code-Zäune oder ein Komma zu viel.
+`holeJson()` versucht eine Kette: direkt → Zäune weg → aus dem Text schneiden → reparieren.
+
+**Der wichtigste Fall ist der unscheinbarste:** `{{facts.…}}` steht in fast jedem
+generierten Text. Ein naiver Klammer-Zähler bricht dort ab. Der Parser zählt deshalb
+nur Klammern **außerhalb** von Zeichenketten. Neun Tests halten das fest.
 
 ## Der Assistent (Stufe 7)
 

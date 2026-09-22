@@ -19,6 +19,7 @@ COPY --chown=node:node assets ./assets
 COPY --chown=node:node config ./config
 COPY --chown=node:node migrations ./migrations
 COPY --chown=node:node page-types ./page-types
+COPY --chown=node:node inhalte ./inhalte
 COPY --chown=node:node scripts ./scripts
 
 # Uploads liegen hier. Muss ein dauerhaftes Volume sein — sonst sind alle

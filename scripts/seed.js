@@ -61,6 +61,16 @@ for (const s of seiten) {
 // aufbauen koennen. data/ ist von Git ausgeschlossen (dort liegen Datenbank
 // und Uploads) — was der Seed braucht, gehoert also woandershin.
 const importDatei = 'inhalte/beitraege.json';
+
+// Laut sein, wenn die Datei fehlt. Vorher wurde sie stillschweigend
+// uebersprungen — der Seed meldete "8 angelegt" statt 22, und niemand
+// erfuhr, warum die 14 Beitraege fehlten. Genau einmal passiert, als das
+// Dockerfile den Ordner nicht mitkopiert hat.
+if (!existsSync(importDatei)) {
+  console.error(`[Seed] [WARN] ${importDatei} fehlt — die Beiträge werden NICHT angelegt.`);
+  console.error('[Seed] [WARN] Im Container: steht der Ordner inhalte/ im Dockerfile?');
+}
+
 if (existsSync(importDatei)) {
   const roh = JSON.parse(readFileSync(importDatei, 'utf8'));
   const { seitenBausteine } = await import('../src/seiten-teile.js');
@@ -77,5 +87,11 @@ if (existsSync(importDatei)) {
   }
 }
 
+const summe = Object.values(zaehler).reduce((a, b) => a + b, 0);
 console.log('[Seed]', Object.entries(zaehler).map(([k, v]) => `${v} ${k}`).join(' · '));
+const erwartet = seiten.length + (existsSync(importDatei)
+  ? JSON.parse(readFileSync(importDatei, 'utf8')).length : 0);
+if (summe !== erwartet) {
+  console.error(`[Seed] [WARN] ${summe} Seiten bearbeitet, erwartet waren ${erwartet}.`);
+}
 if (zaehler.fehler) process.exit(1);

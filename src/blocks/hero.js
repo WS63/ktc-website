@@ -16,7 +16,8 @@ export default {
     marke:     { type: 'auswahl',  default: 'nein', label: 'Logo ins Bild',
                  optionen: ['nein', 'ja'] },
     aufbau:    { type: 'auswahl',  default: 'bild', label: 'Aufbau mit Bild',
-                 optionen: ['bild', 'karte'] },
+                 optionen: ['bild', 'zeile'] },
+    wortmarke: { type: 'text',     default: '', label: 'Vereinsname neben dem Zeichen' },
   },
   css: `
     .hero { padding: var(--raum-6) 0 var(--raum-5); position: relative; }
@@ -74,39 +75,34 @@ export default {
       .hero__marke { width: 92px; top: var(--raum-3); right: var(--raum-3); }
     }
 
-    /* Fassung 'karte': der Text steht nicht auf dem Foto, sondern auf einer
-       hellen Karte davor. Damit braucht das Bild keinen dunklen Schleier ueber
-       der ganzen Flaeche — es bleibt hell, und das Logo steht ohne Kasten auf
-       Weiss. Der Schleier laeuft nur noch von links, damit die Karte eine Kante
-       bekommt und nicht im Nichts schwebt. */
-    .hero--karte .hero__rahmen { align-items: center; }
-    .hero--karte .hero__schleier {
-      background: linear-gradient(90deg, rgba(30,30,24,.38) 0%, rgba(30,30,24,.10) 55%,
-        rgba(30,30,24,0) 100%); }
-    .hero__karte { background: rgba(255,255,255,.94); border-radius: var(--radius);
-      padding: var(--raum-4); max-width: 560px;
-      backdrop-filter: blur(3px); box-shadow: var(--schatten-g); }
-    /* Die Tokens kippen innerhalb der Karte zurueck auf hell — die Regeln fuer
-       '.hero--bild' weiter oben faerben Titel und Knoepfe weiss, und auf Weiss
-       waeren sie unsichtbar. Zwei Klassen, damit es die dortige eine schlaegt. */
-    .hero--bild .hero__karte .hero__titel { color: var(--text); text-shadow: none; }
-    .hero--bild .hero__karte .hero__sub { color: var(--text-leise); text-shadow: none; }
-    .hero--bild .hero__karte .hero__pill { color: var(--signal);
-      border-color: var(--signal); background: transparent; }
-    /* Das Logo traegt die Wortmarke selbst. Gross genug gesetzt bleibt sie
-       scharf und lesbar — darunter wird sie Matsch, deshalb kein kleineres Mass. */
-    .hero__karte .hero__logo { width: clamp(132px, 17vw, 186px); height: auto;
-      display: block; margin-bottom: var(--raum-3); }
+    /* Fassung 'zeile': das Zeichen steht links neben dem Wortblock, der
+       Knopf rechts an der Bildkante. Weil der Knopf nicht mehr am Text haengt,
+       sitzt er auf jeder Seite an derselben Stelle — egal wie lang die
+       Ueberschrift ist. Das ist der Grund fuer diese Fassung, nicht die Optik. */
+    .hero--zeile .hero__unten { display: flex; align-items: flex-end;
+      justify-content: space-between; gap: var(--raum-3); flex-wrap: wrap; }
+    .hero__zeile { display: flex; align-items: center; gap: var(--raum-3); }
+    /* Die Logofassung fuer das Bild: teildurchlaessiger weisser Grund, kein
+       Rahmen. Sie traegt sich selbst, egal wie unruhig das Foto an der Stelle
+       ist — und sie traegt die Wortmarke bereits, deshalb steht daneben nur
+       noch die Ueberschrift und nicht ein zweites Mal der Vereinsname. */
+    .hero__zeichen { width: clamp(110px, 14vw, 180px); height: auto; flex: none;
+      display: block; border-radius: var(--r-sm); }
+    .hero--bild .hero__wort { color: #fff; font-size: clamp(18px, 2.2vw, 26px);
+      font-weight: 400; letter-spacing: .01em; margin: 0 0 var(--raum-0);
+      text-shadow: 0 1px 12px rgba(30,30,24,.5); }
+    .hero--zeile .hero__knoepfe { margin-top: 0; }
     /* Zweite Handlung als Link, nicht als Knopf: zwei Knoepfe nebeneinander
-       rufen gleich laut, und laut sein darf hier genau einer. */
-    /* align-self, weil '.hero__knoepfe' ein Flex-Kasten ist: ohne das wird der
+       rufen gleich laut, und laut sein darf hier genau einer.
+       align-self, weil '.hero__knoepfe' ein Flex-Kasten ist — ohne das wird der
        Link auf Knopfhoehe gestreckt und seine Unterlinie rutscht nach unten weg. */
-    .hero__nebenbei { align-self: center; color: var(--signal); text-decoration: none;
-      font-size: 16px; border-bottom: 1px solid rgba(0,80,255,.4); padding-bottom: 2px;
-      margin-left: 8px; }
-    .hero__nebenbei:hover { border-bottom-color: var(--signal); }
-    @media (max-width: 640px) {
-      .hero__karte { padding: var(--raum-3); }
+    .hero--bild .hero__nebenbei { align-self: center; color: #fff;
+      text-decoration: none; font-size: 16px; padding-bottom: 2px;
+      border-bottom: 1px solid rgba(255,255,255,.5); }
+    .hero--bild .hero__nebenbei:hover { border-bottom-color: #fff; }
+    @media (max-width: 760px) {
+      .hero--zeile .hero__unten { display: block; }
+      .hero--zeile .hero__knoepfe { margin-top: var(--raum-4); }
     }
     @media (max-width: 640px) {
       .hero { padding: var(--raum-5) 0 var(--raum-4); }
@@ -119,44 +115,50 @@ export default {
     const z1 = ziel(data.ctaHref), z2 = ziel(data.zweitHref);
     const bild = ziel(data.bild);
 
-    const karte = bild && data.aufbau === 'karte';
+    const zeile = bild && data.aufbau === 'zeile';
 
     const knoepfe = (data.ctaLabel && z1) || (data.zweitLabel && z2)
       ? html`<div class="hero__knoepfe">
+          ${data.zweitLabel && z2 && zeile
+            ? html`<a class="hero__nebenbei" href="${raw(escapeAttr(z2))}">${data.zweitLabel} →</a>`
+            : ''}
           ${data.ctaLabel && z1 ? html`<a class="knopf" href="${raw(escapeAttr(z1))}">${data.ctaLabel}</a>` : ''}
-          ${data.zweitLabel && z2
-            ? karte
-              ? html`<a class="hero__nebenbei" href="${raw(escapeAttr(z2))}">${data.zweitLabel} →</a>`
-              : html`<a class="knopf knopf--leise" href="${raw(escapeAttr(z2))}">${data.zweitLabel}</a>`
+          ${data.zweitLabel && z2 && !zeile
+            ? html`<a class="knopf knopf--leise" href="${raw(escapeAttr(z2))}">${data.zweitLabel}</a>`
             : ''}
         </div>`
       : '';
 
-    const kern = html`
-        ${karte && data.marke === 'ja'
-          ? html`<img class="hero__logo" src="/assets/ktc-logo.svg"
-                      alt="Krifteler Tennisclub" decoding="async">`
-          : ''}
+    const wortblock = html`
+        ${data.wortmarke ? html`<p class="hero__wort">${data.wortmarke}</p>` : ''}
         ${data.pill ? html`<p class="hero__pill">${data.pill}</p>` : ''}
         <h1 class="hero__titel">${data.titel}</h1>
-        ${data.sub ? html`<p class="hero__sub">${data.sub}</p>` : ''}
-        ${knoepfe}`;
+        ${data.sub ? html`<p class="hero__sub">${data.sub}</p>` : ''}`;
 
-    const inhalt = karte
-      ? html`<div class="container"><div class="hero__karte">${kern}</div></div>`
-      : html`<div class="container">${kern}</div>`;
+    const inhalt = zeile
+      ? html`<div class="container"><div class="hero__unten">
+          <div class="hero__zeile">
+            ${data.marke === 'ja'
+              ? html`<img class="hero__zeichen" src="/assets/ktc-logo-auf-bild.svg"
+                          alt="" aria-hidden="true" decoding="async">`
+              : ''}
+            <div>${wortblock}</div>
+          </div>
+          ${knoepfe}
+        </div></div>`
+      : html`<div class="container">${wortblock}${knoepfe}</div>`;
 
     // P6: kein Bild haelt nichts auf — dann eben die schlichte Fassung.
     if (!bild) return html`<section class="section hero">${inhalt}</section>`;
 
     return html`
-      <section class="section hero hero--bild${raw(karte ? ' hero--karte' : '')}">
+      <section class="section hero hero--bild${raw(zeile ? ' hero--zeile' : '')}">
         <div class="hero__rahmen">
           <img class="hero__foto" src="${raw(escapeAttr(bild))}"
                alt="${raw(escapeAttr(data.bildAlt || ''))}"
                fetchpriority="high" decoding="async">
           <div class="hero__schleier"></div>
-          ${!karte && data.marke === 'ja'
+          ${!zeile && data.marke === 'ja'
             ? html`<img class="hero__marke" src="/assets/ktc-logo-auf-bild.svg"
                         alt="" aria-hidden="true" decoding="async">`
             : ''}

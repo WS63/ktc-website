@@ -109,7 +109,7 @@ export const seiten = [
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       zweitLabel: 'Erst mal vorbeikommen', zweitHref: '/kontakt/',
       bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),
-      marke: 'ja', aufbau: 'karte',
+      marke: 'ja', aufbau: 'zeile',
     }},
     { type: 'richtext', data: {
       titel: 'Bei uns findest du deinen Platz',

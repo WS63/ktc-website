@@ -85,21 +85,29 @@ export default {
        Hoehe daraus rechnet. 'align-self: stretch' waere der naheliegende Weg
        gewesen — ein SVG ohne feste Masse nimmt dabei aber seine max-content-
        Breite und blaeht sich auf den halben Aufmacher auf. Hier gesehen. */
-    .hero--zeile { --wort-gr: clamp(28px, 4.6vw, 52px);
-                   --titel-gr: clamp(19px, 2.8vw, 34px); }
+    /* Die Obergrenzen sind an der Vorlage gemessen und an der Containerbreite
+       geprueft: Logo plus Wortmarke muessen bei 1120 px nebeneinander passen,
+       sonst bricht die Zeile um und der ganze Aufbau faellt auseinander. */
+    .hero--zeile { --wort-gr: clamp(30px, 5vw, 70px);
+                   --titel-gr: clamp(22px, 3.7vw, 52px);
+                   /* Der Textblock aus beiden Zeilen — das Mass, an dem das
+                      Logo haengt. */
+                   --block-h: calc(var(--wort-gr) * 1.05 + var(--titel-gr) * 1.15
+                                   + var(--raum-0)); }
     .hero__zeile { display: flex; align-items: center; gap: var(--raum-3); }
     /* Die Logofassung fuer das Bild: teildurchlaessiger weisser Grund, kein
        Rahmen. Sie traegt sich selbst, egal wie unruhig das Foto an der Stelle
        ist — und sie traegt die Wortmarke bereits, deshalb steht daneben nur
        noch die Ueberschrift und nicht ein zweites Mal der Vereinsname. */
     .hero__zeichen { flex: none; display: block; border-radius: var(--r-sm);
-      height: calc(var(--wort-gr) * 1.05 + var(--titel-gr) * 1.15 + var(--raum-0));
-      width: auto; }
+      /* Ueber den Textblock hinaus: in der Vorlage ueberragt das Logo beide
+         Zeilen deutlich, statt buendig mit ihnen abzuschliessen. */
+      height: calc(var(--block-h) * 1.35); width: auto; }
     /* Zwei Zeilen, umgekehrt gewichtet: der Vereinsname fuehrt, die
        Ueberschrift antwortet leiser. Das ist eine Setzung fuer das Auge, nicht
        fuer das Dokument — semantisch bleibt die Ueberschrift die h1. */
     .hero--bild .hero__wort { color: #fff; font-size: var(--wort-gr);
-      font-weight: 700; text-transform: uppercase; letter-spacing: .035em;
+      font-weight: 700; text-transform: uppercase; letter-spacing: .03em;
       line-height: 1.05; margin: 0 0 var(--raum-0);
       text-shadow: 0 1px 14px rgba(30,30,24,.55); }
     .hero--zeile .hero__titel { font-size: var(--titel-gr);

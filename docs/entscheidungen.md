@@ -48,6 +48,13 @@
   Modell: claude-sonnet-5 (ANTHROPIC_API_KEY in .env). Umstellen: CHAT_MODELL in .env.
   Ohne Schlüssel erscheint kein Chatfenster — die Website läuft vollständig weiter (P6).
 
+**Offene Punkte (Design/Inhalt):**
+  - Mannschaftstabelle auf /mannschaften/: die Links der alten WordPress-Seite fehlen.
+    Dort führten Einträge zu Medenspieltagen und Gruppeneinteilungen beim HTV.
+    Beim Übernehmen in den `tabelle`-Baustein sind sie verlorengegangen — der
+    Baustein kennt nur Text je Zelle, keine Ziele. Braucht eine Schema-Erweiterung.
+  - /mannschaften/ hängt bewusst nicht im Menü, nur über /sport/ erreichbar.
+
 **Offene Fakten:**
   - Vereinsregister-Nummer und Registergericht — **bei einem e.V. Pflichtangabe im Impressum, fehlt heute**
   - Echte Facebook- und Instagram-Adressen — heute stehen Theme-Platzhalter drin

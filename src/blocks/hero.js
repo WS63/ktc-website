@@ -102,7 +102,7 @@ export default {
     .hero__zeichen { flex: none; display: block; border-radius: var(--r-sm);
       /* Ueber den Textblock hinaus: in der Vorlage ueberragt das Logo beide
          Zeilen deutlich, statt buendig mit ihnen abzuschliessen. */
-      height: calc(var(--block-h) * 1.35); width: auto; }
+      height: calc(var(--block-h) * 1.15); width: auto; }
     /* Zwei Zeilen, umgekehrt gewichtet: der Vereinsname fuehrt, die
        Ueberschrift antwortet leiser. Das ist eine Setzung fuer das Auge, nicht
        fuer das Dokument — semantisch bleibt die Ueberschrift die h1. */
@@ -168,7 +168,7 @@ export default {
       ? html`<div class="container"><div class="hero__unten">
           <div class="hero__zeile">
             ${data.marke === 'ja'
-              ? html`<img class="hero__zeichen" src="/assets/ktc-logo-auf-bild.svg"
+              ? html`<img class="hero__zeichen" src="/assets/ktc-logo-bild-2026.svg"
                           alt="" aria-hidden="true" decoding="async">`
               : ''}
             <div>${wortblock}</div>
@@ -188,7 +188,7 @@ export default {
                fetchpriority="high" decoding="async">
           <div class="hero__schleier"></div>
           ${!zeile && data.marke === 'ja'
-            ? html`<img class="hero__marke" src="/assets/ktc-logo-auf-bild.svg"
+            ? html`<img class="hero__marke" src="/assets/ktc-logo-bild-2026.svg"
                         alt="" aria-hidden="true" decoding="async">`
             : ''}
           ${inhalt}

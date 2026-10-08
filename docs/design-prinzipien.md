@@ -47,7 +47,7 @@ für die eine Einladung.
 
 ## 2 · Logo & Zeichen
 
-- `assets/ktc-logo-auf-bild.svg` — teildurchlässiger Grund, kein Rahmen. **Auf ein Foto.**
+- `assets/ktc-logo-bild-2026.svg` — teildurchlässiger Grund, kein Rahmen. **Auf ein Foto.**
 - `assets/ktc-logo-rahmen.svg` — weißer Grund, grüner Rahmen, quadratisch. **Das gehört in die
   Kopfzeile**; unter 48 px wird die Wortmarke Matsch. Der Vereinsname steht daneben als
   HTML-Text, damit er in jeder Größe scharf bleibt und auf dunklem Grund die Textfarbe annimmt.

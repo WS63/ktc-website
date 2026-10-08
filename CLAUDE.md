@@ -93,7 +93,7 @@ src/seiten-teile.js  Bausteine für Seiten, die aus Daten entstehen (Beiträge)
 page-types/          home · sport · standard · aktuelles · beitrag · rechtstext
   home/golden.html   die Goldreferenz (P4) — jedes Generator-Ergebnis wird daran abgenommen
   home/prompt.md     die Anweisung für den Generator
-assets/              ktc-logo-rahmen.svg (Kopfzeile) · ktc-logo-auf-bild.svg (Aufmacher)
+assets/              ktc-logo-rahmen.svg (Kopfzeile) · ktc-logo-bild-2026.svg (Aufmacher)
 probe/               die Probeseite aus Stufe 0, in der die Signalfarbe entschieden wurde
 tests/               node --test
 ```
@@ -180,8 +180,8 @@ Vorleser gesetzt.
 
 - **`assets/ktc-logo-rahmen.svg`** (aus `KTC_LOGO_2026-10-white.svg`) — weißer
   Grund, grüner Rahmen, quadratisch. **Das gehört in die Kopfzeile**, 40 × 40 px.
-- **`assets/ktc-logo-auf-bild.svg`** (aus `KTC_LOGO_2026-10-trans_no frame.svg`) —
-  teildurchlässiger Grund (`opacity:0.45`), kein Rahmen. **Das gehört auf ein Foto.**
+- **`assets/ktc-logo-bild-2026.svg`** (aus `KTC_LOGO_2026-10-trans_no frame.svg`) —
+  teildurchlässiger Grund (`opacity:0.35`), kein Rahmen. **Das gehört auf ein Foto.**
   Es trägt sich selbst, egal wie unruhig das Bild an der Stelle ist.
 
 `ktc-logo.svg` und `ktc-zeichen.svg` sind die Fassung davor — erkennbar am gelben

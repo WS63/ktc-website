@@ -99,7 +99,14 @@ export default {
       font-weight: 300; text-transform: uppercase; letter-spacing: .03em;
       line-height: 1.15; max-width: none; margin: 0;
       color: rgba(255,255,255,.82); }
-    .hero--zeile .hero__knoepfe { margin-top: var(--raum-4); }
+    /* Rechts, aber nicht an der Kante: ein Knopf, der die Bildkante beruehrt,
+       sieht aus, als waere er abgeschnitten. Der Abstand ist derselbe Raum wie
+       zwischen den Abschnitten. */
+    .hero--zeile .hero__knoepfe { margin-top: var(--raum-4);
+      justify-content: flex-end; padding-right: var(--raum-5); }
+    @media (max-width: 760px) {
+      .hero--zeile .hero__knoepfe { justify-content: flex-start; padding-right: 0; }
+    }
     /* Zweite Handlung als Link, nicht als Knopf: zwei Knoepfe nebeneinander
        rufen gleich laut, und laut sein darf hier genau einer.
        align-self, weil '.hero__knoepfe' ein Flex-Kasten ist — ohne das wird der

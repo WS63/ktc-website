@@ -37,10 +37,9 @@ const NAV = { type: 'nav', data: {
   baum: menue,
   aktionLabel: 'Platz buchen',
   aktionHref: '{{facts.links.buchung}}',
-  // Die eine Handlung, auf jeder Seite erreichbar. Blau umrandet, nicht gelb —
-  // sonst gaebe es auf der Startseite zwei gleich laute Knoepfe.
-  knopfLabel: 'Mitglied werden',
-  knopfHref: '/mitglied-werden/',
+  // Kein Knopf in der Leiste: 'Mitglied werden' steht als Menuepunkt da und
+  // im Aufmacher als der eine gelbe Knopf. Ein dritter Auftritt derselben
+  // Handlung in derselben Bildschirmhoehe macht sie nicht dringlicher.
 }};
 
 /**
@@ -125,7 +124,6 @@ export const seiten = [
         { label: 'Plätze',   wert: '{{facts.anlage.plaetze}}', zusatz: 'Sandplätze, gepflegt' },
         { label: 'Mitglieder', wert: '{{facts.anlage.mitglieder}}', zusatz: 'davon {{facts.anlage.jugendliche}} Kinder und Jugendliche' },
         { label: 'Mannschaften', wert: '{{facts.anlage.mannschaften}}', zusatz: 'von U12 bis Senioren 60' },
-        { label: 'Saison',   wert: 'April bis November', zusatz: 'Start {{facts.anlage.saison_start}}' },
       ],
     }},
     { type: 'cards', data: {

@@ -93,7 +93,7 @@ src/seiten-teile.js  Bausteine für Seiten, die aus Daten entstehen (Beiträge)
 page-types/          home · sport · standard · aktuelles · beitrag · rechtstext
   home/golden.html   die Goldreferenz (P4) — jedes Generator-Ergebnis wird daran abgenommen
   home/prompt.md     die Anweisung für den Generator
-assets/              ktc-logo.svg (voll) · ktc-zeichen.svg (Kopfzeile, ohne Wortmarke)
+assets/              ktc-logo-rahmen.svg (Kopfzeile) · ktc-logo-auf-bild.svg (Aufmacher)
 probe/               die Probeseite aus Stufe 0, in der die Signalfarbe entschieden wurde
 tests/               node --test
 ```
@@ -172,17 +172,28 @@ die Eltern. Im Zweifel: ein anderes Bild.
 
 ## Das Logo
 
-`assets/ktc-logo.svg` ist die aufgeräumte Fassung der Vektordatei von 2026-07-02:
-Inkscape-Ballast entfernt, `viewBox` ergänzt (fehlte — ohne sie skaliert nichts),
-weißes Hintergrund-Rechteck entfernt, Titel für Vorleser gesetzt.
+Die Marke kommt aus den Vektordateien von 2026-07-02 unter
+`Documents/80 Krifteler TC/10 KTC LOGOS/VECTORS/2026.07-02`. Zwei davon sind im
+Repository, beide aufgeräumt: Inkscape-Ballast entfernt, `viewBox` ergänzt
+(fehlte — die Maße standen in mm, ohne `viewBox` skaliert nichts), Titel für
+Vorleser gesetzt.
 
-`assets/ktc-zeichen.svg` ist dasselbe ohne die Wortmarke, mit engem `viewBox`.
-**Das gehört in die Kopfzeile** — unter 48 px wird die Wortmarke Matsch. Der Vereinsname
-steht daneben als HTML-Text, damit er in jeder Größe scharf bleibt und auf dunklem Grund
-die Textfarbe annimmt.
+- **`assets/ktc-logo-rahmen.svg`** (aus `KTC_LOGO_2026-10-white.svg`) — weißer
+  Grund, grüner Rahmen, quadratisch. **Das gehört in die Kopfzeile**, 40 × 40 px.
+- **`assets/ktc-logo-auf-bild.svg`** (aus `KTC_LOGO_2026-10-trans_no frame.svg`) —
+  teildurchlässiger Grund (`opacity:0.45`), kein Rahmen. **Das gehört auf ein Foto.**
+  Es trägt sich selbst, egal wie unruhig das Bild an der Stelle ist.
 
-Das Zeichen liegt inline im `nav`-Baustein: eine Anfrage weniger, und es kann nicht fehlen,
-während die Seite schon steht (P6).
+`ktc-logo.svg` und `ktc-zeichen.svg` sind die Fassung davor — erkennbar am gelben
+Punkt im C. Sie werden nicht mehr verwendet.
+
+Der Vereinsname steht in der Kopfzeile **daneben als HTML-Text**, nicht als Teil
+des Bildes: so bleibt er in jeder Größe scharf und nimmt auf dunklem Grund die
+Textfarbe an.
+
+Das Logo der Kopfzeile liegt **als Datei**, nicht inline: 15 KB in jeder Seite wären
+teurer als die eine Anfrage. Fällt sie aus, fehlt das Zeichen und sonst nichts — der
+Vereinsname steht daneben als Text und trägt die Marke allein (P6).
 
 ## Das Cockpit
 

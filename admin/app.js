@@ -928,7 +928,7 @@ async function start() {
   }
   $('#anmeldung').style.display = 'none';
   $('#cockpit').style.display = 'grid';
-  $('#marke-zeichen').innerHTML = await (await fetch('/assets/ktc-zeichen.svg')).text();
+  $('#marke-zeichen').innerHTML = await (await fetch('/assets/ktc-logo-rahmen.svg')).text();
   await gehe();
   zaehlerFrischen();
 }

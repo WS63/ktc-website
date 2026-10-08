@@ -103,9 +103,10 @@ export const seiten = [
   blocks: [
     NAV,
     { type: 'hero', data: {
-      // Keine Pille, kein Untertitel: das Logo nennt den Verein, die Zeile
-      // darunter stellt die Frage. Alles Weitere steht zwei Abschnitte tiefer.
-      titel: 'Lust auf Tennis?',
+      // Keine Pille, kein Untertitel. Zwei Zeilen neben dem Logo: der
+      // Vereinsname fuehrt, die Frage antwortet leiser darunter.
+      wortmarke: 'Krifteler Tennisclub',
+      titel: 'Lust auf Tennis',
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       zweitLabel: 'Erst mal vorbeikommen', zweitHref: '/kontakt/',
       bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),

@@ -75,12 +75,12 @@ export default {
       .hero__marke { width: 92px; top: var(--raum-3); right: var(--raum-3); }
     }
 
-    /* Fassung 'zeile': das Zeichen steht links neben dem Wortblock, der
-       Knopf rechts an der Bildkante. Weil der Knopf nicht mehr am Text haengt,
-       sitzt er auf jeder Seite an derselben Stelle — egal wie lang die
-       Ueberschrift ist. Das ist der Grund fuer diese Fassung, nicht die Optik. */
-    .hero--zeile .hero__unten { display: flex; align-items: flex-end;
-      justify-content: space-between; gap: var(--raum-3); flex-wrap: wrap; }
+    /* Fassung 'zeile': das Zeichen steht links neben dem Wortblock, die
+       Handlungen darunter. Erst standen sie rechts an der Bildkante — mit dem
+       breiten Vereinsnamen daneben brachen sie je nach Schirmbreite um und
+       sprangen von rechts nach links. Fest darunter ist langweiliger und auf
+       jedem Schirm dieselbe Stelle. */
+    .hero--zeile .hero__unten { display: block; }
     .hero__zeile { display: flex; align-items: center; gap: var(--raum-3); }
     /* Die Logofassung fuer das Bild: teildurchlaessiger weisser Grund, kein
        Rahmen. Sie traegt sich selbst, egal wie unruhig das Foto an der Stelle
@@ -88,10 +88,18 @@ export default {
        noch die Ueberschrift und nicht ein zweites Mal der Vereinsname. */
     .hero__zeichen { width: clamp(110px, 14vw, 180px); height: auto; flex: none;
       display: block; border-radius: var(--r-sm); }
-    .hero--bild .hero__wort { color: #fff; font-size: clamp(18px, 2.2vw, 26px);
-      font-weight: 400; letter-spacing: .01em; margin: 0 0 var(--raum-0);
-      text-shadow: 0 1px 12px rgba(30,30,24,.5); }
-    .hero--zeile .hero__knoepfe { margin-top: 0; }
+    /* Zwei Zeilen, umgekehrt gewichtet: der Vereinsname fuehrt, die
+       Ueberschrift antwortet leiser. Das ist eine Setzung fuer das Auge, nicht
+       fuer das Dokument — semantisch bleibt die Ueberschrift die h1. */
+    .hero--bild .hero__wort { color: #fff; font-size: clamp(28px, 4.6vw, 52px);
+      font-weight: 700; text-transform: uppercase; letter-spacing: .035em;
+      line-height: 1.05; margin: 0 0 var(--raum-0);
+      text-shadow: 0 1px 14px rgba(30,30,24,.55); }
+    .hero--zeile .hero__titel { font-size: clamp(19px, 2.8vw, 34px);
+      font-weight: 300; text-transform: uppercase; letter-spacing: .03em;
+      line-height: 1.15; max-width: none; margin: 0;
+      color: rgba(255,255,255,.82); }
+    .hero--zeile .hero__knoepfe { margin-top: var(--raum-4); }
     /* Zweite Handlung als Link, nicht als Knopf: zwei Knoepfe nebeneinander
        rufen gleich laut, und laut sein darf hier genau einer.
        align-self, weil '.hero__knoepfe' ein Flex-Kasten ist — ohne das wird der
@@ -100,9 +108,8 @@ export default {
       text-decoration: none; font-size: 16px; padding-bottom: 2px;
       border-bottom: 1px solid rgba(255,255,255,.5); }
     .hero--bild .hero__nebenbei:hover { border-bottom-color: #fff; }
-    @media (max-width: 760px) {
-      .hero--zeile .hero__unten { display: block; }
-      .hero--zeile .hero__knoepfe { margin-top: var(--raum-4); }
+    @media (max-width: 560px) {
+      .hero__zeile { gap: var(--raum-2); }
     }
     @media (max-width: 640px) {
       .hero { padding: var(--raum-5) 0 var(--raum-4); }

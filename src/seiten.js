@@ -103,13 +103,13 @@ export const seiten = [
   blocks: [
     NAV,
     { type: 'hero', data: {
-      pill: 'Kriftel im Main-Taunus-Kreis',
+      // Keine Pille, kein Untertitel: das Logo nennt den Verein, die Zeile
+      // darunter stellt die Frage. Alles Weitere steht zwei Abschnitte tiefer.
       titel: 'Lust auf Tennis?',
-      sub: 'Sieben Sandplätze, ein Clubhaus mit sonniger Terrasse und über 500 Leute, die hier spielen. Komm vorbei und probier es aus.',
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
-      zweitLabel: 'Erst mal reinschnuppern', zweitHref: '/kontakt/',
+      zweitLabel: 'Erst mal vorbeikommen', zweitHref: '/kontakt/',
       bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),
-      marke: 'ja',
+      marke: 'ja', aufbau: 'karte',
     }},
     { type: 'richtext', data: {
       titel: 'Bei uns findest du deinen Platz',

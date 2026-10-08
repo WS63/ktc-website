@@ -12,12 +12,25 @@ export default {
     .info__titel { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-3); }
     .info__gitter { display: grid; gap: var(--raum-2);
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
-    .info { background: var(--flaeche); border-radius: var(--radius); padding: var(--raum-3); }
+    /* Eine Kante oben in einer Clubfarbe, sonst weiss. Die Farbe markiert,
+       sie fuellt nicht — und sie rotiert ueber nth-child, damit keine Karte
+       eine Farbe fest zugewiesen bekommt. Wer eine Karte einfuegt, verschiebt
+       nur die Reihenfolge, nichts bricht. */
+    .info { background: var(--grund); border: 1px solid var(--linie);
+      border-top: 4px solid var(--signal);
+      border-radius: 0 0 var(--radius) var(--radius); padding: var(--raum-3); }
     .section--ruhig .info { background: var(--grund); }
+    .info:nth-child(4n+2) { border-top-color: var(--gut); }
+    .info:nth-child(4n+3) { border-top-color: var(--alarm); }
+    .info:nth-child(4n+4) { border-top-color: var(--handlung); }
+    /* Das Label traegt die Betonung ueber Gewicht, nicht ueber Farbe.
+       Farbig waere es ein zweites Signal neben der Kante — und Gelb kann
+       auf Weiss ohnehin nie Textfarbe sein (1,66:1). */
     .info__label { font-size: 12px; text-transform: uppercase; letter-spacing: .07em;
-      color: var(--text-leise); margin-bottom: 6px; }
-    .info__wert { font-size: 21px; font-weight: 500; line-height: 1.3; }
-    .info__zusatz { font-size: 14px; color: var(--text-leise); margin-top: 6px; line-height: 1.5; }
+      color: var(--text); font-weight: 600; margin-bottom: 8px; }
+    .info__wert { font-size: var(--fs-2xl); font-weight: 500; line-height: 1.1;
+      letter-spacing: -.02em; }
+    .info__zusatz { font-size: 14px; color: var(--text-leise); margin-top: 8px; line-height: 1.5; }
   `,
   render(data) {
     const karten = (data.karten || []).map((k) => html`<div class="info">

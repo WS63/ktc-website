@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Probe · Aufmacher und Eckdaten</title>
+<style>
+  :root{
+    --grund:#fff; --flaeche:#f5f5f5; --linie:#e0e0e0;
+    --text:#1e1e18; --text-leise:#555; --text-hell:#fff;
+    --signal:#0050ff; --signal-leise:#eaf0ff;
+    --gruen:#00af00; --gruen-text:#006e00;
+    --rot:#fa320a; --rot-text:#b3200a;
+    --handlung:#ffbe00; --handlung-text:#1e1e18;
+    --r:8px; --rk:26px;
+    --raum-2:16px; --raum-3:24px; --raum-4:40px; --raum-5:64px;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;font:17px/1.7 "Libre Franklin",-apple-system,BlinkMacSystemFont,sans-serif;
+    color:var(--text);background:var(--grund);-webkit-font-smoothing:antialiased}
+  .container{max-width:1120px;margin:0 auto;padding:0 24px}
+  .sec{padding:48px 0}
+  h1{font-size:26px;font-weight:500;margin:0 0 6px}
+  h2{font-size:24px;font-weight:500;margin:0 0 10px;letter-spacing:-.01em}
+  .u{color:var(--text-leise);font-size:15px;max-width:70ch;margin:0 0 18px}
+  .marke{display:inline-block;font-size:12px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--signal);border:1px solid var(--signal);border-radius:3px;padding:3px 9px;margin-bottom:12px}
+  hr{border:none;border-top:1px solid var(--linie);margin:0}
+  code{font:14px ui-monospace,Menlo,monospace;background:var(--flaeche);padding:1px 5px;border-radius:4px}
+
+  /* ── Aufmacher, gemeinsame Teile ───────────────────────── */
+  .hero{position:relative;min-height:min(70vh,560px);display:flex;align-items:flex-end;overflow:hidden}
+  .hero img.foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+  .schleier{position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg,rgba(30,30,24,.18) 0%,rgba(30,30,24,.42) 45%,
+      rgba(30,30,24,.72) 70%,rgba(30,30,24,.88) 100%)}
+  .hero .container{position:relative;z-index:2;padding-top:var(--raum-5);padding-bottom:var(--raum-5);width:100%}
+  .titel{font-size:clamp(34px,6vw,60px);font-weight:500;line-height:1.08;letter-spacing:-.02em;
+    margin:0;color:#fff;text-shadow:0 1px 12px rgba(30,30,24,.45)}
+  .wort{color:rgba(255,255,255,.9);font-size:15px;letter-spacing:.12em;text-transform:lowercase;
+    margin:0 0 6px;text-shadow:0 1px 10px rgba(30,30,24,.5)}
+  .knopf{display:inline-block;text-decoration:none;font-weight:500;font-size:16px;
+    padding:14px 30px;border-radius:var(--rk);background:var(--handlung);color:var(--handlung-text)}
+  .leise{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.75);padding:13px 28px;font-weight:400}
+  .knoepfe{margin-top:var(--raum-4);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .textlink{color:#fff;font-size:16px;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:2px}
+
+  /* A — Logo links über dem Titel */
+  .a .block{display:flex;align-items:flex-end;gap:22px}
+  .a .logo{width:clamp(84px,10vw,124px);height:auto;flex:none;display:block;
+    filter:drop-shadow(0 2px 14px rgba(0,0,0,.5))}
+
+  /* B — Logo links neben dem Wortblock, Knopf rechts unten */
+  .b .zeile{display:flex;align-items:center;gap:26px}
+  .b .logo{width:clamp(96px,12vw,150px);height:auto;flex:none;display:block;
+    filter:drop-shadow(0 2px 14px rgba(0,0,0,.5))}
+  .b .unten{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .b .knoepfe{margin-top:0}
+
+  /* C — Karte unten links */
+  .c .karte{background:rgba(255,255,255,.93);border-radius:var(--r);padding:28px 32px;
+    max-width:520px;backdrop-filter:blur(3px);box-shadow:0 24px 60px -12px rgba(0,0,0,.3)}
+  .c .karte .titel{color:var(--text);text-shadow:none;font-size:clamp(30px,4.4vw,44px)}
+  .c .karte .wort{color:var(--signal);text-shadow:none}
+  .c .zeile{display:flex;align-items:center;gap:18px;margin-bottom:10px}
+  .c .logo{width:72px;height:auto;flex:none;display:block}
+  .c .leise{color:var(--signal);border-color:var(--signal)}
+  .c .textlink{color:var(--signal);border-color:rgba(0,80,255,.4)}
+
+  /* ── Eckdaten ──────────────────────────────────────────── */
+  .gitter{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .k .l{font-size:12px;text-transform:uppercase;letter-spacing:.07em;font-weight:500;margin:0 0 8px}
+  .k .w{font-size:36px;font-weight:500;line-height:1.05;letter-spacing:-.025em;margin:0}
+  .k .z{font-size:14px;color:var(--text-leise);margin:8px 0 0;line-height:1.5}
+
+  /* D — Kante in Clubfarbe */
+  .d{background:#fff;border:1px solid var(--linie);border-top:4px solid var(--f);
+    border-radius:0 0 var(--r) var(--r);padding:22px 24px}
+  .d .l{color:var(--ft)}
+
+  /* E — Zahl in Clubfarbe, zarte Fläche */
+  .e{background:var(--fl);border-radius:var(--r);padding:24px;border:1px solid transparent}
+  .e .l{color:var(--ft)}
+  .e .w{color:var(--ft)}
+
+  /* F — alles Signalblau, nur die Zahl groß */
+  .f{background:#fff;border:1px solid var(--linie);border-left:4px solid var(--signal);
+    border-radius:0 var(--r) var(--r) 0;padding:22px 24px}
+  .f .l{color:var(--signal)}
+</style>
+</head>
+<body>
+
+<div class="sec container">
+  <h1>Probe · Aufmacher und Eckdaten</h1>
+  <p class="u">Nichts davon ist eingebaut. Sag mir je eine Nummer, dann baue ich sie in
+    <code>src/blocks/hero.js</code> und <code>src/blocks/infokarten.js</code> ein.</p>
+</div>
+
+<hr>
+
+<!-- ══ A ══════════════════════════════════════════════════ -->
+<div class="sec container" style="padding-bottom:16px">
+  <span class="marke">Aufmacher A</span>
+  <h2>Logo links, Wortmarke als Zeile, kein Untertitel</h2>
+  <p class="u">Pille weg, Untertitel weg. Das Logo steht links auf gleicher Grundlinie wie der Titel,
+    darüber der Vereinsname als gesperrte Zeile — Logo und Schrift lesen sich als eine Einheit.
+    „Erst mal reinschnuppern“ ist kein Knopf mehr, sondern ein leiser Textlink daneben:
+    ein Knopf pro Bildschirm, und der eine ist gelb.</p>
+</div>
+<section class="hero a">
+  <img class="foto" src="/bilder/anlage-wiese-1600-299364d5.jpg" alt="">
+  <div class="schleier"></div>
+  <div class="container">
+    <div class="block">
+      <img class="logo" src="/assets/ktc-logo.svg" alt="">
+      <div>
+        <p class="wort">krifteler tennisclub</p>
+        <h1 class="titel">Lust auf Tennis?</h1>
+      </div>
+    </div>
+    <div class="knoepfe">
+      <a class="knopf" href="#">Mitglied werden</a>
+      <a class="textlink" href="#">Erst mal vorbeikommen →</a>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ B ══════════════════════════════════════════════════ -->
+<div class="sec container" style="padding-bottom:16px">
+  <span class="marke">Aufmacher B</span>
+  <h2>Logo groß links, Knopf rechts unten</h2>
+  <p class="u">Dasselbe Prinzip, aber das Logo trägt mehr Gewicht und der Knopf wandert
+    an die rechte Kante. Vorteil: auf jeder Seite sitzt der Knopf an derselben Stelle,
+    egal wie lang die Überschrift ist — er ist dann das wiederkehrende Element im Kopfbild,
+    nicht ein Anhängsel des Textes.</p>
+</div>
+<section class="hero b">
+  <img class="foto" src="/bilder/anlage-wiese-1600-299364d5.jpg" alt="">
+  <div class="schleier"></div>
+  <div class="container">
+    <div class="unten">
+      <div class="zeile">
+        <img class="logo" src="/assets/ktc-logo.svg" alt="">
+        <div>
+          <p class="wort">krifteler tennisclub</p>
+          <h1 class="titel">Lust auf&nbsp;Tennis?</h1>
+        </div>
+      </div>
+      <div class="knoepfe">
+        <a class="textlink" href="#">Erst mal vorbeikommen →</a>
+        <a class="knopf" href="#">Mitglied werden</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ C ══════════════════════════════════════════════════ -->
+<div class="sec container" style="padding-bottom:16px">
+  <span class="marke">Aufmacher C</span>
+  <h2>Karte auf dem Bild</h2>
+  <p class="u">Der Text steht nicht mehr auf dem Foto, sondern auf einer hellen Karte davor.
+    Damit braucht es keinen dunklen Schleier über dem ganzen Bild — das Foto bleibt hell und
+    sommerlich, und das Logo steht ohne Kasten sauber auf Weiß. Teuerster Umbau der drei,
+    aber derjenige, bei dem das Bild gewinnt.</p>
+</div>
+<section class="hero c">
+  <img class="foto" src="/bilder/anlage-wiese-1600-299364d5.jpg" alt="">
+  <div class="schleier" style="background:linear-gradient(90deg,rgba(30,30,24,.35),rgba(30,30,24,0) 60%)"></div>
+  <div class="container">
+    <div class="karte">
+      <div class="zeile">
+        <img class="logo" src="/assets/ktc-logo.svg" alt="">
+        <div>
+          <p class="wort">krifteler tennisclub</p>
+          <h1 class="titel">Lust auf Tennis?</h1>
+        </div>
+      </div>
+      <div class="knoepfe" style="margin-top:22px">
+        <a class="knopf" href="#">Mitglied werden</a>
+        <a class="textlink" href="#">Erst mal vorbeikommen →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- ══ Eckdaten ═══════════════════════════════════════════ -->
+<section class="sec container">
+  <span class="marke">Eckdaten D</span>
+  <h2>Vier Clubfarben, Kante oben</h2>
+  <p class="u">Jede Box bekommt eine Farbe aus dem Logo. Die Zahl wächst von 21 auf 36 Pixel —
+    sie ist die Botschaft, nicht das Label. <strong>Ein Vorbehalt:</strong> Gelb ist im Projekt
+    für den einen Knopf reserviert. Hier ist es eine 4 Pixel hohe Kante, kein Knopf — aber es
+    weicht die Regel auf. Sag Bescheid, ob dir das recht ist; sonst nehme ich für „Saison“ das
+    Dunkelgrün aus dem Logo.</p>
+  <div class="gitter">
+    <div class="k d" style="--f:#0050ff;--ft:#0050ff"><p class="l">Plätze</p><p class="w">7</p><p class="z">Sandplätze, gepflegt</p></div>
+    <div class="k d" style="--f:#00af00;--ft:#006e00"><p class="l">Mitglieder</p><p class="w">über 500</p><p class="z">davon rund 120 Kinder und Jugendliche</p></div>
+    <div class="k d" style="--f:#fa320a;--ft:#b3200a"><p class="l">Mannschaften</p><p class="w">mehr als 20</p><p class="z">von U12 bis Senioren 60</p></div>
+    <div class="k d" style="--f:#ffbe00;--ft:#8a5000"><p class="l">Saison</p><p class="w">April–November</p><p class="z">Start Mitte bis Ende April</p></div>
+  </div>
+</section>
+
+<hr>
+
+<section class="sec container" style="background:var(--flaeche)">
+  <span class="marke">Eckdaten E</span>
+  <h2>Zahl in Clubfarbe, zarte Fläche</h2>
+  <p class="u">Kräftiger: die Zahl selbst trägt die Farbe, der Grund ist eine sehr blasse Fassung
+    desselben Tons. Alle vier Textfarben sind auf Weiß geprüft (≥ 6,5:1) — Gelb kann das nicht,
+    deshalb steht bei „Saison“ das geprüfte Braun <code>#8a5000</code>.</p>
+  <div class="gitter">
+    <div class="k e" style="--fl:#eaf0ff;--ft:#0050ff"><p class="l">Plätze</p><p class="w">7</p><p class="z">Sandplätze, gepflegt</p></div>
+    <div class="k e" style="--fl:#e8f6e8;--ft:#006e00"><p class="l">Mitglieder</p><p class="w">über 500</p><p class="z">davon rund 120 Kinder und Jugendliche</p></div>
+    <div class="k e" style="--fl:#fdeae6;--ft:#b3200a"><p class="l">Mannschaften</p><p class="w">mehr als 20</p><p class="z">von U12 bis Senioren 60</p></div>
+    <div class="k e" style="--fl:#fdf3e0;--ft:#8a5000"><p class="l">Saison</p><p class="w">April–November</p><p class="z">Start Mitte bis Ende April</p></div>
+  </div>
+</section>
+
+<hr>
+
+<section class="sec container">
+  <span class="marke">Eckdaten F</span>
+  <h2>Nur Signalblau, Kante links</h2>
+  <p class="u">Die zurückhaltende Fassung: kräftiger als heute, aber ohne das Regenbogen-Risiko.
+    Vier Farben nebeneinander können schnell nach Baukasten aussehen — diese Fassung kann das nicht.</p>
+  <div class="gitter">
+    <div class="k f"><p class="l">Plätze</p><p class="w">7</p><p class="z">Sandplätze, gepflegt</p></div>
+    <div class="k f"><p class="l">Mitglieder</p><p class="w">über 500</p><p class="z">davon rund 120 Kinder und Jugendliche</p></div>
+    <div class="k f"><p class="l">Mannschaften</p><p class="w">mehr als 20</p><p class="z">von U12 bis Senioren 60</p></div>
+    <div class="k f"><p class="l">Saison</p><p class="w">April–November</p><p class="z">Start Mitte bis Ende April</p></div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -8,6 +8,8 @@ export default {
     baum:       { type: 'auto', default: [], label: 'Menü — wird unter Navigation gepflegt' },
     aktionLabel:{ type: 'text', default: '', label: 'Rechter Link' },
     aktionHref: { type: 'text', default: '', label: 'Ziel des rechten Links' },
+    knopfLabel: { type: 'text', default: '', label: 'Knopf in der Leiste' },
+    knopfHref:  { type: 'text', default: '', label: 'Ziel des Knopfs' },
   },
   css: `
     .kopf { border-bottom: 1px solid var(--linie); background: var(--grund);
@@ -26,6 +28,17 @@ export default {
     .kopf__jetzt { color: var(--signal); text-decoration: none; white-space: nowrap;
       font-size: 15px; flex: none; }
     .kopf__jetzt:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Der Knopf in der Leiste fuehrt zur einen Handlung — auf JEDER Seite.
+       Er ist blau umrandet, nicht gelb: Gelb bleibt dem einen Knopf im
+       Aufmacher vorbehalten. Zwei gelbe Knoepfe auf einem Bildschirm, und
+       keiner ruft mehr lauter als der andere. */
+    .kopf__knopf { flex: none; white-space: nowrap; text-decoration: none;
+      font-size: 15px; font-weight: 500; padding: 9px 20px;
+      border-radius: var(--radius-knopf); color: var(--signal);
+      border: 1.5px solid var(--signal); background: transparent;
+      transition: background .12s ease, color .12s ease; }
+    .kopf__knopf:hover { background: var(--signal); color: var(--text-hell, #fff); }
 
     /* Der Schalter ist nur auf schmalen Schirmen da. Ohne JavaScript bedienbar:
        ein verstecktes Kontrollkaestchen traegt den Zustand. Dadurch funktioniert
@@ -58,6 +71,9 @@ export default {
       .kopf__jetzt { display: none; }
       .kopf__schalter:checked ~ .kopf__innen .kopf__jetzt {
         display: block; width: 100%; padding: 13px 2px; }
+      /* Der Knopf bleibt sichtbar, auch wenn das Menue zu ist — er ist der
+         Grund, warum jemand die Seite besucht. */
+      .kopf__knopf { order: 2; padding: 8px 16px; font-size: 14px; }
     }
   `,
   render(data) {
@@ -68,6 +84,7 @@ export default {
       return html`<a href="${raw(escapeAttr(z))}"${extern}>${p.label}</a>`;
     });
     const aktion = ziel(data.aktionHref);
+    const knopf = ziel(data.knopfHref);
     return html`
       <header class="kopf">
         <input type="checkbox" id="kopf-schalter" class="kopf__schalter nur-vorleser">
@@ -78,6 +95,9 @@ export default {
           <nav class="kopf__menue" aria-label="Hauptmenü">${punkte}</nav>
           ${data.aktionLabel && aktion
             ? html`<a class="kopf__jetzt" href="${raw(escapeAttr(aktion))}"${istExtern(aktion) ? raw(' target="_blank" rel="noopener noreferrer"') : ''}>${data.aktionLabel} ↗</a>`
+            : ''}
+          ${data.knopfLabel && knopf
+            ? html`<a class="kopf__knopf" href="${raw(escapeAttr(knopf))}">${data.knopfLabel}</a>`
             : ''}
         </div>
       </header>`;

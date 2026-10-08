@@ -1,37 +1,129 @@
 {
-  "_hinweis": "Design-Tokens. Nie eine Farbe direkt in einen Baustein schreiben.",
+  "_hinweis": "Design-Tokens — die einzige Quelle für Farben, Maße, Schrift und Bewegung (P2 für Gestaltung). Nie eine Farbe direkt in einen Baustein schreiben. Jeder Schlüssel wird von src/blocks/_theme.js zu einer CSS-Variable gleichen Namens; Schlüssel mit führendem _ sind Kommentar und werden übersprungen. Die Regeln dazu stehen in docs/design-prinzipien.md.",
+
   "farben": {
+    "_flaechen": "Die Hintergrund-Treppe. Hell ist der Normalfall; 'dunkel' ist die Ausnahme für einen einzelnen Abschnitt, der Kontrast braucht — der Abschnitt bekommt .section--dunkel, die Tokens kippen mit, die Bausteine bleiben unverändert.",
     "grund":        "#ffffff",
     "flaeche":      "#f5f5f5",
-    "linie":        "#e0e0e0",
-    "text":         "#1e1e18",
-    "text-leise":   "#555555",
+    "karte":        "#ffffff",
+    "erhoben":      "#ededed",
+    "ueberfahren":  "#e4e4e4",
+    "dunkel":       "#1e1e18",
+    "dunkel-2":     "#2b2b24",
 
+    "_linien": "Rahmen. 'linie' ist die sichtbare Trennlinie, die drei anderen sind Deckkraft-Stufen für Kanten auf Flächen.",
+    "linie":        "#e0e0e0",
+    "linie-zart":   "rgba(0,0,0,.07)",
+    "linie-stark":  "rgba(0,0,0,.22)",
+    "linie-aktiv":  "rgba(0,80,255,.45)",
+
+    "_text": "Textstufen. 'text-still' ist De-Emphasis (Platzhalter, Durchgestrichenes) und NIE Informationsträger — es erreicht auf Weiß nur 3,2:1. Alles, was jemand wissen muss, nutzt mindestens 'text-leise' (7,5:1).",
+    "text":            "#1e1e18",
+    "text-leise":      "#555555",
+    "text-still":      "#8a8a84",
+    "text-hell":       "#ffffff",
+    "text-hell-leise": "rgba(255,255,255,.78)",
+
+    "_signal": "Signal macht die Arbeit: Links, Menü, Rahmen, Hinweise, Kartenkanten. Es markiert, es füllt keine großen Flächen. 'signal-hell' ist dieselbe Rolle auf dunklem Grund — #0050ff erreicht dort nur 2,9:1 und fällt durch.",
     "signal":       "#0050ff",
     "signal-hover": "#0000c8",
     "signal-leise": "#eaf0ff",
+    "signal-hell":  "#5b8cff",
 
+    "_handlung": "Der Akzent hat genau eine Aufgabe: der Knopf 'Mitglied werden'. Ein gelber Knopf pro Bildschirm, sonst nirgends. Gelb hat auf Weiß 1,66:1 — es kann niemals Textfarbe sein.",
     "handlung":       "#ffbe00",
     "handlung-hover": "#e8ac00",
     "handlung-text":  "#1e1e18",
 
+    "_ampel": "Reine UI-Zustände, keine Markenfarben — und nie alleiniger Bedeutungsträger. Zwei Sätze, weil ein Ton selten beides kann: die ersten drei sind Fläche/Icon, die '-text'-Fassungen sind auf Weiß als Text geprüft (6,5 / 6,5 / 6,7:1).",
+    "gut":          "#00af00",
+    "achtung":      "#e08a00",
+    "alarm":        "#fa320a",
+    "gut-text":     "#006e00",
+    "achtung-text": "#8a5000",
+    "alarm-text":   "#b3200a",
+
+    "_alt": "Die ersten Namen aus Stufe 1. Sie bleiben, weil Bausteine sie nutzen — neuer Code schreibt 'alarm-text' und 'gut-text'.",
     "warnung":      "#fa320a",
     "bestaetigt":   "#006e00"
   },
+
+  "dunkel-abschnitt": {
+    "_hinweis": "Die Ausnahme: ein einzelner Abschnitt auf dunklem Grund. Diese Werte überschreiben DIESELBEN Variablennamen innerhalb von .section--dunkel — kein Baustein muss dafür angefasst werden, nur die Token-Werte kippen. Alle Töne sind gegen #1e1e18 gemessen (≥ 5,2:1). Sparsam einsetzen: ein dunkler Abschnitt je Seite, sonst wird die Ausnahme zur Regel.",
+    "grund":           "#1e1e18",
+    "flaeche":         "#2b2b24",
+    "karte":           "#2b2b24",
+    "erhoben":         "#2b2b24",
+    "ueberfahren":     "#37372e",
+    "linie":           "rgba(255,255,255,.14)",
+    "linie-zart":      "rgba(255,255,255,.07)",
+    "linie-stark":     "rgba(255,255,255,.28)",
+    "linie-aktiv":     "rgba(91,140,255,.55)",
+    "text":            "#ffffff",
+    "text-leise":      "rgba(255,255,255,.78)",
+    "text-still":      "rgba(255,255,255,.45)",
+    "signal":          "#5b8cff",
+    "signal-hover":    "#8fadff",
+    "signal-leise":    "rgba(91,140,255,.16)",
+    "gut-text":        "#8fd68f",
+    "achtung-text":    "#ffc04d",
+    "alarm-text":      "#ff9b7d"
+  },
+
   "schriften": {
     "sans": "\"Libre Franklin\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Helvetica, Arial, sans-serif",
     "mono": "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
   },
+
+  "schriftgroessen": {
+    "_hinweis": "Diskrete Skala — nur diese Stufen, keine Zwischenwerte. 'fs-aufmacher' ist die bewusste Ausnahme: der Aufmacher wächst fließend mit dem Schirm.",
+    "fs-xs":  "12px",
+    "fs-sm":  "14px",
+    "fs-md":  "17px",
+    "fs-lg":  "20px",
+    "fs-xl":  "24px",
+    "fs-2xl": "32px",
+    "fs-3xl": "42px",
+    "fs-aufmacher": "clamp(34px, 6vw, 60px)"
+  },
+
   "masse": {
     "breite":      "1120px",
     "breite-text": "68ch",
+    "kopf-hoehe":  "84px",
     "radius":      "8px",
     "radius-knopf":"26px",
+    "r-xs":  "3px",
+    "r-sm":  "6px",
+    "r-md":  "8px",
+    "r-lg":  "16px",
+    "r-pill":"999px",
+    "raum-0": "4px",
     "raum-1": "8px",
     "raum-2": "16px",
     "raum-3": "24px",
     "raum-4": "40px",
     "raum-5": "64px",
     "raum-6": "96px"
+  },
+
+  "schatten": {
+    "_hinweis": "Auf hellem Grund tragen Schatten die Tiefe. Weich und flach — ein harter Schlagschatten sieht auf Weiß nach Baukasten aus.",
+    "schatten-s": "0 1px 2px rgba(0,0,0,.08)",
+    "schatten-m": "0 8px 24px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.06)",
+    "schatten-g": "0 24px 60px -12px rgba(0,0,0,.16), 0 12px 28px -8px rgba(0,0,0,.10)"
+  },
+
+  "bewegung": {
+    "_hinweis": "Bewegung erklärt einen Zustand, sie unterhält nicht. 150–400 ms. Wer Bewegung abgestellt hat, bekommt keine.",
+    "ease":        "cubic-bezier(.4, 0, .2, 1)",
+    "ease-aus":    "cubic-bezier(.16, 1, .3, 1)",
+    "t-schnell":   ".15s",
+    "t":           ".25s",
+    "t-langsam":   ".4s",
+    "denk-puls":     "1.15s",
+    "denk-versatz":  ".16s",
+    "denk-takt":     "1.5s",
+    "denk-wort-ein": ".3s"
   }
 }

@@ -37,6 +37,10 @@ const NAV = { type: 'nav', data: {
   baum: menue,
   aktionLabel: 'Platz buchen',
   aktionHref: '{{facts.links.buchung}}',
+  // Die eine Handlung, auf jeder Seite erreichbar. Blau umrandet, nicht gelb —
+  // sonst gaebe es auf der Startseite zwei gleich laute Knoepfe.
+  knopfLabel: 'Mitglied werden',
+  knopfHref: '/mitglied-werden/',
 }};
 
 /**
@@ -105,6 +109,7 @@ export const seiten = [
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       zweitLabel: 'Erst mal reinschnuppern', zweitHref: '/kontakt/',
       bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),
+      marke: 'ja',
     }},
     { type: 'richtext', data: {
       titel: 'Bei uns findest du deinen Platz',
@@ -168,12 +173,101 @@ export const seiten = [
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       bild: bild('anlage-tennisplatz'), bildAlt: bildAlt('anlage-tennisplatz'),
     }},
+    // Die vier Wege ins Spielen, gleich oben. Wer die Jugendarbeit sucht,
+    // soll nicht erst an der Medenrunde vorbeiscrollen.
+    { type: 'cards', data: {
+      karten: [
+        { titel: 'Team und Wettkampf', text: 'Siebzehn Mannschaften von der Kreisliga bis zur Hessenliga.',
+          linkLabel: 'Weiterlesen', linkHref: '/sport/#wettkampf',
+          bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
+        { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung — einfach vorbeikommen und mitspielen.',
+          linkLabel: 'Weiterlesen', linkHref: '/sport/#hobby',
+          bild: bild('anlage-wiese', 'mittel'), bildAlt: bildAlt('anlage-wiese') },
+        { titel: 'Jugend', text: 'Fördern und fordern — von den Minis ab fünf bis zur U18.',
+          linkLabel: 'Weiterlesen', linkHref: '/sport/#jugend',
+          bild: bild('sport-jugend', 'mittel'), bildAlt: bildAlt('sport-jugend') },
+        { titel: 'Tennisschule', text: 'Die Tennisschule Kaus, seit über 35 Jahren beim KTC.',
+          linkLabel: 'Weiterlesen', linkHref: '/sport/#tennisschule',
+          bild: bild('anlage-platz2', 'mittel'), bildAlt: bildAlt('anlage-platz2') },
+      ],
+    }},
     { type: 'richtext', data: {
       titel: 'Team und Wettkampf',
+      anker: 'wettkampf',
       absaetze: [
         'Der KTC stellt {{facts.anlage.mannschaften}} Wettspiel-Mannschaften in unterschiedlichen Alters- und Leistungsklassen. Das Spektrum reicht von Kindern ab 12 Jahren bis zu den Senioren 60. Unsere Mannschaften spielen um jeden Punkt, aber auch für die Geselligkeit.',
         'Bei den Erwachsenen reicht es von der Kreisliga bis zur **Hessenliga** — dort spielen unsere Herren 50. Mehrere Teams treten als Spielgemeinschaft mit Diedenbergen und Kelkheim an, so bekommt jede Altersklasse genug Spielerinnen und Spieler zusammen.',
       ],
+    }},
+    { type: 'cards', data: {
+      karten: [
+        { titel: 'Alle Mannschaften im Überblick',
+          text: 'Siebzehn Teams der Erwachsenen von der Kreisliga bis zur Hessenliga, dazu die Jugend von U12 bis U18 — mit Spielgemeinschaft, Stärke und Spielklasse.',
+          linkLabel: 'Zur Mannschaftsübersicht', linkHref: '/mannschaften/' },
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: 'Hobby und Freizeit',
+      anker: 'hobby',
+      absaetze: [
+        'Die Hobbyrunde ist die einfachste Art, beim KTC anzukommen. Du findest spielerisch Anschluss und lernst Leute kennen, die zu deinem Niveau passen. Geselligkeit, Spielpraxis und Spaß stehen im Mittelpunkt, eine professionelle Anleitung ist dabei.',
+        '**Eine vorherige Anmeldung ist nicht nötig — einfach vorbeikommen und mitspielen.** Ansprechpartner vor Ort ist {{facts.vorstand.sport.name}}.',
+        'Die Hobbyrunde organisiert außerdem Freundschaftsspiele gegen Teams anderer Vereine, unter turnierähnlichen Bedingungen und auf wechselnden Anlagen. Das richtet sich an alle, die erste Wettspiel-Erfahrung sammeln wollen, an Mitglieder ohne festen Mannschaftsplatz und an Mannschaftsspieler mit Leistungsklasse 22 bis 25.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: 'Jugend',
+      anker: 'jugend',
+      absaetze: [
+        'Im KTC hat die Förderung von Kindern und Jugendlichen einen besonderen Stellenwert. Die Nachwuchsarbeit ist das Herz des Vereins — sie sorgt für frischen Wind und Gemeinschaft auf und neben dem Platz.',
+        'Unser Ziel: Kindern und Jugendlichen die besten Bedingungen bieten, um Tennis mit Spaß zu lernen, sich sportlich weiterzuentwickeln und über sich hinauszuwachsen. Dabei zählt nicht nur das Training, sondern auch Teamgeist, Fairness und das gemeinsame Erlebnis im Club.',
+        'Wir führen unsere jungen Talente Schritt für Schritt an das Turniertennis heran und ebnen ihnen den Weg in die Erwachsenenmannschaften.',
+      ],
+    }},
+    { type: 'infokarten', data: {
+      titel: 'Tennis für Minis',
+      karten: [
+        { label: 'Wann',    wert: '{{facts.minis.tag}}', zusatz: '{{facts.minis.zeit}}, außer in den Schulferien' },
+        { label: 'Wer',     wert: '{{facts.minis.alter}}', zusatz: 'Kinder und Eltern gemeinsam auf dem Platz' },
+        { label: 'Umfang',  wert: '{{facts.minis.einheiten}} Einheiten', zusatz: 'Schläger werden gestellt, Sportschuhe mitbringen' },
+        { label: 'Kosten',  wert: '{{facts.minis.kursgebuehr_kind}} €', zusatz: 'Kind · Erwachsene parallel {{facts.minis.kursgebuehr_erwachsen}} €' },
+      ],
+    }},
+    { type: 'richtext', data: {
+      absaetze: [
+        'Die Gruppen sind klein: bis zu {{facts.minis.gruppengroesse_kinder}} Kinder, parallel {{facts.minis.gruppengroesse_erwachsene}} Erwachsene. **Bitte ruf vor der Anmeldung kurz an**, damit wir die passende Altersgruppe finden — {{facts.minis.kontakt_name}}, {{facts.minis.kontakt_telefon}}.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: 'Tennisschule Kaus',
+      anker: 'tennisschule',
+      absaetze: [
+        'Seit {{facts.anlage.tennisschule_seit}} vertraut der KTC auf die Kompetenz der {{facts.anlage.tennisschule}}. Geleitet von den staatlich geprüften Tennislehrern Bertrand und Oliver Kaus, steht sie für Qualität, Engagement und messbaren Trainingserfolg.',
+        'Mit einem motivierten Trainerteam und modernen Lehrmethoden begleitet sie Kinder, Jugendliche und Erwachsene — vom Einsteiger bis zum Turnierspieler. Sie gehört zu den vom Deutschen Tennis Bund und vom Verband Deutscher Tennislehrer anerkannten Top-50-Tennisschulen.',
+        'Kosten für individuelles Training, Tennis-Camps und Kurse sind nicht im Clubbeitrag enthalten.',
+      ],
+    }},
+    ASSISTENT,
+    FOOTER,
+  ],
+},
+
+// ══════════════════════════════════════════════════════════ MANNSCHAFTEN
+//
+// Eigene Seite, weil die Tabelle mit siebzehn Teams die Sportseite erschlug.
+// Wer die Spielklasse der Herren 50 sucht, will nicht erst an Hobbyrunde,
+// Jugend und Tennisschule vorbeiscrollen.
+{
+  slug: 'mannschaften', page_type: 'standard',
+  title: 'Mannschaften',
+  description: 'Alle Wettspiel-Mannschaften des Krifteler Tennisclubs mit Spielgemeinschaft, Teamstärke und Spielklasse.',
+  blocks: [
+    NAV,
+    { type: 'hero', data: {
+      pill: 'Medenrunde',
+      titel: 'Unsere Mannschaften',
+      sub: 'Siebzehn Teams der Erwachsenen, dazu die Jugend von U12 bis U18. Von der Kreisliga bis zur Hessenliga.',
+      bild: bild('anlage-tennisplatz'), bildAlt: bildAlt('anlage-tennisplatz'),
     }},
     { type: 'tabelle', data: {
       titel: 'Mannschaften der Erwachsenen',
@@ -200,41 +294,9 @@ export const seiten = [
       hinweis: 'Dazu kommen die Jugendmannschaften von U12 bis U18. Alle Spieltermine stehen beim Hessischen Tennisverband.',
     }},
     { type: 'richtext', data: {
-      titel: 'Hobby und Freizeit',
       absaetze: [
-        'Die Hobbyrunde ist die einfachste Art, beim KTC anzukommen. Du findest spielerisch Anschluss und lernst Leute kennen, die zu deinem Niveau passen. Geselligkeit, Spielpraxis und Spaß stehen im Mittelpunkt, eine professionelle Anleitung ist dabei.',
-        '**Eine vorherige Anmeldung ist nicht nötig — einfach vorbeikommen und mitspielen.** Ansprechpartner vor Ort ist {{facts.vorstand.sport.name}}.',
-        'Die Hobbyrunde organisiert außerdem Freundschaftsspiele gegen Teams anderer Vereine, unter turnierähnlichen Bedingungen und auf wechselnden Anlagen. Das richtet sich an alle, die erste Wettspiel-Erfahrung sammeln wollen, an Mitglieder ohne festen Mannschaftsplatz und an Mannschaftsspieler mit Leistungsklasse 22 bis 25.',
-      ],
-    }},
-    { type: 'richtext', data: {
-      titel: 'Jugend',
-      absaetze: [
-        'Im KTC hat die Förderung von Kindern und Jugendlichen einen besonderen Stellenwert. Die Nachwuchsarbeit ist das Herz des Vereins — sie sorgt für frischen Wind und Gemeinschaft auf und neben dem Platz.',
-        'Unser Ziel: Kindern und Jugendlichen die besten Bedingungen bieten, um Tennis mit Spaß zu lernen, sich sportlich weiterzuentwickeln und über sich hinauszuwachsen. Dabei zählt nicht nur das Training, sondern auch Teamgeist, Fairness und das gemeinsame Erlebnis im Club.',
-        'Wir führen unsere jungen Talente Schritt für Schritt an das Turniertennis heran und ebnen ihnen den Weg in die Erwachsenenmannschaften.',
-      ],
-    }},
-    { type: 'infokarten', data: {
-      titel: 'Tennis für Minis',
-      karten: [
-        { label: 'Wann',    wert: '{{facts.minis.tag}}', zusatz: '{{facts.minis.zeit}}, außer in den Schulferien' },
-        { label: 'Wer',     wert: '{{facts.minis.alter}}', zusatz: 'Kinder und Eltern gemeinsam auf dem Platz' },
-        { label: 'Umfang',  wert: '{{facts.minis.einheiten}} Einheiten', zusatz: 'Schläger werden gestellt, Sportschuhe mitbringen' },
-        { label: 'Kosten',  wert: '{{facts.minis.kursgebuehr_kind}} €', zusatz: 'Kind · Erwachsene parallel {{facts.minis.kursgebuehr_erwachsen}} €' },
-      ],
-    }},
-    { type: 'richtext', data: {
-      absaetze: [
-        'Die Gruppen sind klein: bis zu {{facts.minis.gruppengroesse_kinder}} Kinder, parallel {{facts.minis.gruppengroesse_erwachsene}} Erwachsene. **Bitte ruf vor der Anmeldung kurz an**, damit wir die passende Altersgruppe finden — {{facts.minis.kontakt_name}}, {{facts.minis.kontakt_telefon}}.',
-      ],
-    }},
-    { type: 'richtext', data: {
-      titel: 'Tennisschule Kaus',
-      absaetze: [
-        'Seit {{facts.anlage.tennisschule_seit}} vertraut der KTC auf die Kompetenz der {{facts.anlage.tennisschule}}. Geleitet von den staatlich geprüften Tennislehrern Bertrand und Oliver Kaus, steht sie für Qualität, Engagement und messbaren Trainingserfolg.',
-        'Mit einem motivierten Trainerteam und modernen Lehrmethoden begleitet sie Kinder, Jugendliche und Erwachsene — vom Einsteiger bis zum Turnierspieler. Sie gehört zu den vom Deutschen Tennis Bund und vom Verband Deutscher Tennislehrer anerkannten Top-50-Tennisschulen.',
-        'Kosten für individuelles Training, Tennis-Camps und Kurse sind nicht im Clubbeitrag enthalten.',
+        'Mehrere Teams treten als Spielgemeinschaft mit Diedenbergen und Kelkheim an. So bekommt jede Altersklasse genug Spielerinnen und Spieler zusammen.',
+        'Du willst mitspielen? Schreib an {{facts.vorstand.sport.name}} oder schau dir an, [wie eine Mitgliedschaft aussieht](/mitglied-werden/).',
       ],
     }},
     ASSISTENT,

@@ -13,6 +13,8 @@ export default {
     zweitHref: { type: 'text',     default: '', label: 'Ziel des zweiten Knopfs' },
     bild:      { type: 'image',    default: '', label: 'Hintergrundbild' },
     bildAlt:   { type: 'text',     default: '', label: 'Alt-Text des Bildes' },
+    marke:     { type: 'auswahl',  default: 'nein', label: 'Logo ins Bild',
+                 optionen: ['nein', 'ja'] },
   },
   css: `
     .hero { padding: var(--raum-6) 0 var(--raum-5); position: relative; }
@@ -40,7 +42,10 @@ export default {
     .hero.hero--bild { padding: 0; }
     .hero--bild .hero__rahmen { position: relative; min-height: min(72vh, 620px);
       display: flex; align-items: flex-end; overflow: hidden; }
-    .hero--bild img { position: absolute; inset: 0; width: 100%; height: 100%;
+    /* Eine Klasse, kein Elementselektor: '.hero--bild img' ist spezifischer
+       als '.hero__marke' und hat das Logo auf volle Bildgroesse aufgeblasen.
+       Hier gebaut und im Browser gesehen. */
+    .hero__foto { position: absolute; inset: 0; width: 100%; height: 100%;
       object-fit: cover; z-index: 0; }
     .hero--bild .hero__schleier { position: absolute; inset: 0; z-index: 1;
       /* Kraeftig genug, dass Schrift auch auf einem hellen Bild traegt.
@@ -57,6 +62,15 @@ export default {
       background: rgba(255,255,255,.10); backdrop-filter: blur(2px); }
     .hero--bild .knopf--leise { color: #fff; border-color: rgba(255,255,255,.75); }
     .hero--bild .knopf--leise:hover { background: rgba(255,255,255,.14); color: #fff; }
+
+    /* Das Logo im Bild. Die Fassung mit halbdurchlaessigem Grund ist genau
+       dafuer gemacht — sie traegt sich selbst, egal wie unruhig das Foto an
+       der Stelle ist. Rechts oben, gegenueber dem Text. */
+    .hero__marke { position: absolute; top: var(--raum-4); right: var(--raum-4);
+      z-index: 2; width: clamp(96px, 13vw, 190px); height: auto; display: block; }
+    @media (max-width: 760px) {
+      .hero__marke { width: 92px; top: var(--raum-3); right: var(--raum-3); }
+    }
     @media (max-width: 640px) {
       .hero { padding: var(--raum-5) 0 var(--raum-4); }
       .hero.hero--bild { padding: 0; }
@@ -84,9 +98,14 @@ export default {
     return html`
       <section class="section hero hero--bild">
         <div class="hero__rahmen">
-          <img src="${raw(escapeAttr(bild))}" alt="${raw(escapeAttr(data.bildAlt || ''))}"
+          <img class="hero__foto" src="${raw(escapeAttr(bild))}"
+               alt="${raw(escapeAttr(data.bildAlt || ''))}"
                fetchpriority="high" decoding="async">
           <div class="hero__schleier"></div>
+          ${data.marke === 'ja'
+            ? html`<img class="hero__marke" src="/assets/ktc-logo-auf-bild.svg"
+                        alt="" aria-hidden="true" decoding="async">`
+            : ''}
           ${inhalt}
         </div>
       </section>`;

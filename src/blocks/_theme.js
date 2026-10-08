@@ -1,12 +1,26 @@
 import { loadTheme } from '../config.js';
 
-/** Tokens → CSS-Variablen. Eine Farbe aendern heisst: theme.json aendern. */
+/**
+ * Tokens → CSS-Variablen. Eine Farbe aendern heisst: theme.json aendern.
+ *
+ * Schluessel mit fuehrendem _ sind Kommentar in der JSON und werden
+ * uebersprungen — sonst wuerde aus jedem Hinweis eine CSS-Variable.
+ */
+const vars = (gruppe, praefix = '') => Object.entries(gruppe || {})
+  .filter(([k]) => !k.startsWith('_'))
+  .map(([k, v]) => `--${praefix}${k}: ${v};`)
+  .join(' ');
+
 export function themeCss() {
   const t = loadTheme();
-  const zeilen = [];
-  for (const [k, v] of Object.entries(t.farben || {}))    zeilen.push(`--${k}: ${v};`);
-  for (const [k, v] of Object.entries(t.schriften || {})) zeilen.push(`--font-${k}: ${v};`);
-  for (const [k, v] of Object.entries(t.masse || {}))     zeilen.push(`--${k}: ${v};`);
+  const zeilen = [
+    vars(t.farben),
+    vars(t.schriften, 'font-'),
+    vars(t.schriftgroessen),
+    vars(t.masse),
+    vars(t.schatten),
+    vars(t.bewegung),
+  ].filter(Boolean);
 
   return `
 :root { ${zeilen.join(' ')} }
@@ -38,6 +52,18 @@ a:hover { color: var(--signal-hover); }
 .section--ruhig { background: var(--flaeche); }
 .section--ruhig + .section { border-top: none; }
 
+/* Die Ausnahme: ein Abschnitt auf dunklem Grund.
+   Er setzt DIESELBEN Variablennamen neu — kein Baustein weiss davon, kein
+   Baustein braucht eine Sonderregel. Wer hier eine zweite Klasse einfuehrt
+   (".karte--dunkel"), hat den Mechanismus verfehlt: dann kippt nicht mehr
+   das Token, sondern der Baustein, und jeder neue Baustein muss nachziehen. */
+.section--dunkel { ${vars(loadTheme()['dunkel-abschnitt'])} }
+.section--dunkel { background: var(--grund); color: var(--text); }
+/* Ein dunkler Abschnitt trennt sich durch seinen Grund — eine Linie waere
+   doppelt gemoppelt, genau wie bei .section--ruhig. */
+.section--dunkel, .section--dunkel + .section { border-top: none; }
+.section--dunkel + .section--dunkel { border-top: 1px solid var(--linie); }
+
 /* Ein Abschnitt darf enger stehen, wenn er zum vorherigen gehoert —
    etwa ein Nachsatz unter einer Tabelle. */
 .section--eng { padding-top: 0; }
@@ -49,7 +75,7 @@ a:hover { color: var(--signal-hover); }
 :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 2px; }
 
 /* Ein Anker unter der klebenden Kopfzeile darf nicht dahinter verschwinden. */
-[id] { scroll-margin-top: 84px; }
+[id] { scroll-margin-top: var(--kopf-hoehe); }
 
 /* Wer Bewegung nicht mag, bekommt keine. */
 @media (prefers-reduced-motion: reduce) {

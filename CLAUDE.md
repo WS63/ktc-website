@@ -9,6 +9,8 @@ Vertrag**, das Rendern ist deterministisch. Bevor du hier etwas änderst, lies:
   auf, steht die Antwort dort. Steht sie nicht dort, ist das der Moment zu fragen statt zu raten.
 - **`docs/vorlage.md`** — die Bestandsaufnahme der alten WordPress-Seite, inklusive der
   Umleitungstabelle alt → neu.
+- **`docs/design-prinzipien.md`** — die Gestaltungsregeln. Verbindlich, bevor UI-Code entsteht.
+  Die Werte stehen in `config/theme.json`, diese Datei erklärt, was sie bedeuten.
 
 ## Das Wichtigste in Kürze
 
@@ -43,6 +45,11 @@ Ein Test hält das fest: höchstens ein `.knopf` je Seite.
   **Ein gelber Knopf pro Bildschirm, sonst nirgends.** Gelb hat auf Weiß 1,66:1 Kontrast —
   es kann niemals Textfarbe sein, deshalb ist es nur für die eine Fläche reserviert.
 - Das Logo bleibt vierfarbig. Es ist die Marke, nicht die Bedienung.
+- **Hell ist der Normalfall.** Zwei helle Töne wechseln sich ab. Ein einzelner Abschnitt darf
+  dunkel sein: `.section--dunkel` setzt dieselben Variablennamen neu — die Tokens kippen, die
+  Bausteine bleiben unverändert. Eine zweite Klasse je Baustein verfehlt den Mechanismus.
+- **Farbigen Text nur über die geprüften Fassungen** `--gut-text`, `--achtung-text`,
+  `--alarm-text`. Die Flächenfarben derselben Ampel fallen als Text auf Weiß durch.
 
 ## Bedienung
 

@@ -79,7 +79,7 @@
     "_hinweis": "Diskrete Skala — nur diese Stufen, keine Zwischenwerte. 'fs-aufmacher' ist die bewusste Ausnahme: der Aufmacher wächst fließend mit dem Schirm.",
     "fs-xs":  "12px",
     "fs-sm":  "14px",
-    "fs-md":  "17px",
+    "fs-md":  "18px",
     "fs-lg":  "20px",
     "fs-xl":  "24px",
     "fs-2xl": "32px",

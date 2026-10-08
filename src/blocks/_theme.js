@@ -29,7 +29,7 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 17px;
+  font-size: var(--fs-md);
   line-height: 1.7;
   color: var(--text);
   background: var(--grund);

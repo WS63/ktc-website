@@ -79,7 +79,10 @@ test('Suchen · Sachfragen treffen die richtige Seite', async () => {
   const erwartet = [
     ['Was kostet eine Mitgliedschaft?', ['/', '/mitglied-werden/', '/faq/']],
     ['Wer ist der Vorsitzende?',        ['/kontakt/', '/impressum/']],
-    ['In welcher Liga spielen die Herren 50?', ['/sport/']],
+    // Seit die Mannschaftstabelle aus /sport/ auf eine eigene Seite gewandert
+    // ist, ist /mannschaften/ die richtige Antwort. /sport/ bleibt gueltig:
+    // dort stehen die Bereiche, von denen aus verlinkt wird.
+    ['In welcher Liga spielen die Herren 50?', ['/mannschaften/', '/sport/']],
     ['Was kostet ein Spind?',           ['/mitglied-werden/']],
   ];
   for (const [frage, moegliche] of erwartet) {

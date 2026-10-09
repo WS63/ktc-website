@@ -29,6 +29,7 @@ const menue = [
   { label: 'Sport',          href: '/sport/' },
   { label: 'Mitglied werden',href: '/mitglied-werden/' },
   { label: 'Aktuelles',      href: '/aktuelles/' },
+  { label: 'Termine',        href: '/kalender/' },
   { label: 'Kontakt',        href: '/kontakt/' },
 ];
 
@@ -395,6 +396,53 @@ export const seiten = [
     }},
     { type: 'beitragsliste', data: {
       leerText: 'Noch keine Beiträge. Sobald etwas passiert, steht es hier.',
+    }},
+    ASSISTENT,
+    FOOTER,
+  ],
+},
+
+// ══════════════════════════════════════════════════════════ CLUBKALENDER
+{
+  slug: 'kalender', page_type: 'standard',
+  title: 'Clubkalender',
+  description: 'Termine des Krifteler Tennisclubs: Spieltage der Medenrunde, Clubveranstaltungen und was sonst ansteht.',
+  blocks: [
+    NAV,
+    { type: 'hero', data: {
+      pill: 'Was ansteht',
+      titel: 'Clubkalender',
+      sub: 'Spieltage, Veranstaltungen und Termine rund um die Anlage.',
+      bild: bild('club-kalender'), bildAlt: bildAlt('club-kalender'),
+    }},
+    { type: 'termine', data: {
+      vorspann: 'Abgelaufene Termine verschwinden von selbst — was hier steht, kommt noch.',
+      leerText: 'Zurzeit steht nichts an. Sobald die Termine der neuen Saison feststehen, erscheinen sie hier.',
+      // Beispieltermine, damit der Baustein etwas zu zeigen hat. Sie werden
+      // ersetzt, sobald der Vorstand die echten Termine liefert.
+      termine: [
+        { datum: '2027-04-17', uhrzeit: '14:00', art: 'verein',
+          titel: 'Saisoneröffnung',
+          text: 'Start in die Freiluftsaison mit Schleifchenturnier und anschließendem Grillen.',
+          ort: 'Clubhaus und Plätze' },
+        { datum: '2027-04-24', uhrzeit: '09:00', art: 'wettspiel',
+          titel: 'Erster Spieltag der Medenrunde',
+          text: 'Herren 40, Damen 30, Junioren U18 und U15 — die Aufstellungen hängen im Clubhaus aus.' },
+        { datum: '2027-05-08', uhrzeit: '09:30', art: 'verein',
+          titel: 'Arbeitseinsatz',
+          text: 'Gemeinsam die Anlage herrichten. Wer mitmacht, bekommt Frühstück.',
+          ort: 'Treffpunkt am Clubhaus' },
+        { datum: '2027-06-12', uhrzeit: '10:00', art: 'sonstiges',
+          titel: 'Tag der offenen Tür',
+          text: 'Schläger ausprobieren, Platz testen, Leute kennenlernen. Ohne Anmeldung.' },
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: 'Spieltermine der Mannschaften',
+      absaetze: [
+        'Die vollständigen Spielpläne aller Mannschaften stehen beim Hessischen Tennisverband. Dort sind sie immer aktuell — auch wenn ein Spiel kurzfristig verlegt wird.',
+        'Eine Übersicht unserer Mannschaften findest du auf der Seite [Mannschaften](/mannschaften/).',
+      ],
     }},
     ASSISTENT,
     FOOTER,

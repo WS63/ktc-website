@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { query, queryOne } from '../db.js';
 import { renderPage } from '../renderer.js';
 import { loadSite } from '../config.js';
-import { holen, legen } from '../cache.js';
+import { holen, legen, bisMitternacht } from '../cache.js';
 import { zaehle } from '../zaehler.js';
 
 const router = Router();
@@ -126,7 +126,48 @@ async function dynamischeDaten(inhalt, page) {
       })),
     };
   }
+  if (typen.has('termine')) {
+    // Abgelaufene Termine fliegen HIER raus und nicht im Baustein: renderPage()
+    // ist eine reine Funktion (P1). Ein new Date() im Baustein machte sie vom
+    // Tag abhaengig — dieselbe Seite saehe im April anders aus als im Mai, und
+    // kein Test koennte das festhalten.
+    for (const b of inhalt.blocks) {
+      if (b?.type !== 'termine') continue;
+      daten.termine = { termine: kuenftige(b.data?.termine || []) };
+    }
+  }
   return daten;
+}
+
+/** Heute 0:00 — ein Termin von heute Abend ist noch nicht vorbei. */
+function heuteNull() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+/**
+ * Die Termine, die noch kommen — aelteste zuerst.
+ *
+ * Das Datum steht als JJJJ-MM-TT in den Daten. Ein Termin ohne gueltiges
+ * Datum bleibt drin: lieber ein Eintrag zu viel als einer, der stumm
+ * verschwindet, weil jemand sich vertippt hat.
+ */
+export function kuenftige(termine) {
+  const schwelle = heuteNull();
+  return termine
+    .filter((t) => {
+      const d = new Date(`${t.datum}T00:00:00`);
+      return Number.isNaN(d.getTime()) || d >= schwelle;
+    })
+    .sort((a, b) => String(a.datum).localeCompare(String(b.datum)))
+    .map((t) => ({
+      ...t,
+      // Der Baustein soll kein Datum formatieren muessen — er bekommt den
+      // fertigen Text und bleibt damit frei von Gebietsschema-Logik.
+      tag: new Date(`${t.datum}T00:00:00`).toLocaleDateString('de-DE',
+        { day: 'numeric', month: 'long' }),
+    }));
 }
 
 async function seiteFinden(pfad) {
@@ -188,7 +229,10 @@ router.get(/^\/(.*)$/, async (req, res, next) => {
     const inhalt = JSON.parse(page.content_json);
     const html = renderPage(page, { dynamicData: await dynamischeDaten(inhalt, page) });
     zaehle(req.path);
-    res.type('html').send(legen(pfad, html));
+    // Eine Seite mit Terminen gilt nur bis Mitternacht: danach kann ein
+    // Termin vorbei sein, und der Speicher wuesste nichts davon.
+    const hatTermine = inhalt.blocks.some((b) => b?.type === 'termine');
+    res.type('html').send(legen(pfad, html, hatTermine ? bisMitternacht() : 0));
   } catch (err) { next(err); }
 });
 

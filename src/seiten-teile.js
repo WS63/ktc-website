@@ -5,6 +5,7 @@ const menue = [
   { label: 'Sport',           href: '/sport/' },
   { label: 'Mitglied werden', href: '/mitglied-werden/' },
   { label: 'Aktuelles',       href: '/aktuelles/' },
+  { label: 'Termine',         href: '/kalender/' },
   { label: 'Kontakt',         href: '/kontakt/' },
 ];
 

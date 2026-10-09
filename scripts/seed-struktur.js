@@ -9,13 +9,15 @@ const menue = [
   { ort: 'kopf', label: 'Sport',           href: '/sport/' },
   { ort: 'kopf', label: 'Mitglied werden', href: '/mitglied-werden/' },
   { ort: 'kopf', label: 'Aktuelles',       href: '/aktuelles/' },
+  { ort: 'kopf', label: 'Termine',         href: '/kalender/' },
   { ort: 'kopf', label: 'Kontakt',         href: '/kontakt/' },
   { ort: 'fuss', label: 'FAQ',             href: '/faq/' },
   { ort: 'fuss', label: 'Impressum',       href: '/impressum/' },
   { ort: 'fuss', label: 'Datenschutz',     href: '/datenschutz/' },
 ];
 
-if ((await query('SELECT id FROM navigation')).length === 0) {
+const vorhanden = await query('SELECT href FROM navigation');
+if (vorhanden.length === 0) {
   let i = 0;
   for (const p of menue) {
     await query(
@@ -25,7 +27,29 @@ if ((await query('SELECT id FROM navigation')).length === 0) {
   }
   console.log(`[Struktur] ${menue.length} Menüpunkte angelegt.`);
 } else {
-  console.log('[Struktur] Navigation steht schon — nicht angefasst.');
+  // Fehlende Punkte nachtragen, bestehende in Ruhe lassen.
+  //
+  // Vorher stand hier 'Navigation steht schon — nicht angefasst', und damit
+  // kam ein neuer Menuepunkt bei einer bestehenden Datenbank NIE an: die
+  // Seite war da, erreichbar, und tauchte im Menue nicht auf. Genau einmal
+  // passiert, mit dem Clubkalender.
+  //
+  // Was ein Mensch im Cockpit umbenannt, verschoben oder versteckt hat,
+  // bleibt unangetastet — verglichen wird nur das Ziel.
+  const kenne = new Set(vorhanden.map((z) => z.href));
+  const { n } = await queryOne('SELECT COUNT(*) AS n FROM navigation');
+  let i = Number(n);
+  let neue = 0;
+  for (const p of menue) {
+    if (kenne.has(p.href)) continue;
+    await query(
+      `INSERT INTO navigation (id, parent_id, ort, label, href, sort, visible)
+       VALUES ($1, NULL, $2, $3, $4, $5, 1)`,
+      [crypto.randomUUID(), p.ort, p.label, p.href, i++]);
+    console.log(`[Struktur] Menüpunkt ergänzt: ${p.label} → ${p.href}`);
+    neue++;
+  }
+  if (!neue) console.log('[Struktur] Navigation ist vollständig — nichts zu tun.');
 }
 
 // Die Umleitungstabelle aus docs/vorlage.md. Das ist der Punkt, an dem

@@ -7,7 +7,11 @@ import { zaehle } from '../zaehler.js';
 
 const router = Router();
 
-const GRENZE_UEBERSICHT = 100;
+// Wie viele Beitraege eine Uebersichtsseite zeigt. Vorher stand hier eine
+// harte Grenze von 100 ohne Blaetterwerk: bei ueber 50 Beitraegen im Jahr
+// waere der aelteste nach zwei Jahren unerreichbar gewesen — die Seite
+// existiert, aber kein Link fuehrt mehr hin.
+const JE_SEITE = 10;
 const GRENZE_START = 6;
 
 // ── Umleitungen: vor allen Seitenrouten, nach den statischen Dateien ──
@@ -90,11 +94,14 @@ async function dynamischeDaten(inhalt, page) {
   }
 
   if (typen.has('beitragsliste')) {
-    const grenze = page.page_type === 'aktuelles' ? GRENZE_UEBERSICHT : GRENZE_START;
+    const uebersicht = page.page_type === 'aktuelles';
+    const grenze = uebersicht ? JE_SEITE : GRENZE_START;
+    const seite = uebersicht ? Math.max(1, Number(page.seitenzahl) || 1) : 1;
     const zeilen = await query(
-      `SELECT slug, title, description, created_at FROM pages
+      `SELECT slug, title, description, created_at, bild, bild_alt FROM pages
        WHERE page_type = 'beitrag' AND status = 'published'
-       ORDER BY created_at DESC LIMIT $1`, [grenze]);
+       ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
+      [grenze, (seite - 1) * grenze]);
     // Die Gesamtzahl kommt aus einer eigenen Abfrage, nicht aus der Laenge der
     // geholten Zeilen: die Startseite holt nur GRENZE_START Stueck, und ein
     // Link 'Alle Beiträge (6)' waere schlicht falsch, wenn es 14 sind.
@@ -102,14 +109,20 @@ async function dynamischeDaten(inhalt, page) {
     const gezaehlt = await queryOne(
       `SELECT COUNT(*) AS n FROM pages
        WHERE page_type = 'beitrag' AND status = 'published'`);
+    const gesamt = Number(gezaehlt?.n ?? 0);
     daten.beitragsliste = {
-      gesamt: Number(gezaehlt?.n ?? 0),
+      gesamt,
+      seite: uebersicht ? seite : 1,
+      seiten: uebersicht ? Math.max(1, Math.ceil(gesamt / grenze)) : 1,
+      basis: '/aktuelles/',
       eintraege: zeilen.map((z) => ({
         datum: new Date(z.created_at).toLocaleDateString('de-DE',
           { day: 'numeric', month: 'long', year: 'numeric' }),
         titel: z.title,
         text: z.description,
         href: `/aktuelles/${z.slug}/`,
+        bild: z.bild || '',
+        bildAlt: z.bild_alt || '',
       })),
     };
   }
@@ -120,6 +133,29 @@ async function seiteFinden(pfad) {
   const direkt = await queryOne(
     "SELECT * FROM pages WHERE slug = $1 AND status = 'published'", [pfad]);
   if (direkt) return direkt;
+
+  // /aktuelles/seite-2/ ist dieselbe Seite, nur ein anderer Ausschnitt. Die
+  // Pruefung steht VOR der Beitragssuche: 'seite-2' saehe sonst aus wie der
+  // Slug eines Beitrags, und die Blaetterseiten waeren alle 404.
+  const blatt = pfad.match(/^aktuelles\/seite-(\d+)$/);
+  if (blatt) {
+    const nr = Number(blatt[1]);
+    const uebersicht = await queryOne(
+      "SELECT * FROM pages WHERE slug = 'aktuelles' AND status = 'published'");
+    if (!uebersicht) return null;
+    // Seite 1 heisst '/aktuelles/' — zwei Adressen fuer denselben Inhalt waeren
+    // ein Fehler, auch wenn beide funktionieren wuerden.
+    if (nr < 2) return null;
+    // Und hinter der letzten Seite ist nichts. Ohne diese Pruefung antwortet
+    // '/aktuelles/seite-99/' mit 200 und einer leeren Liste: beliebig viele
+    // Adressen, die alle nichts zeigen.
+    const { n } = await queryOne(
+      `SELECT COUNT(*) AS n FROM pages
+       WHERE page_type = 'beitrag' AND status = 'published'`);
+    if (nr > Math.ceil(Number(n) / JE_SEITE)) return null;
+    return { ...uebersicht, seitenzahl: nr };
+  }
+
   const m = pfad.match(/^aktuelles\/([^/]+)$/);
   if (!m) return null;
   return queryOne(

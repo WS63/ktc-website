@@ -10,11 +10,21 @@ import { runMigrations, query, queryOne } from '../src/db.js';
 import { validateContent } from '../src/archetypes.js';
 import { seiten } from '../src/seiten.js';
 
+// Dasselbe Verzeichnis, das auch src/seiten.js benutzt: der Beitrag nennt den
+// NAMEN eines Bildes, nicht den Dateinamen. Der traegt eine Pruefsumme und
+// aendert sich bei jedem Austausch.
+const bildVerzeichnis = existsSync('inhalte/bilder.json')
+  ? JSON.parse(readFileSync('inhalte/bilder.json', 'utf8')) : {};
+const bildAdresse = (name) => (name && bildVerzeichnis[name]?.klein)
+  || (name && bildVerzeichnis[name]?.mittel) || '';
+const bildText = (name) => (name && bildVerzeichnis[name]?.alt) || '';
+
 const FORCE = process.argv.includes('--force');
 
 await runMigrations();
 
-async function schreiben({ slug, page_type, title, description, blocks, created_at }) {
+async function schreiben({ slug, page_type, title, description, blocks, created_at,
+                           bild, bild_alt }) {
   const inhalt = { blocks };
   const pruefung = validateContent(page_type, inhalt);
   if (!pruefung.ok) {
@@ -35,15 +45,17 @@ async function schreiben({ slug, page_type, title, description, blocks, created_
   if (alt) {
     await query(
       `UPDATE pages SET page_type = $1, title = $2, description = $3, content_json = $4,
-       status = 'published', updated_at = $5 WHERE slug = $6`,
-      [page_type, title, description, JSON.stringify(inhalt), jetzt, slug]);
+       status = 'published', bild = $5, bild_alt = $6, updated_at = $7 WHERE slug = $8`,
+      [page_type, title, description, JSON.stringify(inhalt),
+       bild || null, bild_alt || null, jetzt, slug]);
     return 'aktualisiert';
   }
   await query(
-    `INSERT INTO pages (id, slug, page_type, status, title, description, content_json, created_at, updated_at)
-     VALUES ($1, $2, $3, 'published', $4, $5, $6, $7, $8)`,
+    `INSERT INTO pages (id, slug, page_type, status, title, description, content_json,
+                        bild, bild_alt, created_at, updated_at)
+     VALUES ($1, $2, $3, 'published', $4, $5, $6, $7, $8, $9, $10)`,
     [crypto.randomUUID(), slug, page_type, title, description,
-     JSON.stringify(inhalt), created_at || jetzt, jetzt]);
+     JSON.stringify(inhalt), bild || null, bild_alt || null, created_at || jetzt, jetzt]);
   return 'angelegt';
 }
 
@@ -81,6 +93,11 @@ if (existsSync(importDatei)) {
       title: b.titel,
       description: (b.absaetze[0] || '').slice(0, 160),
       created_at: `${b.datum}T12:00:00.000Z`,
+      // Das Vorschaubild steht als Name in beitraege.json, nicht als Dateiname:
+      // uebersetzt wird er ueber inhalte/bilder.json. Fehlt es, bleibt die Zeile
+      // in der Uebersicht ohne Bild — sie verschwindet nicht (P6).
+      bild: bildAdresse(b.bild),
+      bild_alt: bildText(b.bild),
       blocks: seitenBausteine.beitrag(b),
     });
     zaehler[r] = (zaehler[r] || 0) + 1;

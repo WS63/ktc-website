@@ -28,7 +28,7 @@ export default {
       color: var(--text); font-weight: 600; margin-bottom: 10px; }
     /* Die Zahl ist die Botschaft der Karte — sie darf lauter sein als alles
        andere darin. Deshalb die groesste Stufe und volles Gewicht. */
-    .info__wert { font-size: var(--fs-3xl); font-weight: 700; line-height: 1.05;
+    .info__wert { font-size: var(--fs-3xl); font-weight: 800; line-height: 1.05;
       letter-spacing: -.025em; color: var(--signal); }
     .info__zusatz { font-size: var(--fs-sm); color: var(--text-leise); margin-top: 10px;
       line-height: 1.5; }

@@ -135,8 +135,9 @@ export const seiten = [
         'Ob du anfängst, nach Jahren wieder einsteigst oder ambitioniert in der Mannschaft spielst — bei uns findest du das passende Angebot. Im Jugend- und Erwachsenenbereich spielen {{facts.anlage.mannschaften}} Mannschaften Wettkämpfe bis zur Landesebene. Im Freizeitbereich gibt es übers Jahr Turniere und Veranstaltungen.',
         'Die Jüngsten trainieren bei der **{{facts.anlage.tennisschule}}**, auf die wir seit {{facts.anlage.tennisschule_seit}} vertrauen — mit eingespieltem Trainerteam und klarem Lernkonzept.',
         'Interessiert an einer Mitgliedschaft oder einem Schnuppertraining? Beiträge, Anträge und alles zum Herunterladen stehen auf [Mitglied werden](/mitglied-werden/). Oder komm einfach am {{facts.verein.strasse}} in {{facts.verein.ort}} vorbei — [so findest du uns](/kontakt/).',
-        '**Krifteler Tennisclub — sportlich, herzlich, familiär.**',
       ],
+      // Eigenes Feld statt fetter Absatz: ein Claim klingt aus, er ruft nicht.
+      schluss: 'Dein Krifteler Tennisclub — sportlich, herzlich, familiär.',
     }},
     { type: 'infokarten', data: {
       // 'anschluss': die Eckdaten gehoeren zum Textabschnitt darueber — kein

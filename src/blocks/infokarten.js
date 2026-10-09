@@ -12,23 +12,23 @@ export default {
     .info__titel { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-3); }
     .info__gitter { display: grid; gap: var(--raum-2);
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
-    /* Eine Kante oben, abwechselnd Signalblau und dunkles Grau. Erst standen
-       hier vier Clubfarben — nebeneinander wurden sie unruhig und zogen den
-       Blick auf die Kante statt auf die Zahl. Zwei ruhige Toene im Wechsel
-       gliedern genauso, ohne zu flackern. */
+    /* Eine Kante oben, bei jeder Karte dasselbe dunkle Grau. Erst standen hier
+       vier Clubfarben, dann Blau und Grau im Wechsel — beides zog den Blick auf
+       die Kante statt auf die Zahl. Die Kante gliedert, die Farbe traegt jetzt
+       die Zahl: genau ein farbiges Element je Karte. */
     .info { background: var(--grund); border: 1px solid var(--linie);
-      border-top: 4px solid var(--signal);
+      border-top: 4px solid var(--linie-akzent);
       border-radius: 0 0 var(--radius) var(--radius); padding: var(--raum-3); }
     .section--ruhig .info { background: var(--grund); }
-    .info:nth-child(2n) { border-top-color: var(--linie-akzent); }
     /* Das Label traegt die Betonung ueber Gewicht, nicht ueber Farbe.
        Farbig waere es ein zweites Signal neben der Kante — und Gelb kann
        auf Weiss ohnehin nie Textfarbe sein (1,66:1). */
-    .info__label { font-size: 12px; text-transform: uppercase; letter-spacing: .07em;
-      color: var(--text); font-weight: 600; margin-bottom: 8px; }
+    .info__label { font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: .07em;
+      color: var(--text); font-weight: 600; margin-bottom: 10px; }
     .info__wert { font-size: var(--fs-2xl); font-weight: 500; line-height: 1.1;
-      letter-spacing: -.02em; }
-    .info__zusatz { font-size: 14px; color: var(--text-leise); margin-top: 8px; line-height: 1.5; }
+      letter-spacing: -.02em; color: var(--signal); }
+    .info__zusatz { font-size: var(--fs-md); color: var(--text-leise); margin-top: 10px;
+      line-height: 1.5; }
   `,
   render(data) {
     const karten = (data.karten || []).map((k) => html`<div class="info">

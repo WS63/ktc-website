@@ -138,13 +138,17 @@ export const seiten = [
       ],
     }},
     { type: 'infokarten', data: {
-      // Weisser Grund: die Eckdaten gehoeren noch zum Abschnitt darueber.
-      // Die ruhige Flaeche setzt stattdessen erst bei 'Sportliche Vielfalt' ein.
-      grund: 'weiss',
+      // 'anschluss': die Eckdaten gehoeren zum Textabschnitt darueber — kein
+      // eigener Grund, keine Trennlinie dazwischen. Die ruhige Flaeche setzt
+      // erst bei 'Sportliche Vielfalt' ein.
+      grund: 'anschluss',
       karten: [
-        { label: 'Plätze',   wert: '{{facts.anlage.plaetze}}', zusatz: 'Sandplätze, gepflegt' },
-        { label: 'Mitglieder', wert: '{{facts.anlage.mitglieder}}', zusatz: 'davon {{facts.anlage.jugendliche}} Kinder und Jugendliche' },
-        { label: 'Mannschaften', wert: '{{facts.anlage.mannschaften}}', zusatz: 'von U12 bis Senioren 60' },
+        { label: 'Plätze', wert: '{{facts.anlage.plaetze}}',
+          zusatz: 'gepflegte {{facts.anlage.belag}}plätze, bespielbar von {{facts.anlage.saison}}' },
+        { label: 'Mitglieder', wert: '{{facts.anlage.mitglieder}}',
+          zusatz: 'davon {{facts.anlage.jugendliche}} Kinder und Jugendliche, betreut von der {{facts.anlage.tennisschule}}' },
+        { label: 'Mannschaften', wert: '{{facts.anlage.mannschaften}}',
+          zusatz: 'von den Junioren bis Senioren 60 — dazu die Hobbyrunde ohne Anmeldung' },
       ],
     }},
     { type: 'cards', data: {

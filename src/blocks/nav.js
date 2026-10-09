@@ -18,19 +18,19 @@ export default {
       padding-top: 14px; padding-bottom: 14px; }
     .kopf__marke { display: flex; align-items: center; gap: 10px; margin-right: auto;
       text-decoration: none; color: var(--text); flex: none; }
-    .kopf__marke b { font-weight: 500; font-size: 15px; white-space: nowrap; }
+    .kopf__marke b { font-weight: 500; font-size: 17px; white-space: nowrap; }
         /* Die Vollfassung mit weissem Grund und gruenem Rahmen, quadratisch.
        Als Datei, nicht inline: 15 KB in jeder Seite waeren teurer als die eine
        Anfrage. Faellt sie aus, fehlt das Zeichen und sonst nichts (P6) — der
        Vereinsname steht daneben als Text und traegt die Marke allein. */
     .kopf__zeichen { height: 40px; width: 40px; display: block; flex: none; }
     .kopf__menue { display: flex; gap: var(--raum-3); align-items: center;
-      font-size: 15px; }
+      font-size: 17px; }
     .kopf__menue a { color: var(--text); text-decoration: none; padding: 6px 0;
       border-bottom: 2px solid transparent; white-space: nowrap; }
     .kopf__menue a:hover { color: var(--signal); border-bottom-color: var(--signal); }
     .kopf__jetzt { color: var(--signal); text-decoration: none; white-space: nowrap;
-      font-size: 15px; flex: none; }
+      font-size: 17px; flex: none; }
     .kopf__jetzt:hover { text-decoration: underline; text-underline-offset: 3px; }
 
     /* Der Knopf in der Leiste fuehrt zur einen Handlung — auf JEDER Seite.

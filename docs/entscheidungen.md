@@ -49,10 +49,13 @@
   Ohne Schlüssel erscheint kein Chatfenster — die Website läuft vollständig weiter (P6).
 
 **Offene Punkte (Design/Inhalt):**
-  - Mannschaftstabelle auf /mannschaften/: die Links der alten WordPress-Seite fehlen.
-    Dort führten Einträge zu Medenspieltagen und Gruppeneinteilungen beim HTV.
-    Beim Übernehmen in den `tabelle`-Baustein sind sie verlorengegangen — der
-    Baustein kennt nur Text je Zelle, keine Ziele. Braucht eine Schema-Erweiterung.
+  - ~~Mannschaftstabelle auf /mannschaften/: die Links zum HTV fehlen.~~ **Erledigt.**
+    Der `tabelle`-Baustein nimmt jetzt je Zelle entweder Text oder `{ text, href }`.
+    Alle 29 Mannschaften verlinken auf ihre Spielgruppe bei `htv.liga.nu` — dort
+    stehen Spielplan, Tabelle und Ergebnisse, immer aktuell.
+    **Die Gruppennummern gelten je Saison.** Beim Saisonwechsel ändern sich
+    `WETTBEWERB` und jede Nummer in `src/seiten.js`. Das ist Handarbeit einmal
+    im Jahr und fällt auf, weil die Links sonst ins Leere gehen.
   - /mannschaften/ hängt bewusst nicht im Menü, nur über /sport/ erreichbar.
 
 **Offene Fakten:**

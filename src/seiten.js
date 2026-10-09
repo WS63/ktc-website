@@ -46,6 +46,24 @@ const AUFMACHER_BILDER = [
   'anlage-platz67unten',
 ].map((n) => ({ src: bild(n), alt: bildAlt(n) })).filter((b) => b.src);
 
+/**
+ * Die Adresse einer Spielgruppe beim Hessischen Tennisverband.
+ *
+ * Dort stehen Spielplan, Tabelle und Ergebnisse — immer aktuell, auch wenn
+ * ein Spiel verlegt wird. Deshalb VERLINKEN statt abschreiben: eine Kopie der
+ * Termine auf dieser Website waere ab der ersten Verlegung falsch, und jemand
+ * faehrt umsonst zur Anlage.
+ *
+ * Die Gruppennummern gelten je Saison. Beim Saisonwechsel aendern sich BEIDE
+ * — WETTBEWERB und jede Nummer in der Tabelle unten. Das ist Handarbeit
+ * einmal im Jahr, und sie faellt auf, weil die Links sonst ins Leere gehen.
+ */
+const WETTBEWERB = 'Medenrunde+2026';
+const SOMMER = 'HTV-Summer-Mixed+Tour+2026';
+const htv = (gruppe, wettbewerb = WETTBEWERB) =>
+  'https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/groupPage'
+  + `?championship=${wettbewerb}&group=${gruppe}`;
+
 const NAV = { type: 'nav', data: {
   marke: 'krifteler tennisclub',
   baum: menue,
@@ -286,36 +304,54 @@ export const seiten = [
     { type: 'hero', data: {
       pill: 'Medenrunde',
       titel: 'Unsere Mannschaften',
-      sub: 'Siebzehn Teams der Erwachsenen, dazu die Jugend von U12 bis U18. Von der Kreisliga bis zur Hessenliga.',
+      sub: 'Alle Wettspiel-Teams der Erwachsenen und der Jugend — von der Kreisliga bis zur Hessenliga.',
       bild: bild('anlage-tennisplatz'), bildAlt: bildAlt('anlage-tennisplatz'),
     }},
     { type: 'tabelle', data: {
       titel: 'Mannschaften der Erwachsenen',
       kopf: ['Mannschaft', 'Spielgemeinschaft', 'Stärke', 'Spielklasse'],
       zeilen: [
-        ['Damen', 'Diedenbergen/KTC', '6er', 'Kreisoberliga'],
-        ['Damen II', 'Diedenbergen/KTC', '4er', 'Kreisoberliga'],
-        ['Damen III', 'Diedenbergen/KTC', '4er', 'Kreisliga B'],
-        ['Damen 40', '—', '4er', 'Kreisliga A'],
-        ['Damen 50', '—', '4er', 'Gruppenliga'],
-        ['Damen 55', '—', '4er', 'Gruppenliga'],
-        ['Herren', '—', '4er', 'Kreisliga A'],
-        ['Herren II', '—', '2er', 'Kreisliga A'],
-        ['Herren 30', '—', '6er', 'Kreisoberliga'],
-        ['Herren 40', '—', '6er', 'Gruppenliga'],
-        ['Herren 40 II', '—', '4er', 'Kreisliga A'],
-        ['Herren 50', '—', '6er', 'Hessenliga'],
-        ['Herren 50 II', '—', '4er', 'Kreisoberliga'],
-        ['Herren 55', '—', '4er', 'Gruppenliga'],
-        ['Herren 60', '—', '4er', 'Kreisliga A'],
-        ['Summer Mixed 50', '—', '4er', 'Pros'],
-        ['Summer Mixed 50 II', '—', '4er', 'Amateurs'],
+        ['Damen', 'Diedenbergen/KTC', '6er', { text: 'Kreisoberliga', href: htv('10') }],
+        ['Damen II', 'Diedenbergen/KTC', '4er', { text: 'Kreisoberliga', href: htv('24') }],
+        ['Damen III', 'Diedenbergen/KTC', '4er', { text: 'Kreisliga B', href: htv('49') }],
+        ['Damen 40', '—', '4er', { text: 'Kreisliga A', href: htv('121') }],
+        ['Damen 50', '—', '4er', { text: 'Gruppenliga', href: htv('145') }],
+        ['Damen 55', '—', '4er', { text: 'Gruppenliga', href: htv('166') }],
+        ['Herren', '—', '4er', { text: 'Kreisliga A', href: htv('228') }],
+        ['Herren II', '—', '2er', { text: 'Kreisliga A', href: htv('266') }],
+        ['Herren 30', '—', '6er', { text: 'Kreisoberliga', href: htv('281') }],
+        ['Herren 40', '—', '6er', { text: 'Gruppenliga', href: htv('327') }],
+        ['Herren 40 II', '—', '4er', { text: 'Kreisliga A', href: htv('360') }],
+        ['Herren 50', '—', '6er', { text: 'Hessenliga', href: htv('382') }],
+        ['Herren 50 II', '—', '4er', { text: 'Kreisoberliga', href: htv('413') }],
+        ['Herren 55', '—', '4er', { text: 'Gruppenliga', href: htv('440') }],
+        ['Herren 60', '—', '4er', { text: 'Kreisliga A', href: htv('466') }],
+        ['Summer Mixed 50', '—', '4er', { text: 'Pros', href: htv('20', SOMMER) }],
+        ['Summer Mixed 50 II', '—', '4er', { text: 'Amateurs', href: htv('21', SOMMER) }],
       ],
-      hinweis: 'Dazu kommen die Jugendmannschaften von U12 bis U18. Alle Spieltermine stehen beim Hessischen Tennisverband.',
+      hinweis: 'Ein Klick auf die Spielklasse führt zur Gruppe beim Hessischen Tennisverband — dort stehen Spielplan, Tabelle und Ergebnisse.',
+    }},
+    { type: 'tabelle', data: {
+      titel: 'Mannschaften der Jugend',
+      kopf: ['Mannschaft', 'Spielgemeinschaft', 'Stärke', 'Spielklasse'],
+      zeilen: [
+        ['Gemischt U12', 'KTC/Diedenbergen', '4er', { text: 'Kreisliga A', href: htv('730') }],
+        ['Juniorinnen U15', 'Diedenb./KTC/Kelkh.', '4er', { text: 'Gruppenliga', href: htv('533') }],
+        ['Juniorinnen U15 II', 'Diedenb./KTC/Kelkh.', '4er', { text: 'Kreisoberliga', href: htv('539') }],
+        ['Juniorinnen U15 III', 'Diedenb./KTC/Kelkh.', '4er', { text: 'Kreisliga B', href: htv('553') }],
+        ['Junioren U15', 'Diedenbergen/KTC', '4er', { text: 'Kreisoberliga A', href: htv('640') }],
+        ['Junioren U15 II', 'Diedenbergen/KTC', '4er', { text: 'Kreisliga A', href: htv('653') }],
+        ['Junioren U15 III', 'Diedenbergen/KTC', '4er', { text: 'Kreisliga A', href: htv('646') }],
+        ['Junioren U15 IV', 'Diedenbergen/KTC', '4er', { text: 'Kreisliga C', href: htv('671') }],
+        ['Juniorinnen U18', 'KTC/Diedenb./Kelkh.', '4er', { text: 'Gruppenliga', href: htv('565') }],
+        ['Juniorinnen U18 II', 'KTC/Diedenb./Kelkh.', '4er', { text: 'Kreisoberliga A', href: htv('570') }],
+        ['Junioren U18', '—', '4er', { text: 'Kreisliga B', href: htv('715') }],
+        ['Junioren U18 II', '—', '6er', { text: 'Kreisliga B', href: htv('709') }],
+      ],
+      hinweis: 'Mehrere Jugendteams treten als Spielgemeinschaft mit Diedenbergen und Kelkheim an — so bekommt jede Altersklasse genug Spielerinnen und Spieler zusammen.',
     }},
     { type: 'richtext', data: {
       absaetze: [
-        'Mehrere Teams treten als Spielgemeinschaft mit Diedenbergen und Kelkheim an. So bekommt jede Altersklasse genug Spielerinnen und Spieler zusammen.',
         'Du willst mitspielen? Schreib an {{facts.vorstand.sport.name}} oder schau dir an, [wie eine Mitgliedschaft aussieht](/mitglied-werden/).',
       ],
     }},

@@ -95,7 +95,15 @@ async function dynamischeDaten(inhalt, page) {
       `SELECT slug, title, description, created_at FROM pages
        WHERE page_type = 'beitrag' AND status = 'published'
        ORDER BY created_at DESC LIMIT $1`, [grenze]);
+    // Die Gesamtzahl kommt aus einer eigenen Abfrage, nicht aus der Laenge der
+    // geholten Zeilen: die Startseite holt nur GRENZE_START Stueck, und ein
+    // Link 'Alle Beiträge (6)' waere schlicht falsch, wenn es 14 sind.
+    // Number(), weil COUNT(*) auf Postgres Text liefert und nicht Zahl.
+    const gezaehlt = await queryOne(
+      `SELECT COUNT(*) AS n FROM pages
+       WHERE page_type = 'beitrag' AND status = 'published'`);
     daten.beitragsliste = {
+      gesamt: Number(gezaehlt?.n ?? 0),
       eintraege: zeilen.map((z) => ({
         datum: new Date(z.created_at).toLocaleDateString('de-DE',
           { day: 'numeric', month: 'long', year: 'numeric' }),

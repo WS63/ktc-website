@@ -12,13 +12,13 @@ export default {
     .info__titel { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-3); }
     .info__gitter { display: grid; gap: var(--raum-2);
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
-    /* Eine Kante oben, bei jeder Karte dasselbe dunkle Grau. Erst standen hier
-       vier Clubfarben, dann Blau und Grau im Wechsel — beides zog den Blick auf
-       die Kante statt auf die Zahl. Die Kante gliedert, die Farbe traegt jetzt
+    /* Dieselbe Form wie die Karten im 'cards'-Baustein: rundum ein dezenter
+       Rahmen, runde Ecken, weisser Grund. Davor stand oben ein kraeftiger
+       Balken — erst in vier Clubfarben, dann einfarbig. Beide Fassungen zogen
+       den Blick auf die Kante statt auf die Zahl. Farbe traegt jetzt nur noch
        die Zahl: genau ein farbiges Element je Karte. */
     .info { background: var(--grund); border: 1px solid var(--linie);
-      border-top: 4px solid var(--linie-akzent);
-      border-radius: 0 0 var(--radius) var(--radius); padding: var(--raum-3); }
+      border-radius: var(--radius); padding: var(--raum-3); }
     .section--ruhig .info { background: var(--grund); }
     /* Das Label traegt die Betonung ueber Gewicht, nicht ueber Farbe.
        Farbig waere es ein zweites Signal neben der Kante — und Gelb kann

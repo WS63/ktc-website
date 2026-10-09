@@ -6,6 +6,7 @@ export default {
   schema: {
     titel:  { type: 'text',  default: '', label: 'Überschrift' },
     karten: { type: 'liste', default: [], label: 'Karten: titel, text, linkLabel, linkHref, bild, bildAlt' },
+    grund:  { type: 'auswahl', default: 'weiss', label: 'Hintergrund', optionen: ['weiss', 'ruhig'] },
   },
   css: `
     .karten__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: var(--raum-3); }
@@ -27,6 +28,9 @@ export default {
     .karte a { display: inline-block; margin-top: auto; padding-top: var(--raum-2);
       font-size: 15px; color: var(--signal); text-decoration: none; }
     .karte a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    /* Auf ruhiger Flaeche braucht die Karte selbst einen hellen Grund, sonst
+       verschwindet sie darin. */
+    .section--ruhig .karte { background: var(--grund); }
     /* Ohne Bild bleibt die farbige Kante als Anker. */
     .karte:not(:has(.karte__bild)) { border-top: 3px solid var(--signal);
       border-radius: 0 0 var(--radius) var(--radius); }
@@ -47,7 +51,7 @@ export default {
       </article>`;
     });
     return html`
-      <section class="section"><div class="container">
+      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}"><div class="container">
         ${data.titel ? html`<h2 class="karten__titel">${data.titel}</h2>` : ''}
         <div class="karten__gitter">${karten}</div>
       </div></section>`;

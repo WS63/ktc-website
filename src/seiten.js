@@ -130,12 +130,17 @@ export const seiten = [
     { type: 'richtext', data: {
       titel: 'Bei uns findest du deinen Platz',
       absaetze: [
-        'Ob du gerade anfängst, nach zehn Jahren zurückkommst oder in der Medenrunde um jeden Punkt spielst — bei uns findest du das passende Angebot. Mehr als 20 Mannschaften gehen für den KTC an den Start, von den Kindern ab 12 bis zu den Senioren 60.',
-        'Rund 120 unserer Mitglieder sind Kinder und Jugendliche. Sie trainieren bei der **{{facts.anlage.tennisschule}}**, auf die wir seit {{facts.anlage.tennisschule_seit}} vertrauen — mit einem eingespielten Trainerteam und einem klaren Lernkonzept.',
-        'Die Anlage liegt am {{facts.verein.strasse}} in {{facts.verein.ort}}, unmittelbar an der Kreissportanlage. Wie du zu uns kommst, steht auf der Seite [Kontakt](/kontakt/).',
+        'Tennis in familiärer Atmosphäre, auf einer der schönsten Anlagen im Main-Taunus-Kreis. {{facts.anlage.plaetze}} gepflegte {{facts.anlage.belag}}plätze, ein gemütliches Clubhaus und eine sonnige Terrasse mit guter Gastronomie — hier bleibst du nach dem Spiel gern noch sitzen. Wir sind {{facts.anlage.mitglieder}} Mitglieder, darunter {{facts.anlage.jugendliche}} Kinder und Jugendliche.',
+        'Ob du anfängst, nach Jahren wieder einsteigst oder ambitioniert in der Mannschaft spielst — bei uns findest du das passende Angebot. Im Jugend- und Erwachsenenbereich spielen {{facts.anlage.mannschaften}} Mannschaften Wettkämpfe bis zur Landesebene. Im Freizeitbereich gibt es übers Jahr Turniere und Veranstaltungen.',
+        'Die Jüngsten trainieren bei der **{{facts.anlage.tennisschule}}**, auf die wir seit {{facts.anlage.tennisschule_seit}} vertrauen — mit eingespieltem Trainerteam und klarem Lernkonzept.',
+        'Interessiert an einer Mitgliedschaft oder einem Schnuppertraining? Beiträge, Anträge und alles zum Herunterladen stehen auf [Mitglied werden](/mitglied-werden/). Oder komm einfach am {{facts.verein.strasse}} in {{facts.verein.ort}} vorbei — [so findest du uns](/kontakt/).',
+        '**Krifteler Tennisclub — sportlich, herzlich, familiär.**',
       ],
     }},
     { type: 'infokarten', data: {
+      // Weisser Grund: die Eckdaten gehoeren noch zum Abschnitt darueber.
+      // Die ruhige Flaeche setzt stattdessen erst bei 'Sportliche Vielfalt' ein.
+      grund: 'weiss',
       karten: [
         { label: 'Plätze',   wert: '{{facts.anlage.plaetze}}', zusatz: 'Sandplätze, gepflegt' },
         { label: 'Mitglieder', wert: '{{facts.anlage.mitglieder}}', zusatz: 'davon {{facts.anlage.jugendliche}} Kinder und Jugendliche' },
@@ -144,6 +149,7 @@ export const seiten = [
     }},
     { type: 'cards', data: {
       titel: 'Sportliche Vielfalt',
+      grund: 'ruhig',
       karten: [
         { titel: 'Team und Wettkampf', text: 'Über 20 Mannschaften in allen Alters- und Leistungsklassen. Wir spielen um jeden Punkt — und für die Geselligkeit.', linkLabel: 'Zu den Mannschaften', linkHref: '/sport/',
           bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
@@ -155,19 +161,12 @@ export const seiten = [
     }},
     { type: 'beitragsliste', data: {
       titel: 'Aus dem Verein',
+      // Nur ein Aufhaenger. Die vollstaendige Liste steht auf /aktuelles/ —
+      // dieselbe Abfrage, zwei Ansichten (P3).
+      anzahl: '2',
+      mehrLabel: 'Alle Beiträge',
+      mehrHref: '/aktuelles/',
       leerText: 'Hier stehen bald die Neuigkeiten aus dem Verein.',
-    }},
-    { type: 'preise', data: {
-      titel: 'Was es kostet',
-      grund: 'ruhig',
-      spalte1: 'Mitgliedschaft', spalte2: 'pro Jahr',
-      zeilen: [
-        { label: 'Neumitglied Erwachsene, erstes Jahr', wert: '{{facts.beitraege.neumitglied_erstes_jahr}} €', hervor: true },
-        { label: 'Aktives Mitglied', wert: '{{facts.beitraege.aktiv}} €' },
-        { label: 'Jugend bis 18 Jahre', wert: '{{facts.beitraege.jugend}} €' },
-        { label: 'Passives Mitglied', wert: '{{facts.beitraege.passiv}} €' },
-      ],
-      hinweis: '**Keine Aufnahmegebühr, keine Arbeitsstunden.** Alle Beitragsklassen und die Bedingungen stehen auf der Seite [Mitglied werden](/mitglied-werden/).',
     }},
     ASSISTENT,
     FOOTER,

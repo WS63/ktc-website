@@ -4,15 +4,16 @@
   "farben": {
     "_flaechen": "Die Hintergrund-Treppe. Hell ist der Normalfall; 'dunkel' ist die Ausnahme für einen einzelnen Abschnitt, der Kontrast braucht — der Abschnitt bekommt .section--dunkel, die Tokens kippen mit, die Bausteine bleiben unverändert.",
     "grund":        "#ffffff",
-    "flaeche":      "#f5f5f5",
+    "flaeche":      "#f3f4f6",
     "karte":        "#ffffff",
     "erhoben":      "#ededed",
     "ueberfahren":  "#e4e4e4",
     "dunkel":       "#1e1e18",
     "dunkel-2":     "#2b2b24",
 
-    "_linien": "Rahmen. 'linie' ist die sichtbare Trennlinie, die drei anderen sind Deckkraft-Stufen für Kanten auf Flächen.",
+    "_linien": "Rahmen. 'linie' ist die sichtbare Trennlinie, 'linie-akzent' die kräftige Kante einer Karte, wenn Signalblau zu laut wäre; die drei letzten sind Deckkraft-Stufen für Kanten auf Flächen.",
     "linie":        "#e0e0e0",
+    "linie-akzent": "#4a4e52",
     "linie-zart":   "rgba(0,0,0,.07)",
     "linie-stark":  "rgba(0,0,0,.22)",
     "linie-aktiv":  "rgba(0,80,255,.45)",
@@ -89,7 +90,7 @@
 
   "masse": {
     "breite":      "1120px",
-    "breite-text": "68ch",
+    "breite-text": "82ch",
     "kopf-hoehe":  "84px",
     "radius":      "8px",
     "radius-knopf":"26px",

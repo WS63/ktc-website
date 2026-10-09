@@ -70,11 +70,13 @@ export default {
       .hero__foto--wechsel:first-of-type { opacity: 1; }
     }
     .hero--bild .hero__schleier { position: absolute; inset: 0; z-index: 1;
-      /* Kraeftig genug, dass Schrift auch auf einem hellen Bild traegt.
-         Gemessen an der Terrasse mit den weissen Sonnenschirmen: bei .30 in
-         der Mitte war der Untertitel kaum zu lesen. */
-      background: linear-gradient(180deg, rgba(30,30,24,.18) 0%, rgba(30,30,24,.42) 45%,
-        rgba(30,30,24,.72) 70%, rgba(30,30,24,.88) 100%); }
+      /* Der Verlauf hat zwei Aufgaben und nur eine davon ist Lesbarkeit: oben
+         darf das Foto hell bleiben, unten muss der Text tragen. Die erste
+         Fassung verdunkelte durchgehend und nahm dem Bild das Licht. Jetzt
+         bleibt die obere Haelfte fast frei und der Druck sitzt da, wo die
+         Schrift steht. */
+      background: linear-gradient(180deg, rgba(30,30,24,.06) 0%, rgba(30,30,24,.16) 40%,
+        rgba(30,30,24,.46) 72%, rgba(30,30,24,.66) 100%); }
     .hero--bild .container { position: relative; z-index: 2;
       padding-top: var(--raum-5); padding-bottom: var(--raum-5); }
     .hero--bild .hero__titel, .hero--bild .hero__sub { color: #fff;
@@ -133,7 +135,9 @@ export default {
     .hero--zeile .hero__titel { font-size: var(--titel-gr);
       font-weight: 300; text-transform: uppercase; letter-spacing: .03em;
       line-height: 1.15; max-width: none; margin: 0;
-      color: rgba(255,255,255,.82); }
+      /* Von .82 auf .92: mit dem helleren Schleier steht diese Zeile jetzt
+         gelegentlich auf blauem Himmel, und dort trug .82 nicht mehr. */
+      color: rgba(255,255,255,.92); text-shadow: 0 1px 14px rgba(30,30,24,.5); }
     /* Rechts, aber nicht an der Kante: ein Knopf, der die Bildkante beruehrt,
        sieht aus, als waere er abgeschnitten. Der Abstand ist derselbe Raum wie
        zwischen den Abschnitten. */

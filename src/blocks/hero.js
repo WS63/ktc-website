@@ -13,6 +13,7 @@ export default {
     zweitHref: { type: 'text',     default: '', label: 'Ziel des zweiten Knopfs' },
     bild:      { type: 'image',    default: '', label: 'Hintergrundbild' },
     bildAlt:   { type: 'text',     default: '', label: 'Alt-Text des Bildes' },
+    bilder:    { type: 'liste',    default: [], label: 'Weitere Bilder — blenden nacheinander durch' },
     marke:     { type: 'auswahl',  default: 'nein', label: 'Logo ins Bild',
                  optionen: ['nein', 'ja'] },
     aufbau:    { type: 'auswahl',  default: 'bild', label: 'Aufbau mit Bild',
@@ -50,6 +51,24 @@ export default {
        Hier gebaut und im Browser gesehen. */
     .hero__foto { position: absolute; inset: 0; width: 100%; height: 100%;
       object-fit: cover; z-index: 0; }
+
+    /* Mehrere Bilder liegen uebereinander und blenden durch. Reines CSS: kein
+       Skript, nichts zu laden, und der Render-Cache bleibt wirksam, weil die
+       Seite fuer jeden gleich aussieht — nur die Uhr laeuft im Browser.
+       Die Keyframes kann der Baustein nicht fest mitbringen: wie lange ein
+       Bild steht, haengt an ihrer Anzahl. Sie stehen deshalb im Markup, unter
+       einem Namen, der die Anzahl traegt. */
+    /* Kein fill-mode: 'backwards' wuerde waehrend der Wartezeit schon den
+       0-%-Zustand setzen — und der ist opacity 1. Dann deckt das letzte Bild
+       im Stapel alle anderen zu und nichts wechselt. Hier gebaut und gesehen. */
+    .hero__foto--wechsel { opacity: 0; animation-duration: calc(var(--n) * var(--slot));
+      animation-delay: calc(var(--i) * var(--slot)); animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out; }
+    /* Wer Bewegung abgestellt hat, bekommt keine: dann steht das erste Bild. */
+    @media (prefers-reduced-motion: reduce) {
+      .hero__foto--wechsel { animation: none; opacity: 0; }
+      .hero__foto--wechsel:first-of-type { opacity: 1; }
+    }
     .hero--bild .hero__schleier { position: absolute; inset: 0; z-index: 1;
       /* Kraeftig genug, dass Schrift auch auf einem hellen Bild traegt.
          Gemessen an der Terrasse mit den weissen Sonnenschirmen: bei .30 in
@@ -100,9 +119,10 @@ export default {
        ist — und sie traegt die Wortmarke bereits, deshalb steht daneben nur
        noch die Ueberschrift und nicht ein zweites Mal der Vereinsname. */
     .hero__zeichen { flex: none; display: block; border-radius: var(--r-sm);
-      /* Ueber den Textblock hinaus: in der Vorlage ueberragt das Logo beide
-         Zeilen deutlich, statt buendig mit ihnen abzuschliessen. */
-      height: calc(var(--block-h) * 1.15); width: auto; }
+      /* Genau die Hoehe des Textblocks: oben und unten schliesst das Logo mit
+         den zwei Zeilen ab. Deshalb haengt es an --block-h und nicht an einem
+         eigenen Mass — aendert sich eine der Schriftgroessen, zieht es mit. */
+      height: var(--block-h); width: auto; }
     /* Zwei Zeilen, umgekehrt gewichtet: der Vereinsname fuehrt, die
        Ueberschrift antwortet leiser. Das ist eine Setzung fuer das Auge, nicht
        fuer das Dokument — semantisch bleibt die Ueberschrift die h1. */
@@ -180,12 +200,31 @@ export default {
     // P6: kein Bild haelt nichts auf — dann eben die schlichte Fassung.
     if (!bild) return html`<section class="section hero">${inhalt}</section>`;
 
+    // Das Hauptbild zuerst, dann die weiteren. Doppelte fliegen raus — sonst
+    // steht dasselbe Foto zweimal im Lauf und wirkt wie ein Haenger.
+    const alle = [bild];
+    for (const b of data.bilder || []) {
+      const z = ziel(typeof b === 'string' ? b : b && b.src);
+      if (z && !alle.includes(z)) alle.push(z);
+    }
+    const n = alle.length;
+
+    const fotos = n === 1
+      ? html`<img class="hero__foto" src="${raw(escapeAttr(bild))}"
+                  alt="${raw(escapeAttr(data.bildAlt || ''))}"
+                  fetchpriority="high" decoding="async">`
+      : alle.map((src, i) => html`<img class="hero__foto hero__foto--wechsel"
+             style="--i: ${raw(String(i))}; animation-name: hero-blende-${raw(String(n))}"
+             src="${raw(escapeAttr(src))}"
+             alt="${raw(i === 0 ? escapeAttr(data.bildAlt || '') : '')}"
+             ${raw(i === 0 ? 'fetchpriority="high"' : 'aria-hidden="true"')} decoding="async">`);
+
     return html`
-      <section class="section hero hero--bild${raw(zeile ? ' hero--zeile' : '')}">
+      <section class="section hero hero--bild${raw(zeile ? ' hero--zeile' : '')}"
+               style="--n: ${raw(String(n))}; --slot: ${raw(String(SLOT_S))}s">
+        ${n > 1 ? raw(`<style>${keyframes(n)}</style>`) : ''}
         <div class="hero__rahmen">
-          <img class="hero__foto" src="${raw(escapeAttr(bild))}"
-               alt="${raw(escapeAttr(data.bildAlt || ''))}"
-               fetchpriority="high" decoding="async">
+          ${fotos}
           <div class="hero__schleier"></div>
           ${!zeile && data.marke === 'ja'
             ? html`<img class="hero__marke" src="/assets/ktc-logo-bild-2026.svg"
@@ -196,3 +235,33 @@ export default {
       </section>`;
   },
 };
+
+/**
+ * Die Keyframes fuer n durchblendende Bilder.
+ *
+ * Jedes Bild haelt einen Platz von 100/n Prozent der Runde und blendet an
+ * dessen Ende weich aus; das naechste kommt mit seinem Versatz darunter hervor.
+ * Die Blendzeit ist fest in Sekunden gedacht und hier in Prozent der Runde
+ * umgerechnet, damit sie bei zwei wie bei zwanzig Bildern gleich lang dauert.
+ *
+ * Der Name traegt die Anzahl: zwei Aufmacher mit derselben Anzahl erzeugen
+ * dieselbe Regel zweimal, was folgenlos ist — zwei mit verschiedener Anzahl
+ * wuerden sich sonst gegenseitig ueberschreiben.
+ */
+function keyframes(n) {
+  const platz = 100 / n;
+  const blende = (BLENDE_S / (n * SLOT_S)) * 100;
+  const r = (x) => Math.round(x * 100) / 100;
+  return `@keyframes hero-blende-${n}{`
+    + `0%{opacity:1}`
+    + `${r(platz - blende)}%{opacity:1}`
+    + `${r(platz)}%{opacity:0}`
+    + `${r(100 - blende)}%{opacity:0}`
+    + `100%{opacity:1}}`;
+}
+
+// Wie lange ein Bild steht und wie lange die Blende dauert. Beide Werte gehen
+// als CSS-Variable --slot in das Markup, damit Rechnung und Darstellung nicht
+// auseinanderlaufen koennen.
+const SLOT_S = 7;
+const BLENDE_S = 1.4;

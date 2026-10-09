@@ -32,6 +32,19 @@ const menue = [
   { label: 'Kontakt',        href: '/kontakt/' },
 ];
 
+/**
+ * Die Bilder, die im Aufmacher der Startseite durchblenden.
+ *
+ * Nur Namen, keine Dateinamen: die Pruefsumme im Dateinamen aendert sich bei
+ * jedem Bildwechsel, der Name bleibt. Fehlt eines, faellt es stumm aus der
+ * Liste — die uebrigen blenden weiter (P6).
+ */
+const AUFMACHER_BILDER = [
+  'anlage-zentrum-oben', 'anlage-platz67oben', 'anlage-clubhaus-unten',
+  'anlage-tennisplatz', 'anlage-platz2', 'anlage-zentrum-unten',
+  'anlage-platz67unten',
+].map((n) => ({ src: bild(n), alt: bildAlt(n) })).filter((b) => b.src);
+
 const NAV = { type: 'nav', data: {
   marke: 'krifteler tennisclub',
   baum: menue,
@@ -109,6 +122,9 @@ export const seiten = [
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       zweitLabel: 'Erst mal vorbeikommen', zweitHref: '/kontakt/',
       bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),
+      // Der Ort, in acht Ansichten. Alle aus bilder/anlage/ — dem Ordner fuer
+      // Aufnahmen ohne erkennbare Personen, der genau dafuer da ist.
+      bilder: AUFMACHER_BILDER,
       marke: 'ja', aufbau: 'zeile',
     }},
     { type: 'richtext', data: {

@@ -215,8 +215,13 @@ export const seiten = [
     // soll nicht erst an der Medenrunde vorbeiscrollen.
     { type: 'cards', data: {
       karten: [
-        { titel: 'Team und Wettkampf', text: 'Mannschaften von der Kreis- bis zur Landesebene.',
-          linkLabel: 'Weiterlesen', linkHref: '/sport/#wettkampf',
+        // Diese eine Karte fuehrt NICHT zu einem Abschnitt weiter unten,
+        // sondern direkt auf die Mannschaftsseite. Grund: bei den drei
+        // anderen steht die Antwort auf dieser Seite, hier liegt sie auf
+        // einer eigenen. Ein 'Weiterlesen', das nur scrollt und dann einen
+        // zweiten Klick verlangt, ist ein Umweg mit Zwischenhalt.
+        { titel: 'Team und Wettkampf', text: 'Alle Mannschaften von der Kreis- bis zur Landesebene, mit Spielklasse und Link zum Spielplan.',
+          linkLabel: 'Zu den Mannschaften', linkHref: '/mannschaften/',
           bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
         { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung — einfach vorbeikommen und mitspielen.',
           linkLabel: 'Weiterlesen', linkHref: '/sport/#hobby',
@@ -234,13 +239,7 @@ export const seiten = [
       anker: 'wettkampf',
       absaetze: [
         'Der KTC stellt {{facts.anlage.mannschaften}} Wettspiel-Mannschaften in unterschiedlichen Alters- und Leistungsklassen. Das Spektrum reicht von Kindern ab 12 Jahren bis zu den Senioren 60. Unsere Mannschaften spielen um jeden Punkt, aber auch für die Geselligkeit.',
-      ],
-    }},
-    { type: 'cards', data: {
-      karten: [
-        { titel: 'Alle Mannschaften im Überblick',
-          text: 'Alle Teams der Erwachsenen und der Jugend, von der Kreis- bis zur Landesebene — mit Spielgemeinschaft, Stärke und Spielklasse.',
-          linkLabel: 'Zur Mannschaftsübersicht', linkHref: '/mannschaften/' },
+        'Welche Teams antreten, in welcher Spielklasse und wo der Spielplan steht: [alle Mannschaften im Überblick](/mannschaften/).',
       ],
     }},
     { type: 'richtext', data: {

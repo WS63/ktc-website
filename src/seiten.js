@@ -151,7 +151,7 @@ export const seiten = [
       absaetze: [
         'Tennis in familiärer Atmosphäre, auf einer der schönsten Anlagen im Main-Taunus-Kreis. {{facts.anlage.plaetze}} gepflegte {{facts.anlage.belag}}plätze, ein gemütliches Clubhaus und eine sonnige Terrasse mit guter Gastronomie — hier bleibst du nach dem Spiel gern noch sitzen. Wir sind {{facts.anlage.mitglieder}} Mitglieder, darunter {{facts.anlage.jugendliche}} Kinder und Jugendliche.',
         'Ob du anfängst, nach Jahren wieder einsteigst oder ambitioniert in der Mannschaft spielst — bei uns findest du das passende Angebot. Im Jugend- und Erwachsenenbereich spielen {{facts.anlage.mannschaften}} Mannschaften Wettkämpfe bis zur Landesebene. Im Freizeitbereich gibt es übers Jahr Turniere und Veranstaltungen.',
-        'Die Jüngsten trainieren bei der **{{facts.anlage.tennisschule}}**, auf die wir seit {{facts.anlage.tennisschule_seit}} vertrauen — mit eingespieltem Trainerteam und klarem Lernkonzept.',
+        'Trainieren kannst du bei der **{{facts.anlage.tennisschule}}** — Einzel- und Gruppenstunden für alle Mitglieder, vom ersten Schläger bis zum Mannschaftstraining. Wir vertrauen ihr seit {{facts.anlage.tennisschule_seit}}, mit eingespieltem Trainerteam und klarem Lernkonzept.',
         'Interessiert an einer Mitgliedschaft oder einem Schnuppertraining? Beiträge, Anträge und alles zum Herunterladen stehen auf [Mitglied werden](/mitglied-werden/). Oder komm einfach am {{facts.verein.strasse}} in {{facts.verein.ort}} vorbei — [so findest du uns](/kontakt/).',
       ],
       // Eigenes Feld statt fetter Absatz: ein Claim klingt aus, er ruft nicht.
@@ -207,7 +207,7 @@ export const seiten = [
     { type: 'hero', data: {
       pill: 'Spielen beim KTC',
       titel: 'Tennis in jedem Alter und auf jedem Niveau',
-      sub: 'Vom ersten Schläger bis zur Hessenliga. Such dir aus, was zu dir passt — wechseln kannst du jederzeit.',
+      sub: 'Vom ersten Schläger bis zum Punktspiel. Such dir aus, was zu dir passt — wechseln kannst du jederzeit.',
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       bild: bild('anlage-tennisplatz'), bildAlt: bildAlt('anlage-tennisplatz'),
     }},
@@ -215,7 +215,7 @@ export const seiten = [
     // soll nicht erst an der Medenrunde vorbeiscrollen.
     { type: 'cards', data: {
       karten: [
-        { titel: 'Team und Wettkampf', text: 'Siebzehn Mannschaften von der Kreisliga bis zur Hessenliga.',
+        { titel: 'Team und Wettkampf', text: 'Mannschaften von der Kreis- bis zur Landesebene.',
           linkLabel: 'Weiterlesen', linkHref: '/sport/#wettkampf',
           bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
         { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung — einfach vorbeikommen und mitspielen.',
@@ -234,13 +234,12 @@ export const seiten = [
       anker: 'wettkampf',
       absaetze: [
         'Der KTC stellt {{facts.anlage.mannschaften}} Wettspiel-Mannschaften in unterschiedlichen Alters- und Leistungsklassen. Das Spektrum reicht von Kindern ab 12 Jahren bis zu den Senioren 60. Unsere Mannschaften spielen um jeden Punkt, aber auch für die Geselligkeit.',
-        'Bei den Erwachsenen reicht es von der Kreisliga bis zur **Hessenliga** — dort spielen unsere Herren 50. Mehrere Teams treten als Spielgemeinschaft mit Diedenbergen und Kelkheim an, so bekommt jede Altersklasse genug Spielerinnen und Spieler zusammen.',
       ],
     }},
     { type: 'cards', data: {
       karten: [
         { titel: 'Alle Mannschaften im Überblick',
-          text: 'Siebzehn Teams der Erwachsenen von der Kreisliga bis zur Hessenliga, dazu die Jugend von U12 bis U18 — mit Spielgemeinschaft, Stärke und Spielklasse.',
+          text: 'Alle Teams der Erwachsenen und der Jugend, von der Kreis- bis zur Landesebene — mit Spielgemeinschaft, Stärke und Spielklasse.',
           linkLabel: 'Zur Mannschaftsübersicht', linkHref: '/mannschaften/' },
       ],
     }},
@@ -304,7 +303,7 @@ export const seiten = [
     { type: 'hero', data: {
       pill: 'Medenrunde',
       titel: 'Unsere Mannschaften',
-      sub: 'Alle Wettspiel-Teams der Erwachsenen und der Jugend — von der Kreisliga bis zur Hessenliga.',
+      sub: 'Alle Wettspiel-Teams der Erwachsenen und der Jugend — von der Kreis- bis zur Landesebene.',
       bild: bild('anlage-tennisplatz'), bildAlt: bildAlt('anlage-tennisplatz'),
     }},
     { type: 'tabelle', data: {
@@ -376,24 +375,28 @@ export const seiten = [
       bild: bild('anlage-zentrum-unten'), bildAlt: bildAlt('anlage-zentrum-unten'),
     }},
     { type: 'preise', data: {
-      titel: 'Die Beiträge',
-      spalte1: 'Mitgliedschaft', spalte2: 'pro Jahr',
+      titel: 'Unsere Mitgliedsbeiträge',
+      // Kein Spaltenkopf: 'Mitgliedschaft' und 'pro Jahr' stehen ueber einer
+      // Liste, die sich selbst erklaert. Der Zeitraum steht im Hinweis.
       zeilen: [
-        { label: 'Neumitglied Erwachsene, erstes Jahr', wert: '{{facts.beitraege.neumitglied_erstes_jahr}} €', hervor: true },
-        { label: 'Aktives Mitglied', wert: '{{facts.beitraege.aktiv}} €' },
-        { label: 'Aktives Mitglied, Ehe- oder Lebenspartner', wert: '{{facts.beitraege.aktiv_partner}} €' },
-        { label: 'Aktives Mitglied in Ausbildung', wert: '{{facts.beitraege.aktiv_ausbildung}} €' },
-        { label: 'Jugend bis zum vollendeten 18. Lebensjahr', wert: '{{facts.beitraege.jugend}} €' },
-        { label: 'Jugend als Familienmitglied', wert: '{{facts.beitraege.jugend_familie}} €' },
-        { label: 'Passives Mitglied', wert: '{{facts.beitraege.passiv}} €' },
+        { label: 'Neumitglied Erwachsene, erstes Jahr', wert: '{{facts.beitraege.neumitglied_erstes_jahr}} EUR', hervor: true },
+        { label: 'Aktives Mitglied (1. Mitglied)', wert: '{{facts.beitraege.aktiv}} EUR' },
+        { label: 'Aktives Mitglied (2. Mitglied als Ehe- oder Lebenspartner)', wert: '{{facts.beitraege.aktiv_partner}} EUR' },
+        { label: 'Aktives Mitglied in Ausbildung', fussnote: 1, wert: '{{facts.beitraege.aktiv_ausbildung}} EUR' },
+        { label: 'Jugendmitglied (bis vollendetem 18. Lebensjahr)', wert: '{{facts.beitraege.jugend}} EUR' },
+        { label: 'Jugendmitglied als Familienmitglied', fussnote: 2, wert: '{{facts.beitraege.jugend_familie}} EUR' },
+        { label: 'Passives Mitglied', wert: '{{facts.beitraege.passiv}} EUR' },
+      ],
+      // Die beiden Erlaeuterungen standen vorher als Absaetze unter der
+      // Tabelle. Als Fussnote sitzen sie an der Zeile, zu der sie gehoeren.
+      fussnoten: [
+        'Gegen Nachweis eines Schüler-, Studenten- oder Ausbildungsausweises, bis zum vollendeten 27. Lebensjahr. Stichtag für alle Altersgrenzen ist der 31. Dezember des jeweiligen Jahres.',
+        'Setzt voraus, dass mindestens ein Elternteil aktives Mitglied ist.',
       ],
       hinweis: 'Alle Beiträge gelten für das Kalenderjahr. Wer ab dem {{facts.beitraege.halber_beitrag_ab}} einsteigt, zahlt für das laufende Jahr die Hälfte. Die Kündigungsfrist endet am {{facts.beitraege.kuendigungsfrist}}.',
     }},
     { type: 'richtext', data: {
-      titel: 'Das Kleingedruckte, kurz',
       absaetze: [
-        '**In Ausbildung** heißt: gegen Nachweis eines Schüler-, Studenten- oder Ausbildungsausweises, bis zum vollendeten 27. Lebensjahr. Stichtag für alle Altersgrenzen ist der 31. Dezember des jeweiligen Jahres.',
-        '**Jugend als Familienmitglied** setzt voraus, dass mindestens ein Elternteil aktives Mitglied ist.',
         'Die Anmeldung läuft über die [eBuSy-Mitgliederverwaltung]({{facts.links.buchung}}). Dort buchst du später auch deine Plätze.',
       ],
     }},

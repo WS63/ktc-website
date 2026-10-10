@@ -16,7 +16,7 @@
  *
  * Fehlt ein Bild, bleibt das Feld leer. Die Seite erscheint trotzdem (P6).
  */
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 
 const verzeichnis = existsSync('inhalte/bilder.json')
   ? JSON.parse(readFileSync('inhalte/bilder.json', 'utf8')) : {};
@@ -47,6 +47,31 @@ const AUFMACHER_BILDER = [
 ].map((n) => ({ src: bild(n), alt: bildAlt(n) })).filter((b) => b.src);
 
 /**
+ * Die Mannschaften der laufenden Saison.
+ *
+ * Eine Datei je Jahr unter inhalte/mannschaften/. Die juengste gilt; die
+ * aelteren bleiben liegen und sind das Archiv — wer wissen will, wer 2026
+ * in welcher Liga spielte, findet es dort. Angelegt wird sie im April,
+ * sobald der HTV die Gruppeneinteilung veroeffentlicht hat.
+ *
+ * Fehlt das Verzeichnis, bleiben die Tabellen leer und die Seite steht
+ * trotzdem (P6).
+ */
+const saisonVerzeichnis = 'inhalte/mannschaften';
+const saisonDatei = existsSync(saisonVerzeichnis)
+  ? readdirSync(saisonVerzeichnis).filter((f) => f.endsWith('.json')).sort().pop()
+  : null;
+export const saison = saisonDatei
+  ? JSON.parse(readFileSync(`${saisonVerzeichnis}/${saisonDatei}`, 'utf8'))
+  : { saison: '', wettbewerbe: {}, erwachsene: [], jugend: [] };
+
+/** Eine Mannschaft als Tabellenzeile, mit Link auf ihre HTV-Gruppe. */
+const mannschaftsZeile = (m) => [
+  m.name, m.sg, m.staerke,
+  { text: m.klasse, href: htv(m.gruppe, saison.wettbewerbe[m.wettbewerb || 'standard']) },
+];
+
+/**
  * Die Adresse einer Spielgruppe beim Hessischen Tennisverband.
  *
  * Dort stehen Spielplan, Tabelle und Ergebnisse — immer aktuell, auch wenn
@@ -58,9 +83,7 @@ const AUFMACHER_BILDER = [
  * — WETTBEWERB und jede Nummer in der Tabelle unten. Das ist Handarbeit
  * einmal im Jahr, und sie faellt auf, weil die Links sonst ins Leere gehen.
  */
-const WETTBEWERB = 'Medenrunde+2026';
-const SOMMER = 'HTV-Summer-Mixed+Tour+2026';
-const htv = (gruppe, wettbewerb = WETTBEWERB) =>
+const htv = (gruppe, wettbewerb) =>
   'https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/groupPage'
   + `?championship=${wettbewerb}&group=${gruppe}`;
 
@@ -308,44 +331,13 @@ export const seiten = [
     { type: 'tabelle', data: {
       titel: 'Mannschaften der Erwachsenen',
       kopf: ['Mannschaft', 'Spielgemeinschaft', 'Stärke', 'Spielklasse'],
-      zeilen: [
-        ['Damen', 'Diedenbergen/KTC', '6er', { text: 'Kreisoberliga', href: htv('10') }],
-        ['Damen II', 'Diedenbergen/KTC', '4er', { text: 'Kreisoberliga', href: htv('24') }],
-        ['Damen III', 'Diedenbergen/KTC', '4er', { text: 'Kreisliga B', href: htv('49') }],
-        ['Damen 40', '—', '4er', { text: 'Kreisliga A', href: htv('121') }],
-        ['Damen 50', '—', '4er', { text: 'Gruppenliga', href: htv('145') }],
-        ['Damen 55', '—', '4er', { text: 'Gruppenliga', href: htv('166') }],
-        ['Herren', '—', '4er', { text: 'Kreisliga A', href: htv('228') }],
-        ['Herren II', '—', '2er', { text: 'Kreisliga A', href: htv('266') }],
-        ['Herren 30', '—', '6er', { text: 'Kreisoberliga', href: htv('281') }],
-        ['Herren 40', '—', '6er', { text: 'Gruppenliga', href: htv('327') }],
-        ['Herren 40 II', '—', '4er', { text: 'Kreisliga A', href: htv('360') }],
-        ['Herren 50', '—', '6er', { text: 'Hessenliga', href: htv('382') }],
-        ['Herren 50 II', '—', '4er', { text: 'Kreisoberliga', href: htv('413') }],
-        ['Herren 55', '—', '4er', { text: 'Gruppenliga', href: htv('440') }],
-        ['Herren 60', '—', '4er', { text: 'Kreisliga A', href: htv('466') }],
-        ['Summer Mixed 50', '—', '4er', { text: 'Pros', href: htv('20', SOMMER) }],
-        ['Summer Mixed 50 II', '—', '4er', { text: 'Amateurs', href: htv('21', SOMMER) }],
-      ],
+      zeilen: saison.erwachsene.map(mannschaftsZeile),
       hinweis: 'Ein Klick auf die Spielklasse führt zur Gruppe beim Hessischen Tennisverband — dort stehen Spielplan, Tabelle und Ergebnisse.',
     }},
     { type: 'tabelle', data: {
       titel: 'Mannschaften der Jugend',
       kopf: ['Mannschaft', 'Spielgemeinschaft', 'Stärke', 'Spielklasse'],
-      zeilen: [
-        ['Gemischt U12', 'KTC/Diedenbergen', '4er', { text: 'Kreisliga A', href: htv('730') }],
-        ['Juniorinnen U15', 'Diedenb./KTC/Kelkh.', '4er', { text: 'Gruppenliga', href: htv('533') }],
-        ['Juniorinnen U15 II', 'Diedenb./KTC/Kelkh.', '4er', { text: 'Kreisoberliga', href: htv('539') }],
-        ['Juniorinnen U15 III', 'Diedenb./KTC/Kelkh.', '4er', { text: 'Kreisliga B', href: htv('553') }],
-        ['Junioren U15', 'Diedenbergen/KTC', '4er', { text: 'Kreisoberliga A', href: htv('640') }],
-        ['Junioren U15 II', 'Diedenbergen/KTC', '4er', { text: 'Kreisliga A', href: htv('653') }],
-        ['Junioren U15 III', 'Diedenbergen/KTC', '4er', { text: 'Kreisliga A', href: htv('646') }],
-        ['Junioren U15 IV', 'Diedenbergen/KTC', '4er', { text: 'Kreisliga C', href: htv('671') }],
-        ['Juniorinnen U18', 'KTC/Diedenb./Kelkh.', '4er', { text: 'Gruppenliga', href: htv('565') }],
-        ['Juniorinnen U18 II', 'KTC/Diedenb./Kelkh.', '4er', { text: 'Kreisoberliga A', href: htv('570') }],
-        ['Junioren U18', '—', '4er', { text: 'Kreisliga B', href: htv('715') }],
-        ['Junioren U18 II', '—', '6er', { text: 'Kreisliga B', href: htv('709') }],
-      ],
+      zeilen: saison.jugend.map(mannschaftsZeile),
       hinweis: 'Mehrere Jugendteams treten als Spielgemeinschaft mit Diedenbergen und Kelkheim an — so bekommt jede Altersklasse genug Spielerinnen und Spieler zusammen.',
     }},
     { type: 'richtext', data: {

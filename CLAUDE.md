@@ -195,6 +195,45 @@ Das Logo der Kopfzeile liegt **als Datei**, nicht inline: 15 KB in jeder Seite w
 teurer als die eine Anfrage. Fällt sie aus, fehlt das Zeichen und sonst nichts — der
 Vereinsname steht daneben als Text und trägt die Marke allein (P6).
 
+## Die Mannschaften einer Saison
+
+`inhalte/mannschaften/<jahr>.json` — eine Datei je Jahr. **Die jüngste gilt**,
+die älteren bleiben liegen und sind das Archiv: wer wissen will, wer 2026 in
+welcher Liga spielte, findet es dort.
+
+Angelegt wird sie **im April**, sobald der HTV die Gruppeneinteilung
+veröffentlicht hat. Darin stehen je Mannschaft Name, Spielgemeinschaft, Stärke,
+Spielklasse und die **Gruppennummer** beim HTV — nicht die ganze URL. Die baut
+`htv()` in `src/seiten.js` zusammen.
+
+```jsonc
+{
+  "saison": "2026",
+  "wettbewerbe": { "standard": "Medenrunde+2026", "sommer": "HTV-Summer-Mixed+Tour+2026" },
+  "erwachsene": [{ "name": "Damen", "sg": "…", "staerke": "6er", "klasse": "…", "gruppe": "10" }],
+  "jugend":     [{ "name": "Gemischt U12", …, "wettbewerb": "sommer" }]
+}
+```
+
+**Neue Saison:** Datei kopieren, Jahreszahl und Gruppennummern anpassen,
+`npm run seed`. Die Seite nimmt die neue Datei von allein.
+
+**Die Gruppennummern wechseln jedes Jahr komplett.** Wer sie vergisst, merkt es:
+die Links gehen ins Leere. Das ist Absicht — eine Nummer, die stillschweigend
+auf die Gruppe des Vorjahres zeigt, wäre schlimmer.
+
+### Verlinkt, nicht abgeschrieben
+
+Spielplan, Tabelle und Ergebnisse stehen beim HTV und sind dort immer aktuell.
+Eine Kopie auf dieser Website wäre ab der ersten Verlegung falsch — und jemand
+fährt umsonst zur Anlage. Deshalb führt die Spielklasse als Link zur Gruppe.
+
+Technisch geht auch mehr: `htv.liga.nu` liefert UTF-8, erlaubt den Abruf laut
+`robots.txt` und hat eine stabile Tabellenstruktur (Datum steht nur in der
+ersten Zeile eines Spieltags, die folgenden Begegnungen erben es). Ein Import
+der Termine ist also möglich — er braucht dann aber ein sichtbares „Stand: …"
+und muss einen Ausfall des Abrufs überleben, ohne die Seite zu beschädigen.
+
 ## Das Cockpit
 
 Der Prüfstein aus Stufe 3: **ein Mensch ohne Entwickler muss neun Dinge können.**

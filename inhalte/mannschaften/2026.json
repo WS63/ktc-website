@@ -1,0 +1,217 @@
+{
+  "_hinweis": "Die Wettspiel-Mannschaften einer Saison. Angelegt im April, sobald der HTV die Gruppeneinteilung veröffentlicht hat. Eine Datei je Jahr — die alten bleiben liegen, sie sind das Archiv.",
+  "saison": "2026",
+  "wettbewerbe": {
+    "standard": "Medenrunde+2026",
+    "sommer": "HTV-Summer-Mixed+Tour+2026"
+  },
+  "erwachsene": [
+    {
+      "name": "Damen",
+      "sg": "Diedenbergen/KTC",
+      "staerke": "6er",
+      "klasse": "Kreisoberliga",
+      "gruppe": "10"
+    },
+    {
+      "name": "Damen II",
+      "sg": "Diedenbergen/KTC",
+      "staerke": "4er",
+      "klasse": "Kreisoberliga",
+      "gruppe": "24"
+    },
+    {
+      "name": "Damen III",
+      "sg": "Diedenbergen/KTC",
+      "staerke": "4er",
+      "klasse": "Kreisliga B",
+      "gruppe": "49"
+    },
+    {
+      "name": "Damen 40",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Kreisliga A",
+      "gruppe": "121"
+    },
+    {
+      "name": "Damen 50",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Gruppenliga",
+      "gruppe": "145"
+    },
+    {
+      "name": "Damen 55",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Gruppenliga",
+      "gruppe": "166"
+    },
+    {
+      "name": "Herren",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Kreisliga A",
+      "gruppe": "228"
+    },
+    {
+      "name": "Herren II",
+      "sg": "—",
+      "staerke": "2er",
+      "klasse": "Kreisliga A",
+      "gruppe": "266"
+    },
+    {
+      "name": "Herren 30",
+      "sg": "—",
+      "staerke": "6er",
+      "klasse": "Kreisoberliga",
+      "gruppe": "281"
+    },
+    {
+      "name": "Herren 40",
+      "sg": "—",
+      "staerke": "6er",
+      "klasse": "Gruppenliga",
+      "gruppe": "327"
+    },
+    {
+      "name": "Herren 40 II",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Kreisliga A",
+      "gruppe": "360"
+    },
+    {
+      "name": "Herren 50",
+      "sg": "—",
+      "staerke": "6er",
+      "klasse": "Hessenliga",
+      "gruppe": "382"
+    },
+    {
+      "name": "Herren 50 II",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Kreisoberliga",
+      "gruppe": "413"
+    },
+    {
+      "name": "Herren 55",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Gruppenliga",
+      "gruppe": "440"
+    },
+    {
+      "name": "Herren 60",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Kreisliga A",
+      "gruppe": "466"
+    },
+    {
+      "name": "Summer Mixed 50",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Pros",
+      "gruppe": "20",
+      "wettbewerb": "sommer"
+    },
+    {
+      "name": "Summer Mixed 50 II",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Amateurs",
+      "gruppe": "21",
+      "wettbewerb": "sommer"
+    }
+  ],
+  "jugend": [
+    {
+      "name": "Gemischt U12",
+      "sg": "KTC/Diedenbergen",
+      "staerke": "4er",
+      "klasse": "Kreisliga A",
+      "gruppe": "730"
+    },
+    {
+      "name": "Juniorinnen U15",
+      "sg": "Diedenb./KTC/Kelkh.",
+      "staerke": "4er",
+      "klasse": "Gruppenliga",
+      "gruppe": "533"
+    },
+    {
+      "name": "Juniorinnen U15 II",
+      "sg": "Diedenb./KTC/Kelkh.",
+      "staerke": "4er",
+      "klasse": "Kreisoberliga",
+      "gruppe": "539"
+    },
+    {
+      "name": "Juniorinnen U15 III",
+      "sg": "Diedenb./KTC/Kelkh.",
+      "staerke": "4er",
+      "klasse": "Kreisliga B",
+      "gruppe": "553"
+    },
+    {
+      "name": "Junioren U15",
+      "sg": "Diedenbergen/KTC",
+      "staerke": "4er",
+      "klasse": "Kreisoberliga A",
+      "gruppe": "640"
+    },
+    {
+      "name": "Junioren U15 II",
+      "sg": "Diedenbergen/KTC",
+      "staerke": "4er",
+      "klasse": "Kreisliga A",
+      "gruppe": "653"
+    },
+    {
+      "name": "Junioren U15 III",
+      "sg": "Diedenbergen/KTC",
+      "staerke": "4er",
+      "klasse": "Kreisliga A",
+      "gruppe": "646"
+    },
+    {
+      "name": "Junioren U15 IV",
+      "sg": "Diedenbergen/KTC",
+      "staerke": "4er",
+      "klasse": "Kreisliga C",
+      "gruppe": "671"
+    },
+    {
+      "name": "Juniorinnen U18",
+      "sg": "KTC/Diedenb./Kelkh.",
+      "staerke": "4er",
+      "klasse": "Gruppenliga",
+      "gruppe": "565"
+    },
+    {
+      "name": "Juniorinnen U18 II",
+      "sg": "KTC/Diedenb./Kelkh.",
+      "staerke": "4er",
+      "klasse": "Kreisoberliga A",
+      "gruppe": "570"
+    },
+    {
+      "name": "Junioren U18",
+      "sg": "—",
+      "staerke": "4er",
+      "klasse": "Kreisliga B",
+      "gruppe": "715"
+    },
+    {
+      "name": "Junioren U18 II",
+      "sg": "—",
+      "staerke": "6er",
+      "klasse": "Kreisliga B",
+      "gruppe": "709"
+    }
+  ]
+}

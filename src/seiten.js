@@ -164,11 +164,11 @@ export const seiten = [
       grund: 'anschluss',
       karten: [
         { label: 'Plätze', wert: '{{facts.anlage.plaetze}}',
-          zusatz: 'gepflegte {{facts.anlage.belag}}plätze, bespielbar von {{facts.anlage.saison}}' },
+          zusatz: 'gepflegt, bespielbar von {{facts.anlage.saison}}' },
         { label: 'Mitglieder', wert: '{{facts.anlage.mitglieder}}',
-          zusatz: 'davon {{facts.anlage.jugendliche}} Kinder und Jugendliche, betreut von der {{facts.anlage.tennisschule}}' },
+          zusatz: 'davon {{facts.anlage.jugendliche}} Kinder und Jugendliche' },
         { label: 'Mannschaften', wert: '{{facts.anlage.mannschaften}}',
-          zusatz: 'von den Junioren bis Senioren 60 — dazu die Hobbyrunde ohne Anmeldung' },
+          zusatz: 'Junioren bis Senioren 60, plus Hobbyrunde' },
       ],
     }},
     { type: 'cards', data: {

@@ -12,6 +12,27 @@ export default {
     .karten__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: var(--raum-3); }
     .karten__gitter { display: grid; gap: var(--raum-3);
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+    /* VIER Karten brauchen eigene Stufen — gemessen, nicht geraten.
+       auto-fit passt so viele 250er-Spalten hinein, wie gehen. Bei vier
+       Karten ergibt das:
+
+         ab 1120 px Fenster  4 Spalten  ✓
+         846 – 1119 px       3 Spalten  → die vierte sitzt ALLEIN darunter
+         572 –  845 px       2 Spalten  ✓
+         darunter            1 Spalte   ✓
+
+       Der mittlere Bereich ist kein Randfall: iPad quer sind 1024, viele
+       Notebooks 1280 mit halbem Fenster. Eine einzelne Karte in zweiter
+       Reihe, ueber die volle Breite gezogen, sieht nach Fehler aus.
+       Deshalb bei vier Karten: 1, 2 oder 4 Spalten — nie drei. */
+    .karten__gitter--vier { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (min-width: 1120px) {
+      .karten__gitter--vier { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    @media (max-width: 571px) {
+      .karten__gitter--vier { grid-template-columns: 1fr; }
+    }
     .karte { display: flex; flex-direction: column; overflow: hidden;
       border: 1px solid var(--linie); border-radius: var(--radius);
       transition: border-color .15s ease, transform .15s ease; }
@@ -53,7 +74,7 @@ export default {
     return html`
       <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}"><div class="container">
         ${data.titel ? html`<h2 class="karten__titel">${data.titel}</h2>` : ''}
-        <div class="karten__gitter">${karten}</div>
+        <div class="karten__gitter${raw(karten.length === 4 ? ' karten__gitter--vier' : '')}">${karten}</div>
       </div></section>`;
   },
 };

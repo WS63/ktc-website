@@ -8,6 +8,8 @@ export default {
     absaetze: { type: 'liste',    default: [], label: 'Absätze — **fett**, *kursiv*, [Text](/ziel/)' },
     anker:    { type: 'text',     default: '', label: 'Sprungmarke, z. B. jugend' },
     schluss:  { type: 'text',     default: '', label: 'Abschlusszeile, ruhig und grau' },
+    grund:    { type: 'auswahl',  default: 'weiss', label: 'Hintergrund',
+                optionen: ['weiss', 'ruhig'] },
   },
   css: `
     /* Die Ueberschrift ist ruhig gesetzt: grau statt schwarz, normales
@@ -35,7 +37,8 @@ export default {
     // ungueltiger Anker und koennte Markup aufbrechen.
     const anker = String(data.anker || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
     return html`
-      <section class="section"${anker ? raw(` id="${escapeAttr(anker)}"`) : ''}><div class="container">
+      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}"${
+        anker ? raw(` id="${escapeAttr(anker)}"`) : ''}><div class="container">
         ${data.titel ? html`<h2 class="text__titel">${data.titel}</h2>` : ''}
         <div class="text__koerper">${absaetze}</div>
         ${data.schluss ? html`<p class="text__schluss">${data.schluss}</p>` : ''}

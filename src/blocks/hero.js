@@ -1,4 +1,4 @@
-import { html, raw, escapeAttr, ziel } from './_util.js';
+import { html, raw, escapeAttr, ziel, istExtern } from './_util.js';
 
 export default {
   name: 'hero',
@@ -175,9 +175,9 @@ export default {
           ${data.zweitLabel && z2 && zeile
             ? html`<a class="hero__nebenbei" href="${raw(escapeAttr(z2))}">${data.zweitLabel} →</a>`
             : ''}
-          ${data.ctaLabel && z1 ? html`<a class="knopf" href="${raw(escapeAttr(z1))}">${data.ctaLabel}</a>` : ''}
+          ${data.ctaLabel && z1 ? html`<a class="knopf" href="${raw(escapeAttr(z1))}"${neuesFenster(z1)}>${data.ctaLabel}</a>` : ''}
           ${data.zweitLabel && z2 && !zeile
-            ? html`<a class="knopf knopf--leise" href="${raw(escapeAttr(z2))}">${data.zweitLabel}</a>`
+            ? html`<a class="knopf knopf--leise" href="${raw(escapeAttr(z2))}"${neuesFenster(z2)}>${data.zweitLabel}</a>`
             : ''}
         </div>`
       : '';
@@ -269,3 +269,15 @@ function keyframes(n) {
 // auseinanderlaufen koennen.
 const SLOT_S = 7;
 const BLENDE_S = 1.4;
+
+/**
+ * Ein Ziel ausserhalb der Website oeffnet im neuen Fenster.
+ *
+ * Die Kopfzeile und der Fliesstext taten das schon; nur die Knoepfe im
+ * Aufmacher nicht. 'Jetzt anmelden' fuehrte deshalb aus der Website HINAUS und
+ * liess keinen Weg zurueck als die Zurueck-Taste — an der Stelle, an der jemand
+ * gerade entschieden hat, Mitglied zu werden.
+ */
+function neuesFenster(z) {
+  return istExtern(z) ? raw(' target="_blank" rel="noopener noreferrer"') : '';
+}

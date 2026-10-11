@@ -11,6 +11,11 @@ const menue = [
   { ort: 'kopf', label: 'Aktuelles',       href: '/aktuelles/' },
   { ort: 'kopf', label: 'Termine',         href: '/kalender/' },
   { ort: 'kopf', label: 'Kontakt',         href: '/kontakt/' },
+  // 'Clubhaus' steht in der Fusszeile, nicht im Menue: das Restaurant ist
+  // kein Vereinsthema und soll die sechs Kopfpunkte nicht auf sieben bringen.
+  // Aber dort stehen die Oeffnungszeiten — und wer sie auf dem Telefon
+  // einmal verlassen hat, findet eine Seite ohne Menuepunkt nicht wieder.
+  { ort: 'fuss', label: 'Clubhaus',        href: '/clubhaus/' },
   { ort: 'fuss', label: 'FAQ',             href: '/faq/' },
   { ort: 'fuss', label: 'Impressum',       href: '/impressum/' },
   { ort: 'fuss', label: 'Datenschutz',     href: '/datenschutz/' },

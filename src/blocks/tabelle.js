@@ -11,14 +11,24 @@ export default {
     hinweis: { type: 'longtext', default: '', label: 'Hinweis darunter' },
   },
   css: `
-    .tabelle__titel { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-3); }
+    /* Dasselbe Design wie die Beitragstabelle (Baustein 'preise'): Streifen
+       statt Linien, volle Breite, ruhige Ueberschrift. Zwei Tabellen auf
+       derselben Website sollen nicht aussehen, als haetten zwei Leute sie
+       gebaut. Eine Linie trennt zwei Zeilen, ein Streifen fasst eine Zeile
+       zusammen — bei vier Spalten ist das der Unterschied zwischen Lesen und
+       Suchen. */
+    .tabelle__titel { font-size: clamp(26px, 3.2vw, 36px); font-weight: 400;
+      letter-spacing: 0; color: var(--text-leise); margin-bottom: var(--raum-3); }
     .tabelle__rahmen { overflow-x: auto; }
-    .tabelle table { width: 100%; border-collapse: collapse; font-size: 16px; min-width: 460px; }
-    .tabelle th, .tabelle td { text-align: left; padding: 10px 14px 10px 0;
-      border-bottom: 1px solid var(--linie); }
+    .tabelle table { width: 100%; border-collapse: collapse; font-size: var(--fs-md);
+      min-width: 520px; }
+    .tabelle th, .tabelle td { text-align: left; padding: 13px var(--raum-2); }
     .tabelle th { font-size: 12px; font-weight: 500; color: var(--text-leise);
-      text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; }
-    .tabelle tbody tr:hover { background: var(--flaeche); }
+      text-transform: uppercase; letter-spacing: .07em; white-space: nowrap;
+      border-bottom: 1px solid var(--linie); }
+    .tabelle tbody tr:nth-child(odd) { background: var(--flaeche); }
+    .section--ruhig .tabelle tbody tr:nth-child(odd),
+    .tabelle.section--ruhig tbody tr:nth-child(odd) { background: var(--grund); }
     .tabelle td a { color: var(--signal); text-decoration: none;
       border-bottom: 1px solid transparent; }
     .tabelle td a:hover { border-bottom-color: var(--signal); }

@@ -14,7 +14,7 @@ import { html, raw, escapeAttr, ziel, markdownInline } from './_util.js';
 // ueber die Farbe: Farbe ist in diesem Projekt knapp vergeben, und drei
 // bunte Kreise untereinander waeren genau die Unruhe, die wir bei den
 // Eckdaten schon einmal abgeraeumt haben.
-const ZEICHEN = {
+export const ZEICHEN = {
   wettspiel: '<circle cx="12" cy="12" r="8.5"/><path d="M4.2 7.5a9 9 0 0 0 0 9M19.8 7.5a9 9 0 0 1 0 9"/>',
   verein:    '<path d="M4 9.5 12 4l8 5.5V20H4z"/><path d="M9.5 20v-6h5v6"/>',
   sonstiges: '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.6"/>',
@@ -26,8 +26,10 @@ export default {
   schema: {
     titel:    { type: 'text',  default: '', label: 'Überschrift' },
     vorspann: { type: 'text',  default: '', label: 'Zeile darunter' },
-    termine:  { type: 'liste', default: [],
-                label: 'Termine: datum (JJJJ-MM-TT), uhrzeit, titel, text, ort, art' },
+    // Kommt aus inhalte/termine.json (P3) — nie hier von Hand gepflegt.
+    termine:  { type: 'auto', default: [],
+                label: 'Termine — kommen aus inhalte/termine.json' },
+    stand:    { type: 'auto',  default: '', label: 'Hinweis zur Herkunft der Spieltermine — kommt aus dem Import' },
     leerText: { type: 'text',  default: 'Zurzeit stehen keine Termine an.',
                 label: 'Text, wenn nichts ansteht' },
     anzahl:   { type: 'text',  default: '', label: 'Höchstens so viele zeigen — leer heißt alle' },
@@ -59,6 +61,23 @@ export default {
 
     .termin h3 { font-size: var(--fs-md); margin-bottom: 3px; }
     .termin p { font-size: var(--fs-sm); color: var(--text-leise); line-height: 1.6; }
+    /* Die Mannschaften eines Termins, in zwei Gruppen: Heimspiele zuerst,
+       dann Auswaertsspiele. Kleiner und leiser als der Text darueber, damit
+       der Termin die Zeile bleibt und die Liste Beiwerk. */
+    .termin__gruppe { margin-top: 10px; }
+    .termin__gruppe h4 { font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text-leise); margin: 0 0 3px; }
+    .termin__gruppe ul { list-style: none; padding: 0; margin: 0; }
+    .termin__gruppe li { font-size: 15px; line-height: 1.55; padding: 1px 0; }
+    .termin__gruppe li b { font-weight: 600; }
+    .termin__gegner { color: var(--text-leise); }
+    /* Spielgemeinschaft mit Partnervereinen. Ein Wort-Etikett, keine Farbe:
+       die Unterscheidung muss auch im Schwarzweissdruck des Aushangs bleiben. */
+    .termin__msg { display: inline-block; font-size: 12px; font-weight: 600;
+      letter-spacing: .04em; color: var(--signal); border: 1px solid var(--linie-aktiv);
+      border-radius: 3px; padding: 0 5px; margin: 0 4px; white-space: nowrap; }
+    .termine__stand { font-size: 14px; color: var(--text-leise); margin-top: var(--raum-3);
+      max-width: var(--breite-text); }
     .termin__ort { font-size: 14px; color: var(--text-leise); margin-top: 6px;
       display: block; }
     .termine__mehr { display: inline-block; margin-top: var(--raum-3);
@@ -102,6 +121,12 @@ export default {
         <div>
           <h3>${t.titel}</h3>
           ${t.text ? html`<p>${markdownInline(t.text)}</p>` : ''}
+          ${(t.gruppen || []).map((g) => html`<div class="termin__gruppe">
+            <h4>${g.titel}</h4>
+            <ul>${g.zeilen.map((z) => html`<li><b>${z.mannschaft}</b>${
+              z.sg ? html` <span class="termin__msg" title="Spielgemeinschaft mit Partnervereinen">MSG ${z.sg}</span>` : ''
+            } <span class="termin__gegner">${g.praeposition} ${z.gegner}</span></li>`)}</ul>
+          </div>`)}
           ${t.ort ? html`<span class="termin__ort">${t.ort}</span>` : ''}
         </div>
       </article>`;
@@ -111,6 +136,8 @@ export default {
       <section class="section"><div class="container">
         ${kopf}
         <div>${zeilen}</div>
+        ${data.stand && liste.some((t) => (t.gruppen || []).length)
+          ? html`<p class="termine__stand">${data.stand}</p>` : ''}
         ${data.mehrLabel && mehr
           ? html`<a class="termine__mehr" href="${raw(escapeAttr(mehr))}">${data.mehrLabel} →</a>`
           : ''}

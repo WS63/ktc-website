@@ -4,6 +4,7 @@ import { renderPage } from '../renderer.js';
 import { loadSite } from '../config.js';
 import { holen, legen, bisMitternacht } from '../cache.js';
 import { zaehle } from '../zaehler.js';
+import { alleTermine, kuenftige, spielplanHinweis } from '../termin-quelle.js';
 
 const router = Router();
 
@@ -97,78 +98,68 @@ async function dynamischeDaten(inhalt, page) {
     const uebersicht = page.page_type === 'aktuelles';
     const grenze = uebersicht ? JE_SEITE : GRENZE_START;
     const seite = uebersicht ? Math.max(1, Number(page.seitenzahl) || 1) : 1;
-    const zeilen = await query(
-      `SELECT slug, title, description, created_at, bild, bild_alt FROM pages
-       WHERE page_type = 'beitrag' AND status = 'published'
-       ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
-      [grenze, (seite - 1) * grenze]);
-    // Die Gesamtzahl kommt aus einer eigenen Abfrage, nicht aus der Laenge der
-    // geholten Zeilen: die Startseite holt nur GRENZE_START Stueck, und ein
-    // Link 'Alle Beiträge (6)' waere schlicht falsch, wenn es 14 sind.
-    // Number(), weil COUNT(*) auf Postgres Text liefert und nicht Zahl.
-    const gezaehlt = await queryOne(
-      `SELECT COUNT(*) AS n FROM pages
-       WHERE page_type = 'beitrag' AND status = 'published'`);
-    const gesamt = Number(gezaehlt?.n ?? 0);
+    const { gesamt, eintraege } = await beitraegeLaden(grenze, (seite - 1) * grenze);
     daten.beitragsliste = {
       gesamt,
       seite: uebersicht ? seite : 1,
       seiten: uebersicht ? Math.max(1, Math.ceil(gesamt / grenze)) : 1,
       basis: '/aktuelles/',
-      eintraege: zeilen.map((z) => ({
-        datum: new Date(z.created_at).toLocaleDateString('de-DE',
-          { day: 'numeric', month: 'long', year: 'numeric' }),
-        titel: z.title,
-        text: z.description,
-        href: `/aktuelles/${z.slug}/`,
-        bild: z.bild || '',
-        bildAlt: z.bild_alt || '',
-      })),
+      eintraege,
     };
+  }
+  // Der Startseiten-Baustein 'aktuell' bekommt dieselben Beitraege und
+  // dieselben Termine wie /aktuelles/ und /kalender/ — andere Ansicht, gleiche
+  // Quelle (P3). Die Zahl steht im Baustein; hier wird nur geholt.
+  if (typen.has('aktuell')) {
+    const b = inhalt.blocks.find((x) => x?.type === 'aktuell');
+    const nB = Number(b?.data?.anzahlBeitraege) > 0 ? Number(b.data.anzahlBeitraege) : 2;
+    const { gesamt, eintraege } = await beitraegeLaden(nB, 0);
+    daten.aktuell = { gesamt, beitraege: eintraege, termine: kuenftige(alleTermine()) };
   }
   if (typen.has('termine')) {
     // Abgelaufene Termine fliegen HIER raus und nicht im Baustein: renderPage()
     // ist eine reine Funktion (P1). Ein new Date() im Baustein machte sie vom
     // Tag abhaengig — dieselbe Seite saehe im April anders aus als im Mai, und
     // kein Test koennte das festhalten.
-    for (const b of inhalt.blocks) {
-      if (b?.type !== 'termine') continue;
-      daten.termine = { termine: kuenftige(b.data?.termine || []) };
-    }
+    daten.termine = { termine: kuenftige(alleTermine()), stand: spielplanHinweis() };
   }
   return daten;
 }
 
-/** Heute 0:00 — ein Termin von heute Abend ist noch nicht vorbei. */
-function heuteNull() {
-  const d = new Date();
-  d.setHours(0, 0, 0, 0);
-  return d;
+/**
+ * Die neuesten Beitraege samt Gesamtzahl — fuer /aktuelles/ UND die Startseite.
+ *
+ * Die Gesamtzahl kommt aus einer eigenen Abfrage, nicht aus der Laenge der
+ * geholten Zeilen: die Startseite holt nur ein paar Stueck, und ein Link
+ * 'Alle Beitraege (2)' waere schlicht falsch, wenn es 14 sind.
+ * Number(), weil COUNT(*) auf Postgres Text liefert und nicht Zahl.
+ */
+async function beitraegeLaden(grenze, versatz) {
+  const zeilen = await query(
+    `SELECT slug, title, description, created_at, bild, bild_alt FROM pages
+     WHERE page_type = 'beitrag' AND status = 'published'
+     ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
+    [grenze, versatz]);
+  const gezaehlt = await queryOne(
+    `SELECT COUNT(*) AS n FROM pages
+     WHERE page_type = 'beitrag' AND status = 'published'`);
+  return {
+    gesamt: Number(gezaehlt?.n ?? 0),
+    eintraege: zeilen.map((z) => ({
+      datum: new Date(z.created_at).toLocaleDateString('de-DE',
+        { day: 'numeric', month: 'long', year: 'numeric' }),
+      titel: z.title,
+      text: z.description,
+      href: `/aktuelles/${z.slug}/`,
+      bild: z.bild || '',
+      bildAlt: z.bild_alt || '',
+    })),
+  };
 }
 
-/**
- * Die Termine, die noch kommen — aelteste zuerst.
- *
- * Das Datum steht als JJJJ-MM-TT in den Daten. Ein Termin ohne gueltiges
- * Datum bleibt drin: lieber ein Eintrag zu viel als einer, der stumm
- * verschwindet, weil jemand sich vertippt hat.
- */
-export function kuenftige(termine) {
-  const schwelle = heuteNull();
-  return termine
-    .filter((t) => {
-      const d = new Date(`${t.datum}T00:00:00`);
-      return Number.isNaN(d.getTime()) || d >= schwelle;
-    })
-    .sort((a, b) => String(a.datum).localeCompare(String(b.datum)))
-    .map((t) => ({
-      ...t,
-      // Der Baustein soll kein Datum formatieren muessen — er bekommt den
-      // fertigen Text und bleibt damit frei von Gebietsschema-Logik.
-      tag: new Date(`${t.datum}T00:00:00`).toLocaleDateString('de-DE',
-        { day: 'numeric', month: 'long' }),
-    }));
-}
+// Die Terminlogik wohnt in src/termin-quelle.js — der Assistent braucht sie auch.
+// Von hier weiter exportiert, damit Tests und Aufrufer ihren Import behalten.
+export { kuenftige };
 
 async function seiteFinden(pfad) {
   const direkt = await queryOne(
@@ -231,7 +222,7 @@ router.get(/^\/(.*)$/, async (req, res, next) => {
     zaehle(req.path);
     // Eine Seite mit Terminen gilt nur bis Mitternacht: danach kann ein
     // Termin vorbei sein, und der Speicher wuesste nichts davon.
-    const hatTermine = inhalt.blocks.some((b) => b?.type === 'termine');
+    const hatTermine = inhalt.blocks.some((b) => b?.type === 'termine' || b?.type === 'aktuell');
     res.type('html').send(legen(pfad, html, hatTermine ? bisMitternacht() : 0));
   } catch (err) { next(err); }
 });

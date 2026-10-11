@@ -8,6 +8,8 @@ export default {
     baum:       { type: 'auto', default: [], label: 'Menü — wird unter Navigation gepflegt' },
     aktionLabel:{ type: 'text', default: '', label: 'Rechter Link' },
     aktionHref: { type: 'text', default: '', label: 'Ziel des rechten Links' },
+    aktionArt:  { type: 'auswahl', default: 'text', label: 'Darstellung des rechten Links',
+                  optionen: ['text', 'ebusy'] },
     knopfLabel: { type: 'text', default: '', label: 'Knopf in der Leiste' },
     knopfHref:  { type: 'text', default: '', label: 'Ziel des Knopfs' },
   },
@@ -33,16 +35,28 @@ export default {
       font-size: 19px; flex: none; }
     .kopf__jetzt:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-    /* Der Knopf in der Leiste fuehrt zur einen Handlung — auf JEDER Seite.
-       Er ist blau umrandet, nicht gelb: Gelb bleibt dem einen Knopf im
-       Aufmacher vorbehalten. Zwei gelbe Knoepfe auf einem Bildschirm, und
-       keiner ruft mehr lauter als der andere. */
-    .kopf__knopf { flex: none; white-space: nowrap; text-decoration: none;
-      font-size: 15px; font-weight: 500; padding: 9px 20px;
-      border-radius: var(--radius-knopf); color: var(--signal);
-      border: 1.5px solid var(--signal); background: transparent;
-      transition: background .12s ease, color .12s ease; }
-    .kopf__knopf:hover { background: var(--signal); color: var(--text-hell, #fff); }
+    /* Abgesetzt vom Menue: der Platz buchen fuehrt aus der Website hinaus in
+       ein anderes System, das ist keine weitere Seite des Clubs. Ein duenner
+       Strich und mehr Luft sagen das, ohne dass ein Wort dafuer noetig ist. */
+    .kopf__jetzt--ebusy { margin-left: var(--raum-3); padding-left: var(--raum-4);
+      border-left: 1px solid var(--linie); display: flex; align-items: center; }
+    .kopf__jetzt--ebusy:hover { text-decoration: none; }
+    /* Die Wortmarke des Buchungssystems, nachgebaut als Text: 'e' kursiv in
+       Gruen, ein feiner Strich, 'BuSy' fett in einem Grauverlauf. Als Text
+       und nicht als Bild bleibt sie auf jedem Schirm scharf und braucht keine
+       Anfrage. Das Grau ist gegenueber dem Vorbild etwas dunkler gehalten —
+       das Original steht auf einem dunklen Foto, hier steht sie auf Weiss. */
+    .ebusy { display: inline-flex; align-items: center; gap: 5px; line-height: 1;
+      font-weight: 700; font-size: 19px; letter-spacing: -.01em; }
+    .ebusy__e { font-style: italic; font-weight: 600; color: #8fbf3c; font-size: 1.1em; }
+    .ebusy__strich { width: 1.5px; height: 1.3em; background: #b4b4b4; margin: 0 1px; }
+    /* 'Bu' dunkler als 'Sy', wie im Original. Zwei Spannen statt eines
+       Verlaufs: ein Verlauf ueber vier Buchstaben wird auf 19 px zu einem
+       Grauschleier, zwei klare Toene bleiben lesbar. */
+    .ebusy__bu { color: #6b6b6b; }
+    .ebusy__sy { color: #a3a3a3; }
+    .kopf__jetzt--ebusy:hover .ebusy__bu { color: #4a4a4a; }
+    .kopf__jetzt--ebusy:hover .ebusy__sy { color: #858585; }
 
     /* Der Schalter ist nur auf schmalen Schirmen da. Ohne JavaScript bedienbar:
        ein verstecktes Kontrollkaestchen traegt den Zustand. Dadurch funktioniert
@@ -50,7 +64,13 @@ export default {
     .kopf__schalter { display: none; }
     .kopf__klappe { display: none; }
 
-    @media (max-width: 800px) {
+    /* 1080 statt 800 — gemessen. Marke 212 + Menue 550 + eBuSy 133 + zwei
+       Luecken von je 40 + Abstand 24 + Polster 48 = 1047 px. Darunter laeuft
+       die Leiste ueber: 'Kontakt' wird abgeschnitten, die Wortmarke rutscht
+       aus dem Bild. Das trifft das iPad hochkant (820 und 834) und jedes
+       halbe Notebook-Fenster. Bei 800 sprang das Menue erst viel zu spaet
+       auf den Burger. */
+    @media (max-width: 1080px) {
       .kopf__innen { flex-wrap: wrap; gap: var(--raum-2); }
       .kopf__klappe { display: flex; align-items: center; gap: 7px; cursor: pointer;
         font-size: 15px; color: var(--text); border: 1px solid var(--linie);
@@ -73,6 +93,7 @@ export default {
       .kopf__menue a { padding: 13px 2px; border-bottom: 1px solid var(--linie); }
       .kopf__menue a:hover { border-bottom-color: var(--signal); }
       .kopf__jetzt { display: none; }
+      .kopf__jetzt--ebusy { margin-left: 0; padding-left: 2px; border-left: none; }
       .kopf__schalter:checked ~ .kopf__innen .kopf__jetzt {
         display: block; width: 100%; padding: 13px 2px; }
       /* Der Knopf bleibt sichtbar, auch wenn das Menue zu ist — er ist der
@@ -100,7 +121,16 @@ export default {
             <span class="kopf__balken" aria-hidden="true"></span>Menü</label>
           <nav class="kopf__menue" aria-label="Hauptmenü">${punkte}</nav>
           ${data.aktionLabel && aktion
-            ? html`<a class="kopf__jetzt" href="${raw(escapeAttr(aktion))}"${istExtern(aktion) ? raw(' target="_blank" rel="noopener noreferrer"') : ''}>${data.aktionLabel} ↗</a>`
+            ? (data.aktionArt === 'ebusy'
+              // Die Wortmarke traegt keinen Text, den ein Vorleser lesen
+              // koennte — deshalb aria-label mit dem, was der Link TUT.
+              ? html`<a class="kopf__jetzt kopf__jetzt--ebusy" href="${raw(escapeAttr(aktion))}"
+                    ${istExtern(aktion) ? raw('target="_blank" rel="noopener noreferrer"') : ''}
+                    aria-label="${data.aktionLabel} mit eBuSy (öffnet in neuem Fenster)"
+                    title="${data.aktionLabel}"><span class="ebusy" aria-hidden="true"><span
+                    class="ebusy__e">e</span><span class="ebusy__strich"></span><span
+                    class="ebusy__bu">Bu</span><span class="ebusy__sy">Sy</span></span></a>`
+              : html`<a class="kopf__jetzt" href="${raw(escapeAttr(aktion))}"${istExtern(aktion) ? raw(' target="_blank" rel="noopener noreferrer"') : ''}>${data.aktionLabel} ↗</a>`)
             : ''}
           ${data.knopfLabel && knopf
             ? html`<a class="kopf__knopf" href="${raw(escapeAttr(knopf))}">${data.knopfLabel}</a>`

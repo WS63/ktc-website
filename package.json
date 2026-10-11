@@ -11,14 +11,15 @@
     "test": "node --test tests/*.test.js",
     "start": "node server.js",
     "seed": "node scripts/seed.js",
-    "dev": "node --watch server.js",
+    "dev": "node --watch server.js --demo",
     "struktur": "node scripts/seed-struktur.js",
     "passwort": "node scripts/passwort.js",
     "index": "node scripts/index-bauen.js",
     "umzug": "node scripts/umzug.js",
     "sql": "node scripts/sql-export.js",
     "generiere": "node --env-file=.env scripts/generiere.js",
-    "bilder": "node scripts/bilder-bauen.js"
+    "bilder": "node scripts/bilder-bauen.js",
+    "spielplan": "node scripts/spielplan.js"
   },
   "keywords": [],
   "author": "",

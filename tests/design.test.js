@@ -35,7 +35,9 @@ test('der dunkle Abschnitt kippt die Tokens, nicht die Bausteine', () => {
   // Wer stattdessen eine zweite Klasse je Baustein einfuehrt, hat den
   // Mechanismus verfehlt — dann muss jeder neue Baustein nachziehen.
   for (const { name, quelle } of bausteine) {
-    assert.doesNotMatch(quelle, /--dunkel(?![-\w])/,
+    // 'section--dunkel' ist die Klasse, die man nutzen SOLL — nur der direkte
+    // Zugriff auf eine Variable '--dunkel' ist der Fehler.
+    assert.doesNotMatch(quelle, /(?<!section)--dunkel(?![-\w])/,
       `${name} greift direkt auf --dunkel zu statt .section--dunkel zu nutzen`);
   }
 });

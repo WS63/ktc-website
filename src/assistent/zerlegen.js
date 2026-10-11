@@ -1,6 +1,7 @@
 import { query } from '../db.js';
 import { blocks } from '../blocks/index.js';
 import { loadFacts } from '../config.js';
+import { alleTermine, kuenftige } from '../termin-quelle.js';
 
 /**
  * Bausteine, die auf jeder Seite stehen — sie wuerden jede Suche fluten.
@@ -38,6 +39,7 @@ const STICHWORTE = {
   faq:       'Frage Antwort häufig',
   infokarten:'Eckdaten Termin Zeit Uhrzeit wann wo Kosten',
   beitragsliste: 'Neuigkeiten Nachrichten aktuell Berichte',
+  termine:   'Termin Termine Kalender Veranstaltung wann Spieltag Saisoneröffnung',
   formular:  'schreiben Nachricht Anfrage melden',
 };
 
@@ -85,7 +87,12 @@ export function zerlege(page) {
     if (UEBERALL.has(block.type)) continue;
     if (!blocks[block.type]) continue;
 
-    const daten = block.data || {};
+    // Die Termine stehen nicht mehr im Baustein, sondern in
+    // inhalte/termine.json. Ohne diese Zeile waere der Kalender fuer den
+    // Assistenten leer — er wuesste von keinem einzigen Termin mehr.
+    const daten = block.type === 'termine'
+      ? { ...(block.data || {}), termine: kuenftige(alleTermine()) }
+      : block.data || {};
     const ueberschrift = fakten(daten.titel || daten.frage || '').trim();
     const teile = textAus(daten).map(fakten).filter((t) => t.length > 2);
     const text = teile.join('\n').trim();

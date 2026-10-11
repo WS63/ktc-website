@@ -99,8 +99,22 @@
     "medenrunde": ""
   },
   "zeiten": {
-    "anlage": "",
-    "restaurant": ""
+    "anlage": ""
+  },
+  "gastronomie": {
+    "_hinweis": "Der Clubwirt ist Pächter, kein Vereinsorgan — er kann wechseln. Deshalb stehen Name, Nummer und Zeiten HIER und nirgends im Seitentext. Die Zeiten gelten für die Freiluftsaison; 'stand' sagt das sichtbar, sonst behauptet die Seite im Januar Sommerzeiten.",
+    "name": "Spice of India",
+    "wirt": "Sukhjinder Singh",
+    "kueche": "indisch",
+    "telefon": "06192 9624546",
+    "telefon_mobil": "0170 4012831",
+    "telefon_waehlen": "+4961929624546",
+    "zeiten_stand": "Sommer 2026",
+    "zeiten_mittag": "11:00 – 14:30 Uhr",
+    "zeiten_abend": "17:00 – 22:30 Uhr",
+    "zeiten_wochenende": "12:00 – 22:30 Uhr",
+    "zeiten_werktage": "Montag, Mittwoch bis Freitag",
+    "ruhetag": "Dienstag, außer an Feiertagen"
   },
   "minis": {
     "kursgebuehr_kind": "99",

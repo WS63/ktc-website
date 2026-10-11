@@ -92,6 +92,9 @@ const NAV = { type: 'nav', data: {
   baum: menue,
   aktionLabel: 'Platz buchen',
   aktionHref: '{{facts.links.buchung}}',
+  // Die Wortmarke des Buchungssystems statt des Wortes: Mitglieder kennen
+  // eBuSy, und das Zeichen sagt 'hier geht es in ein anderes System'.
+  aktionArt: 'ebusy',
   // Kein Knopf in der Leiste: 'Mitglied werden' steht als Menuepunkt da und
   // im Aufmacher als der eine gelbe Knopf. Ein dritter Auftritt derselben
   // Handlung in derselben Bildschirmhoehe macht sie nicht dringlicher.
@@ -115,7 +118,12 @@ const ASSISTENT = { type: 'assistent', data: {
 
 const FOOTER = { type: 'footer', data: {
   zeile: '{{facts.verein.name}} · {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
+  // 'Clubhaus' steht hier und nicht in der Kopfzeile: das Restaurant ist
+  // kein Vereinsthema und soll die sechs Menuepunkte nicht auf sieben
+  // bringen. Aber es ist die Seite mit den Oeffnungszeiten — wer sie auf
+  // dem Telefon einmal verlassen hat, findet sie sonst nicht wieder.
   baum: [
+    { label: 'Clubhaus',    href: '/clubhaus/' },
     { label: 'FAQ',         href: '/faq/' },
     { label: 'Impressum',   href: '/impressum/' },
     { label: 'Datenschutz', href: '/datenschutz/' },
@@ -172,8 +180,8 @@ export const seiten = [
     { type: 'richtext', data: {
       titel: 'Bei uns findest du deinen Platz',
       absaetze: [
-        'Tennis in familiärer Atmosphäre, auf einer der schönsten Anlagen im Main-Taunus-Kreis. {{facts.anlage.plaetze}} gepflegte {{facts.anlage.belag}}plätze, ein gemütliches Clubhaus und eine sonnige Terrasse mit guter Gastronomie — hier bleibst du nach dem Spiel gern noch sitzen. Wir sind {{facts.anlage.mitglieder}} Mitglieder, darunter {{facts.anlage.jugendliche}} Kinder und Jugendliche.',
-        'Ob du anfängst, nach Jahren wieder einsteigst oder ambitioniert in der Mannschaft spielst — bei uns findest du das passende Angebot. Im Jugend- und Erwachsenenbereich spielen {{facts.anlage.mannschaften}} Mannschaften Wettkämpfe bis zur Landesebene. Im Freizeitbereich gibt es übers Jahr Turniere und Veranstaltungen.',
+        'Tennis in familiärer Atmosphäre, auf einer der schönsten Anlagen im Main-Taunus-Kreis. {{facts.anlage.plaetze}} gepflegte {{facts.anlage.belag}}plätze, ein gemütliches Clubhaus und eine sonnige Terrasse mit [guter Gastronomie](/clubhaus/) — hier bleibst du nach dem Spiel gern noch sitzen. Wir sind {{facts.anlage.mitglieder}} Mitglieder, darunter {{facts.anlage.jugendliche}} Kinder und Jugendliche.',
+        'Ob du anfängst, nach Jahren wieder einsteigst oder ambitioniert in der Mannschaft spielst — bei uns findest du das passende Angebot. Im Jugend- und Erwachsenenbereich spielen wir Wettkämpfe bis zur Landesebene. Im Freizeitbereich gibt es übers Jahr Turniere und Veranstaltungen.',
         'Trainieren kannst du bei der **{{facts.anlage.tennisschule}}** — Einzel- und Gruppenstunden für alle Mitglieder, vom ersten Schläger bis zum Mannschaftstraining. Wir vertrauen ihr seit {{facts.anlage.tennisschule_seit}}, mit eingespieltem Trainerteam und klarem Lernkonzept.',
         'Interessiert an einer Mitgliedschaft oder einem Schnuppertraining? Beiträge, Anträge und alles zum Herunterladen stehen auf [Mitglied werden](/mitglied-werden/). Oder komm einfach am {{facts.verein.strasse}} in {{facts.verein.ort}} vorbei — [so findest du uns](/kontakt/).',
       ],
@@ -194,26 +202,66 @@ export const seiten = [
           zusatz: 'Junioren bis Senioren 60, plus Hobbyrunde' },
       ],
     }},
+    // Direkt nach den Eckdaten: die Vorstellung ist fertig, jetzt kommt der
+    // Verein, der LEBT. Fuer das Mitglied, das jede Woche kommt, ist das der
+    // Grund der Seite — er soll ihn nach einer Bildschirmhoehe finden und
+    // nicht hinter Angebot und Gastronomie. Fuer den Interessenten ist ein
+    // voller Kalender ein Argument. Bewusst ohne Knopf: der eine gelbe
+    // gehoert 'Mitglied werden'.
+    { type: 'aktuell', data: {
+      beitraegeHref: '/aktuelles/',
+      termineHref: '/kalender/',
+    }},
     { type: 'cards', data: {
-      titel: 'Sportliche Vielfalt',
+      // VIER Karten, nicht fuenf. Der Container misst 1120 px, abzueglich
+      // 2 x 24 px Polster bleiben 1072. Das Gitter ist minmax(250px, 1fr)
+      // bei 24 px Luecke: 4 x 250 + 3 x 24 = 1072 — passt auf den Pixel.
+      // Eine fuenfte Karte braeche in eine zweite Reihe und saesse dort
+      // allein ueber die volle Breite. Wer hier etwas ergaenzt, nimmt
+      // etwas anderes heraus.
+      //
+      // Die Gastronomie steht bewusst NICHT hier: diese Reihe beantwortet
+      // 'warum Mitglied werden', und das Restaurant ist oeffentlich. Sie
+      // bekommt den Streifen darunter, der auch die Oeffnungszeiten traegt.
+      titel: 'Was dich bei uns erwartet',
       grund: 'ruhig',
       karten: [
-        { titel: 'Team und Wettkampf', text: 'Über 20 Mannschaften in allen Alters- und Leistungsklassen. Wir spielen um jeden Punkt — und für die Geselligkeit.', linkLabel: 'Zu den Mannschaften', linkHref: '/sport/',
-          bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
+        // KEINE Mannschaftszahl in diesem Text. Sie stand hier frueher als
+        // getipptes 'Über 20' — neben der Kachel darueber, die denselben
+        // Wert aus facts.json zieht. Beim naechsten Saisonstand haette die
+        // Kachel sich bewegt und die Karte weiter das Alte behauptet (P2).
+        { titel: 'Team und Wettkampf', text: 'Von der Kreisliga bis zur Landesebene, in allen Altersklassen. Wir spielen um jeden Punkt — und für die Geselligkeit.', linkLabel: 'Zu den Mannschaften', linkHref: '/mannschaften/',
+          bild: bild('sport-wettkampf1', 'mittel'), bildAlt: bildAlt('sport-wettkampf1') },
         { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung, Doppelturniere und Freundschaftsspiele gegen andere Vereine.', linkLabel: 'Zur Hobbyrunde', linkHref: '/sport/',
           bild: bild('anlage-wiese', 'mittel'), bildAlt: bildAlt('anlage-wiese') },
-        { titel: 'Jugend', text: 'Fördern und fordern. Mit Spaß, Freude und einem gezielten Lernkonzept an den Tennissport heran.', linkLabel: 'Zur Jugendarbeit', linkHref: '/sport/',
+        // Jugend und Tennisschule stehen nebeneinander, also muss der
+        // Schnitt sauber sein: Jugend ist, WAS der Verein fuer Kinder tut,
+        // die Tennisschule ist, WER unterrichtet — und zwar alle Mitglieder,
+        // nicht nur die Jugend. Vorher sagten beide 'Lernkonzept'.
+        { titel: 'Jugend', text: 'Mannschaften, Tenniscamps und die Minis. Fördern und fordern, mit Spaß und ohne Druck.', linkLabel: 'Zur Jugendarbeit', linkHref: '/sport/',
           bild: bild('sport-jugend', 'mittel'), bildAlt: bildAlt('sport-jugend') },
+        { titel: 'Tennisschule', text: 'Die {{facts.anlage.tennisschule}} unterrichtet seit {{facts.anlage.tennisschule_seit}} bei uns — Einzel- und Gruppenstunden für alle Mitglieder.', linkLabel: 'Zur Tennisschule', linkHref: '/sport/',
+          bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
       ],
     }},
-    { type: 'beitragsliste', data: {
-      titel: 'Aus dem Verein',
-      // Nur ein Aufhaenger. Die vollstaendige Liste steht auf /aktuelles/ —
-      // dieselbe Abfrage, zwei Ansichten (P3).
-      anzahl: '2',
-      mehrLabel: 'Alle Beiträge',
-      mehrHref: '/aktuelles/',
-      leerText: 'Hier stehen bald die Neuigkeiten aus dem Verein.',
+    { type: 'streifen', data: {
+      // Der Clubwirt hat keine eigene Website — geprueft. Stuenden die
+      // Zeiten nicht hier, koennte weder die Seite noch der Assistent die
+      // haeufigste Frage ueberhaupt beantworten: 'Haben die heute offen?'
+      titel: 'Clubhaus und Terrasse',
+      text: 'Nach dem Match sitzen bleiben. Das Clubrestaurant **{{facts.gastronomie.name}}** kocht {{facts.gastronomie.kueche}} auf der wohl schönsten Sonnenterrasse Kriftels — für Mitglieder, Gäste und alle, die gar nicht spielen.',
+      bild: bild('club-restaurant', 'mittel'), bildAlt: bildAlt('club-restaurant'),
+      zeilen: [
+        // Zwei Werte, zwei Zeilen. Als ein Text mit Mitteltrenner brach der
+        // Umbruch dort, wo er gerade passte — 'Uhr' stand allein unten.
+        { label: '{{facts.gastronomie.zeiten_werktage}}',
+          wert: ['{{facts.gastronomie.zeiten_mittag}}', '{{facts.gastronomie.zeiten_abend}}'] },
+        { label: 'Samstag und Sonntag', wert: '{{facts.gastronomie.zeiten_wochenende}}' },
+        { label: 'Ruhetag', wert: '{{facts.gastronomie.ruhetag}}' },
+        { label: 'Tisch reservieren', wert: '{{facts.gastronomie.telefon}}' },
+      ],
+      fussnote: 'Stand {{facts.gastronomie.zeiten_stand}}. Außerhalb der Freiluftsaison gelten andere Zeiten — dann am besten kurz anrufen.',
+      linkLabel: 'Mehr zum Clubhaus', linkHref: '/clubhaus/',
     }},
     ASSISTENT,
     FOOTER,
@@ -283,6 +331,20 @@ export const seiten = [
         'Wir führen unsere jungen Talente Schritt für Schritt an das Turniertennis heran und ebnen ihnen den Weg in die Erwachsenenmannschaften.',
       ],
     }},
+    // Die Tennisschule steht DIREKT unter der Jugend, nicht hinter den
+    // Minis: 'Tennis fuer Minis' ist eines ihrer Angebote, nicht ihr
+    // Vorspann. Vorher las sich die Reihenfolge so, als sei die Schule ein
+    // Nachtrag zum Minikurs. Der graue Grund fasst sie als eigenen Bereich.
+    { type: 'richtext', data: {
+      titel: 'Tennisschule Kaus',
+      anker: 'tennisschule',
+      grund: 'ruhig',
+      absaetze: [
+        'Seit {{facts.anlage.tennisschule_seit}} vertraut der KTC auf die Kompetenz der {{facts.anlage.tennisschule}}. Geleitet von den staatlich geprüften Tennislehrern Bertrand und Oliver Kaus, steht sie für Qualität, Engagement und messbaren Trainingserfolg.',
+        'Mit einem motivierten Trainerteam und modernen Lehrmethoden begleitet sie Kinder, Jugendliche und Erwachsene — vom Einsteiger bis zum Turnierspieler. Sie gehört zu den vom Deutschen Tennis Bund und vom Verband Deutscher Tennislehrer anerkannten Top-50-Tennisschulen.',
+        'Kosten für individuelles Training, Tennis-Camps und Kurse sind nicht im Clubbeitrag enthalten. Eines ihrer Angebote ist der Kurs **Tennis für Minis** für die Jüngsten.',
+      ],
+    }},
     { type: 'infokarten', data: {
       titel: 'Tennis für Minis',
       karten: [
@@ -292,18 +354,13 @@ export const seiten = [
         { label: 'Kosten',  wert: '{{facts.minis.kursgebuehr_kind}} €', zusatz: 'Kind · Erwachsene parallel {{facts.minis.kursgebuehr_erwachsen}} €' },
       ],
     }},
+    // Grauer Grund wie Tennisschule und Minikarten darueber: die drei
+    // Abschnitte sind EIN Bereich. Weiss an dieser Stelle riss den Kurs
+    // von seinen eigenen Eckdaten ab.
     { type: 'richtext', data: {
+      grund: 'ruhig',
       absaetze: [
         'Die Gruppen sind klein: bis zu {{facts.minis.gruppengroesse_kinder}} Kinder, parallel {{facts.minis.gruppengroesse_erwachsene}} Erwachsene. **Bitte ruf vor der Anmeldung kurz an**, damit wir die passende Altersgruppe finden — {{facts.minis.kontakt_name}}, {{facts.minis.kontakt_telefon}}.',
-      ],
-    }},
-    { type: 'richtext', data: {
-      titel: 'Tennisschule Kaus',
-      anker: 'tennisschule',
-      absaetze: [
-        'Seit {{facts.anlage.tennisschule_seit}} vertraut der KTC auf die Kompetenz der {{facts.anlage.tennisschule}}. Geleitet von den staatlich geprüften Tennislehrern Bertrand und Oliver Kaus, steht sie für Qualität, Engagement und messbaren Trainingserfolg.',
-        'Mit einem motivierten Trainerteam und modernen Lehrmethoden begleitet sie Kinder, Jugendliche und Erwachsene — vom Einsteiger bis zum Turnierspieler. Sie gehört zu den vom Deutschen Tennis Bund und vom Verband Deutscher Tennislehrer anerkannten Top-50-Tennisschulen.',
-        'Kosten für individuelles Training, Tennis-Camps und Kurse sind nicht im Clubbeitrag enthalten.',
       ],
     }},
     ASSISTENT,
@@ -412,6 +469,58 @@ export const seiten = [
   ],
 },
 
+// ══════════════════════════════════════════════════════════ CLUBHAUS
+//
+// Nicht in der Navigation — so gewollt. Erreichbar aus dem Fliesstext der
+// Startseite, aus dem Streifen darunter, aus der FAQ und aus der Fusszeile.
+//
+// Warum es die Seite ueberhaupt gibt, obwohl der Streifen schon die Zeiten
+// zeigt: der Clubwirt hat keine eigene Website. Was hier nicht steht, steht
+// nirgends — ausser in Branchenverzeichnissen, die den Ruhetag nicht kennen.
+{
+  slug: 'clubhaus', page_type: 'standard',
+  title: 'Clubhaus und Terrasse',
+  description: 'Das Clubrestaurant des Krifteler Tennisclubs mit Sonnenterrasse: Küche, Öffnungszeiten und Tischreservierung.',
+  blocks: [
+    NAV,
+    { type: 'hero', data: {
+      titel: 'Clubhaus und Terrasse',
+      sub: 'Essen, trinken und sitzen bleiben — auf der wohl schönsten Sonnenterrasse Kriftels. Auch ohne Schläger.',
+      bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),
+      // Kein Knopf. Die Handlung hier ist ein Anruf, und der steht als
+      // Zeile im Streifen. Der eine gelbe Knopf gehoert 'Mitglied werden'.
+    }},
+    { type: 'streifen', data: {
+      seite: 'rechts',
+      // Das Logo des Paechters, nicht unseres — deshalb klein ueber der
+      // Ueberschrift und nicht in der Kopfzeile.
+      logo: bild('logo-restaurant', 'mittel'), logoAlt: bildAlt('logo-restaurant'),
+      titel: 'Das Clubrestaurant',
+      text: '**{{facts.gastronomie.name}}** bringt {{facts.anlage.belag}}platz und Currygeruch zusammen: Clubwirt {{facts.gastronomie.wirt}} kocht {{facts.gastronomie.kueche}} nach Originalrezepten — mit frischen Zutaten, hausgemachten Soßen und einer großen Auswahl an vegetarischen und veganen Gerichten. Beliebt sind die fettarmen Tandoori-Gerichte aus dem traditionellen Ofen.',
+      bild: bild('club-restaurant', 'mittel'), bildAlt: bildAlt('club-restaurant'),
+      zeilen: [
+        // Zwei Werte, zwei Zeilen. Als ein Text mit Mitteltrenner brach der
+        // Umbruch dort, wo er gerade passte — 'Uhr' stand allein unten.
+        { label: '{{facts.gastronomie.zeiten_werktage}}',
+          wert: ['{{facts.gastronomie.zeiten_mittag}}', '{{facts.gastronomie.zeiten_abend}}'] },
+        { label: 'Samstag und Sonntag', wert: '{{facts.gastronomie.zeiten_wochenende}}' },
+        { label: 'Ruhetag', wert: '{{facts.gastronomie.ruhetag}}' },
+      ],
+      fussnote: 'Öffnungszeiten {{facts.gastronomie.zeiten_stand}}. **Außerhalb der Freiluftsaison gelten andere Zeiten** — wenn kein Tennisbetrieb mehr auf der Anlage ist, ändern sich Ruhetage und Zeiten. Dann vorher kurz anrufen.',
+      linkLabel: 'Tisch reservieren: {{facts.gastronomie.telefon}}',
+      linkHref: 'tel:{{facts.gastronomie.telefon_waehlen}}',
+    }},
+    { type: 'richtext', data: {
+      absaetze: [
+        'Eine Tischreservierung nimmt der Clubwirt jederzeit telefonisch an — unter {{facts.gastronomie.telefon}} oder mobil unter {{facts.gastronomie.telefon_mobil}}. Für eine größere Runde nach dem Punktspiel lohnt sich ein kurzer Anruf vorab.',
+        'Du findest uns am {{facts.verein.strasse}} in {{facts.verein.plz}} {{facts.verein.ort}} — [so kommst du her](/kontakt/).',
+      ],
+    }},
+    ASSISTENT,
+    FOOTER,
+  ],
+},
+
 // ══════════════════════════════════════════════════════════ AKTUELLES
 {
   slug: 'aktuelles', page_type: 'aktuelles',
@@ -449,24 +558,8 @@ export const seiten = [
     { type: 'termine', data: {
       vorspann: 'Abgelaufene Termine verschwinden von selbst — was hier steht, kommt noch.',
       leerText: 'Zurzeit steht nichts an. Sobald die Termine der neuen Saison feststehen, erscheinen sie hier.',
-      // Beispieltermine, damit der Baustein etwas zu zeigen hat. Sie werden
-      // ersetzt, sobald der Vorstand die echten Termine liefert.
-      termine: [
-        { datum: '2027-04-17', uhrzeit: '14:00', art: 'verein',
-          titel: 'Saisoneröffnung',
-          text: 'Start in die Freiluftsaison mit Schleifchenturnier und anschließendem Grillen.',
-          ort: 'Clubhaus und Plätze' },
-        { datum: '2027-04-24', uhrzeit: '09:00', art: 'wettspiel',
-          titel: 'Erster Spieltag der Medenrunde',
-          text: 'Herren 40, Damen 30, Junioren U18 und U15 — die Aufstellungen hängen im Clubhaus aus.' },
-        { datum: '2027-05-08', uhrzeit: '09:30', art: 'verein',
-          titel: 'Arbeitseinsatz',
-          text: 'Gemeinsam die Anlage herrichten. Wer mitmacht, bekommt Frühstück.',
-          ort: 'Treffpunkt am Clubhaus' },
-        { datum: '2027-06-12', uhrzeit: '10:00', art: 'sonstiges',
-          titel: 'Tag der offenen Tür',
-          text: 'Schläger ausprobieren, Platz testen, Leute kennenlernen. Ohne Anmeldung.' },
-      ],
+      // Die Termine stehen NICHT hier, sondern in inhalte/termine.json —
+      // dieselbe Quelle speist die Startseite (P3).
     }},
     { type: 'richtext', data: {
       titel: 'Spieltermine der Mannschaften',
@@ -541,7 +634,7 @@ export const seiten = [
         { frage: 'Brauche ich eigene Ausrüstung?',
           antwort: 'Für die Minis-Kurse werden Schläger gestellt, du brauchst nur Sportschuhe. Ansonsten hilft dir die {{facts.anlage.tennisschule}} gern bei der Auswahl.' },
         { frage: 'Gibt es Gastronomie?',
-          antwort: 'Ja, das Clubrestaurant mit sonniger Terrasse gehört zur Anlage.' },
+          antwort: 'Ja — das Clubrestaurant {{facts.gastronomie.name}} mit sonniger Terrasse gehört zur Anlage und ist auch für Gäste ohne Schläger offen. Öffnungszeiten, Ruhetag und die Nummer für eine Tischreservierung stehen auf [Clubhaus und Terrasse](/clubhaus/).' },
       ],
     }},
     ASSISTENT,

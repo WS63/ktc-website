@@ -1,0 +1,92 @@
+/**
+ * Die Ansicht der Ergebnisseite: welches Spielwochenende, welche Zeilen, welche Bilanz.
+ *
+ * Rein — der Spielstand und 'jetzt' kommen als Parameter. Die Seite zeigt
+ * Mannschaften und Ergebnisse, keine Namen: dieselbe Zahl, die auf der Seite
+ * des Verbands oeffentlich steht, nur gebuendelt fuer unsere Teams.
+ */
+import { ergebnis, bilanz } from './spielbericht.js';
+import { berlinEpoch, berlinTag, tagPlus, berlinWann } from './zeit.js';
+
+/**
+ * Spielwochenenden: Tage mit Spielen, die hoechstens zwei Kalendertage
+ * auseinander liegen, gehoeren zusammen. Freitag, Samstag, Sonntag sind eines;
+ * ein Mittwochsspiel danach ein eigenes.
+ */
+export function wochenenden(spiele) {
+  const tage = [...new Set(spiele.map((s) => s.datum).filter(Boolean))].sort();
+  const raus = [];
+  for (const tag of tage) {
+    const letzte = raus.at(-1);
+    if (letzte && tag <= tagPlus(letzte.bis, 2)) letzte.bis = tag;
+    else raus.push({ von: tag, bis: tag });
+  }
+  return raus;
+}
+
+const monat = (tag) => new Date(`${tag}T12:00:00Z`).toLocaleDateString('de-DE', { month: 'long', timeZone: 'UTC' });
+const tagZahl = (tag) => Number(tag.slice(8));
+
+/** '8. bis 10. Mai', '30. Mai bis 1. Juni', '9. Mai'. */
+export function wochenendeText(w) {
+  if (w.von === w.bis) return `${tagZahl(w.von)}. ${monat(w.von)}`;
+  return monat(w.von) === monat(w.bis)
+    ? `${tagZahl(w.von)}. bis ${tagZahl(w.bis)}. ${monat(w.bis)}`
+    : `${tagZahl(w.von)}. ${monat(w.von)} bis ${tagZahl(w.bis)}. ${monat(w.bis)}`;
+}
+
+const WOCHENTAG = (tag) => new Date(`${tag}T12:00:00Z`).toLocaleDateString('de-DE', { weekday: 'long', timeZone: 'UTC' });
+
+/**
+ * @param spiele  der Spielstand (Begegnungen mit datum, uhrzeit, gespielt, matchpunkte …)
+ * @param we      Beginn des gewuenschten Wochenendes ('JJJJ-MM-TT'), leer = das juengste
+ * @param jetzt   Millisekunden seit 1970
+ */
+export function ansicht(spiele, { we = '', jetzt = Date.now() } = {}) {
+  const heute = berlinTag(jetzt);
+  const alle = wochenenden(spiele);
+  if (!alle.length) return { leer: true, eintraege: [], zuletzt: [] };
+
+  // Standard: das juengste Wochenende, das schon angefangen hat — nicht eines in der Zukunft.
+  let i = alle.findLastIndex((w) => w.von <= heute);
+  if (i < 0) i = 0;
+  if (we) {
+    const gewuenscht = alle.findIndex((w) => we >= w.von && we <= w.bis);
+    if (gewuenscht >= 0) i = gewuenscht;
+  }
+  const w = alle[i];
+
+  const imFenster = spiele.filter((s) => s.datum >= w.von && s.datum <= w.bis)
+    .sort((a, b) => (a.datum + a.uhrzeit).localeCompare(b.datum + b.uhrzeit)
+      || a.mannschaft.localeCompare(b.mannschaft, 'de', { numeric: true }));
+
+  const eintraege = imFenster.map((s) => {
+    const e = s.gespielt ? ergebnis(s) : null;
+    const start = berlinEpoch(s.datum, s.uhrzeit || '12:00');
+    return {
+      tag: s.datum, wochentag: WOCHENTAG(s.datum), uhrzeit: s.uhrzeit || '',
+      mannschaft: s.mannschaft, sg: s.sg || '', heim: s.heim, gast: s.gast, zuhause: s.zuhause,
+      gegner: s.gegner, matchpunkte: s.matchpunkte || '', ausgang: e?.ausgang || '',
+      // ohne Ergebnis: ist das Spiel noch nicht angepfiffen, oder fehlt die Meldung?
+      status: e ? 'gespielt' : (Number.isFinite(start) && jetzt < start ? 'kommt' : 'offen'),
+      gemeldet: s.gemeldet_um ? Date.parse(s.gemeldet_um) : 0,
+      bericht: s.bericht || '',
+    };
+  });
+
+  const fertig = imFenster.filter((s) => s.gespielt && ergebnis(s));
+  // 'Gerade gemeldet': Ergebnisse, die wir in den letzten 24 Stunden zum ersten Mal sahen.
+  const zuletzt = eintraege.filter((e) => e.gemeldet && jetzt - e.gemeldet < 24 * 3600 * 1000)
+    .sort((a, b) => b.gemeldet - a.gemeldet).slice(0, 5)
+    .map((e) => ({ ...e, wann: berlinWann(e.gemeldet, jetzt) }));
+
+  return {
+    leer: false,
+    fenster: { von: w.von, bis: w.bis, text: wochenendeText(w), jahr: w.von.slice(0, 4) },
+    eintraege, zuletzt,
+    bilanz: bilanz(fertig),
+    offen: eintraege.filter((e) => e.status !== 'gespielt').length,
+    vorher: i > 0 ? { we: alle[i - 1].von, text: wochenendeText(alle[i - 1]) } : null,
+    nachher: i < alle.length - 1 && alle[i + 1].von <= heute ? { we: alle[i + 1].von, text: wochenendeText(alle[i + 1]) } : null,
+  };
+}

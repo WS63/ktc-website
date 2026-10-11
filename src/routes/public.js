@@ -6,6 +6,9 @@ import { holen, legen, bisMitternacht } from '../cache.js';
 import { zaehle } from '../zaehler.js';
 import { alleTermine, kuenftige, spielplanHinweis } from '../termin-quelle.js';
 import { suchtext, begriffe, beitraegeFiltern, termineFiltern } from '../suche.js';
+import { spielstand, infoStand } from '../spielstand.js';
+import { ansicht } from '../ergebnisse.js';
+import { berlinWann } from '../zeit.js';
 
 const router = Router();
 
@@ -124,6 +127,14 @@ async function dynamischeDaten(inhalt, page) {
     const nB = Number(b?.data?.anzahlBeitraege) > 0 ? Number(b.data.anzahlBeitraege) : 2;
     const { gesamt, eintraege } = await beitraegeLaden(nB, 0);
     daten.aktuell = { gesamt, beitraege: eintraege, termine: mitSymbol(kuenftige(alleTermine())) };
+  }
+  if (typen.has('ergebnisse')) {
+    const { stand } = infoStand();
+    daten.ergebnisse = {
+      ansicht: ansicht(spielstand(), { we: page.we || '', jetzt: Date.now() }),
+      stand: stand ? berlinWann(Date.parse(stand)) : '',
+      basis: `/${page.slug}/`,
+    };
   }
   if (typen.has('termine')) {
     // Abgelaufene Termine fliegen HIER raus und nicht im Baustein: renderPage()
@@ -256,7 +267,9 @@ router.get(/^\/(.*)$/, async (req, res, next) => {
     // hineingelegt: der Speicher kennt nur den Pfad, und jeder Suchtext waere
     // sonst fuer alle die richtige Antwort.
     const q = suchtext(req.query.q);
-    if (!q) {
+    // ?we=JJJJ-MM-TT waehlt ein Spielwochenende. Wie die Suche: nie aus dem Speicher.
+    const we = /^\d{4}-\d{2}-\d{2}$/.test(String(req.query.we || '')) ? String(req.query.we) : '';
+    if (!q && !we) {
       const zwischen = holen(pfad);
       if (zwischen) { zaehle(req.path); return res.type('html').send(zwischen); }
     }
@@ -267,13 +280,17 @@ router.get(/^\/(.*)$/, async (req, res, next) => {
     // Nur Seiten, die ein Suchfeld haben, nehmen den Suchtext an.
     const suchbar = begriffe(q).length > 0 && inhalt.blocks.some((b) =>
       ['beitragsliste', 'termine'].includes(b?.type) && b.data?.suche === 'an');
-    const page = suchbar ? { ...geladen, suche: q } : geladen;
+    const page = { ...geladen, ...(suchbar ? { suche: q } : {}), ...(we ? { we } : {}) };
     const html = renderPage(page, { dynamicData: await dynamischeDaten(inhalt, page) });
     zaehle(req.path);
     // Eine Seite mit Terminen gilt nur bis Mitternacht: danach kann ein
     // Termin vorbei sein, und der Speicher wuesste nichts davon.
     const hatTermine = inhalt.blocks.some((b) => b?.type === 'termine' || b?.type === 'aktuell');
-    if (q) return res.type('html').set('Cache-Control', 'no-store').send(html);
+    if (q || we) return res.type('html').set('Cache-Control', 'no-store').send(html);
+    // Der Spielstand aendert sich im Lauf des Tages: eine Minute, nicht bis Mitternacht.
+    if (inhalt.blocks.some((b) => b?.type === 'ergebnisse')) {
+      return res.type('html').send(legen(pfad, html, Date.now() + 60 * 1000));
+    }
     res.type('html').send(legen(pfad, html, hatTermine ? bisMitternacht() : 0));
   } catch (err) { next(err); }
 });

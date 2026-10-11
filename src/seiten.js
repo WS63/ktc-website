@@ -567,7 +567,36 @@ export const seiten = [
       titel: 'Spieltermine der Mannschaften',
       absaetze: [
         'Die vollständigen Spielpläne aller Mannschaften stehen beim Hessischen Tennisverband. Dort sind sie immer aktuell — auch wenn ein Spiel kurzfristig verlegt wird.',
-        'Eine Übersicht unserer Mannschaften findest du auf der Seite [Mannschaften](/mannschaften/).',
+        'Eine Übersicht unserer Mannschaften findest du auf der Seite [Mannschaften](/mannschaften/), die Ergebnisse des Wochenendes unter [Ergebnisse](/ergebnisse/).',
+      ],
+    }},
+    ASSISTENT,
+    FOOTER,
+  ],
+},
+
+// ══════════════════════════════════════════════════════════ ERGEBNISSE
+//
+// Der Infodienst fuer Spieltage: alle Mannschaften, ein Wochenende, die
+// Ergebnisse, sobald sie beim Verband stehen. Bewusst OEFFENTLICH und ohne
+// Namen — dieselben Zahlen stehen beim HTV offen, hier nur gebuendelt. Ein
+// Passwort davor haette nur Mitglieder ausgesperrt, die kein Konto auf dieser
+// Seite haben.
+{
+  slug: 'ergebnisse', page_type: 'standard',
+  title: 'Ergebnisse',
+  description: 'Die Ergebnisse aller Mannschaften des Krifteler Tennisclubs am Spielwochenende, sobald sie beim Hessischen Tennisverband gemeldet sind.',
+  blocks: [
+    NAV,
+    { type: 'hero', data: {
+      pill: 'Spieltage',
+      titel: 'Ergebnisse',
+      sub: 'Alle Mannschaften, ein Wochenende — aktuell vom Hessischen Tennisverband.',
+    }},
+    { type: 'ergebnisse', data: {} },
+    { type: 'richtext', data: {
+      absaetze: [
+        'Die Ergebnisse erscheinen hier, sobald sie beim Verband gemeldet sind. Das passiert meist vier bis sechs Stunden nach Spielbeginn und spätestens bis 13 Uhr des Folgetags. Ältere Wochenenden findest du über die Pfeile oben. Alle Spieltermine stehen im [Clubkalender](/kalender/).',
       ],
     }},
     ASSISTENT,

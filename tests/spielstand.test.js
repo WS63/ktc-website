@@ -139,3 +139,61 @@ test('Speichern: neu gemeldete Ergebnisse werden gezaehlt, die erste Meldung ble
   assert.equal(r.gemeldet, '2026-05-09T15:00:00Z');        // der Zeitpunkt der ERSTEN Meldung
   assert.equal(r.geprueft, '2026-05-09T23:00:00Z');        // geprueft wird jedes Mal
 });
+
+// ── Die Ergebnisseite ──────────────────────────────────────────────────
+import { wochenenden, ansicht, wochenendeText } from '../src/ergebnisse.js';
+import { renderPage } from '../src/renderer.js';
+
+const sp = (o) => ({ id: Math.random().toString(36), mannschaft: 'Herren', sg: '', heim: 'TC Kriftel', gast: 'TC A', zuhause: true,
+  gegner: 'TC A', datum: '2026-05-09', uhrzeit: '14:00', matchpunkte: '', gespielt: false, gemeldet_um: null, bericht: '', ...o });
+
+test('Spielwochenenden: Freitag bis Sonntag sind eines, ein Mittwoch danach ein eigenes', () => {
+  const w = wochenenden([sp({ datum: '2026-05-08' }), sp({ datum: '2026-05-10' }), sp({ datum: '2026-05-13' }), sp({ datum: '2026-05-16' })]);
+  assert.deepEqual(w, [{ von: '2026-05-08', bis: '2026-05-10' }, { von: '2026-05-13', bis: '2026-05-13' }, { von: '2026-05-16', bis: '2026-05-16' }]);
+  assert.equal(wochenendeText({ von: '2026-05-08', bis: '2026-05-10' }), '8. bis 10. Mai');
+  assert.equal(wochenendeText({ von: '2026-05-30', bis: '2026-06-01' }), '30. Mai bis 1. Juni');
+});
+
+test('Ansicht: standardmaessig das juengste Wochenende, das schon angefangen hat', () => {
+  const spiele = [sp({ datum: '2026-05-09' }), sp({ datum: '2026-05-16' }), sp({ datum: '2026-05-23' })];
+  const jetzt = berlinEpoch('2026-05-17', '10:00');
+  const a = ansicht(spiele, { jetzt });
+  assert.equal(a.fenster.von, '2026-05-16');
+  assert.equal(a.vorher.we, '2026-05-09');
+  assert.equal(a.nachher, null);                         // das naechste liegt noch in der Zukunft
+  assert.equal(ansicht(spiele, { jetzt, we: '2026-05-09' }).fenster.von, '2026-05-09');
+});
+
+test('Ansicht: Bilanz aus Sicht des KTC, offene Spiele gezaehlt, Status je Spiel', () => {
+  const jetzt = berlinEpoch('2026-05-09', '16:00');
+  const a = ansicht([
+    sp({ mannschaft: 'A', matchpunkte: '5:1', gespielt: true, gemeldet_um: new Date(jetzt - 3600e3).toISOString() }),
+    sp({ mannschaft: 'B', zuhause: false, matchpunkte: '2:4', gespielt: true }),      // auswaerts 2:4 = Sieg
+    sp({ mannschaft: 'C', uhrzeit: '09:00' }),                                         // angepfiffen, Ergebnis fehlt
+    sp({ mannschaft: 'D', uhrzeit: '18:00' }),                                         // noch nicht angepfiffen
+  ], { jetzt });
+  assert.deepEqual([a.bilanz.siege, a.bilanz.niederlagen, a.offen], [2, 0, 2]);
+  assert.deepEqual(a.eintraege.map((e) => e.status), ['offen', 'gespielt', 'gespielt', 'kommt']);
+  assert.equal(a.zuletzt.length, 1);                     // nur das gerade gemeldete
+  assert.match(a.zuletzt[0].wann, /^Heute, /);
+});
+
+test('Ansicht ohne Spiele ist leer, und die Seite sagt es', () => {
+  assert.equal(ansicht([], {}).leer, true);
+  const html = renderPage({ slug: 'e', page_type: 'standard', status: 'published', title: 'E',
+    content_json: { blocks: [{ type: 'ergebnisse', data: {} }] } }, { dynamicData: { ergebnisse: { ansicht: { leer: true } } } });
+  assert.match(html, /Zurzeit liegen keine Spiele vor/);
+});
+
+test('Ergebnisseite: Heimmannschaft links, Ausgang als WORT, MSG-Etikett, keine Spielernamen', () => {
+  const jetzt = berlinEpoch('2026-05-09', '20:00');
+  const a = ansicht([
+    sp({ mannschaft: 'Damen 40', zuhause: false, gegner: 'TV Ruppertshain', heim: 'TV Ruppertshain', gast: 'TC Kriftel',
+      matchpunkte: '5:1', gespielt: true, sg: 'Diedenbergen/KTC' })], { jetzt });
+  const html = renderPage({ slug: 'e', page_type: 'standard', status: 'published', title: 'E',
+    content_json: { blocks: [{ type: 'ergebnisse', data: {} }] } }, { dynamicData: { ergebnisse: { ansicht: a, stand: 'Heute, 19:40 Uhr' } } });
+  assert.match(html, /<span class="sie">TV Ruppertshain<\/span> - <span class="wir">Damen 40<\/span>/);
+  assert.match(html, /Niederlage/);                    // 5:1 fuer den Gastgeber, wir waren Gast
+  assert.match(html, /erg__msg/);
+  assert.match(html, /Stand: Heute, 19:40 Uhr/);
+});

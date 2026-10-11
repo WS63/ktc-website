@@ -8,8 +8,8 @@
     "plz": "65830",
     "ort": "Kriftel",
     "email": "info@tennisclub-kriftel.de",
-    "registergericht": "",
-    "registernummer": "",
+    "registergericht": "Amtsgericht Frankfurt am Main",
+    "registernummer": "VR 6161",
     "hausnummer": "6"
   },
   "anlage": {
@@ -103,8 +103,8 @@
   },
   "hosting": {
     "_hinweis": "Wer die Website technisch betreibt. Pflicht im Datenschutz (Auftragsverarbeitung). Leer = sichtbar […] auf der Seite.",
-    "anbieter": "",
-    "sitz": ""
+    "anbieter": "Hostinger International Ltd.",
+    "sitz": "Larnaka, Zypern"
   },
   "datenschutz": {
     "_hinweis": "Stand und Aufbewahrungsfristen der Datenschutzerklaerung. Die Fristen sind eine ENTSCHEIDUNG DES VORSTANDS, nicht der Technik — und der Text verspricht sie. Sie gelten nur, solange das Aufraeumen sie auch durchsetzt.",

@@ -669,7 +669,7 @@ export const seiten = [
       absaetze: [
         '**{{facts.verein.name}}**',
         '{{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
-        '**Vertreten durch:** {{facts.vorstand.erster.name}} ({{facts.vorstand.erster.rolle}})',
+        '**Vertreten durch den Vorstand:** {{facts.vorstand.erster.name}} ({{facts.vorstand.erster.rolle}}) und {{facts.vorstand.zweite.name}} ({{facts.vorstand.zweite.rolle}})',
         '**Telefon:** {{facts.vorstand.erster.telefon}} · **E-Mail:** [{{facts.verein.email}}](mailto:{{facts.verein.email}})',
         '**Vereinsregister:** {{facts.verein.registergericht}} · **Registernummer:** {{facts.verein.registernummer}}',
       ],
@@ -725,7 +725,7 @@ export const seiten = [
     { type: 'richtext', data: {
       titel: '1. Wer verantwortlich ist',
       absaetze: [
-        '{{facts.verein.name}}, {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}. Vertreten durch {{facts.vorstand.erster.name}} ({{facts.vorstand.erster.rolle}}).',
+        '{{facts.verein.name}}, {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}. Vertreten durch den Vorstand: {{facts.vorstand.erster.name}} ({{facts.vorstand.erster.rolle}}) und {{facts.vorstand.zweite.name}} ({{facts.vorstand.zweite.rolle}}).',
         'Fragen zum Datenschutz richtest du an [{{facts.verein.email}}](mailto:{{facts.verein.email}}).',
       ],
     }},

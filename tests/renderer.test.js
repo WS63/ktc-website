@@ -21,7 +21,10 @@ test('P2 · Fakt wird eingestempelt', () => {
 });
 
 test('P2 · fehlender Fakt wird sichtbar, nicht erfunden', () => {
-  const html = renderPage(seite([{ type: 'hero', data: { titel: 'X{{facts.verein.registernummer}}X' } }]));
+  // Ein Pfad, den es nie geben wird. Vorher stand hier 'verein.registernummer'
+  // — ein echter Fakt, der nur zufaellig leer war. Sobald jemand ihn
+  // eintraegt, schlug der Test fehl, obwohl nichts kaputt war.
+  const html = renderPage(seite([{ type: 'hero', data: { titel: 'X{{facts.test.nie_gesetzt}}X' } }]));
   assert.match(html, /X\[…\]X/);
 });
 

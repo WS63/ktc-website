@@ -101,6 +101,17 @@
   "zeiten": {
     "anlage": ""
   },
+  "hosting": {
+    "_hinweis": "Wer die Website technisch betreibt. Pflicht im Datenschutz (Auftragsverarbeitung). Leer = sichtbar […] auf der Seite.",
+    "anbieter": "",
+    "sitz": ""
+  },
+  "datenschutz": {
+    "_hinweis": "Stand und Aufbewahrungsfristen der Datenschutzerklaerung. Die Fristen sind eine ENTSCHEIDUNG DES VORSTANDS, nicht der Technik — und der Text verspricht sie. Sie gelten nur, solange das Aufraeumen sie auch durchsetzt.",
+    "stand": "Oktober 2026",
+    "frist_anfragen": "12 Monate",
+    "frist_chat": "90 Tage"
+  },
   "gastronomie": {
     "_hinweis": "Der Clubwirt ist Pächter, kein Vereinsorgan — er kann wechseln. Deshalb stehen Name, Nummer und Zeiten HIER und nirgends im Seitentext. Die Zeiten gelten für die Freiluftsaison; 'stand' sagt das sichtbar, sonst behauptet die Seite im Januar Sommerzeiten.",
     "name": "Spice of India",

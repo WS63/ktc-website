@@ -643,21 +643,54 @@ export const seiten = [
 },
 
 // ══════════════════════════════════════════════════════════ IMPRESSUM
+//
+// Angaben nach § 5 DDG (frueher TMG). Registergericht und Registernummer
+// stehen in facts.json und sind dort noch LEER — die Seite zeigt sie als […],
+// bis jemand sie einsetzt. Bei einem eingetragenen Verein ist das eine
+// Pflichtangabe; eine sichtbare Luecke ist besser als eine geratene Nummer.
+//
+// Bewusst NICHT mehr drin gegenueber der alten Seite:
+//  - die Privatnummer und E-Mail der 'technischen Umsetzung' (nicht
+//    vorgeschrieben, und jede private Angabe ist eine zu viel)
+//  - die Hamburger Link-Erklaerung von 1998 (gilt als wirkungslos; ersetzt
+//    durch die uebliche Kurzfassung)
+//  - der Hinweis auf die EU-Streitschlichtungsplattform (seit Juli 2025
+//    abgeschaltet; fuer einen Verein ohne Verbrauchervertraege ohnehin
+//    nicht noetig)
 {
   slug: 'impressum', page_type: 'rechtstext',
   title: 'Impressum',
-  description: 'Anbieterkennzeichnung des Krifteler Tennisclubs e.V.',
+  description: 'Anbieterkennzeichnung des Krifteler Tennisclubs e.V.: Anschrift, Vertretung, Kontakt und Vereinsregister.',
   blocks: [
     NAV,
     { type: 'hero', data: { titel: 'Impressum' } },
     { type: 'richtext', data: {
+      titel: 'Angaben nach § 5 DDG',
+      absaetze: [
+        '**{{facts.verein.name}}**',
+        '{{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
+        '**Vertreten durch:** {{facts.vorstand.erster.name}} ({{facts.vorstand.erster.rolle}})',
+        '**Telefon:** {{facts.vorstand.erster.telefon}} · **E-Mail:** [{{facts.verein.email}}](mailto:{{facts.verein.email}})',
+        '**Vereinsregister:** {{facts.verein.registergericht}} · **Registernummer:** {{facts.verein.registernummer}}',
+      ],
+    }},
+    { type: 'richtext', data: {
       titel: 'Verantwortlich für den Inhalt',
       absaetze: [
-        '{{facts.verein.name}}',
-        '{{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
-        'E-Mail: [{{facts.verein.email}}](mailto:{{facts.verein.email}})',
-        '**Vertretungsberechtigter Vorstand:** {{facts.vorstand.erster.name}} ({{facts.vorstand.erster.rolle}}), Telefon {{facts.vorstand.erster.telefon}}',
-        '**Registergericht:** {{facts.verein.registergericht}} · **Registernummer:** {{facts.verein.registernummer}}',
+        'Verantwortlich für die Inhalte dieser Website im Sinne von § 18 Abs. 2 MStV ist {{facts.vorstand.erster.name}}, {{facts.vorstand.erster.rolle}}, Anschrift wie oben.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: 'Haftung für Inhalte und Links',
+      absaetze: [
+        'Wir erstellen die Inhalte dieser Website mit Sorgfalt und halten sie aktuell. Für Vollständigkeit und Richtigkeit zu jedem Zeitpunkt können wir keine Gewähr übernehmen. Das gilt besonders für Spieltermine und Ergebnisse: maßgeblich ist immer der Spielplan des Hessischen Tennisverbands.',
+        'Diese Website verweist auf Seiten anderer Anbieter. Für deren Inhalte sind ausschließlich die jeweiligen Betreiber verantwortlich. Zum Zeitpunkt der Verlinkung waren keine Rechtsverstöße erkennbar. Werden uns solche bekannt, entfernen wir den Link umgehend.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: 'Urheberrecht',
+      absaetze: [
+        'Texte, Fotos und Grafiken dieser Website unterliegen dem Urheberrecht. Wer sie über die private Nutzung hinaus verwenden will, fragt bitte vorher unter [{{facts.verein.email}}](mailto:{{facts.verein.email}}) an.',
       ],
     }},
     ASSISTENT,
@@ -666,20 +699,105 @@ export const seiten = [
 },
 
 // ══════════════════════════════════════════════════════════ DATENSCHUTZ
+//
+// Geschrieben nach dem, was die Website TATSAECHLICH tut — geprueft im Code,
+// nicht uebernommen. Der alte Text stammt aus einem WordPress-Baukasten und
+// beschrieb Dinge, die es hier nicht gibt: Google Fonts, Google Maps,
+// Registrierfunktion, Kommentare, Cookies fuer Besucher. Dafuer fehlte, was
+// es hier GIBT: den Assistenten, der Fragen an einen KI-Dienst in den USA
+// schickt, und die Speicherung von Anfragen.
+//
+// Die Fristen stehen in facts.json (datenschutz.*), weil der Vorstand sie
+// entscheidet und der Text sie verspricht.
 {
   slug: 'datenschutz', page_type: 'rechtstext',
   title: 'Datenschutz',
-  description: 'Wie der Krifteler Tennisclub mit personenbezogenen Daten umgeht.',
+  description: 'Welche Daten bei der Nutzung dieser Website anfallen, wofür wir sie brauchen und welche Rechte du hast.',
   blocks: [
     NAV,
     { type: 'hero', data: { titel: 'Datenschutz' } },
     { type: 'richtext', data: {
       absaetze: [
-        'Der {{facts.verein.name}} nimmt als Betreiber dieser Website den Schutz der persönlichen Daten seiner Mitglieder und Partner ernst. Wir behandeln personenbezogene Daten vertraulich und entsprechend den gesetzlichen Vorschriften.',
-        'Soweit auf diesen Seiten personenbezogene Daten wie Name, Anschrift oder E-Mail-Adresse erhoben werden, geschieht das stets auf freiwilliger Basis. Wir weisen darauf hin, dass die Datenübertragung im Internet Sicherheitslücken aufweisen kann; ein lückenloser Schutz vor dem Zugriff Dritter ist nicht möglich.',
-        'Personenbezogene Daten werden Dritten nicht zugänglich gemacht, weitergegeben oder verkauft. Über welche persönlichen Daten wir Kenntnis erlangen, bestimmst du durch die Eingabe deiner Daten.',
-        'Der Verein erhebt, verarbeitet und nutzt personenbezogene Daten seiner Mitglieder zur Erfüllung der satzungsgemäßen Zwecke und Aufgaben, etwa im Rahmen der Mitgliederverwaltung. Als Mitglied des Hessischen Tennisverbands ist der Verein verpflichtet, bestimmte personenbezogene Daten dorthin zu melden.',
-        'Bei Fragen zum Datenschutz wende dich an [{{facts.verein.email}}](mailto:{{facts.verein.email}}).',
+        'Der {{facts.verein.name}} nimmt den Schutz deiner Daten ernst. Diese Seite sagt dir, welche Daten bei der Nutzung dieser Website anfallen, wofür wir sie brauchen und was du tun kannst. Sie gilt für diese Website. Für Angebote anderer Anbieter, auf die wir verlinken, gelten deren eigene Erklärungen.',
+        '**Die Kurzfassung:** Diese Website setzt für Besucher keine Cookies, bindet keine Werbe- oder Analysedienste ein und lädt weder Schriften noch Karten von fremden Servern. Personenbezogene Daten fallen nur an, wenn du uns schreibst oder den Assistenten benutzt. Beides ist freiwillig.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '1. Wer verantwortlich ist',
+      absaetze: [
+        '{{facts.verein.name}}, {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}. Vertreten durch {{facts.vorstand.erster.name}} ({{facts.vorstand.erster.rolle}}).',
+        'Fragen zum Datenschutz richtest du an [{{facts.verein.email}}](mailto:{{facts.verein.email}}).',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '2. Was beim bloßen Besuch passiert',
+      absaetze: [
+        'Wenn du eine Seite aufrufst, überträgt dein Browser technisch bedingt Daten an unseren Server, darunter deine IP-Adresse, Datum und Uhrzeit und die angeforderte Seite. Das ist nötig, damit die Seite bei dir ankommt und der Server sicher läuft (Art. 6 Abs. 1 lit. f DSGVO). Die Anwendung selbst schreibt deine IP-Adresse nicht in ihre Datenbank. Technische Protokolle des Hosting-Anbieters sind unter 3. beschrieben.',
+        'Wir zählen Seitenaufrufe, ohne Personen zu zählen: gespeichert werden nur der Pfad der Seite, der Tag und die Anzahl. Keine IP-Adresse, keine Kennung, kein Cookie. Daraus lässt sich niemand wiedererkennen.',
+        'Für Besucher gibt es keine Cookies. Ein technisch notwendiges Cookie setzt allein die Anmeldung im Redaktionsbereich, den nur Vereinsmitglieder mit Zugang nutzen.',
+        'Schriften, Bilder und Skripte kommen von unserem eigenen Server. Wir binden keine Karten, Videos, Schriften oder Dienste fremder Anbieter ein.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '3. Hosting',
+      absaetze: [
+        'Die Website läuft auf einem Server von {{facts.hosting.anbieter}}, {{facts.hosting.sitz}}. Der Anbieter verarbeitet in unserem Auftrag technische Daten wie die IP-Adresse der Besucher. Mit ihm besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren und zuverlässigen Betrieb (Art. 6 Abs. 1 lit. f DSGVO).',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '4. Wenn du uns schreibst',
+      absaetze: [
+        'Über das Formular auf den Seiten „Kontakt“ und „Mitglied werden“ kannst du uns Fragen stellen, ebenso per E-Mail oder Telefon. Wir speichern deinen Namen, deine E-Mail-Adresse und deine Nachricht, um sie zu beantworten (Art. 6 Abs. 1 lit. b und f DSGVO). Alle Angaben sind freiwillig.',
+        'Die Anfragen liegen in der Datenbank des Servers und sind nur für Personen mit Zugang zum Redaktionsbereich sichtbar. Wir geben sie nicht weiter. Wir löschen sie {{facts.datenschutz.frist_anfragen}} nach Eingang, auf Wunsch früher.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '5. Der Assistent „Frag den KTC“',
+      absaetze: [
+        'Auf jeder Seite kannst du einem Assistenten Fragen zum Verein stellen. Er antwortet ausschließlich aus den Inhalten dieser Website. Wenn du eine Frage abschickst, geht sie zusammen mit den letzten Nachrichten des Gesprächs und den passenden Textstellen dieser Website an einen KI-Dienst des Anbieters Anthropic, der die Antwort erzeugt. Anthropic sitzt in den USA. Die Übermittlung stützt sich auf Standardvertragsklauseln (Art. 46 DSGVO). Mehr dazu in den [Datenschutzhinweisen von Anthropic](https://www.anthropic.com/legal/privacy).',
+        '**Bitte gib im Chat keine persönlichen Daten ein**, weder deine eigenen noch die anderer. Der Assistent braucht sie nicht.',
+        'Wir speichern die Frage, die Antwort und die Seiten, aus denen geantwortet wurde, mit dem Zeitpunkt, ohne IP-Adresse und ohne Kennung. So sehen wir, was Besucher wissen wollen und auf der Website nicht finden. Die Einträge werden nach {{facts.datenschutz.frist_chat}} gelöscht. Damit niemand den Dienst überlastet, merkt sich der Server deine IP-Adresse für wenige Minuten im Arbeitsspeicher. Sie wird nicht in der Datenbank gespeichert und ist spätestens beim nächsten Neustart des Servers weg.',
+        'Rechtsgrundlage ist unser berechtigtes Interesse an einer einfachen Auskunft für Besucher (Art. 6 Abs. 1 lit. f DSGVO). Die Nutzung ist freiwillig. Die Website funktioniert ohne den Assistenten vollständig.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '6. Mitgliedschaft und Platzbuchung',
+      absaetze: [
+        'Anmeldung, Mitgliederverwaltung und Platzbuchung laufen nicht über diese Website, sondern über das Buchungssystem eBuSy. Wenn du den Link anklickst, verlässt du unsere Seite, er öffnet in einem neuen Fenster. Dort gelten die Datenschutzhinweise des Betreibers.',
+        'Die Daten unserer Mitglieder verarbeiten wir zur Durchführung der Mitgliedschaft (Art. 6 Abs. 1 lit. b DSGVO), etwa in der Mitgliederverwaltung. Wir verlinken außerdem auf Seiten des Hessischen Tennisverbands und weiterer Anbieter. Beim Anklicken überträgt dein Browser Daten an den jeweiligen Anbieter. Darauf haben wir keinen Einfluss.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '7. Daten und Fotos von Mitgliedern',
+      absaetze: [
+        'Im Zusammenhang mit dem Sportbetrieb und Veranstaltungen kann der Verein Namen, Vereins- und Abteilungszugehörigkeit, Funktion im Verein und Fotos von Mitgliedern veröffentlichen: auf dieser Website, in der Vereinszeitung und gegenüber Medien. Das betrifft etwa Mannschaftsaufstellungen, Ergebnisse, Sieger, Ehrungen oder Wahlergebnisse. Wo es aus sportlichen Gründen nötig ist, etwa bei der Einteilung in Wettkampfklassen, kann auch das Alter oder der Jahrgang genannt werden. Die automatisch erstellten Ergebnisübersichten dieser Website nennen nur Mannschaften, keine einzelnen Spielerinnen und Spieler.',
+        'Wir achten darauf, dass erkennbar abgebildete Personen einverstanden sind, bei Kindern die Eltern. Rechtsgrundlage ist unser berechtigtes Interesse an der Öffentlichkeitsarbeit (Art. 6 Abs. 1 lit. f DSGVO) oder, wo wir dich um Erlaubnis bitten, deine Einwilligung (lit. a).',
+        '**Du kannst der Veröffentlichung deiner Daten und Fotos jederzeit widersprechen**, formlos beim Vorstand. Wir entfernen sie dann von dieser Website und verzichten auf künftige Veröffentlichungen. Über Ehrungen und Geburtstage berichten wir nur, wenn du nicht widersprochen hast. Wir informieren dich vorher rechtzeitig.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '8. Weitergabe an Dritte',
+      absaetze: [
+        'Wir verkaufen keine Daten. Als Mitglied des Hessischen Tennisverbands (HTV) ist der Verein verpflichtet, bestimmte Mitglieder- und Mannschaftsdaten dorthin zu melden. Mitgliederlisten erhalten nur Vorstandsmitglieder und Funktionäre, soweit ihre Aufgabe es erfordert. Darüber hinaus geben wir Daten nur weiter, wenn ein Gesetz es verlangt oder du eingewilligt hast.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '9. Wie lange wir Daten aufbewahren',
+      absaetze: [
+        'Anfragen über das Formular löschen wir {{facts.datenschutz.frist_anfragen}} nach Eingang, Einträge des Assistenten nach {{facts.datenschutz.frist_chat}}. Mitgliedsdaten bewahren wir für die Dauer der Mitgliedschaft auf. Unterlagen der Vereinsbuchhaltung bewahren wir so lange auf, wie das Gesetz es verlangt, bis zu zehn Jahre (§ 147 AO).',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '10. Deine Rechte',
+      absaetze: [
+        'Du hast das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und Datenübertragbarkeit (Art. 20). Du kannst Verarbeitungen widersprechen, die auf unserem berechtigten Interesse beruhen (Art. 21). Eine erteilte Einwilligung kannst du jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3). Schreib dazu an [{{facts.verein.email}}](mailto:{{facts.verein.email}}).',
+        'Du kannst dich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO). Für uns zuständig ist der [Hessische Beauftragte für Datenschutz und Informationsfreiheit](https://datenschutz.hessen.de) in Wiesbaden.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '11. Änderungen',
+      absaetze: [
+        'Wir passen diese Erklärung an, wenn sich die Website oder die Rechtslage ändern. Stand: {{facts.datenschutz.stand}}.',
       ],
     }},
     ASSISTENT,

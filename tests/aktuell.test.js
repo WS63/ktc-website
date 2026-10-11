@@ -191,22 +191,23 @@ test('die Beitragsliste zeigt ein Symbol und kein Vorschaubild', () => {
   const html = renderPage({ slug: 'a', page_type: 'standard', status: 'published', title: 'A',
     content_json: { blocks: [{ type: 'beitragsliste', data: {} }] } },
   { dynamicData: { beitragsliste: { gesamt: 2, eintraege: [
-    { datum: '1. Mai 2026', titel: 'Mit Symbol', symbol: '🏆', href: '/aktuelles/a/', bild: '/bilder/x.jpg' },
+    { datum: '1. Mai 2026', titel: 'Mit Symbol', symbol: '🏆', symbolText: 'Spielbericht', href: '/aktuelles/a/', bild: '/bilder/x.jpg' },
     { datum: '2. Mai 2026', titel: 'Ohne Symbol', href: '/aktuelles/b/' },
   ] } } });
-  assert.match(html, /class="eintrag__symbol" aria-hidden="true">🏆</);
+  assert.match(html, /class="eintrag__symbol" aria-hidden="true" title="Spielbericht">🏆</);
   assert.equal((html.match(/eintrag__symbol"/g) || []).length, 1);   // nur der erste hat eines
   assert.doesNotMatch(html, /<img/);                                 // Bilder stehen in der Detailansicht
 });
 
-test('ein Termin mit Symbol zeigt das Emoji statt des Formzeichens, einer ohne behaelt es', () => {
+test('ein Termin zeigt das Symbol seiner Art, einer ohne Art zeigt keines', () => {
   const html = renderPage({ slug: 'k', page_type: 'standard', status: 'published', title: 'K',
     content_json: { blocks: [{ type: 'termine', data: {} }] } }, { dynamicData: { termine: { termine: [
-    { datum: '2027-05-01', tag: '1. Mai', titel: 'Mit', art: 'verein', symbol: '🎉' },
-    { datum: '2027-05-02', tag: '2. Mai', titel: 'Ohne', art: 'verein' },
+    { datum: '2027-05-01', tag: '1. Mai', titel: 'Mit', symbol: '🎉', symbolText: 'Clubleben' },
+    { datum: '2027-05-02', tag: '2. Mai', titel: 'Ohne' },
   ] } } });
-  assert.match(html, /termin__emoji" aria-hidden="true">🎉</);
-  assert.equal((html.match(/termin__zeichen"/g) || []).length, 1);
+  assert.match(html, /termin__emoji" aria-hidden="true" title="Clubleben">🎉</);
+  assert.equal((html.match(/termin__emoji"/g) || []).length, 1);
+  assert.doesNotMatch(html, /<svg/);          // keine zweite Formensprache neben den Emoji
 });
 
 test('die Beitragsseite zeigt das Bild in der Detailansicht und das Symbol im Kopf', async () => {
@@ -217,4 +218,33 @@ test('die Beitragsseite zeigt das Bild in der Detailansicht und das Symbol im Ko
   assert.match(mit.find((b) => b.type === 'hero').data.pill, /^🏆 /);
   const ohne = seitenBausteine.beitrag({ datum: '2026-05-10', titel: 'T', absaetze: ['x'] });
   assert.ok(!ohne.some((b) => b.type === 'bild'));
+});
+
+// ── Arten (config/arten.json) ──────────────────────────────────────────
+import { readFileSync } from 'node:fs';
+import { loadArten } from '../src/config.js';
+
+test('die Arten haben je ein Symbol und einen Namen, und es sind nur wenige', () => {
+  const arten = loadArten();
+  const n = Object.keys(arten).length;
+  assert.ok(n >= 2 && n <= 5, `${n} Arten — mehr als fuenf waere Streuung, keine Ordnung`);
+  for (const [k, a] of Object.entries(arten)) {
+    assert.ok(a.symbol && a.label && a.termin, `Art '${k}' ist unvollstaendig`);
+  }
+});
+
+test('jeder Beitrag und jeder Vereinstermin hat eine Art, die es gibt', () => {
+  const arten = loadArten();
+  for (const b of JSON.parse(readFileSync('inhalte/beitraege.json', 'utf8'))) {
+    assert.ok(arten[b.art], `Beitrag ${b.slug}: Art '${b.art}' gibt es nicht`);
+  }
+  for (const t of JSON.parse(readFileSync('inhalte/termine.json', 'utf8')).termine) {
+    assert.ok(arten[t.art], `Termin ${t.titel}: Art '${t.art}' gibt es nicht`);
+  }
+});
+
+test('die Spieltage tragen die Art spiel', () => {
+  const [t] = spieltageAus({ begegnungen: [{ datum: '2027-05-08', uhrzeit: '09:00', mannschaft: 'H',
+    gegner: 'X', zuhause: true, sg: '' }] });
+  assert.equal(t.art, 'spiel');
 });

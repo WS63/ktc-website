@@ -1,5 +1,4 @@
 import { html, raw, escapeAttr, ziel } from './_util.js';
-import { ZEICHEN } from './termine.js';
 
 /**
  * Aktuell — die neuesten Beitraege und die naechsten Termine, nebeneinander.
@@ -66,10 +65,6 @@ export default {
     /* Termine: Zeichen und Datum in einer festen Spalte, damit die Titel
        untereinander an einer Kante stehen. */
     .aktuell__termin { display: flex; gap: var(--raum-2); align-items: flex-start; }
-    .aktuell__zeichen { flex: none; width: 22px; height: 22px; margin-top: 3px;
-      color: var(--signal); }
-    .aktuell__zeichen svg { width: 100%; height: 100%; display: block; fill: none;
-      stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
     .aktuell__wann { flex: none; min-width: 96px; font-weight: 600; font-size: var(--fs-sm);
       padding-top: 2px; }
     .aktuell__wann small { display: block; font-weight: 400; color: var(--text-leise);
@@ -104,7 +99,7 @@ export default {
         ? beitraege.map((e) => {
             const z = ziel(e.href);
             return html`<article class="aktuell__eintrag aktuell__beitrag">
-              ${e.symbol ? html`<span class="aktuell__symbol" aria-hidden="true">${e.symbol}</span>` : ''}
+              ${e.symbol ? html`<span class="aktuell__symbol" aria-hidden="true" title="${e.symbolText || ''}">${e.symbol}</span>` : ''}
               <div>
                 <span class="aktuell__datum">${e.datum}</span>
                 <h3>${z ? html`<a href="${raw(escapeAttr(z))}">${e.titel}</a>` : e.titel}</h3>
@@ -122,10 +117,8 @@ export default {
       ${termine.length
         ? termine.map((t) => html`<article class="aktuell__eintrag aktuell__termin">
             ${t.symbol
-              ? html`<span class="aktuell__emoji" aria-hidden="true">${t.symbol}</span>`
-              : html`<span class="aktuell__zeichen" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" focusable="false">${raw(ZEICHEN[t.art] || ZEICHEN.sonstiges)}</svg>
-                </span>`}
+              ? html`<span class="aktuell__emoji" aria-hidden="true" title="${t.symbolText || ''}">${t.symbol}</span>`
+              : ''}
             <span class="aktuell__wann">${t.tag || t.datum}${
               t.uhrzeit ? html`<small>${t.uhrzeit} Uhr</small>` : ''}</span>
             <h3>${t.titel}</h3>

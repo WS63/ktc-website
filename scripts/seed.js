@@ -19,6 +19,8 @@ const bildAdresse = (name) => (name && bildVerzeichnis[name]?.klein)
   || (name && bildVerzeichnis[name]?.mittel) || '';
 const bildText = (name) => (name && bildVerzeichnis[name]?.alt) || '';
 
+import { loadArten } from '../src/config.js';
+
 const FORCE = process.argv.includes('--force');
 
 /**
@@ -37,7 +39,7 @@ const kurz = (text, n) => {
 await runMigrations();
 
 async function schreiben({ slug, page_type, title, description, blocks, created_at,
-                           bild, bild_alt, symbol }) {
+                           bild, bild_alt, art }) {
   const inhalt = { blocks };
   const pruefung = validateContent(page_type, inhalt);
   if (!pruefung.ok) {
@@ -59,18 +61,18 @@ async function schreiben({ slug, page_type, title, description, blocks, created_
     await query(
       `UPDATE pages SET page_type = $1, title = $2, description = $3, content_json = $4,
        status = 'published', bild = $5, bild_alt = $6, updated_at = $7,
-       symbol = COALESCE($8, symbol) WHERE slug = $9`,
+       art = COALESCE($8, art) WHERE slug = $9`,
       [page_type, title, description, JSON.stringify(inhalt),
-       bild || null, bild_alt || null, jetzt, symbol || null, slug]);
+       bild || null, bild_alt || null, jetzt, art || null, slug]);
     return 'aktualisiert';
   }
   await query(
     `INSERT INTO pages (id, slug, page_type, status, title, description, content_json,
-                        bild, bild_alt, created_at, updated_at, symbol)
+                        bild, bild_alt, created_at, updated_at, art)
      VALUES ($1, $2, $3, 'published', $4, $5, $6, $7, $8, $9, $10, $11)`,
     [crypto.randomUUID(), slug, page_type, title, description,
      JSON.stringify(inhalt), bild || null, bild_alt || null, created_at || jetzt, jetzt,
-     symbol || null]);
+     art || null]);
   return 'angelegt';
 }
 
@@ -113,10 +115,10 @@ if (existsSync(importDatei)) {
       // in der Uebersicht ohne Bild — sie verschwindet nicht (P6).
       bild: bildAdresse(b.bild),
       bild_alt: bildText(b.bild),
-      symbol: b.symbol,
+      art: b.art,
       // Das Bild steht NUR in der Detailansicht, nicht in der Uebersicht. Ein
       // Logo (Bereich 'logos') ist kein Foto und bekommt dort keine grosse Flaeche.
-      blocks: seitenBausteine.beitrag({ ...b,
+      blocks: seitenBausteine.beitrag({ ...b, symbol: loadArten()[b.art]?.symbol || '',
         bildUrl: bildVerzeichnis[b.bild]?.bereich === 'logos' ? ''
           : (bildVerzeichnis[b.bild]?.gross || bildVerzeichnis[b.bild]?.mittel || ''),
         bildAlt: bildText(b.bild),

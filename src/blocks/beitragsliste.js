@@ -76,7 +76,7 @@ export default {
     const eintraege = liste.map((e) => {
       const z = ziel(e.href);
       return html`<article class="eintrag">
-        ${e.symbol ? html`<div class="eintrag__symbol" aria-hidden="true">${e.symbol}</div>` : ''}
+        ${e.symbol ? html`<div class="eintrag__symbol" aria-hidden="true" title="${e.symbolText || ''}">${e.symbol}</div>` : ''}
         <div>
           <span class="eintrag__datum">${e.datum}</span>
           <h3>${z ? html`<a href="${raw(escapeAttr(z))}">${e.titel}</a>` : e.titel}</h3>

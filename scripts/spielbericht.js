@@ -117,10 +117,10 @@ if (unbelegt.length) {
 // einsortiert wird, wo er hingehoert — und nicht oben, nur weil er heute entstand.
 const jetzt = new Date().toISOString();
 await query(
-  `INSERT INTO pages (id, slug, page_type, status, title, description, content_json, created_at, updated_at, symbol)
+  `INSERT INTO pages (id, slug, page_type, status, title, description, content_json, created_at, updated_at, art)
    VALUES ($1, $2, 'beitrag', 'generated', $3, $4, $5, $6, $7, $8)`,
   [crypto.randomUUID(), slug, r.title, r.description, JSON.stringify({ blocks }),
-   `${zeitraum.bis}T12:00:00.000Z`, jetzt, '🏆']);
+   `${zeitraum.bis}T12:00:00.000Z`, jetzt, 'spiel']);
 
 console.error(`\nEntwurf gespeichert: /${slug}/  (Status: Erzeugt — im Cockpit lesen und veröffentlichen)`);
 console.error(`Titel:        ${r.title}`);

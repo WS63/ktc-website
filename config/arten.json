@@ -1,0 +1,6 @@
+{
+  "_hinweis": "Die Arten von Beitraegen und Terminen — EINMAL hier, nicht je Beitrag. Jede Art hat ein Symbol (Emoji) und einen Namen. Ein neuer Beitrag waehlt eine Art, er erfindet kein Symbol. Wer hier eines aendert, aendert es ueberall. Wenige Arten sind Absicht: fuenfzig Beitraege im Jahr mit fuenfzig verschiedenen Symbolen waeren Streuung, keine Ordnung.",
+  "spiel": { "symbol": "🔥", "label": "Spielbericht", "termin": "Spieltag" },
+  "club":  { "symbol": "🎉", "label": "Clubleben",    "termin": "Clubleben" },
+  "info":  { "symbol": "📢", "label": "Mitteilung",   "termin": "Hinweis" }
+}

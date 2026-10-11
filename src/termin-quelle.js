@@ -61,7 +61,7 @@ export function spieltageAus(plan) {
       return {
         datum: liste[0].datum,
         uhrzeit: liste[0].uhrzeit || '',
-        art: 'wettspiel',
+        art: 'spiel',
         titel: 'Spieltag der HTV-Medenrunde',
         // Gerechnet, nie getippt (P3/P4): die Zahlen kommen aus der Liste.
         text: `${liste.length} ${liste.length === 1 ? 'Begegnung' : 'Begegnungen'}`

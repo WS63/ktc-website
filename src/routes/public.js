@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { query, queryOne } from '../db.js';
 import { renderPage } from '../renderer.js';
-import { loadSite } from '../config.js';
+import { loadSite, loadArten } from '../config.js';
 import { holen, legen, bisMitternacht } from '../cache.js';
 import { zaehle } from '../zaehler.js';
 import { alleTermine, kuenftige, spielplanHinweis } from '../termin-quelle.js';
@@ -114,16 +114,25 @@ async function dynamischeDaten(inhalt, page) {
     const b = inhalt.blocks.find((x) => x?.type === 'aktuell');
     const nB = Number(b?.data?.anzahlBeitraege) > 0 ? Number(b.data.anzahlBeitraege) : 2;
     const { gesamt, eintraege } = await beitraegeLaden(nB, 0);
-    daten.aktuell = { gesamt, beitraege: eintraege, termine: kuenftige(alleTermine()) };
+    daten.aktuell = { gesamt, beitraege: eintraege, termine: mitSymbol(kuenftige(alleTermine())) };
   }
   if (typen.has('termine')) {
     // Abgelaufene Termine fliegen HIER raus und nicht im Baustein: renderPage()
     // ist eine reine Funktion (P1). Ein new Date() im Baustein machte sie vom
     // Tag abhaengig — dieselbe Seite saehe im April anders aus als im Mai, und
     // kein Test koennte das festhalten.
-    daten.termine = { termine: kuenftige(alleTermine()), stand: spielplanHinweis() };
+    daten.termine = { termine: mitSymbol(kuenftige(alleTermine())), stand: spielplanHinweis() };
   }
   return daten;
+}
+
+/**
+ * Aus der Art eines Termins das Symbol machen. Die Bausteine kennen nur
+ * 'symbol' und 'symbolText' — welche Arten es gibt, steht in config/arten.json.
+ */
+function mitSymbol(termine) {
+  const arten = loadArten();
+  return termine.map((t) => ({ ...t, symbol: arten[t.art]?.symbol || '', symbolText: arten[t.art]?.termin || '' }));
 }
 
 /**
@@ -136,7 +145,7 @@ async function dynamischeDaten(inhalt, page) {
  */
 async function beitraegeLaden(grenze, versatz) {
   const zeilen = await query(
-    `SELECT slug, title, description, created_at, bild, bild_alt, symbol FROM pages
+    `SELECT slug, title, description, created_at, bild, bild_alt, art FROM pages
      WHERE page_type = 'beitrag' AND status = 'published'
      ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
     [grenze, versatz]);
@@ -151,7 +160,8 @@ async function beitraegeLaden(grenze, versatz) {
       titel: z.title,
       text: z.description,
       href: `/aktuelles/${z.slug}/`,
-      symbol: z.symbol || '',
+      symbol: loadArten()[z.art]?.symbol || '',
+      symbolText: loadArten()[z.art]?.label || '',
     })),
   };
 }

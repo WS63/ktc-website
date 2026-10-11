@@ -48,3 +48,17 @@ const holen = (name) => {
 export const loadSite  = () => holen('site');
 export const loadFacts = () => holen('facts');
 export const loadTheme = () => holen('theme');
+
+/**
+ * Die Arten von Beitraegen und Terminen (config/arten.json). Reine Datei, kein
+ * Cockpit-Override: die Zahl der Arten ist eine Gestaltungsentscheidung, keine
+ * Einstellung. Einmal gelesen, dann aus dem Speicher.
+ */
+let arten = null;
+export function loadArten() {
+  if (!arten) {
+    const roh = datei('arten');
+    arten = Object.fromEntries(Object.entries(roh).filter(([k]) => !k.startsWith('_')));
+  }
+  return arten;
+}

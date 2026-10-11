@@ -137,7 +137,10 @@ function begegnungen(html, mannschaft) {
     if (!WIR.test(heim) && !WIR.test(gast)) continue;
 
     const matchpunkte = ab(dPunkte);
-    const bericht = /href="(\/[^"]*meetingReport[^"]*)"/.exec(tr[1])?.[1] || '';
+    // Im HTML steht '&amp;' zwischen den Parametern. Als Adresse gespeichert und
+    // spaeter erneut maskiert, wurde daraus '&amp;amp;' — ein Link, der auf eine
+    // Fehlerseite fuehrt. Hier einmal zurueck in die echte Adresse.
+    const bericht = (/href="(\/[^"]*meetingReport[^"]*)"/.exec(tr[1])?.[1] || '').replace(/&amp;/g, '&');
 
     raus.push({
       datum, uhrzeit, mannschaft, heim, gast,

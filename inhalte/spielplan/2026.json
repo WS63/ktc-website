@@ -1,7 +1,7 @@
 {
   "_hinweis": "Erzeugt von npm run spielplan — nicht von Hand ändern. Quelle: htv.liga.nu.",
   "saison": "2026",
-  "stand": "2026-10-11T13:25:47.564Z",
+  "stand": "2026-10-11T13:56:14.189Z",
   "begegnungen": [
     {
       "datum": "2026-05-08",
@@ -13,7 +13,7 @@
       "gegner": "TC Liederbach",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893037&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893037&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -26,7 +26,7 @@
       "gegner": "MSG TC Schlangenbad/RW Eltville/BW Hattenheim II",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892730&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892730&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -39,7 +39,7 @@
       "gegner": "TC Bierstadt III",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893515&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893515&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -52,7 +52,7 @@
       "gegner": "GW Idstein",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890267&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890267&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -65,7 +65,7 @@
       "gegner": "BTC GW Wiesbaden",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890551&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890551&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -78,7 +78,7 @@
       "gegner": "TC Liederbach",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890590&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890590&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -91,7 +91,7 @@
       "gegner": "RW Groß-Gerau",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881389&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881389&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -104,7 +104,7 @@
       "gegner": "TC Bad Vilbel",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881551&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881551&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -117,7 +117,7 @@
       "gegner": "TC Diedenbergen",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888796&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888796&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -130,7 +130,7 @@
       "gegner": "TC Niederdorfelden II",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894495&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894495&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -143,7 +143,7 @@
       "gegner": "STV Hochheim",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894357&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894357&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -156,7 +156,7 @@
       "gegner": "Eintracht Frankfurt II",
       "matchpunkte": "8:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890880&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890880&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -169,7 +169,7 @@
       "gegner": "Wiesbadener THC",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891230&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891230&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -182,7 +182,7 @@
       "gegner": "TV Ruppertshain",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880902&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880902&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -195,7 +195,7 @@
       "gegner": "TC Martinsee Heusenst.",
       "matchpunkte": "5:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887075&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887075&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -208,7 +208,7 @@
       "gegner": "TV Trebur",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887697&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887697&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -221,7 +221,7 @@
       "gegner": "SC SaFo",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888428&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888428&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -234,7 +234,7 @@
       "gegner": "TK Raunheim",
       "matchpunkte": "7:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878054&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878054&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -247,7 +247,7 @@
       "gegner": "BW Bad Soden",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878506&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878506&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -260,7 +260,7 @@
       "gegner": "SV 07 Bischofsheim",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12879077&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12879077&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -273,7 +273,7 @@
       "gegner": "Tschft. Griesheim",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883238&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883238&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -286,7 +286,7 @@
       "gegner": "MSG SV 07 Bischofsheim/TV Trebur",
       "matchpunkte": "3:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884686&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884686&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -299,7 +299,7 @@
       "gegner": "TV Sechshelden",
       "matchpunkte": "8:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885627&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885627&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -312,7 +312,7 @@
       "gegner": "TTC Im Uhrig Ffm",
       "matchpunkte": "2:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884102&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884102&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -325,7 +325,7 @@
       "gegner": "Eintr. Wiesbaden",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894910&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894910&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenbergen"
     },
     {
@@ -338,7 +338,7 @@
       "gegner": "Germania Weilbach",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886542&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886542&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -351,7 +351,7 @@
       "gegner": "TC Niddapark",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890554&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890554&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -364,7 +364,7 @@
       "gegner": "TC Seulberg III",
       "matchpunkte": "2:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884016&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884016&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -377,7 +377,7 @@
       "gegner": "TuS Makkabi Ffm",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892676&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892676&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -390,7 +390,7 @@
       "gegner": "TV Sulzbach",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893131&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893131&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -403,7 +403,7 @@
       "gegner": "Kelkheimer TF II",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892677&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892677&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -416,7 +416,7 @@
       "gegner": "MSG TC Schlangenbad/RW Eltville/BW Hattenheim II",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890730&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890730&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -429,7 +429,7 @@
       "gegner": "TC Glashütten",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881255&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881255&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -442,7 +442,7 @@
       "gegner": "BW Schlüchtern",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881604&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881604&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -455,7 +455,7 @@
       "gegner": "TC Schwanheim",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888918&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888918&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -468,7 +468,7 @@
       "gegner": "TC Stierstadt II",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894503&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894503&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -481,7 +481,7 @@
       "gegner": "TC Liederbach",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894143&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894143&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -494,7 +494,7 @@
       "gegner": "TC Wetter",
       "matchpunkte": "0:9",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891092&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891092&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -507,7 +507,7 @@
       "gegner": "Hattersheimer TC",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891329&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891329&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -520,7 +520,7 @@
       "gegner": "BW Wiesbaden III",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880793&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880793&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -533,7 +533,7 @@
       "gegner": "TC Liederbach",
       "matchpunkte": "6:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887111&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887111&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -546,7 +546,7 @@
       "gegner": "TC Stierstadt II",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887824&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887824&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -559,7 +559,7 @@
       "gegner": "TC Erzhausen",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888363&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888363&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -572,7 +572,7 @@
       "gegner": "TC Bremthal",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894935&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894935&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenbergen"
     },
     {
@@ -585,7 +585,7 @@
       "gegner": "TV Oberhöchstadt",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883167&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883167&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -598,7 +598,7 @@
       "gegner": "TC 89 Oberstedten",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886465&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886465&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -611,7 +611,7 @@
       "gegner": "BTC GW Wiesbaden II",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878840&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878840&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -624,7 +624,7 @@
       "gegner": "MSG ESV BW Limburg/RW Limburg",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878412&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878412&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -637,7 +637,7 @@
       "gegner": "Nidderauer TC",
       "matchpunkte": "3:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884211&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884211&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -650,7 +650,7 @@
       "gegner": "Tennis 65 Eschborn",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892669&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892669&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -663,7 +663,7 @@
       "gegner": "Höchster THC II",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893139&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893139&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -676,7 +676,7 @@
       "gegner": "TC Bierstadt II",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892773&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892773&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -689,7 +689,7 @@
       "gegner": "Tennis 65 Eschborn",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890278&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890278&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -702,7 +702,7 @@
       "gegner": "MSG TC Schlangenbad/RW Eltville/BW Hattenheim",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890552&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890552&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -715,7 +715,7 @@
       "gegner": "BW Wiesbaden II",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890721&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890721&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -728,7 +728,7 @@
       "gegner": "TC Schlossborn",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881316&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881316&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -741,7 +741,7 @@
       "gegner": "Isenburger TC",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881824&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881824&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -754,7 +754,7 @@
       "gegner": "TC Stierstadt",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888824&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888824&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -767,7 +767,7 @@
       "gegner": "BG Frankfurt",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894636&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894636&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -780,7 +780,7 @@
       "gegner": "TV Ruppertshain",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894145&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894145&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -793,7 +793,7 @@
       "gegner": "SC SaFo",
       "matchpunkte": "3:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891124&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891124&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -806,7 +806,7 @@
       "gegner": "MSG Limburg",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891367&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891367&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -819,7 +819,7 @@
       "gegner": "BW Bad Soden II",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880843&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880843&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -832,7 +832,7 @@
       "gegner": "TC Schwalbach",
       "matchpunkte": "6:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887106&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887106&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -845,7 +845,7 @@
       "gegner": "SKG Frankfurt III",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887661&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887661&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -858,7 +858,7 @@
       "gegner": "BSC Urberach",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888370&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888370&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -871,7 +871,7 @@
       "gegner": "TC Liederbach",
       "matchpunkte": "9:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878164&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878164&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -884,7 +884,7 @@
       "gegner": "MSG RW Eltville/TC Schlangenbad",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878524&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878524&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -897,7 +897,7 @@
       "gegner": "TG Schierstein",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878924&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878924&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -910,7 +910,7 @@
       "gegner": "TC Weißkirchen",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883281&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883281&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -923,7 +923,7 @@
       "gegner": "TC Glashütten",
       "matchpunkte": "5:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885691&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885691&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -936,7 +936,7 @@
       "gegner": "TC Gustavsburg",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894887&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894887&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenbergen"
     },
     {
@@ -949,7 +949,7 @@
       "gegner": "TuS Makkabi Ffm II",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886535&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886535&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -962,7 +962,7 @@
       "gegner": "SG Kelkheim",
       "matchpunkte": "2:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884067&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884067&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -975,7 +975,7 @@
       "gegner": "TC Nordenstadt",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893449&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893449&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -988,7 +988,7 @@
       "gegner": "Höchster THC",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892850&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892850&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1001,7 +1001,7 @@
       "gegner": "TC Europaviertel",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893059&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893059&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1014,7 +1014,7 @@
       "gegner": "MSG Wehen/Taunusstein 71",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893014&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893014&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1027,7 +1027,7 @@
       "gegner": "TC Gustavsburg II",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893403&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893403&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1040,7 +1040,7 @@
       "gegner": "TC Steinbach",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890290&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890290&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -1066,7 +1066,7 @@
       "gegner": "Hofheimer TC II",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891069&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891069&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -1079,7 +1079,7 @@
       "gegner": "TC Glashütten II",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880883&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880883&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1092,7 +1092,7 @@
       "gegner": "Rückhand Rossdorf II",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881338&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881338&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1105,7 +1105,7 @@
       "gegner": "TC Dietesheim",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881627&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881627&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1118,7 +1118,7 @@
       "gegner": "TC Wallrabenstein",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888957&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888957&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1131,7 +1131,7 @@
       "gegner": "TV Buchschlag",
       "matchpunkte": "6:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891054&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891054&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -1144,7 +1144,7 @@
       "gegner": "GW Idstein",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891271&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891271&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -1157,7 +1157,7 @@
       "gegner": "Kasseler TC 31",
       "matchpunkte": "4:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887006&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887006&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1170,7 +1170,7 @@
       "gegner": "Foresta Gravenbruch",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887603&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887603&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1183,7 +1183,7 @@
       "gegner": "Tennis 65 Eschborn III",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894657&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894657&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1196,7 +1196,7 @@
       "gegner": "TV Oberhöchstadt",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894283&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894283&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1209,7 +1209,7 @@
       "gegner": "TC Seulberg",
       "matchpunkte": "5:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878106&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878106&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1222,7 +1222,7 @@
       "gegner": "TV Sulzbach",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878244&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878244&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1235,7 +1235,7 @@
       "gegner": "TC 94 Wiesbaden",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883289&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883289&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1248,7 +1248,7 @@
       "gegner": "Eintracht Frankfurt III",
       "matchpunkte": "7:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884706&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884706&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1261,7 +1261,7 @@
       "gegner": "Cappeler TV",
       "matchpunkte": "8:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885664&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885664&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1274,7 +1274,7 @@
       "gegner": "TC Gustavsburg",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886479&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886479&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1287,7 +1287,7 @@
       "gegner": "Sportwelt Rosbach II",
       "matchpunkte": "3:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883976&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883976&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1300,7 +1300,7 @@
       "gegner": "VfR Wiesbaden",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878889&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878889&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1313,7 +1313,7 @@
       "gegner": "TC Liederbach",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894973&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894973&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenbergen"
     },
     {
@@ -1326,7 +1326,7 @@
       "gegner": "SC SaFo III",
       "matchpunkte": "0:9",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878009&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878009&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1339,7 +1339,7 @@
       "gegner": "MSG Neu-Anspach/Obernhain",
       "matchpunkte": "1:8",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885634&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885634&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1352,7 +1352,7 @@
       "gegner": "TSV Auringen",
       "matchpunkte": "2:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920103&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920103&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1365,7 +1365,7 @@
       "gegner": "TC Stierstadt",
       "matchpunkte": "2:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920142&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920142&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1378,7 +1378,7 @@
       "gegner": "TC Niederdorfelden",
       "matchpunkte": "1:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920258&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920258&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1391,7 +1391,7 @@
       "gegner": "TC Weißkirchen",
       "matchpunkte": "2:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920138&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920138&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1404,7 +1404,7 @@
       "gegner": "TC Niddapark II",
       "matchpunkte": "1:8",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884604&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884604&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1417,7 +1417,7 @@
       "gegner": "TCB 2000 Darmstadt",
       "matchpunkte": "1:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920176&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920176&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1430,7 +1430,7 @@
       "gegner": "TSV Auringen",
       "matchpunkte": "1:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920169&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920169&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1443,7 +1443,7 @@
       "gegner": "TC Stierstadt II",
       "matchpunkte": "1:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920282&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920282&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1456,7 +1456,7 @@
       "gegner": "TCB 2000 Darmstadt",
       "matchpunkte": "1:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920172&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920172&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1469,7 +1469,7 @@
       "gegner": "TEVC Kronberg",
       "matchpunkte": "1:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920323&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920323&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1482,7 +1482,7 @@
       "gegner": "BTC GW Wiesbaden",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890547&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890547&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -1495,7 +1495,7 @@
       "gegner": "TC Niederdorfelden",
       "matchpunkte": "2:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920314&amp;federation=HTV&amp;championship=HTV-Summer-Mixed+Tour+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12920314&federation=HTV&championship=HTV-Summer-Mixed+Tour+2026",
       "sg": ""
     },
     {
@@ -1508,7 +1508,7 @@
       "gegner": "TC Geisenheim",
       "matchpunkte": "1:8",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884707&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884707&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1521,7 +1521,7 @@
       "gegner": "TC Bad Vilbel",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892917&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892917&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1534,7 +1534,7 @@
       "gegner": "Fischbacher TC",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892977&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892977&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1547,7 +1547,7 @@
       "gegner": "MSG TC Wehen/TC Taunusstein 71 III",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893450&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893450&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1560,7 +1560,7 @@
       "gegner": "TC Niddapark",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890544&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890544&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -1573,7 +1573,7 @@
       "gegner": "Zeilsheimer TC",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890870&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890870&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -1586,7 +1586,7 @@
       "gegner": "Westerbach Eschborn",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880785&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880785&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1599,7 +1599,7 @@
       "gegner": "THC Hanau",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881599&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881599&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1612,7 +1612,7 @@
       "gegner": "Eintr. Wiesbaden",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888864&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888864&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1625,7 +1625,7 @@
       "gegner": "Isenburger TC",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894519&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894519&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1638,7 +1638,7 @@
       "gegner": "TK Raunheim",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894401&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894401&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1651,7 +1651,7 @@
       "gegner": "TEVC Kronberg",
       "matchpunkte": "4:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891107&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891107&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -1664,7 +1664,7 @@
       "gegner": "TV Oberhöchstadt",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891303&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891303&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -1677,7 +1677,7 @@
       "gegner": "Kelkheimer TF",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881367&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881367&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1690,7 +1690,7 @@
       "gegner": "TC Europaviertel",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878331&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878331&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1703,7 +1703,7 @@
       "gegner": "TC Geisenheim",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883242&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883242&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1716,7 +1716,7 @@
       "gegner": "Usinger TC",
       "matchpunkte": "7:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885471&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885471&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1729,7 +1729,7 @@
       "gegner": "TC Nauheim III",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886601&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886601&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1742,7 +1742,7 @@
       "gegner": "BW Bad Soden III",
       "matchpunkte": "2:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884143&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884143&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1755,7 +1755,7 @@
       "gegner": "Hattersheimer TC",
       "matchpunkte": "0:9",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878206&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878206&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1768,7 +1768,7 @@
       "gegner": "STV Hochheim",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878962&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878962&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1781,7 +1781,7 @@
       "gegner": "VfR Wiesbaden",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894836&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894836&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenbergen"
     },
     {
@@ -1794,7 +1794,7 @@
       "gegner": "TC Hainstadt",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888248&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888248&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1807,7 +1807,7 @@
       "gegner": "FTC Palmengarten II",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892863&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892863&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1820,7 +1820,7 @@
       "gegner": "TC Gustavsburg",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893046&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893046&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1833,7 +1833,7 @@
       "gegner": "TV Sulzbach II",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893282&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893282&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -1846,7 +1846,7 @@
       "gegner": "Eintracht Frankfurt",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890405&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890405&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -1859,7 +1859,7 @@
       "gegner": "SVS Griesheim",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881333&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881333&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1872,7 +1872,7 @@
       "gegner": "Tuspo Ziegenhain",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881752&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881752&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1885,7 +1885,7 @@
       "gegner": "SW Frankfurt II",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894554&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894554&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1898,7 +1898,7 @@
       "gegner": "Tennis 65 Eschborn",
       "matchpunkte": "1:8",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891002&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891002&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -1911,7 +1911,7 @@
       "gegner": "Kelkheimer TF",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891276&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891276&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -1924,7 +1924,7 @@
       "gegner": "MSG Ober-Erlenbach/Nieder-Rosbach",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880753&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880753&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1937,7 +1937,7 @@
       "gegner": "SKG Frankfurt",
       "matchpunkte": "6:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886977&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886977&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1950,7 +1950,7 @@
       "gegner": "TC Rüsselsheim",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887818&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887818&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1963,7 +1963,7 @@
       "gegner": "TC Kelsterbach",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888362&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888362&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1976,7 +1976,7 @@
       "gegner": "TC Schlossborn",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894366&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894366&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -1989,7 +1989,7 @@
       "gegner": "MSG Taunusstein",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878400&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878400&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -2002,7 +2002,7 @@
       "gegner": "TC am Bingert Wiesbaden",
       "matchpunkte": "8:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884772&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884772&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2015,7 +2015,7 @@
       "gegner": "FTC Palmengarten",
       "matchpunkte": "0:9",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885668&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885668&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2028,7 +2028,7 @@
       "gegner": "Kelkheimer TF",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886497&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886497&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2041,7 +2041,7 @@
       "gegner": "TC Rüsselsheim",
       "matchpunkte": "5:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878105&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878105&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -2054,7 +2054,7 @@
       "gegner": "MSG TC Oestrich-Winkel/TC Geisenheim II",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878856&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878856&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -2067,7 +2067,7 @@
       "gegner": "Westerbach Eschborn",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894826&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894826&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenbergen"
     },
     {
@@ -2080,7 +2080,7 @@
       "gegner": "TC Eschersheim II",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883065&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883065&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2093,7 +2093,7 @@
       "gegner": "TC Königstein II",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890857&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890857&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -2106,7 +2106,7 @@
       "gegner": "Höchster THC",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890347&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890347&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -2119,7 +2119,7 @@
       "gegner": "SC Frankfurt 80 III",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892758&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12892758&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -2145,7 +2145,7 @@
       "gegner": "MSG Hofheimer TC/TC Marxheim",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893114&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893114&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -2158,7 +2158,7 @@
       "gegner": "TSV Auringen",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893334&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893334&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -2171,7 +2171,7 @@
       "gegner": "BW Wiesbaden",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890488&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890488&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -2184,7 +2184,7 @@
       "gegner": "MSG TC Schlangenbad/RW Eltville/BW Hattenheim",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890545&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12890545&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -2197,7 +2197,7 @@
       "gegner": "TC Kiedrich II",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891103&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891103&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenb./KTC/Kelkh."
     },
     {
@@ -2210,7 +2210,7 @@
       "gegner": "TC Erzhausen",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881330&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881330&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2223,7 +2223,7 @@
       "gegner": "TC Neu-Anspach",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881703&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12881703&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2236,7 +2236,7 @@
       "gegner": "TV Oberhöchstadt II",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888992&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888992&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2249,7 +2249,7 @@
       "gegner": "TC Weißkirchen",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894563&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894563&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2262,7 +2262,7 @@
       "gegner": "BTC GW Wiesbaden II",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894253&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894253&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2275,7 +2275,7 @@
       "gegner": "TC Bad Homburg",
       "matchpunkte": "7:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891000&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891000&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -2288,7 +2288,7 @@
       "gegner": "TEVC Kronberg II",
       "matchpunkte": "2:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891372&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12891372&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenb./Kelkh."
     },
     {
@@ -2301,7 +2301,7 @@
       "gegner": "TC Oberursel II",
       "matchpunkte": "1:5",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880740&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12880740&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2314,7 +2314,7 @@
       "gegner": "TG Crumstadt",
       "matchpunkte": "5:4",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887104&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887104&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2327,7 +2327,7 @@
       "gegner": "TSG Oberursel",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887576&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887576&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2340,7 +2340,7 @@
       "gegner": "TC Einhausen",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888350&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12888350&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2353,7 +2353,7 @@
       "gegner": "TC Eppstein",
       "matchpunkte": "6:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878518&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12878518&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -2366,7 +2366,7 @@
       "gegner": "TC Marxheim",
       "matchpunkte": "1:8",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884643&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884643&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2379,7 +2379,7 @@
       "gegner": "TV Heimgarten",
       "matchpunkte": "6:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885516&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12885516&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2392,7 +2392,7 @@
       "gegner": "TC Heilsberg",
       "matchpunkte": "3:0",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884246&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884246&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2405,7 +2405,7 @@
       "gegner": "BW Bensheim",
       "matchpunkte": "7:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887083&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887083&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2418,7 +2418,7 @@
       "gegner": "TC Dehrn II",
       "matchpunkte": "0:9",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12877985&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12877985&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -2431,7 +2431,7 @@
       "gegner": "TV Ruppertshain",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894858&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12894858&federation=HTV&championship=Medenrunde+2026",
       "sg": "KTC/Diedenbergen"
     },
     {
@@ -2444,7 +2444,7 @@
       "gegner": "TC Kelsterbach II",
       "matchpunkte": "3:3",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883215&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12883215&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2457,7 +2457,7 @@
       "gegner": "TC Europaviertel",
       "matchpunkte": "4:2",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886635&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12886635&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2470,7 +2470,7 @@
       "gegner": "MSG Wehen/Taunusstein 71 II",
       "matchpunkte": "5:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893331&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12893331&federation=HTV&championship=Medenrunde+2026",
       "sg": "Diedenbergen/KTC"
     },
     {
@@ -2496,7 +2496,7 @@
       "gegner": "SF Sachsenhausen",
       "matchpunkte": "2:1",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884236&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12884236&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     },
     {
@@ -2509,7 +2509,7 @@
       "gegner": "TC Europaviertel",
       "matchpunkte": "0:6",
       "gespielt": true,
-      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887641&amp;federation=HTV&amp;championship=Medenrunde+2026",
+      "bericht": "https://htv.liga.nu/cgi-bin/WebObjects/nuLigaTENDE.woa/wa/meetingReport?meeting=12887641&federation=HTV&championship=Medenrunde+2026",
       "sg": ""
     }
   ]

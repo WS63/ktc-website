@@ -19,7 +19,8 @@
     "sql": "node scripts/sql-export.js",
     "generiere": "node --env-file=.env scripts/generiere.js",
     "bilder": "node scripts/bilder-bauen.js",
-    "spielplan": "node scripts/spielplan.js"
+    "spielplan": "node scripts/spielplan.js",
+    "spielbericht": "node --env-file-if-exists=.env scripts/spielbericht.js"
   },
   "keywords": [],
   "author": "",

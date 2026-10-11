@@ -182,7 +182,7 @@ export const seiten = [
       absaetze: [
         'Tennis in familiärer Atmosphäre, auf einer der schönsten Anlagen im Main-Taunus-Kreis. {{facts.anlage.plaetze}} gepflegte {{facts.anlage.belag}}plätze, ein gemütliches Clubhaus und eine sonnige Terrasse mit [guter Gastronomie](/clubhaus/) — hier bleibst du nach dem Spiel gern noch sitzen. Wir sind {{facts.anlage.mitglieder}} Mitglieder, darunter {{facts.anlage.jugendliche}} Kinder und Jugendliche.',
         'Ob du anfängst, nach Jahren wieder einsteigst oder ambitioniert in der Mannschaft spielst — bei uns findest du das passende Angebot. Im Jugend- und Erwachsenenbereich spielen wir Wettkämpfe bis zur Landesebene. Im Freizeitbereich gibt es übers Jahr Turniere und Veranstaltungen.',
-        'Trainieren kannst du bei der **{{facts.anlage.tennisschule}}** — Einzel- und Gruppenstunden für alle Mitglieder, vom ersten Schläger bis zum Mannschaftstraining. Wir vertrauen ihr seit {{facts.anlage.tennisschule_seit}}, mit eingespieltem Trainerteam und klarem Lernkonzept.',
+        'Trainieren kannst du bei der {{facts.anlage.tennisschule}} — Einzel- und Gruppenstunden für alle Mitglieder, vom ersten Schläger bis zum Mannschaftstraining. Wir vertrauen ihr seit {{facts.anlage.tennisschule_seit}}, mit eingespieltem Trainerteam und klarem Lernkonzept.',
         'Interessiert an einer Mitgliedschaft oder einem Schnuppertraining? Beiträge, Anträge und alles zum Herunterladen stehen auf [Mitglied werden](/mitglied-werden/). Oder komm einfach am {{facts.verein.strasse}} in {{facts.verein.ort}} vorbei — [so findest du uns](/kontakt/).',
       ],
       // Eigenes Feld statt fetter Absatz: ein Claim klingt aus, er ruft nicht.
@@ -770,7 +770,7 @@ export const seiten = [
     { type: 'richtext', data: {
       titel: '6. Mitgliedschaft und Platzbuchung',
       absaetze: [
-        'Anmeldung, Mitgliederverwaltung und Platzbuchung laufen nicht über diese Website, sondern über das Buchungs- und Verwaltungssystem eBuSy. Wenn du den Link anklickst, verlässt du unsere Seite, er öffnet in einem neuen Fenster. Dort gelten die Datenschutzhinweise des Betreibers. Der Verein nutzt eBuSy aufgrund eines Vertrags mit dem Betreiber über die Software und ihre Module für Platzbelegung und Mitgliederverwaltung.',
+        'Anmeldung, Mitgliederverwaltung und Platzbuchung laufen nicht über diese Website, sondern über das Buchungs- und Verwaltungssystem eBuSy. Wenn du den Link anklickst, verlässt du unsere Seite, er öffnet in einem neuen Fenster. Dort gelten die Datenschutzhinweise des Betreibers. Der Verein nutzt eBuSy aufgrund eines Vertrags mit dem Betreiber über die Software und ihre Module für Platzbelegung und Mitgliederverwaltung. Mit dem Betreiber besteht ein Vertrag zur Auftragsverarbeitung (Art. 28 DSGVO).',
         'Diese Website ist von der Mitgliederverwaltung entkoppelt und speichert keine Mitgliedsdaten. Die Daten unserer Mitglieder verarbeitet der Verein in eBuSy zur Durchführung der Mitgliedschaft (Art. 6 Abs. 1 lit. b DSGVO). Auskunft, Berichtigung und Löschung dieser Daten erfolgen dort, über den Verein: schreib dazu an [{{facts.verein.email}}](mailto:{{facts.verein.email}}). Wir verlinken außerdem auf Seiten des Hessischen Tennisverbands und weiterer Anbieter. Beim Anklicken überträgt dein Browser Daten an den jeweiligen Anbieter. Darauf haben wir keinen Einfluss.',
       ],
     }},

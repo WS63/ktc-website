@@ -248,3 +248,21 @@ test('die Spieltage tragen die Art spiel', () => {
     gegner: 'X', zuhause: true, sg: '' }] });
   assert.equal(t.art, 'spiel');
 });
+
+test('die Beitragsseite hat EIN Bild mit Unterschrift und keine Galerie', async () => {
+  const { seitenBausteine } = await import('../src/seiten-teile.js');
+  const b = seitenBausteine.beitrag({ datum: '2026-05-10', titel: 'T', absaetze: ['x'],
+    bildUrl: '/bilder/foto.jpg', bildAlt: 'Ein Foto', bildunterschrift: 'Die Herren 40', galerie: ['a', 'b'] });
+  assert.equal(b.filter((x) => x.type === 'bild').length, 1);
+  assert.equal(b.find((x) => x.type === 'bild').data.bildunterschrift, 'Die Herren 40');
+  assert.ok(!b.some((x) => x.type === 'galerie'));
+  // das Bild steht oben: vor dem Text
+  assert.ok(b.findIndex((x) => x.type === 'bild') < b.findIndex((x) => x.type === 'richtext'));
+});
+
+test('kein Beitragsbild ohne Unterschrift', () => {
+  const l = JSON.parse(readFileSync('inhalte/beitraege.json', 'utf8'));
+  for (const b of l.filter((x) => x.bild && !/^logo-/.test(x.bild))) {
+    assert.ok(b.bildunterschrift, `${b.slug}: Bild ohne Unterschrift`);
+  }
+});

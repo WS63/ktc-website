@@ -121,9 +121,7 @@ if (existsSync(importDatei)) {
       blocks: seitenBausteine.beitrag({ ...b, symbol: loadArten()[b.art]?.symbol || '',
         bildUrl: bildVerzeichnis[b.bild]?.bereich === 'logos' ? ''
           : (bildVerzeichnis[b.bild]?.gross || bildVerzeichnis[b.bild]?.mittel || ''),
-        bildAlt: bildText(b.bild),
-        galerieBilder: (b.galerie || []).map((n) => ({
-          pfad: bildVerzeichnis[n]?.mittel || '', alt: bildText(n) })).filter((x) => x.pfad) }),
+        bildAlt: bildText(b.bild), bildunterschrift: b.bildunterschrift || '' }),
     });
     zaehler[r] = (zaehler[r] || 0) + 1;
   }

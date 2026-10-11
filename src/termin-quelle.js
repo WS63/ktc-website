@@ -78,7 +78,9 @@ export function spieltageAus(plan) {
 const SPIELPLAN_VERZ = 'inhalte/spielplan';
 
 /**
- * Demo-Modus: 'npm run dev' startet mit --demo.
+ * Demo-Modus. Zwei Wege hinein: 'npm run dev' startet mit --demo (lokal), und
+ * auf dem Server genuegt die Umgebungsvariable SPIELPLAN_DEMO=1 in Coolify —
+ * ohne den Start-Befehl anzufassen. Zum Livegang die Variable loeschen.
  *
  * Die Saison 2026 ist vorbei, der Kalender blendet Vergangenes aus — ohne
  * diesen Schalter bliebe er bis zum April leer und niemand koennte sehen, wie
@@ -89,12 +91,13 @@ const SPIELPLAN_VERZ = 'inhalte/spielplan';
  * Kalender nennt die Verschiebung, sonst fuehre jemand zu einem Spiel, das
  * es nicht gibt.
  */
-const DEMO = process.argv.includes('--demo');
+export const DEMO_AN = process.argv.includes('--demo') || process.env.SPIELPLAN_DEMO === '1';
+const DEMO = DEMO_AN;
 
-function jahreVerschieben(plan) {
+export function jahreVerschieben(plan, heute = new Date()) {
   const spaeteste = (plan.begegnungen || []).map((b) => b.datum).filter(Boolean).sort().pop();
   if (!spaeteste) return { plan, jahre: 0 };
-  const heute = new Date(); heute.setHours(0, 0, 0, 0);
+  heute = new Date(heute); heute.setHours(0, 0, 0, 0);
   let jahre = 0;
   const verschoben = (d, n) => `${Number(d.slice(0, 4)) + n}${d.slice(4)}`;
   while (new Date(`${verschoben(spaeteste, jahre)}T00:00:00`) < heute) jahre++;
@@ -104,13 +107,13 @@ function jahreVerschieben(plan) {
 }
 
 /** Die juengste Spielplan-Datei; fehlt sie, gibt es keine Spieltermine (P6). */
-function spielplan() {
+function spielplan({ echt = false } = {}) {
   try {
     if (!existsSync(SPIELPLAN_VERZ)) return { plan: null, jahre: 0 };
     const datei = readdirSync(SPIELPLAN_VERZ).filter((f) => f.endsWith('.json')).sort().pop();
     if (!datei) return { plan: null, jahre: 0 };
     const plan = JSON.parse(readFileSync(`${SPIELPLAN_VERZ}/${datei}`, 'utf8'));
-    return DEMO ? jahreVerschieben(plan) : { plan, jahre: 0 };
+    return DEMO && !echt ? jahreVerschieben(plan) : { plan, jahre: 0 };
   } catch (err) {
     console.warn(`[Termine] Spielplan nicht lesbar: ${err.message}`);
     return { plan: null, jahre: 0 };
@@ -137,7 +140,13 @@ export function spielplanHinweis() {
 }
 
 /** Alles, was im Kalender stehen soll — vor dem Aussortieren abgelaufener. */
-export const alleTermine = () => [...vereinsTermine(), ...spieltageAus(spielplan().plan)];
+/**
+ * @param echt  true = nie verschieben. Der Assistent bekommt IMMER die echten
+ *              Daten: er soll einem Mitglied nicht ein Spiel am 8. Mai 2027
+ *              nennen, das es nicht gibt, nur weil die Vorschau Demodaten zeigt.
+ */
+export const alleTermine = ({ echt = false } = {}) =>
+  [...vereinsTermine(), ...spieltageAus(spielplan({ echt }).plan)];
 
 /** Heute 0:00 — ein Termin von heute Abend ist noch nicht vorbei. */
 function heuteNull() {

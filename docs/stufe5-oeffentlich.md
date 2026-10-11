@@ -75,6 +75,26 @@ Coolify den Server prüfen kann.
 - Die Werte stehen **nur** in Coolify, nie im Repository (`compose.yaml` reicht
   sie nur durch).
 
+### Demo-Spieltermine in der Vorschau
+
+Die Saison 2026 ist vorbei, der Kalender blendet Vergangenes aus — bis zum April
+zeigte er nur die drei Vereinstermine. Zur Ansicht schiebt eine Variable die
+Spieltermine um ganze Jahre nach vorn:
+
+| Variable | Wert |
+|---|---|
+| `SPIELPLAN_DEMO` | `1` |
+
+In Coolify eintragen, **Redeploy**. Der Kalender weist die Verschiebung selbst
+aus („DEMO: … keine echten Termine"), die Startseite zeigt die nächsten drei
+Termine daraus. Der Assistent lernt davon nichts: er bekommt immer die echten Daten.
+
+- **Zum Livegang die Variable löschen**, genau wie `USER_NAME` und `USER_PASSWORD`.
+- Der Server warnt beim Start, wenn Demo AN und der Zugangsschutz AUS ist —
+  dann stünden erfundene Termine öffentlich im Netz.
+- Im April: `npm run spielplan` lokal, committen, deployen. Ist der Plan wieder
+  aktuell, verschiebt der Demo-Modus von selbst nichts mehr.
+
 ## Schritt 1 — Git
 
 Coolify baut aus einem Repository. Das Projekt ist noch keines.

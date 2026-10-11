@@ -150,3 +150,38 @@ test('Paarungen: die Heimmannschaft steht immer links, im Auswaertsspiel also de
   assert.match(html, /<tr><td><span class="wir">Herren 50<\/span><\/td><td class="trenner">-<\/td><td><span class="sie">TC Martinsee/);
   assert.match(html, /<tr><td><span class="sie">TV Ruppertshain<\/span><\/td><td class="trenner">-<\/td><td><span class="wir">Damen 40/);
 });
+
+// ── Demo: Jahre verschieben ────────────────────────────────────────────
+import { jahreVerschieben } from '../src/termin-quelle.js';
+
+const plan = { saison: '2026', begegnungen: [{ datum: '2026-05-08' }, { datum: '2026-09-13' }, { datum: '' }] };
+
+test('Demo: ein abgelaufener Plan rueckt um ganze Jahre nach vorn, bis er in der Zukunft liegt', () => {
+  const { plan: neu, jahre } = jahreVerschieben(plan, new Date('2026-10-11T12:00:00'));
+  assert.equal(jahre, 1);
+  assert.deepEqual(neu.begegnungen.map((b) => b.datum), ['2027-05-08', '2027-09-13', '']);
+  // Zwei Jahre spaeter: zwei Jahre Verschiebung.
+  assert.equal(jahreVerschieben(plan, new Date('2027-10-11T12:00:00')).jahre, 2);
+});
+
+test('Demo: ein Plan, der noch aktuell ist, bleibt unberuehrt', () => {
+  const { plan: neu, jahre } = jahreVerschieben(plan, new Date('2026-09-01T12:00:00'));
+  assert.equal(jahre, 0);
+  assert.equal(neu, plan);
+});
+
+test('Demo: SPIELPLAN_DEMO=1 verschiebt die Termine, aber echt:true nie — der Assistent lernt keine Demodaten', async () => {
+  const { execFileSync } = await import('node:child_process');
+  const lauf = (env) => JSON.parse(execFileSync(process.execPath, ['-e', `
+    import('./src/termin-quelle.js').then((m) => {
+      const jahre = (l) => [...new Set(l.filter((t) => t.gruppen).map((t) => t.datum.slice(0, 4)))];
+      console.log(JSON.stringify({ an: m.DEMO_AN, normal: jahre(m.alleTermine()), echt: jahre(m.alleTermine({ echt: true })) }));
+    });`], { env: { ...process.env, ...env }, encoding: 'utf8' }));
+  const aus = lauf({ SPIELPLAN_DEMO: '' });
+  assert.equal(aus.an, false);
+  assert.deepEqual(aus.normal, aus.echt);
+  const an = lauf({ SPIELPLAN_DEMO: '1' });
+  assert.equal(an.an, true);
+  assert.deepEqual(an.echt, ['2026']);       // Spielplan der Saison 2026, unverschoben
+  assert.ok(!an.normal.includes('2026'));    // im Demo-Modus liegt alles in der Zukunft
+});

@@ -13,6 +13,10 @@ services:
       # Beide leer = die Website ist oeffentlich. Beide gesetzt = Name und Passwort.
       USER_NAME: ${USER_NAME:-}
       USER_PASSWORD: ${USER_PASSWORD:-}
+      # 1 = die Spieltermine der abgelaufenen Saison werden um Jahre nach vorn
+      # geschoben, damit der Kalender etwas zeigt. NUR fuer die Vorschau — zum
+      # Livegang loeschen. Der Kalender weist die Verschiebung sichtbar aus.
+      SPIELPLAN_DEMO: ${SPIELPLAN_DEMO:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       CHAT_MODELL: ${CHAT_MODELL:-claude-sonnet-5}
     volumes:

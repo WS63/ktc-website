@@ -5,6 +5,7 @@ import { aktualisiere } from './src/config.js';
 import api from './src/routes/api.js';
 import oeffentlich from './src/routes/public.js';
 import { zugangsschutz } from './src/zugang.js';
+import { DEMO_AN } from './src/termin-quelle.js';
 
 /**
  * Beim Start die Datenbank vorbereiten.
@@ -48,9 +49,14 @@ const schutz = zugangsschutz({ name: process.env.USER_NAME, passwort: process.en
 if (schutz) {
   app.use(schutz);
   console.log('[Motor] Zugangsschutz AN — die Website verlangt Name und Passwort.');
+  if (DEMO_AN) console.log('[Motor] Demo-Modus AN — die Spieltermine sind verschoben, der Kalender sagt es.');
 } else if (process.env.NODE_ENV === 'production') {
   console.warn('[Motor] [WARN] Zugangsschutz AUS — die Website ist für jeden offen. '
     + 'Gewollt? Sonst USER_NAME und USER_PASSWORD setzen.');
+  if (DEMO_AN) {
+    console.warn('[Motor] [WARN] Demo-Modus AN und kein Zugangsschutz: erfundene Spieltermine '
+      + 'stehen öffentlich im Netz. SPIELPLAN_DEMO löschen oder den Zugangsschutz einschalten.');
+  }
 }
 
 // Hochgeladene Bilder. Der Hash im Dateinamen macht sie unveraenderlich.

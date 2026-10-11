@@ -91,7 +91,7 @@ export function zerlege(page) {
     // inhalte/termine.json. Ohne diese Zeile waere der Kalender fuer den
     // Assistenten leer — er wuesste von keinem einzigen Termin mehr.
     const daten = block.type === 'termine'
-      ? { ...(block.data || {}), termine: kuenftige(alleTermine()) }
+      ? { ...(block.data || {}), termine: kuenftige(alleTermine({ echt: true })) }
       : block.data || {};
     const ueberschrift = fakten(daten.titel || daten.frage || '').trim();
     const teile = textAus(daten).map(fakten).filter((t) => t.length > 2);

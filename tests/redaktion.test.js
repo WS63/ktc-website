@@ -130,3 +130,18 @@ test('ohne Schluessel meldet der Berichts-Knopf das, statt etwas zu erfinden', a
   assert.equal(r.status, 503);
   assert.match(r.daten.fehler, /nicht eingerichtet/);
 });
+
+test('das Redaktions-Passwort gilt unter beiden Variablennamen: PASSWORD und der alte PASSWORT', () => {
+  const probe = (name) => {
+    const code = `
+      import { anmelden } from './src/auth.js';
+      const mit = (pw) => { let r; anmelden({ body: { passwort: pw } },
+        { status: () => ({ json: (d) => { r = d.rolle || 'abgelehnt'; } }), setHeader() {}, json: (d) => { r = d.rolle; } });
+        return r; };
+      console.log(JSON.stringify([mit('red-geheim'), mit('admin-geheim'), mit('falsch')]));`;
+    const env = { ...process.env, ADMIN_PASSWORT: 'admin-geheim', REDAKTION_PASSWORD: '', REDAKTION_PASSWORT: '', [name]: 'red-geheim' };
+    return JSON.parse(execFileSync(process.execPath, ['--input-type=module', '-e', code], { env, encoding: 'utf8' }).trim().split('\n').pop());
+  };
+  assert.deepEqual(probe('REDAKTION_PASSWORD'), ['redaktion', 'admin', 'abgelehnt']);
+  assert.deepEqual(probe('REDAKTION_PASSWORT'), ['redaktion', 'admin', 'abgelehnt']);
+});

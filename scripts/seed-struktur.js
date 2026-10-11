@@ -20,6 +20,7 @@ const menue = [
   // Der Ergebnisdienst steht in der Fusszeile: der Kopf ist voll, und wer am
   // Spieltag Ergebnisse sucht, kennt den Weg dorthin.
   { ort: 'fuss', label: 'Ergebnisse',      href: '/ergebnisse/' },
+  { ort: 'fuss', label: 'WhatsApp',        href: '/whatsapp/' },
   { ort: 'fuss', label: 'FAQ',             href: '/faq/' },
   { ort: 'fuss', label: 'Impressum',       href: '/impressum/' },
   { ort: 'fuss', label: 'Datenschutz',     href: '/datenschutz/' },

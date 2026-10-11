@@ -10,6 +10,7 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       ADMIN_PASSWORT: ${ADMIN_PASSWORT}
       # Optional: ein zweites Passwort fuer die Redaktion (Beitraege, Ergebnisdienst).
+      REDAKTION_PASSWORD: ${REDAKTION_PASSWORD:-}
       REDAKTION_PASSWORT: ${REDAKTION_PASSWORT:-}
       SESSION_GEHEIMNIS: ${SESSION_GEHEIMNIS}
       # Beide leer = die Website ist oeffentlich. Beide gesetzt = Name und Passwort.

@@ -103,7 +103,7 @@ Navigation, kein Löschen.
 
 | Variable | Wert |
 |---|---|
-| `REDAKTION_PASSWORT` | ein eigenes Passwort, nicht dasselbe wie `ADMIN_PASSWORT` |
+| `REDAKTION_PASSWORD` | ein eigenes Passwort, nicht dasselbe wie `ADMIN_PASSWORT` |
 
 In Coolify eintragen, **Redeploy**. Angemeldet wird im selben Cockpit-Formular: welches
 Passwort jemand eingibt, bestimmt die Rolle. Gesperrt ist es auf dem Server, nicht nur in der

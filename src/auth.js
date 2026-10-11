@@ -9,14 +9,17 @@ import crypto from 'node:crypto';
  *
  * ZWEI Rollen, je ein Passwort:
  *   admin      ADMIN_PASSWORT       alles
- *   redaktion  REDAKTION_PASSWORT   Beitraege, Medien und der Ergebnisdienst —
+ *   redaktion  REDAKTION_PASSWORD   Beitraege, Medien und der Ergebnisdienst —
  *                                   sonst nichts (Pressewartin, ausgewaehlte Personen)
  * Die Rolle steht SIGNIERT im Cookie: wer das Cookie aendert, hat eine
  * ungueltige Signatur und gar keine. Das Anmeldeformular bleibt ein einziges
  * Feld — welche Rolle jemand bekommt, entscheidet das Passwort.
  */
 const PASSWORT = process.env.ADMIN_PASSWORT || '';
-const REDAKTION = process.env.REDAKTION_PASSWORT || '';
+// 'PASSWORD' ist der Name, unter dem die Variable in Coolify angelegt wurde (wie
+// USER_PASSWORD); 'PASSWORT' bleibt als alter Name gueltig. Mit nur einem von beiden
+// meldete sich die Redaktion nie an, und die Meldung sah aus wie ein falsches Passwort.
+const REDAKTION = process.env.REDAKTION_PASSWORD || process.env.REDAKTION_PASSWORT || '';
 const GEHEIM = process.env.SESSION_GEHEIMNIS || crypto.randomBytes(32).toString('hex');
 const GUELTIG_MS = 1000 * 60 * 60 * 12;
 const NAME = 'ktc_sitzung';

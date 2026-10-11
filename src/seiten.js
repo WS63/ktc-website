@@ -596,7 +596,57 @@ export const seiten = [
     { type: 'ergebnisse', data: {} },
     { type: 'richtext', data: {
       absaetze: [
-        'Die Ergebnisse erscheinen hier, sobald sie beim Verband gemeldet sind. Das passiert meist vier bis sechs Stunden nach Spielbeginn und spätestens bis 13 Uhr des Folgetags. Ältere Wochenenden findest du über die Pfeile oben. Alle Spieltermine stehen im [Clubkalender](/kalender/).',
+        'Die Ergebnisse erscheinen hier, sobald sie beim Verband gemeldet sind. Das passiert meist vier bis sechs Stunden nach Spielbeginn und spätestens bis 13 Uhr des Folgetags. Ältere Wochenenden findest du über die Pfeile oben. Alle Spieltermine stehen im [Clubkalender](/kalender/). Die Ergebnisse auch direkt aufs Handy: der [WhatsApp-Infodienst](/whatsapp/).',
+      ],
+    }},
+    ASSISTENT,
+    FOOTER,
+  ],
+},
+
+// ══════════════════════════════════════════════════════════ WHATSAPP
+//
+// Der WhatsApp-Infodienst: Anmeldung und Einwilligung. Nach dem Entwurf des
+// Vereins, ins Du gesetzt. Zwei Angaben fehlen noch und erscheinen als […], bis sie
+// in config/facts.json stehen: der Anmeldelink (links.whatsapp, ein wa.me-Link mit
+// vorbereiteter Nachricht) und die Clubnummer (kanal.nummer) fuer das STOP.
+//
+// Der QR-Code ist eine DATEI (bilder/logos/whatsapp-qr.png). Fehlt sie, steht der
+// Abschnitt ohne Bild da, und der Link funktioniert trotzdem — auf dem Handy,
+// auf dem man die Seite ohnehin liest, braucht niemand einen QR-Code.
+{
+  slug: 'whatsapp', page_type: 'standard',
+  title: 'WhatsApp-Infodienst',
+  description: 'Neuigkeiten, Ergebnisse und Platzinfos des Krifteler Tennisclubs direkt aufs Handy: einmal anmelden, jederzeit abmelden.',
+  blocks: [
+    NAV,
+    { type: 'hero', data: {
+      pill: 'Neu',
+      titel: 'Nie wieder wichtige Infos verpassen.',
+      sub: 'Neuigkeiten, Ergebnisse, Platzinfos und Ankündigungen — schnell, direkt, auf dein Handy.',
+    }},
+    { type: 'richtext', data: {
+      absaetze: [
+        'Ab sofort schicken wir Neuigkeiten, Turnierergebnisse, Platzinfos und Vereinsankündigungen auch direkt per WhatsApp. Einmal anmelden, und du bekommst alle wichtigen Infos aufs Handy. Versprochen: kein Spam, nur das Wesentliche. Die Infos auf der Website und der E-Mail-Newsletter bleiben daneben bestehen.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: 'So einfach geht’s',
+      grund: 'ruhig',
+      absaetze: [
+        '**1.** Tippe auf den Link oder scanne den QR-Code mit dem Handy.',
+        '**2.** WhatsApp öffnet sich mit einer fertigen Nachricht.',
+        '**3.** Einmal auf „Senden“ tippen — fertig.',
+        '[In WhatsApp anmelden]({{facts.links.whatsapp}})',
+      ],
+      bild: bild('whatsapp-qr', 'mittel'), bildAlt: bildAlt('whatsapp-qr'), bildStil: 'logo',
+    }},
+    { type: 'richtext', data: {
+      titel: 'Datenschutz und Einwilligung',
+      absaetze: [
+        'Mit dem Absenden der Nachricht willigst du ein (Art. 6 Abs. 1 lit. a DSGVO), dass der {{facts.verein.name}} dich über WhatsApp mit Vereinsinformationen kontaktiert. Deine Mobilnummer nutzen wir ausschließlich dafür und geben sie nicht an Dritte weiter. WhatsApp selbst verarbeitet technisch bedingt Daten, mehr dazu in der [Datenschutzerklärung](/datenschutz/).',
+        '**Abmeldung jederzeit:** Schreib einfach STOP an die Clubnummer {{facts.kanal.nummer}}. Danach schicken wir dir nichts mehr.',
+        'Verantwortlich: {{facts.verein.name}}, {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}.',
       ],
     }},
     ASSISTENT,
@@ -799,7 +849,15 @@ export const seiten = [
       ],
     }},
     { type: 'richtext', data: {
-      titel: '7. Daten und Fotos von Mitgliedern',
+      titel: '7. WhatsApp-Infodienst',
+      absaetze: [
+        'Wer möchte, kann sich für unseren WhatsApp-Infodienst anmelden: eine Nachricht an unsere Clubnummer genügt. Dabei verarbeiten wir deine Mobilnummer und, falls dein WhatsApp-Profil sie zeigt, deinen Namen. Wir nutzen sie ausschließlich, um dir Vereinsinformationen zu schicken.',
+        'Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO), die du mit dem Absenden der Anmeldenachricht erteilst. Du kannst sie jederzeit widerrufen: Schreib STOP an die Clubnummer, dann schicken wir dir nichts mehr. Die Anmeldung ist freiwillig und für keine Leistung des Vereins nötig.',
+        'WhatsApp wird von Meta Platforms Ireland Limited betrieben. Die Verarbeitung durch WhatsApp, auch außerhalb der Europäischen Union, richtet sich nach deren Datenschutzhinweisen. Auf diese Verarbeitung haben wir keinen Einfluss.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '8. Daten und Fotos von Mitgliedern',
       absaetze: [
         'Im Zusammenhang mit dem Sportbetrieb und Veranstaltungen kann der Verein Namen, Vereins- und Abteilungszugehörigkeit, Funktion im Verein und Fotos von Mitgliedern veröffentlichen: auf dieser Website, in der Vereinszeitung und gegenüber Medien. Das betrifft etwa Mannschaftsaufstellungen, Ergebnisse, Sieger, Ehrungen oder Wahlergebnisse. Wo es aus sportlichen Gründen nötig ist, etwa bei der Einteilung in Wettkampfklassen, kann auch das Alter oder der Jahrgang genannt werden. Die automatisch erstellten Ergebnisübersichten dieser Website nennen nur Mannschaften, keine einzelnen Spielerinnen und Spieler.',
         'Wir achten darauf, dass erkennbar abgebildete Personen einverstanden sind, bei Kindern die Eltern. Rechtsgrundlage ist unser berechtigtes Interesse an der Öffentlichkeitsarbeit (Art. 6 Abs. 1 lit. f DSGVO) oder, wo wir dich um Erlaubnis bitten, deine Einwilligung (lit. a).',
@@ -807,26 +865,26 @@ export const seiten = [
       ],
     }},
     { type: 'richtext', data: {
-      titel: '8. Weitergabe an Dritte',
+      titel: '9. Weitergabe an Dritte',
       absaetze: [
         'Wir verkaufen keine Daten. Als Mitglied des Hessischen Tennisverbands (HTV) ist der Verein verpflichtet, bestimmte Mitglieder- und Mannschaftsdaten dorthin zu melden. Mitgliederlisten erhalten nur Vorstandsmitglieder und Funktionäre, soweit ihre Aufgabe es erfordert. Darüber hinaus geben wir Daten nur weiter, wenn ein Gesetz es verlangt oder du eingewilligt hast.',
       ],
     }},
     { type: 'richtext', data: {
-      titel: '9. Wie lange wir Daten aufbewahren',
+      titel: '10. Wie lange wir Daten aufbewahren',
       absaetze: [
-        'Anfragen über das Formular löschen wir {{facts.datenschutz.frist_anfragen}} nach Eingang, Einträge des Assistenten nach {{facts.datenschutz.frist_chat}}. Mitgliedsdaten liegen nicht auf dieser Website, sondern in eBuSy und werden dort nach den Regeln der Mitgliederverwaltung gelöscht. Unterlagen der Vereinsbuchhaltung bewahren wir so lange auf, wie das Gesetz es verlangt, bis zu zehn Jahre (§ 147 AO).',
+        'Anfragen über das Formular löschen wir {{facts.datenschutz.frist_anfragen}} nach Eingang, Einträge des Assistenten nach {{facts.datenschutz.frist_chat}}. Die Mobilnummern des WhatsApp-Infodienstes behalten wir bis zur Abmeldung. Mitgliedsdaten liegen nicht auf dieser Website, sondern in eBuSy und werden dort nach den Regeln der Mitgliederverwaltung gelöscht. Unterlagen der Vereinsbuchhaltung bewahren wir so lange auf, wie das Gesetz es verlangt, bis zu zehn Jahre (§ 147 AO).',
       ],
     }},
     { type: 'richtext', data: {
-      titel: '10. Deine Rechte',
+      titel: '11. Deine Rechte',
       absaetze: [
         'Du hast das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18) und Datenübertragbarkeit (Art. 20). Du kannst Verarbeitungen widersprechen, die auf unserem berechtigten Interesse beruhen (Art. 21). Eine erteilte Einwilligung kannst du jederzeit mit Wirkung für die Zukunft widerrufen (Art. 7 Abs. 3). Schreib dazu an [{{facts.verein.email}}](mailto:{{facts.verein.email}}).',
         'Du kannst dich außerdem bei einer Datenschutz-Aufsichtsbehörde beschweren (Art. 77 DSGVO). Für uns zuständig ist der [Hessische Beauftragte für Datenschutz und Informationsfreiheit](https://datenschutz.hessen.de) in Wiesbaden.',
       ],
     }},
     { type: 'richtext', data: {
-      titel: '11. Änderungen',
+      titel: '12. Änderungen',
       absaetze: [
         'Wir passen diese Erklärung an, wenn sich die Website oder die Rechtslage ändern. Stand: {{facts.datenschutz.stand}}.',
       ],

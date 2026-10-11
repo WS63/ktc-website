@@ -101,6 +101,10 @@
   "zeiten": {
     "anlage": ""
   },
+  "kanal": {
+    "_hinweis": "Der WhatsApp-Infodienst. links.whatsapp ist der Anmeldelink (wa.me mit vorbereiteter Nachricht), nummer die Clubnummer, an die man STOP schreibt. Beides leer = die Seite zeigt sichtbar […].",
+    "nummer": ""
+  },
   "hosting": {
     "_hinweis": "Wer die Website technisch betreibt. Pflicht im Datenschutz (Auftragsverarbeitung). Leer = sichtbar […] auf der Seite.",
     "anbieter": "Hostinger International Ltd.",

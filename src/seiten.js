@@ -600,6 +600,7 @@ export const seiten = [
       pill: 'Spieltage',
       titel: 'Ergebnisse',
       sub: 'Alle Mannschaften, ein Wochenende — aktuell vom Hessischen Tennisverband.',
+      bild: bild('sport-ergebnisse'), bildAlt: bildAlt('sport-ergebnisse'),
     }},
     { type: 'ergebnisse', data: {} },
     { type: 'richtext', data: {
@@ -632,6 +633,7 @@ export const seiten = [
       pill: 'Neu',
       titel: 'Nie wieder wichtige Infos verpassen.',
       sub: 'Neuigkeiten, Ergebnisse, Platzinfos und Ankündigungen — schnell, direkt, auf dein Handy.',
+      bild: bild('club-whatsapp'), bildAlt: bildAlt('club-whatsapp'),
     }},
     { type: 'richtext', data: {
       absaetze: [

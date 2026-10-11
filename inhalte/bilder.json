@@ -294,6 +294,52 @@
   "mittel": "/bilder/club-werkstatt-800-639c67c9.jpg",
   "klein": "/bilder/club-werkstatt-400-ea0e0037.jpg"
  },
+ "club-whatsapp": {
+  "bereich": "themen",
+  "alt": "Ein Smartphone mit einem Ordner „Messages“, darin die Symbole von WhatsApp, Telegram, Line, WeChat und Signal",
+  "breite": 2400,
+  "hoehe": 1600,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/club-whatsapp-400-dd51f0e6.jpg",
+    "kb": 14
+   },
+   "800": {
+    "pfad": "/bilder/club-whatsapp-800-e21d7a47.jpg",
+    "kb": 38
+   },
+   "1600": {
+    "pfad": "/bilder/club-whatsapp-1600-a29c112a.jpg",
+    "kb": 107
+   }
+  },
+  "gross": "/bilder/club-whatsapp-1600-a29c112a.jpg",
+  "mittel": "/bilder/club-whatsapp-800-e21d7a47.jpg",
+  "klein": "/bilder/club-whatsapp-400-dd51f0e6.jpg"
+ },
+ "sport-ergebnisse": {
+  "bereich": "themen",
+  "alt": "Ein Spieler rutscht im Spagat über den Platz und streckt den Schläger nach dem Ball, das Bild ist von Blau nach Rot eingefärbt, Kopf und Oberkörper sind angeschnitten",
+  "breite": 2400,
+  "hoehe": 921,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/sport-ergebnisse-400-7add67ab.jpg",
+    "kb": 9
+   },
+   "800": {
+    "pfad": "/bilder/sport-ergebnisse-800-336a07ec.jpg",
+    "kb": 31
+   },
+   "1600": {
+    "pfad": "/bilder/sport-ergebnisse-1600-c07b614a.jpg",
+    "kb": 120
+   }
+  },
+  "gross": "/bilder/sport-ergebnisse-1600-c07b614a.jpg",
+  "mittel": "/bilder/sport-ergebnisse-800-336a07ec.jpg",
+  "klein": "/bilder/sport-ergebnisse-400-7add67ab.jpg"
+ },
  "sport-jugend": {
   "bereich": "themen",
   "alt": "Eine Reihe Kinder sitzt mit Tennisschlägern auf einer Bank, zu sehen sind nur Beine, Turnschuhe und die Schläger",

@@ -269,3 +269,26 @@ test('kein Beitragsfoto ohne Unterschrift, und jede Unterschrift nennt eine Mann
     assert.ok(f.bild && f.unterschrift, `${b.slug}: Foto ohne Name oder Unterschrift`);
   }
 });
+
+// ── Entwuerfe aus der Importdatei ──────────────────────────────────────
+import { execFileSync } from 'node:child_process';
+
+test('Seed: ein Entwurf wird nur angelegt; was jemand veroeffentlicht, bleibt es', () => {
+  const env = { ...process.env, SQLITE_FILE: 'data/test-entwurf.db', DATABASE_URL: '' };
+  const abfrage = (sql) => JSON.parse(execFileSync(process.execPath, ['--input-type=module', '-e',
+    `import { query } from './src/db.js'; console.log(JSON.stringify(await query(${JSON.stringify(sql)})));`],
+    { env, encoding: 'utf8' }).trim().split('\n').pop());
+  const seed = () => execFileSync(process.execPath, ['scripts/seed.js'], { env, stdio: 'ignore' });
+  const slug = 'neu-der-ktc-infodienst-per-whatsapp';
+  const status = () => abfrage(`SELECT status FROM pages WHERE slug = '${slug}'`)[0]?.status;
+  try {
+    seed();
+    assert.equal(status(), 'draft');                                   // angelegt als Entwurf
+    assert.equal(abfrage("SELECT count(*) AS n FROM pages WHERE page_type = 'beitrag' AND status = 'published'")[0].n, 23);
+    abfrage(`UPDATE pages SET status = 'published' WHERE slug = '${slug}'`);
+    seed();
+    assert.equal(status(), 'published');                                // der zweite Seed laesst ihn stehen
+  } finally {
+    execFileSync('rm', ['-f', 'data/test-entwurf.db', 'data/test-entwurf.db-wal', 'data/test-entwurf.db-shm']);
+  }
+});

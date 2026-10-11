@@ -39,7 +39,7 @@ const kurz = (text, n) => {
 await runMigrations();
 
 async function schreiben({ slug, page_type, title, description, blocks, created_at,
-                           bild, bild_alt, art }) {
+                           bild, bild_alt, art, status = 'published' }) {
   const inhalt = { blocks };
   const pruefung = validateContent(page_type, inhalt);
   if (!pruefung.ok) {
@@ -50,6 +50,12 @@ async function schreiben({ slug, page_type, title, description, blocks, created_
 
   const jetzt = new Date().toISOString();
   const alt = await queryOne('SELECT id, status FROM pages WHERE slug = $1', [slug]);
+
+  // Ein Entwurf aus der Importdatei wird nur ANGELEGT, nie wieder angefasst: was
+  // jemand im Cockpit daran aendert oder veroeffentlicht, ueberlebt jeden Seed.
+  // Sonst haette der naechste Lauf einen veroeffentlichten Beitrag zurueck auf
+  // 'Entwurf' gesetzt.
+  if (alt && status === 'draft') return 'uebersprungen';
 
   if (alt && alt.status === 'edited' && !FORCE) {
     // P5: was ein Mensch redigiert hat, geht nicht an einen Seed-Lauf verloren.
@@ -69,8 +75,8 @@ async function schreiben({ slug, page_type, title, description, blocks, created_
   await query(
     `INSERT INTO pages (id, slug, page_type, status, title, description, content_json,
                         bild, bild_alt, created_at, updated_at, art)
-     VALUES ($1, $2, $3, 'published', $4, $5, $6, $7, $8, $9, $10, $11)`,
-    [crypto.randomUUID(), slug, page_type, title, description,
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+    [crypto.randomUUID(), slug, page_type, status, title, description,
      JSON.stringify(inhalt), bild || null, bild_alt || null, created_at || jetzt, jetzt,
      art || null]);
   return 'angelegt';
@@ -117,6 +123,7 @@ if (existsSync(importDatei)) {
       bild: bildAdresse(b.bilder?.[0]?.bild),
       bild_alt: bildText(b.bilder?.[0]?.bild),
       art: b.art,
+      status: b.status === 'draft' ? 'draft' : 'published',
       // Fotos: Anzeigegroesse, Grossfassung zum Anklicken, Alt-Text, Unterschrift,
       // und das Format aus den Massen des Originals (quer oder hoch).
       blocks: seitenBausteine.beitrag({ ...b, symbol: loadArten()[b.art]?.symbol || '',

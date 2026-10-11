@@ -360,5 +360,17 @@
         "unterschrift": "Herren 50 II"
       }
     ]
+  },
+  {
+    "slug": "neu-der-ktc-infodienst-per-whatsapp",
+    "titel": "Neu: Der KTC-Infodienst per WhatsApp",
+    "datum": "2026-10-12",
+    "art": "info",
+    "status": "draft",
+    "absaetze": [
+      "Nie wieder wichtige Infos verpassen: Ab sofort schickt der Krifteler Tennisclub Neuigkeiten, Ergebnisse, Platzinfos und Vereinsankündigungen auch direkt per WhatsApp aufs Handy.",
+      "Die Anmeldung dauert eine halbe Minute: Link antippen oder den QR-Code scannen, WhatsApp öffnet sich mit einer fertigen Nachricht, einmal auf „Senden“ tippen — fertig. Kein Spam, nur das Wesentliche. Die Infos auf der Website und der E-Mail-Newsletter bleiben daneben bestehen.",
+      "Die Anmeldung ist freiwillig und jederzeit beendet: einfach STOP an die Clubnummer schreiben. Alles zur Einwilligung und zum Datenschutz steht auf der Seite [WhatsApp-Infodienst](/whatsapp/)."
+    ]
   }
 ]

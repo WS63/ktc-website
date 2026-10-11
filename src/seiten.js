@@ -204,6 +204,10 @@ export const seiten = [
     // voller Kalender ein Argument. Bewusst ohne Knopf: der eine gelbe
     // gehoert 'Mitglied werden'.
     { type: 'aktuell', data: {
+      // Grau: der lebendige Teil der Seite (Neuigkeiten, Termine) hebt sich vom
+      // Werbeteil ab. Danach wechseln die Flaechen: weiss (Karten), grau
+      // (Clubhaus), dunkel (Fusszeile) — nie zwei gleiche nebeneinander.
+      grund: 'ruhig',
       beitraegeHref: '/aktuelles/',
       termineHref: '/kalender/',
     }},
@@ -219,7 +223,7 @@ export const seiten = [
       // 'warum Mitglied werden', und das Restaurant ist oeffentlich. Sie
       // bekommt den Streifen darunter, der auch die Oeffnungszeiten traegt.
       titel: 'Was dich bei uns erwartet',
-      grund: 'ruhig',
+      grund: 'weiss',
       karten: [
         // KEINE Mannschaftszahl in diesem Text. Sie stand hier frueher als
         // getipptes 'Über 20' — neben der Kachel darueber, die denselben
@@ -243,6 +247,7 @@ export const seiten = [
       // Der Clubwirt hat keine eigene Website — geprueft. Stuenden die
       // Zeiten nicht hier, koennte weder die Seite noch der Assistent die
       // haeufigste Frage ueberhaupt beantworten: 'Haben die heute offen?'
+      grund: 'ruhig',
       titel: 'Clubhaus und Terrasse',
       text: 'Nach dem Match sitzen bleiben. Das Clubrestaurant **{{facts.gastronomie.name}}** kocht {{facts.gastronomie.kueche}} auf der wohl schönsten Sonnenterrasse Kriftels — für Mitglieder, Gäste und alle, die gar nicht spielen.',
       bild: bild('club-restaurant', 'mittel'), bildAlt: bildAlt('club-restaurant'),
@@ -256,7 +261,7 @@ export const seiten = [
         { label: 'Tisch reservieren', wert: '{{facts.gastronomie.telefon}}' },
       ],
       fussnote: 'Stand {{facts.gastronomie.zeiten_stand}}. Außerhalb der Freiluftsaison gelten andere Zeiten — dann am besten kurz anrufen.',
-      linkLabel: 'Mehr zum Clubhaus', linkHref: '/clubhaus/',
+      linkLabel: 'Mehr zum Clubrestaurant', linkHref: '/clubhaus/',
     }},
     ASSISTENT,
     FOOTER,
@@ -305,7 +310,7 @@ export const seiten = [
       anker: 'wettkampf',
       absaetze: [
         'Der KTC stellt {{facts.anlage.mannschaften}} Wettspiel-Mannschaften in unterschiedlichen Alters- und Leistungsklassen. Das Spektrum reicht von Kindern ab 12 Jahren bis zu den Senioren 60. Unsere Mannschaften spielen um jeden Punkt, aber auch für die Geselligkeit.',
-        'Welche Teams antreten, in welcher Spielklasse und wo der Spielplan steht: [alle Mannschaften im Überblick](/mannschaften/).',
+        'Welche Teams antreten, in welcher Spielklasse und wo der Spielplan steht: [alle Mannschaften im Überblick](/mannschaften/). Wie sie am Wochenende gespielt haben, steht unter [Ergebnisse](/ergebnisse/).',
       ],
     }},
     { type: 'richtext', data: {
@@ -383,6 +388,8 @@ export const seiten = [
       pill: 'Medenrunde',
       titel: 'Unsere Mannschaften',
       sub: 'Alle Wettspiel-Teams der Erwachsenen und der Jugend — von der Kreis- bis zur Landesebene.',
+      // Wer die Teams ansieht, will meist wissen, wie sie gespielt haben.
+      zweitLabel: 'Ergebnisse vom Wochenende', zweitHref: '/ergebnisse/',
       bild: bild('anlage-tennisplatz'), bildAlt: bildAlt('anlage-tennisplatz'),
     }},
     { type: 'tabelle', data: {

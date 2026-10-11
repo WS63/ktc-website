@@ -27,42 +27,53 @@ export default {
     .erg__blaettern { font-size: var(--fs-sm); display: flex; gap: var(--raum-3); }
     .erg__blaettern a { color: var(--signal); text-decoration: none; }
     .erg__blaettern a:hover { text-decoration: underline; }
-    .erg__bilanz { font-size: var(--fs-md); margin-bottom: var(--raum-1); }
+    .erg__bilanz { font-size: var(--fs-md); margin-bottom: 4px; }
     .erg__bilanz b { font-weight: 700; }
-    .erg__stand { font-size: 14px; color: var(--text-leise); margin-bottom: var(--raum-4); }
+    .erg__stand { font-size: 14px; color: var(--text-leise); margin-bottom: var(--raum-3); }
 
     /* Gerade gemeldet: das Fenster fuer das, was sich zuletzt getan hat. */
     .erg__zuletzt { background: var(--flaeche); border-radius: var(--radius); padding: var(--raum-2) var(--raum-3);
       margin-bottom: var(--raum-4); }
     .erg__zuletzt h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em;
       color: var(--text-leise); margin-bottom: 6px; }
-    .erg__zuletzt li { list-style: none; font-size: var(--fs-sm); padding: 3px 0; display: flex; gap: var(--raum-2);
+    .erg__zuletzt li { list-style: none; font-size: 14px; padding: 2px 0; display: flex; gap: var(--raum-2);
       flex-wrap: wrap; align-items: baseline; }
     .erg__zuletzt ul { margin: 0; padding: 0; }
     .erg__wann { color: var(--text-leise); font-size: 14px; min-width: 9.5em; }
 
-    .erg__slot { margin-top: var(--raum-4); }
-    .erg__slot h3 { font-size: var(--fs-md); font-weight: 600; margin-bottom: 4px;
-      padding-bottom: 6px; border-bottom: 1px solid var(--linie); }
-    .erg__tabelle { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
-    .erg__tabelle td { padding: 9px var(--raum-1); vertical-align: baseline; }
+    /* Eine Tabelle je Anwurfzeit, aber ALLE mit denselben Spalten: 'table-layout:
+       fixed' und feste Breiten rechts. Vorher richtete sich jede Tabelle nach dem
+       laengsten Namen in ihr, und die Ergebnisse standen in jedem Block woanders.
+       Jetzt stehen Zahl und Ausgang in der Zeitfolge IMMER an derselben Stelle ganz
+       rechts — das Auge faehrt senkrecht an ihnen entlang. */
+    .erg__slot { margin-top: var(--raum-3); }
+    .erg__slot h3 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 2px;
+      padding-bottom: 5px; border-bottom: 2px solid var(--linie-stark); }
+    .erg__tabelle { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; line-height: 1.35; }
+    .erg__tabelle td { padding: 4px 10px; vertical-align: baseline; }
+    .erg__tabelle td:nth-child(2) { width: 56px; }
+    .erg__tabelle td:nth-child(3) { width: 112px; }
     .erg__tabelle tr:nth-child(odd) { background: var(--flaeche); }
-    .erg__team { font-weight: 600; white-space: nowrap; }
     .erg__paar .sie { color: var(--text-leise); }
     .erg__paar .wir { font-weight: 600; }
-    .erg__msg { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .04em;
+    .erg__bericht { margin-left: 8px; font-size: 13px; white-space: nowrap; }
+    .erg__msg { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em;
       color: var(--signal); border: 1px solid var(--linie-aktiv); border-radius: 3px;
-      padding: 0 5px; margin-left: 4px; white-space: nowrap; }
-    .erg__zahl { font-variant-numeric: tabular-nums; font-weight: 700; white-space: nowrap; text-align: right; }
-    .erg__aus { white-space: nowrap; color: var(--text-leise); font-size: 14px; }
-    .erg__offen { color: var(--text-leise); font-size: 14px; text-align: right; white-space: nowrap; }
-    .erg__tabelle a { color: var(--signal); text-decoration: none; font-size: 14px; }
+      padding: 0 4px; margin-left: 4px; white-space: nowrap; }
+    .erg__zahl { font-variant-numeric: tabular-nums; font-weight: 700; text-align: right; }
+    .erg__aus { color: var(--text-leise); white-space: nowrap; }
+    .erg__offen { color: var(--text-leise); text-align: right; white-space: nowrap; }
+    .erg__tabelle a { color: var(--signal); text-decoration: none; }
+    .erg__tabelle a:hover { text-decoration: underline; }
 
     @media (max-width: 640px) {
+      .erg__tabelle { table-layout: auto; }
+      .erg__tabelle td:nth-child(2), .erg__tabelle td:nth-child(3) { width: auto; }
       .erg__tabelle, .erg__tabelle tbody, .erg__tabelle tr, .erg__tabelle td { display: block; }
-      .erg__tabelle tr { padding: 8px var(--raum-1); }
-      .erg__tabelle td { padding: 1px 0; }
-      .erg__zahl, .erg__offen { text-align: left; }
+      .erg__tabelle tr { padding: 5px 4px; }
+      .erg__tabelle td { padding: 1px 6px; }
+      .erg__zahl, .erg__offen { text-align: left; display: inline-block; }
+      .erg__aus { display: inline-block; }
     }
   `,
   render(data) {
@@ -92,13 +103,16 @@ export default {
     const b = a.bilanz;
     const zeile = (e) => {
       const [sym, wort] = AUSGANG[e.ausgang] || [];
+      // Der Berichtslink steht hinter der Paarung, damit rechts nur noch zwei feste
+      // Spalten bleiben: die Zahl und der Ausgang.
+      const bericht = e.bericht
+        ? html`<a class="erg__bericht" href="${raw(escapeAttr(ziel(e.bericht)))}" target="_blank" rel="noopener noreferrer">Bericht ↗</a>` : '';
       return html`<tr>
-        <td class="erg__paar">${paarung(e)}</td>
+        <td class="erg__paar">${paarung(e)}${bericht}</td>
         ${e.status === 'gespielt'
           ? html`<td class="erg__zahl">${e.matchpunkte}</td>
                  <td class="erg__aus"><span aria-hidden="true">${sym}</span> ${wort}</td>`
           : html`<td class="erg__offen" colspan="2">${e.status === 'kommt' ? `${e.uhrzeit} Uhr` : 'Ergebnis steht noch aus'}</td>`}
-        <td>${e.bericht ? html`<a href="${raw(escapeAttr(ziel(e.bericht)))}" target="_blank" rel="noopener noreferrer">Bericht ↗</a>` : ''}</td>
       </tr>`;
     };
 

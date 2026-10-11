@@ -34,6 +34,7 @@ export default {
     beitraegeHref:  { type: 'text', default: '', label: 'Ziel dieses Links' },
     termineLabel:   { type: 'text', default: 'Alle Termine', label: 'Link unter den Terminen' },
     termineHref:    { type: 'text', default: '', label: 'Ziel dieses Links' },
+    grund:          { type: 'auswahl', default: 'weiss', label: 'Hintergrund', optionen: ['weiss', 'ruhig'] },
   },
   css: `
     /* Links etwas mehr Platz: ein Beitrag hat Titel und Text, ein Termin
@@ -43,6 +44,9 @@ export default {
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
     .aktuell h2 { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-2); }
 
+    /* Auf der grauen Flaeche haette die Kachel dieselbe Farbe wie der Grund und
+       waere unsichtbar: dort wird sie weiss. */
+    .section--ruhig .aktuell__symbol { background: var(--grund); }
     .aktuell__eintrag { padding: var(--raum-2) 0; border-top: 1px solid var(--linie); }
     .aktuell__beitrag { display: flex; gap: var(--raum-2); align-items: flex-start; }
     .aktuell__symbol { flex: none; width: 40px; height: 40px; display: grid; place-items: center;
@@ -128,7 +132,7 @@ export default {
     </div>`;
 
     return html`
-      <section class="section aktuell"><div class="container">
+      <section class="section aktuell${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}"><div class="container">
         <div class="aktuell__gitter">${spalteBeitraege}${spalteTermine}</div>
       </div></section>`;
   },

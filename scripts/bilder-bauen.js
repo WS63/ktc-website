@@ -105,14 +105,19 @@ for (const bereich of BEREICHE) {
 
     const eintrag = { bereich, alt: texte[name] || '', breite: qb, hoehe: qh, groessen: {} };
     for (const breite of ziele) {
-      const tmp = `/tmp/bild-${name}-${breite}.jpg`;
-      execFileSync('sips', ['-Z', String(breite), '-s', 'format', 'jpeg',
-        '-s', 'formatOptions', QUALITAET, join(ordner, datei), '--out', tmp],
+      // Ein Logo als PNG bleibt PNG. JPEG kennt keine Transparenz und
+      // verwischt die Kanten feiner Schrift — gerade bei einem Logo mit
+      // Anschrift im Bild waere beides sichtbar. Fotos bleiben JPEG.
+      const png = bereich === 'logos' && /\.png$/i.test(datei);
+      const endung = png ? 'png' : 'jpg';
+      const tmp = `/tmp/bild-${name}-${breite}.${endung}`;
+      execFileSync('sips', ['-Z', String(breite), '-s', 'format', png ? 'png' : 'jpeg',
+        ...(png ? [] : ['-s', 'formatOptions', QUALITAET]), join(ordner, datei), '--out', tmp],
         { stdio: 'ignore' });
       const daten = readFileSync(tmp);
       unlinkSync(tmp);
       const hash = createHash('sha256').update(daten).digest('hex').slice(0, 8);
-      const ziel = `${name}-${breite}-${hash}.jpg`;
+      const ziel = `${name}-${breite}-${hash}.${endung}`;
       behalten.add(ziel);
       if (!existsSync(`${ZIEL_ORDNER}/${ziel}`)) {
         writeFileSync(`${ZIEL_ORDNER}/${ziel}`, daten);

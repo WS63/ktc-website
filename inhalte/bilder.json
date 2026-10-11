@@ -685,5 +685,20 @@
   "gross": "/bilder/logo-restaurant-400-aaf8417f.jpg",
   "mittel": "/bilder/logo-restaurant-400-aaf8417f.jpg",
   "klein": "/bilder/logo-restaurant-400-aaf8417f.jpg"
+ },
+ "tennisschule-kaus": {
+  "bereich": "logos",
+  "alt": "Logo der Tennisschule Kaus (VDT) mit Anschrift und Kontaktangaben von Oliver Kaus, darunter die Siegel „Deutsche Tennisschule“ und VDT",
+  "breite": 478,
+  "hoehe": 1062,
+  "groessen": {
+   "478": {
+    "pfad": "/bilder/tennisschule-kaus-478-e5a8531a.png",
+    "kb": 57
+   }
+  },
+  "gross": "/bilder/tennisschule-kaus-478-e5a8531a.png",
+  "mittel": "/bilder/tennisschule-kaus-478-e5a8531a.png",
+  "klein": "/bilder/tennisschule-kaus-478-e5a8531a.png"
  }
 }

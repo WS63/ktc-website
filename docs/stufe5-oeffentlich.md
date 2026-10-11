@@ -49,6 +49,32 @@ kommt auch niemand zufällig auf die Seite, der den Link weitergereicht bekommt.
 
 ---
 
+## Die Vorschau hinter Name und Passwort
+
+`suchmaschinen: false` (oben) sagt Google nur „bitte nicht aufnehmen" — es sperrt
+niemanden aus. Solange der Verein sich den Entwurf ansehen soll, die Welt aber
+nicht, gibt es zusätzlich einen **Zugangsschutz für die ganze Website**:
+
+| Variable | Wert |
+|---|---|
+| `SEITE_NAME` | ein Benutzername, den du den Vereinsmitgliedern nennst |
+| `SEITE_PASSWORT` | ein langes Passwort (Passwortmanager) |
+
+In Coolify unter **Application → Environment Variables** eintragen, dann
+**Redeploy**. Danach fragt der Browser vor jeder Seite nach Name und Passwort —
+auch bei Bildern, Cockpit und Assistent. Nur `/health` bleibt offen, damit
+Coolify den Server prüfen kann.
+
+- **Beide leer oder nicht gesetzt = die Website ist öffentlich.** Zum Livegang
+  beide Variablen löschen und neu deployen. Das ist der ganze Umzug.
+- Das ist **nicht** das Cockpit-Passwort (`ADMIN_PASSWORT`). Wer das Cockpit
+  benutzt, meldet sich nach dieser Sperre noch einmal an.
+- Der Server meldet beim Start `Zugangsschutz AN` oder, in Produktion ohne die
+  Werte, `Zugangsschutz AUS` als Warnung — so sieht man im Log, in welchem
+  Zustand er läuft.
+- Die Werte stehen **nur** in Coolify, nie im Repository (`compose.yaml` reicht
+  sie nur durch).
+
 ## Schritt 1 — Git
 
 Coolify baut aus einem Repository. Das Projekt ist noch keines.

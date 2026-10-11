@@ -4,6 +4,7 @@ import { runMigrations } from './src/db.js';
 import { aktualisiere } from './src/config.js';
 import api from './src/routes/api.js';
 import oeffentlich from './src/routes/public.js';
+import { zugangsschutz } from './src/zugang.js';
 
 /**
  * Beim Start die Datenbank vorbereiten.
@@ -38,6 +39,19 @@ const app = express();
 app.disable('x-powered-by');
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
+
+// Name und Passwort vor der ganzen Website — solange die Seite nicht oeffentlich
+// sein soll. Steht NACH /health (Coolify fragt dort ohne Zugangsdaten) und VOR
+// allem anderen: Bilder, Cockpit, Schnittstelle, Seiten. Ohne die beiden
+// Umgebungsvariablen ist der Schutz aus und lokal merkt man nichts davon.
+const schutz = zugangsschutz({ name: process.env.SEITE_NAME, passwort: process.env.SEITE_PASSWORT });
+if (schutz) {
+  app.use(schutz);
+  console.log('[Motor] Zugangsschutz AN — die Website verlangt Name und Passwort.');
+} else if (process.env.NODE_ENV === 'production') {
+  console.warn('[Motor] [WARN] Zugangsschutz AUS — die Website ist für jeden offen. '
+    + 'Gewollt? Sonst SEITE_NAME und SEITE_PASSWORT setzen.');
+}
 
 // Hochgeladene Bilder. Der Hash im Dateinamen macht sie unveraenderlich.
 app.use('/uploads', express.static('data/uploads', { maxAge: '365d', immutable: true }));

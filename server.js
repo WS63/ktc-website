@@ -6,6 +6,7 @@ import api from './src/routes/api.js';
 import oeffentlich from './src/routes/public.js';
 import { zugangsschutz } from './src/zugang.js';
 import { DEMO_AN } from './src/termin-quelle.js';
+import { starten as spielstandLaden, starteZeitplan } from './src/spielstand.js';
 
 /**
  * Beim Start die Datenbank vorbereiten.
@@ -17,6 +18,9 @@ import { DEMO_AN } from './src/termin-quelle.js';
 try {
   await runMigrations();
   await aktualisiere();
+  // Der Spielstand: aus der Datenbank, beim allerersten Start aus der Jahresdatei.
+  const anzahl = await spielstandLaden();
+  console.log(`[Spielstand] ${anzahl} Begegnungen geladen.`);
 } catch (err) {
   const ziel = process.env.DATABASE_URL
     ? process.env.DATABASE_URL.replace(/\/\/[^@]*@/, '//***@')
@@ -98,6 +102,12 @@ app.use((err, _req, res, _next) => {
   console.error('[Motor] [FEHLER]', err);
   res.status(500).type('html').send('<h1>Da ist etwas schiefgegangen</h1>');
 });
+
+// Der Abruf beim HTV laeuft NUR, wenn er ausdruecklich eingeschaltet ist:
+// ein Entwicklungsrechner soll den Verbandsserver nicht ohne Not belasten, und
+// ein Test schon gar nicht. In Coolify: HTV_ABRUF=1.
+if (process.env.HTV_ABRUF === '1') starteZeitplan();
+else console.log('[Spielstand] Zeitplan AUS (HTV_ABRUF=1 schaltet den Abruf beim HTV ein).');
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port,

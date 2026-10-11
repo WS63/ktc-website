@@ -17,6 +17,9 @@ services:
       # geschoben, damit der Kalender etwas zeigt. NUR fuer die Vorschau — zum
       # Livegang loeschen. Der Kalender weist die Verschiebung sichtbar aus.
       SPIELPLAN_DEMO: ${SPIELPLAN_DEMO:-}
+      # 1 = der Server holt die Ergebnisse selbst beim HTV (8, 16, 24 Stunden nach
+      # Spielbeginn). Leer = er zeigt, was in der Datenbank steht.
+      HTV_ABRUF: ${HTV_ABRUF:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       CHAT_MODELL: ${CHAT_MODELL:-claude-sonnet-5}
     volumes:

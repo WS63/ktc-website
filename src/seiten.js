@@ -57,13 +57,8 @@ const AUFMACHER_BILDER = [
  * Fehlt das Verzeichnis, bleiben die Tabellen leer und die Seite steht
  * trotzdem (P6).
  */
-const saisonVerzeichnis = 'inhalte/mannschaften';
-const saisonDatei = existsSync(saisonVerzeichnis)
-  ? readdirSync(saisonVerzeichnis).filter((f) => f.endsWith('.json')).sort().pop()
-  : null;
-export const saison = saisonDatei
-  ? JSON.parse(readFileSync(`${saisonVerzeichnis}/${saisonDatei}`, 'utf8'))
-  : { saison: '', wettbewerbe: {}, erwachsene: [], jugend: [] };
+import { saison } from './mannschaften.js';
+export { saison };
 
 /** Eine Mannschaft als Tabellenzeile, mit Link auf ihre HTV-Gruppe. */
 const mannschaftsZeile = (m) => [

@@ -15,6 +15,7 @@
  * Assistent bekommen dieselbe Liste.
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { planAusSpeicher } from './spielstand.js';
 
 const DATEI = 'inhalte/termine.json';
 
@@ -109,10 +110,16 @@ export function jahreVerschieben(plan, heute = new Date()) {
 /** Die juengste Spielplan-Datei; fehlt sie, gibt es keine Spieltermine (P6). */
 function spielplan({ echt = false } = {}) {
   try {
-    if (!existsSync(SPIELPLAN_VERZ)) return { plan: null, jahre: 0 };
-    const datei = readdirSync(SPIELPLAN_VERZ).filter((f) => f.endsWith('.json')).sort().pop();
-    if (!datei) return { plan: null, jahre: 0 };
-    const plan = JSON.parse(readFileSync(`${SPIELPLAN_VERZ}/${datei}`, 'utf8'));
+    // Erst der Spielstand aus der Datenbank (vom Server nach Zeitplan aufgefrischt),
+    // dann die Jahresdatei: ohne Datenbank — Tests, ein frischer Checkout — bleibt
+    // es wie vorher.
+    let plan = planAusSpeicher();
+    if (!plan) {
+      if (!existsSync(SPIELPLAN_VERZ)) return { plan: null, jahre: 0 };
+      const datei = readdirSync(SPIELPLAN_VERZ).filter((f) => f.endsWith('.json')).sort().pop();
+      if (!datei) return { plan: null, jahre: 0 };
+      plan = JSON.parse(readFileSync(`${SPIELPLAN_VERZ}/${datei}`, 'utf8'));
+    }
     return DEMO && !echt ? jahreVerschieben(plan) : { plan, jahre: 0 };
   } catch (err) {
     console.warn(`[Termine] Spielplan nicht lesbar: ${err.message}`);

@@ -11,8 +11,8 @@ services:
       ADMIN_PASSWORT: ${ADMIN_PASSWORT}
       SESSION_GEHEIMNIS: ${SESSION_GEHEIMNIS}
       # Beide leer = die Website ist oeffentlich. Beide gesetzt = Name und Passwort.
-      SEITE_NAME: ${SEITE_NAME:-}
-      SEITE_PASSWORT: ${SEITE_PASSWORT:-}
+      USER_NAME: ${USER_NAME:-}
+      USER_PASSWORD: ${USER_PASSWORD:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       CHAT_MODELL: ${CHAT_MODELL:-claude-sonnet-5}
     volumes:

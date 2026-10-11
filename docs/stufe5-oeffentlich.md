@@ -57,8 +57,8 @@ nicht, gibt es zusätzlich einen **Zugangsschutz für die ganze Website**:
 
 | Variable | Wert |
 |---|---|
-| `SEITE_NAME` | ein Benutzername, den du den Vereinsmitgliedern nennst |
-| `SEITE_PASSWORT` | ein langes Passwort (Passwortmanager) |
+| `USER_NAME` | ein Benutzername, den du den Vereinsmitgliedern nennst |
+| `USER_PASSWORD` | ein langes Passwort (Passwortmanager) |
 
 In Coolify unter **Application → Environment Variables** eintragen, dann
 **Redeploy**. Danach fragt der Browser vor jeder Seite nach Name und Passwort —

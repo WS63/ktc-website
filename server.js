@@ -44,13 +44,13 @@ app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 // sein soll. Steht NACH /health (Coolify fragt dort ohne Zugangsdaten) und VOR
 // allem anderen: Bilder, Cockpit, Schnittstelle, Seiten. Ohne die beiden
 // Umgebungsvariablen ist der Schutz aus und lokal merkt man nichts davon.
-const schutz = zugangsschutz({ name: process.env.SEITE_NAME, passwort: process.env.SEITE_PASSWORT });
+const schutz = zugangsschutz({ name: process.env.USER_NAME, passwort: process.env.USER_PASSWORD });
 if (schutz) {
   app.use(schutz);
   console.log('[Motor] Zugangsschutz AN — die Website verlangt Name und Passwort.');
 } else if (process.env.NODE_ENV === 'production') {
   console.warn('[Motor] [WARN] Zugangsschutz AUS — die Website ist für jeden offen. '
-    + 'Gewollt? Sonst SEITE_NAME und SEITE_PASSWORT setzen.');
+    + 'Gewollt? Sonst USER_NAME und USER_PASSWORD setzen.');
 }
 
 // Hochgeladene Bilder. Der Hash im Dateinamen macht sie unveraenderlich.

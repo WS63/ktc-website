@@ -340,7 +340,7 @@ docker build -t ktc-website .
 
 - **`Dockerfile`** — zweistufig, läuft als `node`, nicht als root, mit Healthcheck auf `/health`
 - **`compose.yaml`** — für Coolify. Echte Werte kommen aus der Coolify-Oberfläche, nie hierher
-- **Zugangsschutz:** `SEITE_NAME` und `SEITE_PASSWORT` setzen = die ganze Website
+- **Zugangsschutz:** `USER_NAME` und `USER_PASSWORD` setzen = die ganze Website
   verlangt Name und Passwort (`src/zugang.js`), nur `/health` bleibt offen. Beide
   leer = öffentlich. Siehe `docs/stufe5-oeffentlich.md`.
 - **`/app/data` muss ein dauerhaftes Volume sein.** Sonst sind alle hochgeladenen Bilder

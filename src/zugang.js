@@ -8,8 +8,8 @@
  * 'suchmaschinen: false' in config/site.json: das sagt Google nur 'bitte
  * nicht aufnehmen', es sperrt niemanden aus.
  *
- * Eingeschaltet wird es allein ueber zwei Umgebungsvariablen, SEITE_NAME und
- * SEITE_PASSWORT. Fehlt eine, ist der Schutz AUS — lokal laeuft alles wie
+ * Eingeschaltet wird es allein ueber zwei Umgebungsvariablen, USER_NAME und
+ * USER_PASSWORD. Fehlt eine, ist der Schutz AUS — lokal laeuft alles wie
  * bisher, und beim Livegang genuegt es, die beiden Werte zu loeschen. Beide
  * stehen in der Coolify-Oberflaeche, nie im Quelltext.
  *

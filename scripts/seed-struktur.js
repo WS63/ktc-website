@@ -1,5 +1,6 @@
 /** Navigation und die Umleitungstabelle aus docs/vorlage.md — einmalig. */
 import { runMigrations, query, queryOne } from '../src/db.js';
+import { einsortieren } from '../src/menue.js';
 
 await runMigrations();
 const jetzt = () => new Date().toISOString();
@@ -41,19 +42,11 @@ if (vorhanden.length === 0) {
   //
   // Was ein Mensch im Cockpit umbenannt, verschoben oder versteckt hat,
   // bleibt unangetastet — verglichen wird nur das Ziel.
-  const kenne = new Set(vorhanden.map((z) => z.href));
-  const { n } = await queryOne('SELECT COUNT(*) AS n FROM navigation');
-  let i = Number(n);
-  let neue = 0;
-  for (const p of menue) {
-    if (kenne.has(p.href)) continue;
-    await query(
-      `INSERT INTO navigation (id, parent_id, ort, label, href, sort, visible)
-       VALUES ($1, NULL, $2, $3, $4, $5, 1)`,
-      [crypto.randomUUID(), p.ort, p.label, p.href, i++]);
-    console.log(`[Struktur] Menüpunkt ergänzt: ${p.label} → ${p.href}`);
-    neue++;
-  }
+  // Jeder fehlende Punkt kommt an SEINE Stelle der Liste, nicht ans Ende —
+  // siehe src/menue.js.
+  const ergaenzt = await einsortieren(query, menue);
+  for (const p of ergaenzt) console.log(`[Struktur] Menüpunkt ergänzt: ${p.label} → ${p.href}`);
+  const neue = ergaenzt.length;
   if (!neue) console.log('[Struktur] Navigation ist vollständig — nichts zu tun.');
 }
 

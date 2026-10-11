@@ -139,3 +139,14 @@ test('der Termin-Baustein zeigt Heimspiele zuerst und kennzeichnet Spielgemeinsc
   assert.match(html, /MSG Diedenbergen\/KTC/);
   assert.match(html, /Hinweistext/);
 });
+
+test('Paarungen: die Heimmannschaft steht immer links, im Auswaertsspiel also der Gegner', () => {
+  const html = renderPage({ slug: 'k', page_type: 'standard', status: 'published', title: 'K',
+    content_json: { blocks: [{ type: 'termine', data: {} }] } }, { dynamicData: { termine: { termine:
+    spieltageAus({ begegnungen: [
+      spiel({ mannschaft: 'Herren 50', zuhause: true, gegner: 'TC Martinsee' }),
+      spiel({ mannschaft: 'Damen 40', zuhause: false, gegner: 'TV Ruppertshain' }),
+    ] }).map((t) => ({ ...t, tag: '8. Mai' })) } } });
+  assert.match(html, /<tr><td><span class="wir">Herren 50<\/span><\/td><td class="trenner">-<\/td><td><span class="sie">TC Martinsee/);
+  assert.match(html, /<tr><td><span class="sie">TV Ruppertshain<\/span><\/td><td class="trenner">-<\/td><td><span class="wir">Damen 40/);
+});

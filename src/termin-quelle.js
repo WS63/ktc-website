@@ -62,13 +62,13 @@ export function spieltageAus(plan) {
         datum: liste[0].datum,
         uhrzeit: liste[0].uhrzeit || '',
         art: 'wettspiel',
-        titel: 'Spieltag',
+        titel: 'Spieltag der HTV-Medenrunde',
         // Gerechnet, nie getippt (P3/P4): die Zahlen kommen aus der Liste.
         text: `${liste.length} ${liste.length === 1 ? 'Begegnung' : 'Begegnungen'}`
           + (heim.length ? `, davon ${heim.length} ${heim.length === 1 ? 'Heimspiel' : 'Heimspiele'} auf unserer Anlage.` : '.'),
         gruppen: [
-          ...(heim.length ? [{ titel: 'Heimspiele', praeposition: 'gegen', zeilen: heim.map(zeile) }] : []),
-          ...(aus.length ? [{ titel: 'Auswärtsspiele', praeposition: 'bei', zeilen: aus.map(zeile) }] : []),
+          ...(heim.length ? [{ titel: 'Heimspiele', zuhause: true, zeilen: heim.map(zeile) }] : []),
+          ...(aus.length ? [{ titel: 'Auswärtsspiele', zuhause: false, zeilen: aus.map(zeile) }] : []),
         ],
       };
     })

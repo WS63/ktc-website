@@ -53,6 +53,9 @@ export default {
     /* 'Bu' dunkler als 'Sy', wie im Original. Zwei Spannen statt eines
        Verlaufs: ein Verlauf ueber vier Buchstaben wird auf 19 px zu einem
        Grauschleier, zwei klare Toene bleiben lesbar. */
+    /* 'BuSy' ist EIN Flex-Eintrag. Als zwei Eintraege (Bu, Sy) setzte der
+       gap des Containers auch zwischen die beiden Haelften — das Wort stand
+       mit Luecke da. */
     .ebusy__bu { color: #6b6b6b; }
     .ebusy__sy { color: #a3a3a3; }
     .kopf__jetzt--ebusy:hover .ebusy__bu { color: #4a4a4a; }
@@ -129,7 +132,7 @@ export default {
                     aria-label="${data.aktionLabel} mit eBuSy (öffnet in neuem Fenster)"
                     title="${data.aktionLabel}"><span class="ebusy" aria-hidden="true"><span
                     class="ebusy__e">e</span><span class="ebusy__strich"></span><span
-                    class="ebusy__bu">Bu</span><span class="ebusy__sy">Sy</span></span></a>`
+                    class="ebusy__name"><span class="ebusy__bu">Bu</span><span class="ebusy__sy">Sy</span></span></span></a>`
               : html`<a class="kopf__jetzt" href="${raw(escapeAttr(aktion))}"${istExtern(aktion) ? raw(' target="_blank" rel="noopener noreferrer"') : ''}>${data.aktionLabel} ↗</a>`)
             : ''}
           ${data.knopfLabel && knopf

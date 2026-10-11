@@ -67,10 +67,17 @@ export default {
     .termin__gruppe { margin-top: 10px; }
     .termin__gruppe h4 { font-size: 12px; font-weight: 600; text-transform: uppercase;
       letter-spacing: .07em; color: var(--text-leise); margin: 0 0 3px; }
-    .termin__gruppe ul { list-style: none; padding: 0; margin: 0; }
-    .termin__gruppe li { font-size: 15px; line-height: 1.55; padding: 1px 0; }
-    .termin__gruppe li b { font-weight: 600; }
-    .termin__gegner { color: var(--text-leise); }
+    /* Eine Paarung ist eine Tabellenzeile: Heimmannschaft - Gastmannschaft.
+       Als Tabelle, weil die Spalten dann von selbst auf der laengsten Zelle
+       einrasten und der Strich in jeder Zeile an derselben Stelle steht —
+       genau die Ausrichtung, die ein Tabulator geben wuerde. Und es IST eine
+       Tabelle: zwei Mannschaften je Zeile, vom Vorleser als solche gelesen. */
+    .termin__paarungen { border-collapse: collapse; font-size: 15px; line-height: 1.55; }
+    .termin__paarungen td { padding: 1px 0; vertical-align: baseline; }
+    .termin__paarungen td:first-child { padding-right: .6em; }
+    .termin__paarungen td.trenner { padding-right: .6em; color: var(--text-still); }
+    .termin__paarungen .wir { font-weight: 600; }
+    .termin__paarungen .sie { color: var(--text-leise); }
     /* Spielgemeinschaft mit Partnervereinen. Ein Wort-Etikett, keine Farbe:
        die Unterscheidung muss auch im Schwarzweissdruck des Aushangs bleiben. */
     .termin__msg { display: inline-block; font-size: 12px; font-weight: 600;
@@ -123,9 +130,16 @@ export default {
           ${t.text ? html`<p>${markdownInline(t.text)}</p>` : ''}
           ${(t.gruppen || []).map((g) => html`<div class="termin__gruppe">
             <h4>${g.titel}</h4>
-            <ul>${g.zeilen.map((z) => html`<li><b>${z.mannschaft}</b>${
-              z.sg ? html` <span class="termin__msg" title="Spielgemeinschaft mit Partnervereinen">MSG ${z.sg}</span>` : ''
-            } <span class="termin__gegner">${g.praeposition} ${z.gegner}</span></li>`)}</ul>
+            <table class="termin__paarungen"><tbody>${g.zeilen.map((z) => {
+              const wir = html`<span class="wir">${z.mannschaft}</span>${
+                z.sg ? html` <span class="termin__msg" title="Spielgemeinschaft mit Partnervereinen">MSG ${z.sg}</span>` : ''}`;
+              const sie = html`<span class="sie">${z.gegner}</span>`;
+              // Die Heimmannschaft steht IMMER links, wie beim Verband — im
+              // Heimspiel sind das wir, im Auswaertsspiel der Gegner.
+              return g.zuhause
+                ? html`<tr><td>${wir}</td><td class="trenner">-</td><td>${sie}</td></tr>`
+                : html`<tr><td>${sie}</td><td class="trenner">-</td><td>${wir}</td></tr>`;
+            })}</tbody></table>
           </div>`)}
           ${t.ort ? html`<span class="termin__ort">${t.ort}</span>` : ''}
         </div>

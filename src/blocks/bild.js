@@ -13,7 +13,12 @@ export default {
   css: `
     .bild { margin: 0; }
     .bild--text { max-width: var(--breite-text); }
-    .bild img { border-radius: var(--radius); width: 100%; }
+    /* Breite so gross wie moeglich, Hoehe hoechstens 72 % des Fensters. Ein
+       Hochformat (Gruppenfoto 3:4) fuellte sonst die ganze Spaltenbreite und
+       ist dann laenger als der Bildschirm — es wird schmaler, nicht beschnitten:
+       bei einem Mannschaftsfoto waeren abgeschnittene Koepfe das schlimmere Uebel. */
+    .bild img { border-radius: var(--radius); width: auto; max-width: 100%; max-height: 72vh;
+      display: block; }
     .bild figcaption { font-size: 14px; color: var(--text-leise); margin-top: 10px; }
   `,
   render(data) {

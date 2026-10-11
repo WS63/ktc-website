@@ -25,6 +25,9 @@ export const seitenBausteine = {
     // einen Flickenteppich, und nicht jeder Beitrag hat eines.
     ...(b.bildUrl ? [{ type: 'bild', data: { pfad: b.bildUrl, alt: b.bildAlt || '', breite: 'text' } }] : []),
     { type: 'richtext', data: { absaetze: b.absaetze } },
+    // Weitere Bilder des Beitrags als Reihe unter dem Text. Fehlt eines, fehlt
+    // eben eines (P6) — die Seite steht trotzdem.
+    ...((b.galerieBilder || []).length ? [{ type: 'galerie', data: { bilder: b.galerieBilder } }] : []),
     { type: 'cards', data: {
       karten: [{ titel: 'Zurück zur Übersicht',
         text: 'Alle Neuigkeiten aus dem Verein.',

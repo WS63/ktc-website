@@ -1,6 +1,5 @@
 {
   "_hinweis": "Alt-Texte je Bildname. Beschreibt, was zu SEHEN ist — nicht, was es bedeutet. Ohne Alt-Text ist ein Bild für einen Vorleser nicht vorhanden.",
-
   "anlage-wiese": "Die Terrasse des Krifteler Tennisclubs mit aufgespannten Sonnenschirmen über Holzbänken, davor die Liegewiese, dahinter ein Sandplatz",
   "anlage-zentrum-unten": "Ein gepflasterter Weg entlang eines eingezäunten Sandplatzes, Flutlichtmasten und Bäume unter blauem Himmel",
   "anlage-zentrum-oben": "Der Weg zur Anlage, im Hintergrund die weißen Sonnenschirme der Terrasse, am Rand abgestellte Fahrräder",
@@ -9,22 +8,29 @@
   "anlage-platz67oben": "Blick über die hinteren Sandplätze des Krifteler Tennisclubs",
   "anlage-platz67unten": "Zwei Sandplätze nebeneinander, dahinter der begrünte Zaun der Anlage",
   "anlage-tennisplatz": "Weite Aufnahme eines Sandplatzes mit Netz und den grünen Werbebanden des Krifteler Tennisclubs",
-
   "club-newspaper": "Mehrere Ausgaben der Clubzeitschrift KTC Drop Shot, zusammengerollt gestapelt",
   "club-tennisnetz": "Ein gelber Tennisball liegt auf dem Pfosten eines Netzes, dahinter der rote Sand des Platzes",
   "club-restaurant": "Ein eingedeckter Tisch mit Gläsern im Clubrestaurant",
   "club-kalender": "Viele kleine weiße Zettel mit Notizen, verstreut auf einer Fläche",
   "club-werkstatt": "Werkzeug und Gerät für die Platzpflege",
-
   "sport-jugend": "Eine Reihe Kinder sitzt mit Tennisschlägern auf einer Bank, zu sehen sind nur Beine, Turnschuhe und die Schläger",
   "sport-wettkampf1": "Eine Spielerin schlägt eine Rückhand auf dem Sandplatz",
   "sport-wettkampf2": "Eine Spielerin verfolgt den Ball, im Hintergrund unscharfe Zuschauer",
   "sport-wettkampf3": "Ein Spieler streckt sich nach einem Ball, weit aus dem Platz",
   "sport-wettkampf4": "Ein Spieler rutscht auf dem Sand zu einem Ball",
-
   "2026-he40": "Vier Spieler der Herren 40 jubeln gemeinsam auf dem Sandplatz",
   "logo-newsglobe": "Wortwolke mit den Begriffen Neuigkeiten, Aktuelles und Ankündigungen",
   "logo-htv": "Logo des Hessischen Tennisverbands",
   "logo-tennisschule": "Kontaktangaben der Tennisschule Kaus",
-  "logo-restaurant": "Logo des Clubrestaurants Spice of India"
+  "logo-restaurant": "Logo des Clubrestaurants Spice of India",
+  "2026-04-saisoneroeffnung-helfer": "Lange Tafel im Garten des Clubhauses: Helferinnen und Helfer sitzen nach dem Frühjahrs-Arbeitseinsatz bei Essen und Getränken zusammen, im Hintergrund ein Sandplatz",
+  "2026-08-summer-mixed-gruppe": "Acht Spielerinnen und Spieler stehen lächelnd in der Sonne vor dem Zaun eines Sandplatzes",
+  "2026-08-ende-t-time": "Gruppenbild von rund fünfzehn Spielerinnen und Spielern mit Schlägern vor dem Netz eines Sandplatzes, hinter ihnen die grüne Bande der Tennisschule",
+  "2026-08-herren-40-ii-jubel": "Sechs Männer stehen vor einer Hecke und zeigen mit ausgestrecktem Arm schräg nach oben, eine gemeinsame Jubelpose",
+  "2026-08-junioren-u18": "Vier Jugendliche in Sportkleidung legen die Arme umeinander und ballen die Fäuste, hinter ihnen Bäume, ein Zaun und ein Sandplatz",
+  "2026-09-punktrunde-u12": "Acht Kinder in Tennisbekleidung sitzen und stehen auf einem großen Kletternetz auf einem Spielplatz",
+  "2026-09-punktrunde-juniorinnen-u18": "Sechs Juniorinnen stehen nebeneinander, die Arme umeinander gelegt, vor einem grünen Sichtschutz am Platz",
+  "2026-09-punktrunde-damen-55": "Vier Spielerinnen in neongelben Trikots vor einer Hecke, zwei stehen, zwei liegen und sitzen auf einem roten Doppelliegestuhl",
+  "2026-09-punktrunde-herren-40-ii": "Neun Männer in orangefarbenen KTC-Trikots lachen gemeinsam in die Kamera, hinter ihnen eine Hecke",
+  "2026-09-punktrunde-herren-50-ii": "Fünf Männer halten lachend Biergläser in die Kamera, im Hintergrund ein Sandplatz und ein Sonnenschirm"
 }

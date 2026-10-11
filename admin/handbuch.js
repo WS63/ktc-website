@@ -9,6 +9,25 @@
  */
 const HANDBUCH = [
   {
+    titel: 'Nach dem Spieltag: Ergebnisse teilen und einen Spielbericht entwerfen',
+    wann: 'Am Wochenende und danach. Der Server holt die Ergebnisse selbst; du entscheidest, was daraus wird.',
+    schritte: [
+      'Links auf <b>Redaktion</b>.',
+      'Oben steht, wann der Server zuletzt beim Verband nachgesehen hat. Eilt es: <b>Jetzt beim Verband nachsehen</b> — das dauert rund eine Minute.',
+      'Unter <b>Spielwochenende</b> das Wochenende wählen. Du siehst alle Mannschaften mit Ergebnis; „Meldung fehlt" heißt, dass der Verband es noch nicht hat.',
+      '<b>Kurzinfo für den WhatsApp-Kanal:</b> Format wählen, <b>Text kopieren</b>, im Kanal einfügen. Oder <b>In WhatsApp öffnen</b>.',
+      '<b>Spielbericht als Beitrag:</b> <b>Entwurf erzeugen</b>, kurz warten, dann <b>Entwurf öffnen</b>.',
+      'Im Entwurf Text lesen und ändern, Fotos und Kommentare der Mannschaftsführer ergänzen, dann <b>Veröffentlichen</b>.',
+    ],
+    motor: 'Er fragt beim Verband nach 8, 16 und 24 Stunden nach Spielbeginn und am Folgetag um 14 Uhr nach, aber nur in den Gruppen, in denen noch ein Ergebnis fehlt. Die Ergebnistabelle im Beitrag baut er aus den Daten, und jede Zahl im Text prüft er gegen das Rohmaterial.',
+    fallstricke: [
+      'Der Entwurf ist <b>nie</b> veröffentlicht. Erst wenn du <b>Veröffentlichen</b> drückst, sehen ihn andere.',
+      'Der Assistent kennt nur die Gesamtergebnisse, keine Spielernamen und keine Sätze. Wer den Bericht lebendiger will, ergänzt Namen und Kommentare von Hand — bei Kindern und Jugendlichen nur mit dem Einverständnis der Eltern.',
+      'Zu einem Wochenende gibt es nur <b>einen</b> Entwurf. Gibt es ihn schon, öffnet sich der vorhandene unter <b>Seiten</b>; nichts wird überschrieben.',
+      'Der Abruf beim Verband ist auf einmal alle zehn Minuten begrenzt, damit sein Server nicht leidet. Erscheint die Meldung, kurz warten.',
+    ],
+  },
+  {
     titel: 'Eine neue Seite anlegen und veröffentlichen',
     wann: 'Wenn etwas dazukommt, das eine eigene Adresse braucht — etwa eine Seite für Sponsoren.',
     schritte: [

@@ -17,6 +17,7 @@ const el = (tag, attr = {}, ...kinder) => {
 };
 
 let SCHEMA = { bausteine: [], typen: [] };
+let ROLLE = 'admin';
 const bausteinVon = (name) => SCHEMA.bausteine.find((b) => b.name === name);
 
 // ── Hilfen ──────────────────────────────────────────────────────────
@@ -111,8 +112,8 @@ function seitenZeile(s) {
           onclick: () => oeffneSeite(s.id) }),
         el('a', { href: s.status === 'published' ? pfad : `/vorschau/${s.id}`, target: '_blank' },
           el('button', { class: 'klein', text: s.status === 'published' ? 'Ansehen ↗' : 'Vorschau ↗' })),
-        el('button', { class: 'klein gefahr', text: 'Löschen',
-          onclick: () => loescheSeite(s) }))));
+        ROLLE === 'admin' ? el('button', { class: 'klein gefahr', text: 'Löschen',
+          onclick: () => loescheSeite(s) }) : null)));
 }
 
 const statusWort = (s) => ({ draft: 'Entwurf', published: 'Veröffentlicht',
@@ -890,8 +891,130 @@ function zeigeHandbuch() {
           ...a.fallstricke.map((f) => el('li', { html: f })))) : null)));
 }
 
+// ══════════════════════════════════════════════ REDAKTION
+/**
+ * Ergebnisse des Wochenendes: nachsehen, ansehen, teilen, als Beitrag entwerfen.
+ *
+ * Der Server holt die Ergebnisse selbst nach Zeitplan (8, 16, 24 Stunden nach
+ * Spielbeginn). Der Knopf hier ist fuer den Fall, dass es eilt — er ist auf
+ * einen Abruf alle zehn Minuten begrenzt, damit der Verbandsserver nicht leidet.
+ */
+async function zeigeRedaktion() {
+  const [status, wochen] = await Promise.all([api('/redaktion/status'), api('/redaktion/wochenenden')]);
+  const wahl = el('select', {}, ...wochen.map((w) => el('option', { value: w.we,
+    text: `${w.text} — ${w.begegnungen} Spiele${w.offen ? `, ${w.offen} offen` : ''}` })));
+  const ansichtFeld = el('div');
+  const aktionen = el('div');
+
+  const zeigeAnsicht = async () => {
+    if (!wochen.length) { ansichtFeld.replaceChildren(el('p', { class: 'hinweis', text: 'Noch keine Spiele im Spielstand.' })); return; }
+    const a = await api(`/redaktion/ansicht?we=${wahl.value}`);
+    const b = a.bilanz || {};
+    ansichtFeld.replaceChildren(
+      el('p', { style: 'margin:0 0 10px;font-weight:600',
+        text: `${b.siege || 0} Siege · ${b.unentschieden || 0} Remis · ${b.niederlagen || 0} Niederlagen${a.offen ? ` · ${a.offen} noch offen` : ''}` }),
+      ...a.eintraege.map((e) => el('div', { class: 'zeile', style: 'padding:3px 0;gap:10px' },
+        el('span', { class: 'hinweis', style: 'min-width:9.5em', text: `${e.wochentag.slice(0, 2)} ${e.uhrzeit}` }),
+        el('span', { style: 'flex:1', text: e.zuhause ? `${e.mannschaft}${e.sg ? ' (MSG)' : ''} – ${e.gegner}` : `${e.gegner} – ${e.mannschaft}${e.sg ? ' (MSG)' : ''}` }),
+        el('strong', { text: e.status === 'gespielt' ? e.matchpunkte : '' }),
+        el('span', { class: 'hinweis', style: 'min-width:6em',
+          text: e.status === 'gespielt' ? ({ Sieg: '🟢 Sieg', Unentschieden: '🟡 Remis', Niederlage: '🔴 Niederl.' }[e.ausgang] || '')
+            : e.status === 'kommt' ? 'kommt noch' : 'Meldung fehlt' }))));
+  };
+
+  // ── WhatsApp ──
+  const waText = el('textarea', { readonly: true, style: 'min-height:260px;font:15px/1.5 ui-monospace,monospace' });
+  const waZahl = el('span', { class: 'hinweis' });
+  const waLink = el('a', { target: '_blank', rel: 'noopener' }, el('button', { class: 'stark', text: 'In WhatsApp öffnen ↗' }));
+  const waFormat = el('select', {}, el('option', { value: 'whatsapp', text: 'WhatsApp — *fett* und Symbole' }),
+    el('option', { value: 'text', text: 'Nur Text — ohne Auszeichnung' }));
+  const holeWa = async () => {
+    try {
+      const r = await api(`/redaktion/whatsapp?we=${wahl.value}&format=${waFormat.value}`);
+      waText.value = r.text; waZahl.textContent = `${r.zeichen} Zeichen`; waLink.href = r.wa;
+    } catch (err) { waText.value = ''; waZahl.textContent = err.message; waLink.removeAttribute('href'); }
+  };
+  waFormat.addEventListener('change', holeWa);
+
+  // ── Bericht ──
+  const berichtMeldung = el('div');
+  const berichtKnopf = el('button', { class: 'stark', text: 'Spielbericht-Entwurf erzeugen', onclick: async () => {
+    berichtKnopf.disabled = true; berichtKnopf.textContent = 'Der Assistent schreibt … (rund 20 Sekunden)';
+    berichtMeldung.replaceChildren();
+    try {
+      const r = await api('/redaktion/bericht', { method: 'POST', body: JSON.stringify({ we: wahl.value }) });
+      berichtMeldung.replaceChildren(el('div', { class: 'gutbox' },
+        el('strong', { text: `Entwurf „${r.titel}“ ist fertig. ` }),
+        el('span', { text: 'Er ist noch nicht veröffentlicht. Lies ihn, ergänze Bilder und Kommentare der Mannschaftsführer, dann veröffentliche ihn. ' }),
+        ...(r.hinweise.length ? [el('ul', { style: 'margin:8px 0 0;padding-left:18px' }, ...r.hinweise.map((h) => el('li', { text: h })))] : []),
+        el('div', { style: 'margin-top:10px' }, el('button', { class: 'stark', text: 'Entwurf öffnen',
+          onclick: async () => { location.hash = '#seiten'; await gehe(); oeffneSeite(r.id); } }))));
+    } catch (err) {
+      berichtMeldung.replaceChildren(el('div', { class: 'warnbox', text: err.message }));
+    } finally {
+      berichtKnopf.disabled = false; berichtKnopf.textContent = 'Spielbericht-Entwurf erzeugen';
+    }
+  } });
+
+  // ── Abruf ──
+  const abrufMeldung = el('span', { class: 'hinweis' });
+  const abrufKnopf = el('button', { text: 'Jetzt beim Verband nachsehen', onclick: async () => {
+    abrufKnopf.disabled = true; abrufMeldung.textContent = 'Frage den Verband … (rund eine Minute)';
+    try {
+      await api('/redaktion/abruf', { method: 'POST' });
+      for (let i = 0; i < 60; i++) {            // hoechstens drei Minuten warten
+        await new Promise((r) => setTimeout(r, 3000));
+        const s = await api('/redaktion/status');
+        if (!s.laeuft) break;
+      }
+      melde('Die Ergebnisse sind aktuell.');
+      await zeigeRedaktion();
+    } catch (err) { abrufMeldung.textContent = err.message; abrufKnopf.disabled = false; }
+  } });
+  if (status.laeuft) { abrufKnopf.disabled = true; abrufMeldung.textContent = 'Es läuft gerade ein Abruf …'; }
+
+  wahl.addEventListener('change', () => { zeigeAnsicht(); holeWa(); berichtMeldung.replaceChildren(); });
+
+  $('#buehne').replaceChildren(
+    el('div', { class: 'kopfzeile' }, el('h1', { text: 'Redaktion' })),
+
+    el('div', { class: 'karte' },
+      el('h3', { style: 'margin-bottom:6px', text: 'Ergebnisse vom Verband' }),
+      el('p', { class: 'hinweis', style: 'margin-bottom:10px',
+        text: `${status.anzahl} Begegnungen im Spielstand. Letzter Abruf: ${status.stand || 'noch keiner'}. ${status.zeitplan
+          ? 'Der Server fragt von allein nach: 8, 16 und 24 Stunden nach Spielbeginn und am Folgetag um 14 Uhr, nur wo noch ein Ergebnis fehlt.'
+          : 'Der automatische Abruf ist ausgeschaltet (HTV_ABRUF).'}` }),
+      el('div', { class: 'zeile' }, abrufKnopf, abrufMeldung)),
+
+    el('div', { class: 'karte' },
+      el('h3', { style: 'margin-bottom:10px', text: 'Spielwochenende' }),
+      el('div', { class: 'feldreihe' }, wahl),
+      ansichtFeld),
+
+    el('div', { class: 'karte' },
+      el('h3', { style: 'margin-bottom:6px', text: 'Kurzinfo für den WhatsApp-Kanal' }),
+      el('p', { class: 'hinweis', style: 'margin-bottom:10px',
+        text: 'Aus den Daten gebaut, ohne Namen: Bilanz, dann Siege, Remis, Niederlagen, unten der Link zur Ergebnisseite. Kopieren und im Kanal einfügen.' }),
+      el('div', { class: 'feldreihe' }, waFormat),
+      waText,
+      el('div', { class: 'zeile', style: 'margin-top:10px' },
+        el('button', { class: 'stark', text: 'Text kopieren', onclick: async () => {
+          try { await navigator.clipboard.writeText(waText.value); melde('Kopiert.'); }
+          catch { waText.select(); melde('Markiert — mit Strg/Cmd + C kopieren.', 'fehler'); } } }),
+        waLink, waZahl)),
+
+    el('div', { class: 'karte' },
+      el('h3', { style: 'margin-bottom:6px', text: 'Spielbericht als Beitrag' }),
+      el('p', { class: 'hinweis', style: 'margin-bottom:10px',
+        text: 'Der Assistent schreibt aus den Ergebnissen des gewählten Wochenendes einen Entwurf. Die Ergebnistabelle darunter baut das System aus den Daten. Der Entwurf ist nicht veröffentlicht, bis du es tust.' }),
+      berichtKnopf, berichtMeldung),
+  );
+  await zeigeAnsicht(); await holeWa();
+}
+
 // ══════════════════════════════════════════════ GERÜST
 const SEITEN = {
+  redaktion: zeigeRedaktion,
   seiten: zeigeSeiten, navigation: zeigeNavigation, medien: zeigeMedien,
   anfragen: zeigeAnfragen, umleitungen: zeigeUmleitungen,
   fakten: zeigeFakten, generator: zeigeGenerator,
@@ -936,6 +1059,16 @@ async function start() {
   }
   $('#anmeldung').style.display = 'none';
   $('#cockpit').style.display = 'grid';
+  // Die Redaktion sieht nur, was sie auch darf: Redaktion, Beitraege, Medien, Handbuch.
+  // Das ist Hoeflichkeit, nicht Sicherheit — gesperrt ist es auf dem Server (src/auth.js).
+  ROLLE = (await api('/ich')).rolle;
+  if (ROLLE === 'redaktion') {
+    $$('nav a[data-ziel]').forEach((a) => {
+      if (!['redaktion', 'seiten', 'medien', 'handbuch'].includes(a.dataset.ziel)) a.remove();
+    });
+    SCHEMA.typen = SCHEMA.typen.filter((t) => t.name === 'beitrag');
+    if (!location.hash) location.hash = '#redaktion';
+  }
   $('#marke-zeichen').innerHTML = await (await fetch('/assets/ktc-logo-rahmen.svg')).text();
   await gehe();
   zaehlerFrischen();

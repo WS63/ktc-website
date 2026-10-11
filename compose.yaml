@@ -9,6 +9,8 @@ services:
       PORT: 3000
       DATABASE_URL: ${DATABASE_URL}
       ADMIN_PASSWORT: ${ADMIN_PASSWORT}
+      # Optional: ein zweites Passwort fuer die Redaktion (Beitraege, Ergebnisdienst).
+      REDAKTION_PASSWORT: ${REDAKTION_PASSWORT:-}
       SESSION_GEHEIMNIS: ${SESSION_GEHEIMNIS}
       # Beide leer = die Website ist oeffentlich. Beide gesetzt = Name und Passwort.
       USER_NAME: ${USER_NAME:-}

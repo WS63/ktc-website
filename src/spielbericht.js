@@ -168,3 +168,40 @@ export function ergebnisTabelle(liste, stand) {
     hinweis: `Ergebnisse vom Hessischen Tennisverband${stand ? `, Stand ${stand}` : ''}. Maßgeblich ist immer der Verband.`,
   };
 }
+
+/**
+ * Die Kurzinfo fuer den WhatsApp-Kanal — gebaut aus den Daten, ohne Modell.
+ *
+ * Kein KI-Aufruf: die Zahlen duerfen nicht von einem Modell kommen, und eine
+ * Liste von Ergebnissen braucht keines. Aufgebaut wie eine Nachricht, die man
+ * ueberfliegt: Bilanz oben, dann Siege, Remis, Niederlagen, jeweils eine Zeile,
+ * ganz unten der Link zur Seite. Keine Namen.
+ *
+ * @param format  'whatsapp' (*fett*) oder 'text' (ohne jede Auszeichnung)
+ */
+export function kurzinfo(liste, von, bis, { format = 'whatsapp', link = '', offen = 0 } = {}) {
+  const fett = (t) => (format === 'whatsapp' ? `*${t}*` : t);
+  const SYMBOL = { Sieg: '🟢', Unentschieden: '🟡', Niederlage: '🔴' };
+  const b = bilanz(liste);
+  const reihenfolge = { Sieg: 0, Unentschieden: 1, Niederlage: 2 };
+
+  const zeilen = [...liste]
+    .sort((x, y) => reihenfolge[ergebnis(x).ausgang] - reihenfolge[ergebnis(y).ausgang]
+      || x.mannschaft.localeCompare(y.mannschaft, 'de', { numeric: true }))
+    .map((x) => {
+      const e = ergebnis(x);
+      // Aus Sicht des KTC, immer: 'Herren 50 – TC Martinsee 5:4'. Wer Heim und Gast
+      // sehen will, findet es auf der Seite.
+      return `${SYMBOL[e.ausgang]} ${x.mannschaft}${x.sg ? ' (MSG)' : ''} – ${x.gegner}  ${fett(`${e.wir}:${e.sie}`)}`;
+    });
+
+  return [
+    `🎾 ${fett(`KTC-Spieltag · ${zeitraumText(von, bis)}`)}`,
+    '',
+    // Dieselben Worte und derselbe Trenner wie auf der Ergebnisseite.
+    `${mehrzahl(b.siege, 'Sieg', 'Siege')} · ${b.unentschieden} Remis · ${mehrzahl(b.niederlagen, 'Niederlage', 'Niederlagen')}${offen ? ` · ${offen} noch offen` : ''}`,
+    '',
+    ...zeilen,
+    ...(link ? ['', `Alle Ergebnisse: ${link}`] : []),
+  ].join('\n');
+}

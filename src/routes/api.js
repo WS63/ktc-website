@@ -8,7 +8,8 @@ import { query, queryOne } from '../db.js';
 import { blocks } from '../blocks/index.js';
 import { alleTypen, getType, validateContent } from '../archetypes.js';
 import { aktualisiere } from '../config.js';
-import { anmelden, abmelden, schuetzen, istAngemeldet } from '../auth.js';
+import { anmelden, abmelden, schuetzen, nurErlaubtes, istAngemeldet, rolle } from '../auth.js';
+import redaktion from './redaktion.js';
 import { leereCache } from '../cache.js';
 
 const router = Router();
@@ -17,7 +18,7 @@ const jetzt = () => new Date().toISOString();
 // ── Anmeldung ────────────────────────────────────────────────────────
 router.post('/login', express.json(), anmelden);
 router.post('/logout', abmelden);
-router.get('/ich', (req, res) => res.json({ angemeldet: istAngemeldet(req) }));
+router.get('/ich', (req, res) => res.json({ angemeldet: istAngemeldet(req), rolle: rolle(req) }));
 
 // ── Die eine Handlung: ein Formular. OEFFENTLICH, bewusst vor schuetzen(). ──
 router.post('/form/:name', express.json({ limit: '64kb' }), async (req, res) => {
@@ -117,6 +118,18 @@ async function benachrichtige(id, daten) {
 // ── Ab hier: nur angemeldet ──────────────────────────────────────────
 router.use(schuetzen);
 router.use(express.json({ limit: '2mb' }));
+// Die Redaktion darf nur, was in src/auth.js ausdruecklich freigegeben ist.
+router.use(nurErlaubtes);
+router.use('/redaktion', redaktion);
+
+/** Die Redaktion darf nur Beitraege. Antwortet mit 403 und gibt true zurueck, wenn nicht. */
+const nichtFuerRedaktion = (req, res, seitenTyp) => {
+  if (rolle(req) === 'redaktion' && seitenTyp !== 'beitrag') {
+    res.status(403).json({ fehler: 'Als Redaktion kannst du nur Beiträge bearbeiten.' });
+    return true;
+  }
+  return false;
+};
 
 // ── Bausteine und Seitentypen: das Cockpit baut seine Formulare daraus ──
 router.get('/schema', (_req, res) => {
@@ -133,21 +146,24 @@ router.get('/schema', (_req, res) => {
 });
 
 // ── Seiten ───────────────────────────────────────────────────────────
-router.get('/pages', async (_req, res) => {
+router.get('/pages', async (req, res) => {
   res.json(await query(
     `SELECT id, slug, page_type, status, title, description, og_image, updated_at
-       FROM pages ORDER BY page_type, sort, title`));
+       FROM pages ${rolle(req) === 'redaktion' ? "WHERE page_type = 'beitrag'" : ''}
+       ORDER BY page_type, sort, title`));
 });
 
 router.get('/pages/:id', async (req, res) => {
   const p = await queryOne('SELECT * FROM pages WHERE id = $1', [req.params.id]);
   if (!p) return res.status(404).json({ fehler: 'Gibt es nicht.' });
+  if (nichtFuerRedaktion(req, res, p.page_type)) return;
   res.json({ ...p, content_json: JSON.parse(p.content_json) });
 });
 
 /** Anlegen: der Motor setzt die Pflichtbausteine des Typs, Status draft. */
 router.post('/pages', async (req, res) => {
   const { slug, page_type, title } = req.body || {};
+  if (nichtFuerRedaktion(req, res, page_type)) return;
   const typ = getType(page_type);
   if (!typ) return res.status(400).json({ fehler: `Seitentyp '${page_type}' gibt es nicht.` });
   const sauber = saubererSlug(slug);
@@ -169,6 +185,7 @@ router.post('/pages', async (req, res) => {
 router.put('/pages/:id', async (req, res) => {
   const alt = await queryOne('SELECT * FROM pages WHERE id = $1', [req.params.id]);
   if (!alt) return res.status(404).json({ fehler: 'Gibt es nicht.' });
+  if (nichtFuerRedaktion(req, res, alt.page_type)) return;
 
   const { title, description, og_image, status, content_json, art } = req.body || {};
   const neuSlug = saubererSlug(req.body?.slug) || alt.slug;

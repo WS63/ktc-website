@@ -95,6 +95,36 @@ Termine daraus. Der Assistent lernt davon nichts: er bekommt immer die echten Da
 - Im April: `npm run spielplan` lokal, committen, deployen. Ist der Plan wieder
   aktuell, verschiebt der Demo-Modus von selbst nichts mehr.
 
+### Die Redaktion (zweites Passwort)
+
+Für die Pressewartin und ausgewählte Personen gibt es einen zweiten Zugang zum Cockpit,
+der nur **Redaktion, Beiträge und Medien** zeigt — keine Startseite, keine Fakten, keine
+Navigation, kein Löschen.
+
+| Variable | Wert |
+|---|---|
+| `REDAKTION_PASSWORT` | ein eigenes Passwort, nicht dasselbe wie `ADMIN_PASSWORT` |
+
+In Coolify eintragen, **Redeploy**. Angemeldet wird im selben Cockpit-Formular: welches
+Passwort jemand eingibt, bestimmt die Rolle. Gesperrt ist es auf dem Server, nicht nur in der
+Oberfläche.
+
+### Der Ergebnisdienst beim HTV
+
+| Variable | Wert |
+|---|---|
+| `HTV_ABRUF` | `1` |
+
+Mit `HTV_ABRUF=1` fragt der Server den Verband selbst nach Ergebnissen: **8, 16 und 24
+Stunden nach Spielbeginn und am Folgetag um 14 Uhr**, nur in den Gruppen, in denen noch ein
+Ergebnis fehlt, dazu montags ein Gesamtabruf für Verlegungen. Ohne die Variable zeigt der
+Server, was in der Datenbank steht. Lokal und in Tests bleibt sie leer.
+
+- Beim allerersten Start füllt sich die Datenbank aus `inhalte/spielplan/<jahr>.json`.
+- Im April: neue Mannschaftsliste anlegen (`inhalte/mannschaften/2027.json`), einmal
+  `npm run spielplan` (Jahresdatei und Ausgangsbestand), committen, deployen.
+- Die Seite `/ergebnisse/` ist öffentlich und zeigt nur Mannschaften und Ergebnisse.
+
 ## Schritt 1 — Git
 
 Coolify baut aus einem Repository. Das Projekt ist noch keines.

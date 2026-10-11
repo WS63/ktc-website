@@ -344,7 +344,7 @@ export const seiten = [
       // weissem Grund geliefert; 'logo' laesst das Weiss verschwinden. Kommt eine
       // Fassung mit echter Transparenz, wird nur die Datei in bilder/logos/
       // ausgetauscht (siehe bilder/LIESMICH.md) — hier aendert sich nichts.
-      bild: bild('tennisschule-kaus', 'gross'), bildAlt: bildAlt('tennisschule-kaus'), bildStil: 'logo',
+      bild: bild('tennisschule-kaus', 'gross'), bildAlt: bildAlt('tennisschule-kaus'), bildStil: 'logoklein',
       absaetze: [
         'Seit {{facts.anlage.tennisschule_seit}} vertraut der KTC auf die Kompetenz der {{facts.anlage.tennisschule}}. Geleitet von den staatlich geprüften Tennislehrern Bertrand und Oliver Kaus, steht sie für Qualität, Engagement und messbaren Trainingserfolg.',
         'Mit einem motivierten Trainerteam und modernen Lehrmethoden begleitet sie Kinder, Jugendliche und Erwachsene — vom Einsteiger bis zum Turnierspieler. Sie gehört zu den vom Deutschen Tennis Bund und vom Verband Deutscher Tennislehrer anerkannten Top-50-Tennisschulen.',

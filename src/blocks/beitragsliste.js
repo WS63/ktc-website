@@ -33,9 +33,10 @@ export default {
     .eintrag { display: flex; gap: var(--raum-3); padding: var(--raum-3) 0;
       border-top: 1px solid var(--linie); max-width: var(--breite-text);
       align-items: flex-start; }
-    .eintrag__symbol { flex: none; width: 52px; height: 52px; display: grid; place-items: center;
-      font-size: 28px; line-height: 1; background: var(--flaeche);
-      border-radius: var(--r-md); }
+    /* Ohne Kachel, wie bei den Terminen: ein Emoji auf Kachelgrund las sich als
+       Schaltflaeche und wirkte auf grauem Grund wie ein weisses Kaestchen. */
+    .eintrag__symbol { flex: none; width: 32px; text-align: center;
+      font-size: 28px; line-height: 1.1; margin-top: 2px; }
     .eintrag__datum { display: block; font-size: 14px; color: var(--text-leise);
       margin-bottom: 2px; }
     .eintrag h3 { font-size: 17px; margin-bottom: 3px; }

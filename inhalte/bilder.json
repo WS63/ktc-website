@@ -662,14 +662,14 @@
   "breite": 133,
   "hoehe": 321,
   "groessen": {
-   "133": {
-    "pfad": "/bilder/logo-tennisschule-133-53faceea.jpg",
-    "kb": 4
+   "321": {
+    "pfad": "/bilder/logo-tennisschule-321-9b4b2fcd.jpg",
+    "kb": 11
    }
   },
-  "gross": "/bilder/logo-tennisschule-133-53faceea.jpg",
-  "mittel": "/bilder/logo-tennisschule-133-53faceea.jpg",
-  "klein": "/bilder/logo-tennisschule-133-53faceea.jpg"
+  "gross": "/bilder/logo-tennisschule-321-9b4b2fcd.jpg",
+  "mittel": "/bilder/logo-tennisschule-321-9b4b2fcd.jpg",
+  "klein": "/bilder/logo-tennisschule-321-9b4b2fcd.jpg"
  },
  "logo-restaurant": {
   "bereich": "logos",
@@ -689,16 +689,16 @@
  "tennisschule-kaus": {
   "bereich": "logos",
   "alt": "Logo der Tennisschule Kaus (VDT) mit Anschrift und Kontaktangaben von Oliver Kaus, darunter die Siegel „Deutsche Tennisschule“ und VDT",
-  "breite": 478,
-  "hoehe": 1062,
+  "breite": 641,
+  "hoehe": 2365,
   "groessen": {
-   "478": {
-    "pfad": "/bilder/tennisschule-kaus-478-e5a8531a.png",
-    "kb": 57
+   "1400": {
+    "pfad": "/bilder/tennisschule-kaus-1400-012045dd.png",
+    "kb": 229
    }
   },
-  "gross": "/bilder/tennisschule-kaus-478-e5a8531a.png",
-  "mittel": "/bilder/tennisschule-kaus-478-e5a8531a.png",
-  "klein": "/bilder/tennisschule-kaus-478-e5a8531a.png"
+  "gross": "/bilder/tennisschule-kaus-1400-012045dd.png",
+  "mittel": "/bilder/tennisschule-kaus-1400-012045dd.png",
+  "klein": "/bilder/tennisschule-kaus-1400-012045dd.png"
  }
 }

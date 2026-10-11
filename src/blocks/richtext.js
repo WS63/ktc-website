@@ -10,7 +10,7 @@ export default {
     schluss:  { type: 'text',     default: '', label: 'Abschlusszeile, ruhig und grau' },
     bild:     { type: 'image',    default: '', label: 'Bild rechts neben dem Text' },
     bildAlt:  { type: 'text',     default: '', label: 'Alt-Text des Bildes (Pflicht, wenn ein Bild steht)' },
-    bildStil: { type: 'auswahl',  default: 'foto', label: 'Art des Bildes', optionen: ['foto', 'logo'] },
+    bildStil: { type: 'auswahl',  default: 'foto', label: 'Art des Bildes', optionen: ['foto', 'logo', 'logoklein'] },
     // Mehrere Fotos in einer schmalen Spalte neben dem Text, jedes nur mit einer
     // Unterschrift — keine Zuordnung zu einer Textstelle, keine Position im Text.
     // Das ist einfacher zu pflegen: Foto hinzufuegen, ein paar Worte dazu, fertig.
@@ -48,9 +48,12 @@ export default {
        verschwinden und Farbe stehen. Hat die Datei echte Transparenz, aendert
        sich nichts — multiply auf Durchsichtigem ist durchsichtig. */
     .text__bild--logo img { width: 220px; mix-blend-mode: multiply; }
+    /* Hohes Logo mit Anschrift und Siegeln (Tennisschule): halb so breit, sonst aendert sich nichts. */
+    .text__bild--logoklein img { width: 120px; mix-blend-mode: multiply; }
     @media (max-width: 760px) {
       .text--bild .text__innen { grid-template-columns: 1fr; gap: var(--raum-3); }
       .text__bild--logo img { width: 180px; }
+      .text__bild--logoklein img { width: 110px; }
     }
     /* Fotos neben dem Text: zwei feste Formate, damit eine Spalte aus drei Bildern
        ruhig aussieht, egal was fotografiert wurde.
@@ -92,8 +95,13 @@ export default {
         anker ? raw(` id="${escapeAttr(anker)}"`) : ''}><div class="container">${innen}</div></section>`;
     const text = html`<div class="text__koerper">${absaetze}</div>
         ${data.schluss ? html`<p class="text__schluss">${data.schluss}</p>` : ''}`;
+    const titel = data.titel ? html`<h2 class="text__titel">${data.titel}</h2>` : '';
+    // Das hohe Logo beginnt auf Hoehe der Ueberschrift: dann steht die Ueberschrift
+    // in der Textspalte und nicht ueber beiden. Sonst haengt es unter der Titelzeile
+    // und rechts oben bleibt eine Luecke.
+    const titelLinks = b && data.bildStil === 'logoklein';
     return sektion(html`
-        ${data.titel ? html`<h2 class="text__titel">${data.titel}</h2>` : ''}
+        ${titelLinks ? '' : titel}
         ${fotos.length
           ? html`<div class="text__innen">
               <div>${text}</div>
@@ -109,8 +117,8 @@ export default {
             </div>`
           : b
           ? html`<div class="text__innen">
-              <div>${text}</div>
-              <figure class="text__bild text__bild--${data.bildStil === 'logo' ? 'logo' : 'foto'}">
+              <div>${titelLinks ? titel : ''}${text}</div>
+              <figure class="text__bild text__bild--${['logo', 'logoklein'].includes(data.bildStil) ? data.bildStil : 'foto'}">
                 <img src="${raw(escapeAttr(b))}" alt="${raw(escapeAttr(data.bildAlt || ''))}"
                      loading="lazy" decoding="async">
               </figure>

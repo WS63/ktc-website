@@ -47,13 +47,11 @@ export default {
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
     .aktuell h2 { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-2); }
 
-    /* Auf der grauen Flaeche haette die Kachel dieselbe Farbe wie der Grund und
-       waere unsichtbar: dort wird sie weiss. */
-    .section--ruhig .aktuell__symbol { background: var(--grund); }
     .aktuell__eintrag { padding: var(--raum-2) 0; border-top: 1px solid var(--linie); }
     .aktuell__beitrag { display: flex; gap: var(--raum-2); align-items: flex-start; }
-    .aktuell__symbol { flex: none; width: 40px; height: 40px; display: grid; place-items: center;
-      font-size: 22px; line-height: 1; background: var(--flaeche); border-radius: var(--r-md); }
+    /* Ohne Kachel, wie das Zeichen bei den Terminen. */
+    .aktuell__symbol { flex: none; width: 28px; text-align: center; font-size: 24px;
+      line-height: 1.2; margin-top: 2px; }
     .aktuell__emoji { flex: none; width: 22px; text-align: center; font-size: 20px;
       line-height: 1.3; margin-top: 1px; }
     .aktuell__eintrag:last-of-type { border-bottom: 1px solid var(--linie); }

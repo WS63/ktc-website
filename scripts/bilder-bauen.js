@@ -21,7 +21,9 @@ const BEREICHE = ['anlage', 'themen', 'beitraege', 'logos'];
 const GROESSEN = [1600, 800, 400];
 
 // Logos sind keine Fotos: eine Groesse reicht, und sie werden nie beschnitten.
-const LOGO_GROESSEN = [600];
+// Gemessen wird die LAENGERE Seite (sips -Z tut dasselbe): ein hohes Logo mit
+// Anschrift und Siegeln wurde sonst auf 215 px Breite gedrueckt.
+const LOGO_GROESSEN = [1400];
 
 /** Breite und Hoehe eines Bildes, ohne es zu laden. */
 function masse(pfad) {
@@ -86,9 +88,10 @@ for (const bereich of BEREICHE) {
      * Ein Logo mit 210 Pixeln wurde vorher auf 1600 aufgeblasen: unscharf UND
      * groesser als das Original. sips rechnet ohne Rueckfrage hoch.
      */
+    const mass = bereich === 'logos' ? Math.max(qb, qh) : qb;
     const ziele = (bereich === 'logos' ? LOGO_GROESSEN : GROESSEN)
-      .filter((b) => b <= qb);
-    if (!ziele.length) ziele.push(qb);          // kleiner als jede Vorgabe
+      .filter((b) => b <= mass);
+    if (!ziele.length) ziele.push(mass);        // kleiner als jede Vorgabe
 
     if (bereich !== 'logos' && qb < 1600) {
       console.log(`  [WARN] ${name} ist nur ${qb} px breit. Auf grossen Schirmen unscharf.`);

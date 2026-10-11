@@ -20,13 +20,10 @@ export const seitenBausteine = {
         { day: 'numeric', month: 'long', year: 'numeric' })}`,
       titel: b.titel,
     }},
-    // EIN Bild je Beitrag, oben, mit Unterschrift (nur die Mannschaft, keine
-    // Namen). Das Original hatte oft mehrere; hier gilt: eines, das den Beitrag
-    // traegt. Das Bild gehoert in die Detailansicht. In der Uebersicht steht
-    // stattdessen das Symbol — ein Bild je Zeile machte aus fuenfzig Beitraegen im Jahr
-    // einen Flickenteppich, und nicht jeder Beitrag hat eines.
-    ...(b.bildUrl ? [{ type: 'bild', data: { pfad: b.bildUrl, alt: b.bildAlt || '', bildunterschrift: b.bildunterschrift || '', breite: 'text' } }] : []),
-    { type: 'richtext', data: { absaetze: b.absaetze } },
+    // Die Fotos stehen im Textbaustein, in einer schmalen Spalte daneben — so
+    // muss niemand scrollen, um den Text zu lesen. Jedes Foto hat nur eine
+    // Unterschrift (die Mannschaft, keine Spielernamen), keine Textstelle.
+    { type: 'richtext', data: { absaetze: b.absaetze, bilder: b.fotos || [] } },
     { type: 'cards', data: {
       karten: [{ titel: 'Zurück zur Übersicht',
         text: 'Alle Neuigkeiten aus dem Verein.',

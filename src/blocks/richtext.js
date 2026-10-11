@@ -11,6 +11,11 @@ export default {
     bild:     { type: 'image',    default: '', label: 'Bild rechts neben dem Text' },
     bildAlt:  { type: 'text',     default: '', label: 'Alt-Text des Bildes (Pflicht, wenn ein Bild steht)' },
     bildStil: { type: 'auswahl',  default: 'foto', label: 'Art des Bildes', optionen: ['foto', 'logo'] },
+    // Mehrere Fotos in einer schmalen Spalte neben dem Text, jedes nur mit einer
+    // Unterschrift — keine Zuordnung zu einer Textstelle, keine Position im Text.
+    // Das ist einfacher zu pflegen: Foto hinzufuegen, ein paar Worte dazu, fertig.
+    bilder:   { type: 'liste',    default: [],
+                label: 'Fotos neben dem Text: pfad, gross (zum Vergroessern), alt, unterschrift, format (quer oder hoch)' },
     grund:    { type: 'auswahl',  default: 'weiss', label: 'Hintergrund',
                 optionen: ['weiss', 'ruhig'] },
   },
@@ -47,6 +52,30 @@ export default {
       .text--bild .text__innen { grid-template-columns: 1fr; gap: var(--raum-3); }
       .text__bild--logo img { width: 180px; }
     }
+    /* Fotos neben dem Text: zwei feste Formate, damit eine Spalte aus drei Bildern
+       ruhig aussieht, egal was fotografiert wurde.
+         quer  4:3   300 x 225 px
+         hoch  3:4   240 x 320 px
+       Zugeschnitten wird mit Schwerpunkt im oberen Drittel — bei Gruppenfotos
+       sind dort die Gesichter. Ein Klick oeffnet das ganze Bild. */
+    .text--fotos .text__innen { display: grid; gap: var(--raum-5); align-items: start;
+      grid-template-columns: minmax(0, 1fr) 300px; }
+    .text__fotos { display: flex; flex-direction: column; gap: var(--raum-3); }
+    .text__foto { margin: 0; }
+    .text__foto a { display: block; }
+    .text__foto img { display: block; width: 100%; object-fit: cover; object-position: 50% 25%;
+      border-radius: var(--radius); background: var(--flaeche); }
+    .text__foto--quer img { aspect-ratio: 4 / 3; }
+    .text__foto--hoch { width: 240px; }
+    .text__foto--hoch img { aspect-ratio: 3 / 4; }
+    .text__foto figcaption { font-size: 14px; color: var(--text-leise); margin-top: 6px; line-height: 1.4; }
+    /* Schmal: die Fotos kommen unter den Text, nebeneinander soweit es passt. */
+    @media (max-width: 860px) {
+      .text--fotos .text__innen { grid-template-columns: 1fr; gap: var(--raum-4); }
+      .text__fotos { flex-direction: row; flex-wrap: wrap; gap: var(--raum-2); }
+      .text__foto--quer { width: min(300px, 100%); }
+      .text__foto--hoch { width: min(240px, 100%); }
+    }
     .text__koerper a { color: var(--signal); text-decoration: none;
       border-bottom: 1px solid var(--signal); }
     .text__koerper a:hover { color: var(--signal-hover); border-color: var(--signal-hover); }
@@ -57,14 +86,28 @@ export default {
     // ungueltiger Anker und koennte Markup aufbrechen.
     const anker = String(data.anker || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
     const b = ziel(data.bild);
+    const fotos = (data.bilder || []).filter((f) => ziel(f.pfad));
     const sektion = (innen) => html`
-      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}${raw(b ? ' text--bild' : '')}"${
+      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}${raw(b ? ' text--bild' : fotos.length ? ' text--fotos' : '')}"${
         anker ? raw(` id="${escapeAttr(anker)}"`) : ''}><div class="container">${innen}</div></section>`;
     const text = html`<div class="text__koerper">${absaetze}</div>
         ${data.schluss ? html`<p class="text__schluss">${data.schluss}</p>` : ''}`;
     return sektion(html`
         ${data.titel ? html`<h2 class="text__titel">${data.titel}</h2>` : ''}
-        ${b
+        ${fotos.length
+          ? html`<div class="text__innen">
+              <div>${text}</div>
+              <div class="text__fotos">${fotos.map((f) => {
+                const gross = ziel(f.gross) || ziel(f.pfad);
+                return html`<figure class="text__foto text__foto--${f.format === 'hoch' ? 'hoch' : 'quer'}">
+                  <a href="${raw(escapeAttr(gross))}" target="_blank" rel="noopener">
+                    <img src="${raw(escapeAttr(ziel(f.pfad)))}" alt="${raw(escapeAttr(f.alt || ''))}"
+                         loading="lazy" decoding="async"></a>
+                  ${f.unterschrift ? html`<figcaption>${f.unterschrift}</figcaption>` : ''}
+                </figure>`;
+              })}</div>
+            </div>`
+          : b
           ? html`<div class="text__innen">
               <div>${text}</div>
               <figure class="text__bild text__bild--${data.bildStil === 'logo' ? 'logo' : 'foto'}">

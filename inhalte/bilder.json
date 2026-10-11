@@ -512,6 +512,78 @@
   "mittel": "/bilder/2026-08-summer-mixed-gruppe-800-445e0878.jpg",
   "klein": "/bilder/2026-08-summer-mixed-gruppe-400-b5e08852.jpg"
  },
+ "2026-09-punktrunde-damen-55": {
+  "bereich": "beitraege",
+  "alt": "Vier Spielerinnen in neongelben Trikots vor einer Hecke, zwei stehen, zwei liegen und sitzen auf einem roten Doppelliegestuhl",
+  "breite": 768,
+  "hoehe": 1000,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/2026-09-punktrunde-damen-55-400-f117181f.jpg",
+    "kb": 34
+   }
+  },
+  "gross": "/bilder/2026-09-punktrunde-damen-55-400-f117181f.jpg",
+  "mittel": "/bilder/2026-09-punktrunde-damen-55-400-f117181f.jpg",
+  "klein": "/bilder/2026-09-punktrunde-damen-55-400-f117181f.jpg"
+ },
+ "2026-09-punktrunde-herren-40-ii": {
+  "bereich": "beitraege",
+  "alt": "Neun Männer in orangefarbenen KTC-Trikots lachen gemeinsam in die Kamera, hinter ihnen eine Hecke",
+  "breite": 1000,
+  "hoehe": 750,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/2026-09-punktrunde-herren-40-ii-400-58451bf2.jpg",
+    "kb": 60
+   },
+   "800": {
+    "pfad": "/bilder/2026-09-punktrunde-herren-40-ii-800-f6341461.jpg",
+    "kb": 127
+   }
+  },
+  "gross": "/bilder/2026-09-punktrunde-herren-40-ii-800-f6341461.jpg",
+  "mittel": "/bilder/2026-09-punktrunde-herren-40-ii-800-f6341461.jpg",
+  "klein": "/bilder/2026-09-punktrunde-herren-40-ii-400-58451bf2.jpg"
+ },
+ "2026-09-punktrunde-herren-50-ii": {
+  "bereich": "beitraege",
+  "alt": "Fünf Männer halten lachend Biergläser in die Kamera, im Hintergrund ein Sandplatz und ein Sonnenschirm",
+  "breite": 1000,
+  "hoehe": 750,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/2026-09-punktrunde-herren-50-ii-400-366008ea.jpg",
+    "kb": 35
+   },
+   "800": {
+    "pfad": "/bilder/2026-09-punktrunde-herren-50-ii-800-4cb382b7.jpg",
+    "kb": 129
+   }
+  },
+  "gross": "/bilder/2026-09-punktrunde-herren-50-ii-800-4cb382b7.jpg",
+  "mittel": "/bilder/2026-09-punktrunde-herren-50-ii-800-4cb382b7.jpg",
+  "klein": "/bilder/2026-09-punktrunde-herren-50-ii-400-366008ea.jpg"
+ },
+ "2026-09-punktrunde-juniorinnen-u18": {
+  "bereich": "beitraege",
+  "alt": "Sechs Juniorinnen stehen nebeneinander, die Arme umeinander gelegt, vor einem grünen Sichtschutz am Platz",
+  "breite": 1177,
+  "hoehe": 783,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/2026-09-punktrunde-juniorinnen-u18-400-ed6720d3.jpg",
+    "kb": 27
+   },
+   "800": {
+    "pfad": "/bilder/2026-09-punktrunde-juniorinnen-u18-800-28b51653.jpg",
+    "kb": 91
+   }
+  },
+  "gross": "/bilder/2026-09-punktrunde-juniorinnen-u18-800-28b51653.jpg",
+  "mittel": "/bilder/2026-09-punktrunde-juniorinnen-u18-800-28b51653.jpg",
+  "klein": "/bilder/2026-09-punktrunde-juniorinnen-u18-400-ed6720d3.jpg"
+ },
  "2026-09-punktrunde-u12": {
   "bereich": "beitraege",
   "alt": "Acht Kinder in Tennisbekleidung sitzen und stehen auf einem großen Kletternetz auf einem Spielplatz",

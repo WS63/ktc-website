@@ -113,15 +113,18 @@ if (existsSync(importDatei)) {
       // Das Vorschaubild steht als Name in beitraege.json, nicht als Dateiname:
       // uebersetzt wird er ueber inhalte/bilder.json. Fehlt es, bleibt die Zeile
       // in der Uebersicht ohne Bild — sie verschwindet nicht (P6).
-      bild: bildAdresse(b.bild),
-      bild_alt: bildText(b.bild),
+      // Das erste Foto steht zusaetzlich an der Seite selbst (pages.bild).
+      bild: bildAdresse(b.bilder?.[0]?.bild),
+      bild_alt: bildText(b.bilder?.[0]?.bild),
       art: b.art,
-      // Das Bild steht NUR in der Detailansicht, nicht in der Uebersicht. Ein
-      // Logo (Bereich 'logos') ist kein Foto und bekommt dort keine grosse Flaeche.
+      // Fotos: Anzeigegroesse, Grossfassung zum Anklicken, Alt-Text, Unterschrift,
+      // und das Format aus den Massen des Originals (quer oder hoch).
       blocks: seitenBausteine.beitrag({ ...b, symbol: loadArten()[b.art]?.symbol || '',
-        bildUrl: bildVerzeichnis[b.bild]?.bereich === 'logos' ? ''
-          : (bildVerzeichnis[b.bild]?.gross || bildVerzeichnis[b.bild]?.mittel || ''),
-        bildAlt: bildText(b.bild), bildunterschrift: b.bildunterschrift || '' }),
+        fotos: (b.bilder || []).map((f) => {
+          const v = bildVerzeichnis[f.bild] || {};
+          return { pfad: v.mittel || '', gross: v.gross || '', alt: bildText(f.bild),
+            unterschrift: f.unterschrift || '', format: v.breite >= v.hoehe ? 'quer' : 'hoch' };
+        }).filter((f) => f.pfad) }),
     });
     zaehler[r] = (zaehler[r] || 0) + 1;
   }

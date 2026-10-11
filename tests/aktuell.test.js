@@ -1,4 +1,6 @@
 import { test } from 'node:test';
+import { readFileSync } from 'node:fs';
+import { loadArten } from '../src/config.js';
 import assert from 'node:assert/strict';
 import { renderPage } from '../src/renderer.js';
 import { kuenftige, alleTermine } from '../src/termin-quelle.js';
@@ -210,19 +212,16 @@ test('ein Termin zeigt das Symbol seiner Art, einer ohne Art zeigt keines', () =
   assert.doesNotMatch(html, /<svg/);          // keine zweite Formensprache neben den Emoji
 });
 
-test('die Beitragsseite zeigt das Bild in der Detailansicht und das Symbol im Kopf', async () => {
+test('die Beitragsseite hat das Symbol im Kopf und die Fotos im Textbaustein', async () => {
   const { seitenBausteine } = await import('../src/seiten-teile.js');
-  const mit = seitenBausteine.beitrag({ datum: '2026-05-10', titel: 'T', absaetze: ['x'],
-    symbol: '🏆', bildUrl: '/bilder/foto.jpg', bildAlt: 'Ein Foto' });
-  assert.ok(mit.some((b) => b.type === 'bild' && b.data.pfad === '/bilder/foto.jpg'));
-  assert.match(mit.find((b) => b.type === 'hero').data.pill, /^🏆 /);
-  const ohne = seitenBausteine.beitrag({ datum: '2026-05-10', titel: 'T', absaetze: ['x'] });
-  assert.ok(!ohne.some((b) => b.type === 'bild'));
+  const fotos = [{ pfad: '/bilder/a-800.jpg', gross: '/bilder/a-1600.jpg', alt: 'A', unterschrift: 'Herren 40', format: 'quer' }];
+  const mit = seitenBausteine.beitrag({ datum: '2026-05-10', titel: 'T', absaetze: ['x'], symbol: '🔥', fotos });
+  assert.match(mit.find((b) => b.type === 'hero').data.pill, /^🔥 /);
+  assert.deepEqual(mit.find((b) => b.type === 'richtext').data.bilder, fotos);
+  assert.ok(!mit.some((b) => b.type === 'bild' || b.type === 'galerie'));
+  assert.deepEqual(seitenBausteine.beitrag({ datum: '2026-05-10', titel: 'T', absaetze: ['x'] })
+    .find((b) => b.type === 'richtext').data.bilder, []);
 });
-
-// ── Arten (config/arten.json) ──────────────────────────────────────────
-import { readFileSync } from 'node:fs';
-import { loadArten } from '../src/config.js';
 
 test('die Arten haben je ein Symbol und einen Namen, und es sind nur wenige', () => {
   const arten = loadArten();
@@ -249,20 +248,24 @@ test('die Spieltage tragen die Art spiel', () => {
   assert.equal(t.art, 'spiel');
 });
 
-test('die Beitragsseite hat EIN Bild mit Unterschrift und keine Galerie', async () => {
-  const { seitenBausteine } = await import('../src/seiten-teile.js');
-  const b = seitenBausteine.beitrag({ datum: '2026-05-10', titel: 'T', absaetze: ['x'],
-    bildUrl: '/bilder/foto.jpg', bildAlt: 'Ein Foto', bildunterschrift: 'Die Herren 40', galerie: ['a', 'b'] });
-  assert.equal(b.filter((x) => x.type === 'bild').length, 1);
-  assert.equal(b.find((x) => x.type === 'bild').data.bildunterschrift, 'Die Herren 40');
-  assert.ok(!b.some((x) => x.type === 'galerie'));
-  // das Bild steht oben: vor dem Text
-  assert.ok(b.findIndex((x) => x.type === 'bild') < b.findIndex((x) => x.type === 'richtext'));
+test('Fotos neben dem Text: feste Formate, Unterschrift, Klick auf die Grossfassung', () => {
+  const html = renderPage({ slug: 'b', page_type: 'beitrag', status: 'published', title: 'B',
+    content_json: { blocks: [{ type: 'richtext', data: { absaetze: ['Text'], bilder: [
+      { pfad: '/bilder/q-800.jpg', gross: '/bilder/q-1600.jpg', alt: 'Quer', unterschrift: 'Damen 55', format: 'quer' },
+      { pfad: '/bilder/h-800.jpg', gross: '/bilder/h-1600.jpg', alt: 'Hoch', unterschrift: 'Herren 50', format: 'hoch' },
+      { pfad: 'javascript:alert(1)', alt: 'Böse', format: 'quer' },
+    ] } }] } });
+  assert.match(html, /text__foto--quer/);
+  assert.match(html, /text__foto--hoch/);
+  assert.match(html, /href="\/bilder\/q-1600\.jpg" target="_blank"/);
+  assert.match(html, /<figcaption>Damen 55<\/figcaption>/);
+  assert.equal((html.match(/<figure/g) || []).length, 2);     // das unsichere Ziel faellt weg
+  assert.doesNotMatch(html, /javascript:/);
 });
 
-test('kein Beitragsbild ohne Unterschrift', () => {
+test('kein Beitragsfoto ohne Unterschrift, und jede Unterschrift nennt eine Mannschaft oder ein Ereignis', () => {
   const l = JSON.parse(readFileSync('inhalte/beitraege.json', 'utf8'));
-  for (const b of l.filter((x) => x.bild && !/^logo-/.test(x.bild))) {
-    assert.ok(b.bildunterschrift, `${b.slug}: Bild ohne Unterschrift`);
+  for (const b of l) for (const f of b.bilder || []) {
+    assert.ok(f.bild && f.unterschrift, `${b.slug}: Foto ohne Name oder Unterschrift`);
   }
 });

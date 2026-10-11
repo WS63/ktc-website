@@ -197,3 +197,48 @@ test('Ergebnisseite: Heimmannschaft links, Ausgang als WORT, MSG-Etikett, keine 
   assert.match(html, /erg__msg/);
   assert.match(html, /Stand: Heute, 19:40 Uhr/);
 });
+
+// ── Startseite: frische Ergebnisse ─────────────────────────────────────
+import { neuesteErgebnisse } from '../src/ergebnisse.js';
+
+const fertig = (o) => sp({ gespielt: true, matchpunkte: '5:1', ...o });
+
+test('Startseite: nur Ergebnisse der letzten zwei Tage, zuletzt gemeldetes zuerst', () => {
+  const jetzt = berlinEpoch('2026-05-10', '15:00');
+  const r = neuesteErgebnisse([
+    fertig({ mannschaft: 'alt', datum: '2026-05-07' }),                                               // drei Tage her: zu alt
+    fertig({ mannschaft: 'A', datum: '2026-05-09', gemeldet_um: '2026-05-09T12:00:00Z' }),
+    fertig({ mannschaft: 'B', datum: '2026-05-10', gemeldet_um: '2026-05-10T09:00:00Z' }),            // zuletzt gemeldet
+    fertig({ mannschaft: 'C', datum: '2026-05-09', gemeldet_um: '2026-05-09T20:00:00Z' }),
+    fertig({ mannschaft: 'D', datum: '2026-05-10', gemeldet_um: '2026-05-10T07:00:00Z' }),
+    sp({ mannschaft: 'offen', datum: '2026-05-10' }),                                                  // noch ohne Ergebnis
+  ], { jetzt, n: 3 });
+  assert.deepEqual(r.eintraege.map((e) => e.mannschaft), ['B', 'D', 'C']);
+  assert.equal(r.weitere, 1);                                // A kommt noch dazu
+});
+
+test('Startseite: ohne frische Ergebnisse eine leere Liste — die Spalte zeigt dann wieder Termine', () => {
+  const jetzt = berlinEpoch('2026-05-20', '12:00');
+  assert.deepEqual(neuesteErgebnisse([fertig({ datum: '2026-05-09' })], { jetzt }), { eintraege: [], weitere: 0 });
+  assert.deepEqual(neuesteErgebnisse([], { jetzt }), { eintraege: [], weitere: 0 });
+  // ein Spiel in der Zukunft zaehlt nicht, auch wenn jemand ein Ergebnis eingetragen hat
+  assert.equal(neuesteErgebnisse([fertig({ datum: '2026-05-21' })], { jetzt }).eintraege.length, 0);
+});
+
+test('Startseite: die rechte Spalte wechselt zwischen Ergebnissen und Terminen', () => {
+  const seite = (ergebnisse) => renderPage({ slug: 's', page_type: 'home', status: 'published', title: 'S',
+    content_json: { blocks: [{ type: 'aktuell', data: { termineHref: '/kalender/', ergebnisseHref: '/ergebnisse/' } }] } },
+  { dynamicData: { aktuell: { beitraege: [], termine: [{ datum: '2027-04-17', tag: '17. April', titel: 'Saisoneröffnung' }], ergebnisse } } });
+  const mit = seite({ eintraege: [{ mannschaft: 'Damen 40', sg: '', zuhause: false, gegner: 'TV Ruppertshain',
+    matchpunkte: '5:1', ausgang: 'Niederlage' }], weitere: 4 });
+  assert.match(mit, /Gerade gemeldet/);
+  assert.match(mit, /<span class="sie">TV Ruppertshain<\/span> - <span class="wir">Damen 40<\/span>/);
+  assert.match(mit, /und 4 weitere/);
+  assert.match(mit, /Alle Ergebnisse →/);
+  assert.match(mit, /Alle Termine →/);                       // der Weg zu den Terminen bleibt
+  assert.doesNotMatch(mit, /Saisoneröffnung/);
+  const ohne = seite({ eintraege: [], weitere: 0 });
+  assert.match(ohne, /Nächste Termine/);
+  assert.match(ohne, /Saisoneröffnung/);
+  assert.doesNotMatch(ohne, /Gerade gemeldet/);
+});

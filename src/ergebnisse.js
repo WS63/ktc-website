@@ -90,3 +90,35 @@ export function ansicht(spiele, { we = '', jetzt = Date.now() } = {}) {
     nachher: i < alle.length - 1 && alle[i + 1].von <= heute ? { we: alle[i + 1].von, text: wochenendeText(alle[i + 1]) } : null,
   };
 }
+
+/**
+ * Die zuletzt gespielten Ergebnisse fuer die Startseite — nur, solange sie frisch sind.
+ *
+ * 'Frisch' heisst: das Spiel war gestern oder vorgestern (hoechstens zwei Kalendertage
+ * her). Danach ist ein Ergebnis auf der Startseite kein Ereignis mehr, sondern
+ * Altpapier; wer es sucht, findet es unter /ergebnisse/. Ohne frische Ergebnisse
+ * gibt die Funktion eine leere Liste zurueck, und die Startseite zeigt wieder die
+ * naechsten Termine.
+ *
+ * Sortiert wird nach der ERSTEN Meldung (was zuletzt hereinkam, steht oben), und
+ * wo die fehlt, nach Spielbeginn.
+ *
+ * @returns { eintraege: die neuesten n, weitere: wie viele es sonst noch gibt, tag: 'JJJJ-MM-TT' }
+ */
+export function neuesteErgebnisse(spiele, { jetzt = Date.now(), n = 3, tage = 2 } = {}) {
+  const heute = berlinTag(jetzt);
+  const grenze = tagPlus(heute, -tage);
+  const frisch = spiele.filter((s) => s.gespielt && s.datum >= grenze && s.datum <= heute && ergebnis(s));
+  if (!frisch.length) return { eintraege: [], weitere: 0 };
+
+  const wann = (s) => (s.gemeldet_um ? Date.parse(s.gemeldet_um) : berlinEpoch(s.datum, s.uhrzeit || '12:00'));
+  frisch.sort((a, b) => wann(b) - wann(a));
+
+  return {
+    eintraege: frisch.slice(0, n).map((s) => ({
+      mannschaft: s.mannschaft, sg: s.sg || '', zuhause: s.zuhause, gegner: s.gegner,
+      matchpunkte: s.matchpunkte, ausgang: ergebnis(s).ausgang,
+    })),
+    weitere: Math.max(0, frisch.length - n),
+  };
+}

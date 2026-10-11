@@ -4,7 +4,7 @@
   "farben": {
     "_flaechen": "Die Hintergrund-Treppe. Hell ist der Normalfall; 'dunkel' ist die Ausnahme für einen einzelnen Abschnitt, der Kontrast braucht — der Abschnitt bekommt .section--dunkel, die Tokens kippen mit, die Bausteine bleiben unverändert.",
     "grund":        "#ffffff",
-    "flaeche":      "#eff1f4",
+    "flaeche":      "#e3e7ec",
     "karte":        "#ffffff",
     "erhoben":      "#ededed",
     "ueberfahren":  "#e4e4e4",

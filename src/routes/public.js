@@ -7,7 +7,7 @@ import { zaehle } from '../zaehler.js';
 import { alleTermine, kuenftige, spielplanHinweis } from '../termin-quelle.js';
 import { suchtext, begriffe, beitraegeFiltern, termineFiltern } from '../suche.js';
 import { spielstand, infoStand } from '../spielstand.js';
-import { ansicht } from '../ergebnisse.js';
+import { ansicht, neuesteErgebnisse } from '../ergebnisse.js';
 import { berlinWann } from '../zeit.js';
 
 const router = Router();
@@ -126,7 +126,9 @@ async function dynamischeDaten(inhalt, page) {
     const b = inhalt.blocks.find((x) => x?.type === 'aktuell');
     const nB = Number(b?.data?.anzahlBeitraege) > 0 ? Number(b.data.anzahlBeitraege) : 2;
     const { gesamt, eintraege } = await beitraegeLaden(nB, 0);
-    daten.aktuell = { gesamt, beitraege: eintraege, termine: mitSymbol(kuenftige(alleTermine())) };
+    daten.aktuell = { gesamt, beitraege: eintraege, termine: mitSymbol(kuenftige(alleTermine())),
+      // Am Spieltag stehen hier die frischen Ergebnisse statt der naechsten Termine.
+      ergebnisse: neuesteErgebnisse(spielstand(), { jetzt: Date.now() }) };
   }
   if (typen.has('ergebnisse')) {
     const { stand } = infoStand();
@@ -288,7 +290,7 @@ router.get(/^\/(.*)$/, async (req, res, next) => {
     const hatTermine = inhalt.blocks.some((b) => b?.type === 'termine' || b?.type === 'aktuell');
     if (q || we) return res.type('html').set('Cache-Control', 'no-store').send(html);
     // Der Spielstand aendert sich im Lauf des Tages: eine Minute, nicht bis Mitternacht.
-    if (inhalt.blocks.some((b) => b?.type === 'ergebnisse')) {
+    if (inhalt.blocks.some((b) => b?.type === 'ergebnisse' || b?.type === 'aktuell')) {
       return res.type('html').send(legen(pfad, html, Date.now() + 60 * 1000));
     }
     res.type('html').send(legen(pfad, html, hatTermine ? bisMitternacht() : 0));

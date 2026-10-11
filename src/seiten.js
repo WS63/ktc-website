@@ -210,6 +210,7 @@ export const seiten = [
       grund: 'ruhig',
       beitraegeHref: '/aktuelles/',
       termineHref: '/kalender/',
+      ergebnisseHref: '/ergebnisse/',
     }},
     { type: 'cards', data: {
       // VIER Karten, nicht fuenf. Der Container misst 1120 px, abzueglich

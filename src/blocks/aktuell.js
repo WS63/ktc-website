@@ -24,6 +24,9 @@ export default {
     beitraege: { type: 'auto', default: [], label: 'Beiträge — kommen aus der Datenbank' },
     gesamt:    { type: 'auto', default: 0,  label: 'Zahl aller Beiträge — gerechnet' },
     termine:   { type: 'auto', default: [], label: 'Termine — kommen aus inhalte/termine.json' },
+    ergebnisse: { type: 'auto', default: null, label: 'Frische Ergebnisse — kommen aus dem Spielstand' },
+    ergebnisseTitel: { type: 'text', default: 'Gerade gemeldet', label: 'Überschrift, wenn Ergebnisse da sind' },
+    ergebnisseHref: { type: 'text', default: '', label: 'Ziel des Links unter den Ergebnissen' },
     anzahlBeitraege: { type: 'text', default: '2', label: 'So viele Beiträge zeigen' },
     anzahlTermine:   { type: 'text', default: '3', label: 'So viele Termine zeigen' },
     leerBeitraege: { type: 'text', default: 'Hier stehen bald die Neuigkeiten aus dem Verein.',
@@ -76,8 +79,17 @@ export default {
     .aktuell__leer { font-size: var(--fs-sm); color: var(--text-leise); padding: var(--raum-2) 0;
       border-top: 1px solid var(--linie); }
 
+    /* Frische Ergebnisse in der rechten Spalte: Paarung, Zahl, Ausgang — eine Zeile je Spiel. */
+    .aktuell__erg { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 2px 10px;
+      align-items: baseline; padding: 8px 0; border-top: 1px solid var(--linie); font-size: var(--fs-sm); }
+    .aktuell__erg .sie { color: var(--text-leise); }
+    .aktuell__erg .wir { font-weight: 600; }
+    .aktuell__erg-zahl { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+    .aktuell__erg-aus { color: var(--text-leise); font-size: 14px; white-space: nowrap; min-width: 6.2em; }
+    .aktuell__erg-weitere { font-size: 14px; color: var(--text-leise); margin: 6px 0 0; }
     .aktuell__mehr { display: inline-block; margin-top: var(--raum-2); font-size: var(--fs-md);
       color: var(--signal); text-decoration: none; border-bottom: 1px solid transparent; }
+    .aktuell__mehr + .aktuell__mehr { margin-left: var(--raum-3); }
     .aktuell__mehr:hover { border-bottom-color: var(--signal); }
 
     @media (max-width: 860px) {
@@ -131,9 +143,32 @@ export default {
       ${links(data.termineLabel, data.termineHref)}
     </div>`;
 
+    // Am Spieltag wechselt die rechte Spalte: statt der naechsten Termine stehen dort
+    // die Ergebnisse, die gerade hereingekommen sind. Ohne frische Ergebnisse bleibt
+    // es bei den Terminen — die Spalte ist nie leer. Die Termine sind dann einen Link
+    // weiter ('Alle Termine'), der Weg dorthin bleibt.
+    const erg = data.ergebnisse?.eintraege || [];
+    const AUSGANG = { Sieg: ['🟢', 'Sieg'], Unentschieden: ['🟡', 'Remis'], Niederlage: ['🔴', 'Niederlage'] };
+    const spalteErgebnisse = html`<div>
+      <h2>${data.ergebnisseTitel}</h2>
+      ${erg.map((e) => {
+        const [sym, wort] = AUSGANG[e.ausgang] || [];
+        const wir = html`<span class="wir">${e.mannschaft}</span>`;
+        const sie = html`<span class="sie">${e.gegner}</span>`;
+        return html`<div class="aktuell__erg">
+          <span>${e.zuhause ? html`${wir} - ${sie}` : html`${sie} - ${wir}`}</span>
+          <span class="aktuell__erg-zahl">${e.matchpunkte}</span>
+          <span class="aktuell__erg-aus"><span aria-hidden="true">${sym}</span> ${wort}</span>
+        </div>`;
+      })}
+      ${data.ergebnisse?.weitere ? html`<p class="aktuell__erg-weitere">und ${data.ergebnisse.weitere} weitere</p>` : ''}
+      ${links('Alle Ergebnisse', data.ergebnisseHref)}
+      ${links(data.termineLabel, data.termineHref)}
+    </div>`;
+
     return html`
       <section class="section aktuell${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}"><div class="container">
-        <div class="aktuell__gitter">${spalteBeitraege}${spalteTermine}</div>
+        <div class="aktuell__gitter">${spalteBeitraege}${erg.length ? spalteErgebnisse : spalteTermine}</div>
       </div></section>`;
   },
 };

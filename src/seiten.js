@@ -763,7 +763,7 @@ export const seiten = [
     { type: 'richtext', data: {
       titel: '6. Mitgliedschaft und Platzbuchung',
       absaetze: [
-        'Anmeldung, Mitgliederverwaltung und Platzbuchung laufen nicht über diese Website, sondern über das Buchungs- und Verwaltungssystem eBuSy. Wenn du den Link anklickst, verlässt du unsere Seite, er öffnet in einem neuen Fenster. Dort gelten die Datenschutzhinweise des Betreibers.',
+        'Anmeldung, Mitgliederverwaltung und Platzbuchung laufen nicht über diese Website, sondern über das Buchungs- und Verwaltungssystem eBuSy. Wenn du den Link anklickst, verlässt du unsere Seite, er öffnet in einem neuen Fenster. Dort gelten die Datenschutzhinweise des Betreibers. Der Verein nutzt eBuSy aufgrund eines Vertrags mit dem Betreiber über die Software und ihre Module für Platzbelegung und Mitgliederverwaltung.',
         'Diese Website ist von der Mitgliederverwaltung entkoppelt und speichert keine Mitgliedsdaten. Die Daten unserer Mitglieder verarbeitet der Verein in eBuSy zur Durchführung der Mitgliedschaft (Art. 6 Abs. 1 lit. b DSGVO). Auskunft, Berichtigung und Löschung dieser Daten erfolgen dort, über den Verein: schreib dazu an [{{facts.verein.email}}](mailto:{{facts.verein.email}}). Wir verlinken außerdem auf Seiten des Hessischen Tennisverbands und weiterer Anbieter. Beim Anklicken überträgt dein Browser Daten an den jeweiligen Anbieter. Darauf haben wir keinen Einfluss.',
       ],
     }},

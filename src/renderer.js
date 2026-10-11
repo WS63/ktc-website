@@ -77,7 +77,7 @@ export function renderPage(page, { dynamicData = {} } = {}) {
 <meta property="og:site_name" content="${escapeHtml(site.name)}">
 <meta name="twitter:card" content="summary_large_image">
 ${(page.og_image || site.ogBild) ? `<meta property="og:image" content="${escapeHtml(site.domain + (page.og_image || site.ogBild))}">` : ''}
-${(page.status === 'published' && site.suchmaschinen !== false)
+${(page.status === 'published' && site.suchmaschinen !== false && !page.suche)
   ? '' : '<meta name="robots" content="noindex, nofollow">'}
 <style>${themeCss()}${css}</style>
 </head>

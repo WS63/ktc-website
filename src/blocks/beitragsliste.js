@@ -1,4 +1,5 @@
 import { html, raw, escapeAttr, ziel } from './_util.js';
+import { sucheFeld, SUCHE_CSS } from './_suche.js';
 
 export default {
   name: 'beitragsliste',
@@ -13,12 +14,15 @@ export default {
     seite:    { type: 'auto', default: 1, label: 'Welche Blätterseite — kommt aus der Route' },
     seiten:   { type: 'auto', default: 1, label: 'Wie viele Blätterseiten — gerechnet' },
     basis:    { type: 'auto', default: '', label: 'Pfad der Übersicht, für die Blätterlinks' },
+    suche:    { type: 'auswahl', default: 'aus', label: 'Suchfeld über der Liste', optionen: ['aus', 'an'] },
+    q:        { type: 'auto', default: '', label: 'Suchtext — kommt aus der Adresse' },
     leerText: { type: 'text', default: 'Noch keine Beiträge.', label: 'Text, wenn nichts da ist' },
     anzahl:   { type: 'text', default: '', label: 'Höchstens so viele zeigen — leer heißt alle' },
     mehrLabel:{ type: 'text', default: '', label: 'Link unter der Liste' },
     mehrHref: { type: 'text', default: '', label: 'Ziel des Links' },
   },
   css: `
+    ${SUCHE_CSS}
     .liste__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: 4px; }
     .liste__zaehler { font-size: 15px; color: var(--text-leise); margin-bottom: var(--raum-3); }
     /* Links ein Symbol, rechts Datum, Titel und Text. Das Symbol (ein Emoji)
@@ -67,10 +71,15 @@ export default {
     // Was der Mensch sieht, ist die Gesamtzahl — nicht, wie viele Zeilen die
     // Abfrage geliefert hat.
     const gesamt = Number(data.gesamt) > 0 ? Number(data.gesamt) : n;
+    // Das Suchfeld steht ueber der Liste, auch wenn eine Suche nichts findet —
+    // sonst muesste man mit der Zurueck-Taste wieder heraus.
+    const suchen = data.suche === 'an'
+      ? sucheFeld({ aktion: data.basis, q: data.q, treffer: n, platzhalter: 'Beiträge durchsuchen …' }) : '';
     if (!n) {
       return html`<section class="section"><div class="container">
         ${data.titel ? html`<h2 class="liste__titel">${data.titel}</h2>` : ''}
-        <p class="liste__zaehler">${data.leerText}</p>
+        ${suchen}
+        <p class="liste__zaehler">${data.q ? 'Dazu gibt es keinen Beitrag. Probier ein anderes Wort.' : data.leerText}</p>
       </div></section>`;
     }
     const eintraege = liste.map((e) => {
@@ -91,7 +100,8 @@ export default {
     return html`
       <section class="section"><div class="container">
         ${data.titel ? html`<h2 class="liste__titel">${data.titel}</h2>` : ''}
-        ${liste.length < gesamt
+        ${suchen}
+        ${liste.length < gesamt || data.q
           ? ''
           : html`<p class="liste__zaehler">${gesamt} ${gesamt === 1 ? 'Beitrag' : 'Beiträge'}</p>`}
         <div>${eintraege}</div>

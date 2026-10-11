@@ -535,6 +535,7 @@ export const seiten = [
       bild: bild('club-newspaper'), bildAlt: bildAlt('club-newspaper'),
     }},
     { type: 'beitragsliste', data: {
+      suche: 'an',
       leerText: 'Noch keine Beiträge. Sobald etwas passiert, steht es hier.',
     }},
     ASSISTENT,
@@ -556,6 +557,7 @@ export const seiten = [
       bild: bild('club-kalender'), bildAlt: bildAlt('club-kalender'),
     }},
     { type: 'termine', data: {
+      suche: 'an',
       vorspann: 'Abgelaufene Termine verschwinden von selbst — was hier steht, kommt noch.',
       leerText: 'Zurzeit steht nichts an. Sobald die Termine der neuen Saison feststehen, erscheinen sie hier.',
       // Die Termine stehen NICHT hier, sondern in inhalte/termine.json —

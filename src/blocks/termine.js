@@ -1,4 +1,5 @@
 import { html, raw, escapeAttr, ziel, markdownInline } from './_util.js';
+import { sucheFeld, SUCHE_CSS } from './_suche.js';
 
 /**
  * Termine — der Clubkalender.
@@ -25,6 +26,9 @@ export default {
     termine:  { type: 'auto', default: [],
                 label: 'Termine — kommen aus inhalte/termine.json' },
     stand:    { type: 'auto',  default: '', label: 'Hinweis zur Herkunft der Spieltermine — kommt aus dem Import' },
+    suche:    { type: 'auswahl', default: 'aus', label: 'Suchfeld über der Liste', optionen: ['aus', 'an'] },
+    q:        { type: 'auto',  default: '', label: 'Suchtext — kommt aus der Adresse' },
+    basis:    { type: 'auto',  default: '', label: 'Adresse der Seite, für das Suchformular' },
     leerText: { type: 'text',  default: 'Zurzeit stehen keine Termine an.',
                 label: 'Text, wenn nichts ansteht' },
     anzahl:   { type: 'text',  default: '', label: 'Höchstens so viele zeigen — leer heißt alle' },
@@ -32,6 +36,7 @@ export default {
     mehrHref: { type: 'text',  default: '', label: 'Ziel des Links' },
   },
   css: `
+    ${SUCHE_CSS}
     .termine__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: 4px; }
     .termine__vorspann { font-size: var(--fs-sm); color: var(--text-leise);
       margin-bottom: var(--raum-3); max-width: var(--breite-text); }
@@ -102,10 +107,13 @@ export default {
       ${data.titel ? html`<h2 class="termine__titel">${data.titel}</h2>` : ''}
       ${data.vorspann ? html`<p class="termine__vorspann">${data.vorspann}</p>` : ''}`;
 
+    const suchen = data.suche === 'an'
+      ? sucheFeld({ aktion: data.basis, q: data.q, treffer: liste.length, platzhalter: 'Termine und Mannschaften durchsuchen …' }) : '';
     if (!liste.length) {
       return html`<section class="section"><div class="container">
         ${kopf}
-        <p class="termine__vorspann">${data.leerText}</p>
+        ${suchen}
+        <p class="termine__vorspann">${data.q ? 'Dazu gibt es keinen Termin. Probier ein anderes Wort.' : data.leerText}</p>
       </div></section>`;
     }
 
@@ -142,6 +150,7 @@ export default {
     return html`
       <section class="section"><div class="container">
         ${kopf}
+        ${suchen}
         <div>${zeilen}</div>
         ${data.stand && liste.some((t) => (t.gruppen || []).length)
           ? html`<p class="termine__stand">${data.stand}</p>` : ''}

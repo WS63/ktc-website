@@ -5,6 +5,7 @@ import { loadSite, loadArten } from '../config.js';
 import { holen, legen, bisMitternacht } from '../cache.js';
 import { zaehle } from '../zaehler.js';
 import { alleTermine, kuenftige, spielplanHinweis } from '../termin-quelle.js';
+import { suchtext, begriffe, beitraegeFiltern, termineFiltern } from '../suche.js';
 
 const router = Router();
 
@@ -98,6 +99,13 @@ async function dynamischeDaten(inhalt, page) {
     const uebersicht = page.page_type === 'aktuelles';
     const grenze = uebersicht ? JE_SEITE : GRENZE_START;
     const seite = uebersicht ? Math.max(1, Number(page.seitenzahl) || 1) : 1;
+    // Mit Suchtext: ALLE Treffer, ohne Blaettern. Die Treffer kommen aus derselben
+    // Quelle wie die Liste (P3) und werden hier nur gefiltert.
+    if (page.suche) {
+      const treffer = await beitraegeSuchen(page.suche);
+      daten.beitragsliste = { gesamt: treffer.length, seite: 1, seiten: 1, basis: '/aktuelles/',
+        eintraege: treffer, q: page.suche };
+    } else {
     const { gesamt, eintraege } = await beitraegeLaden(grenze, (seite - 1) * grenze);
     daten.beitragsliste = {
       gesamt,
@@ -106,6 +114,7 @@ async function dynamischeDaten(inhalt, page) {
       basis: '/aktuelles/',
       eintraege,
     };
+    }
   }
   // Der Startseiten-Baustein 'aktuell' bekommt dieselben Beitraege und
   // dieselben Termine wie /aktuelles/ und /kalender/ — andere Ansicht, gleiche
@@ -121,7 +130,11 @@ async function dynamischeDaten(inhalt, page) {
     // ist eine reine Funktion (P1). Ein new Date() im Baustein machte sie vom
     // Tag abhaengig — dieselbe Seite saehe im April anders aus als im Mai, und
     // kein Test koennte das festhalten.
-    daten.termine = { termine: mitSymbol(kuenftige(alleTermine())), stand: spielplanHinweis() };
+    const kommend = kuenftige(alleTermine());
+    daten.termine = {
+      termine: mitSymbol(page.suche ? termineFiltern(kommend, page.suche) : kommend),
+      stand: spielplanHinweis(), q: page.suche || '', basis: `/${page.slug}/`,
+    };
   }
   return daten;
 }
@@ -143,6 +156,24 @@ function mitSymbol(termine) {
  * 'Alle Beitraege (2)' waere schlicht falsch, wenn es 14 sind.
  * Number(), weil COUNT(*) auf Postgres Text liefert und nicht Zahl.
  */
+/**
+ * Alle veroeffentlichten Beitraege, die den Suchtext enthalten — neueste zuerst.
+ * Geholt wird alles und in JavaScript gefiltert (siehe src/suche.js); bei
+ * einigen Dutzend Beitraegen im Jahr ist das billiger als eine zweite
+ * Suchlogik in SQL, die je nach Datenbank anders waere.
+ */
+async function beitraegeSuchen(q) {
+  const zeilen = await query(
+    `SELECT slug, title, description, created_at, art, content_json FROM pages
+     WHERE page_type = 'beitrag' AND status = 'published' ORDER BY created_at DESC`);
+  return beitraegeFiltern(zeilen, q).map((z) => ({
+    datum: new Date(z.created_at).toLocaleDateString('de-DE',
+      { day: 'numeric', month: 'long', year: 'numeric' }),
+    titel: z.title, text: z.description, href: `/aktuelles/${z.slug}/`,
+    symbol: loadArten()[z.art]?.symbol || '', symbolText: loadArten()[z.art]?.label || '',
+  }));
+}
+
 async function beitraegeLaden(grenze, versatz) {
   const zeilen = await query(
     `SELECT slug, title, description, created_at, bild, bild_alt, art FROM pages
@@ -221,17 +252,28 @@ router.get(/^\/(.*)$/, async (req, res, next) => {
   try {
     const pfad = (req.params[0] || 'start').replace(/\/+$/, '') || 'start';
 
-    const zwischen = holen(pfad);
-    if (zwischen) { zaehle(req.path); return res.type('html').send(zwischen); }
+    // Eine Seite mit Suchtext (?q=…) wird nie aus dem Speicher geholt und nie
+    // hineingelegt: der Speicher kennt nur den Pfad, und jeder Suchtext waere
+    // sonst fuer alle die richtige Antwort.
+    const q = suchtext(req.query.q);
+    if (!q) {
+      const zwischen = holen(pfad);
+      if (zwischen) { zaehle(req.path); return res.type('html').send(zwischen); }
+    }
 
-    const page = await seiteFinden(pfad);
-    if (!page) return next();
-    const inhalt = JSON.parse(page.content_json);
+    const geladen = await seiteFinden(pfad);
+    if (!geladen) return next();
+    const inhalt = JSON.parse(geladen.content_json);
+    // Nur Seiten, die ein Suchfeld haben, nehmen den Suchtext an.
+    const suchbar = begriffe(q).length > 0 && inhalt.blocks.some((b) =>
+      ['beitragsliste', 'termine'].includes(b?.type) && b.data?.suche === 'an');
+    const page = suchbar ? { ...geladen, suche: q } : geladen;
     const html = renderPage(page, { dynamicData: await dynamischeDaten(inhalt, page) });
     zaehle(req.path);
     // Eine Seite mit Terminen gilt nur bis Mitternacht: danach kann ein
     // Termin vorbei sein, und der Speicher wuesste nichts davon.
     const hatTermine = inhalt.blocks.some((b) => b?.type === 'termine' || b?.type === 'aktuell');
+    if (q) return res.type('html').set('Cache-Control', 'no-store').send(html);
     res.type('html').send(legen(pfad, html, hatTermine ? bisMitternacht() : 0));
   } catch (err) { next(err); }
 });

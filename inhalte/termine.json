@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Die Vereinstermine — EINE Quelle für Clubkalender und Startseite (P3). Datum als JJJJ-MM-TT, art ist wettspiel, verein oder sonstiges. Abgelaufene Termine blendet die Website selbst aus, hier muss nichts gelöscht werden. Nach einer Änderung den Server neu starten: fertige Seiten liegen bis Mitternacht im Speicher. Spieltage der Medenrunde stehen NICHT hier: sie kommen aus dem HTV-Import (npm run spielplan).",
+  "_hinweis": "Die Vereinstermine — EINE Quelle für Clubkalender und Startseite (P3). Datum als JJJJ-MM-TT, art ist wettspiel, verein oder sonstiges. Abgelaufene Termine blendet die Website selbst aus, hier muss nichts gelöscht werden. Nach einer Änderung den Server neu starten: fertige Seiten liegen bis Mitternacht im Speicher. Spieltage der Medenrunde stehen NICHT hier: sie kommen aus dem HTV-Import (npm run spielplan). Optional je Termin: \"symbol\" (ein Emoji) ersetzt das Formzeichen der Art.",
   "_achtung": "Die vier Einträge unten sind BEISPIELE aus Stufe 2, keine echten Termine. Ersetzen, sobald der Vorstand die Termine der Saison liefert.",
   "termine": [
     {
@@ -8,7 +8,8 @@
       "art": "verein",
       "titel": "Saisoneröffnung",
       "text": "Start in die Freiluftsaison mit Schleifchenturnier und anschließendem Grillen.",
-      "ort": "Clubhaus und Plätze"
+      "ort": "Clubhaus und Plätze",
+      "symbol": "🎉"
     },
     {
       "datum": "2027-05-08",
@@ -16,14 +17,16 @@
       "art": "verein",
       "titel": "Arbeitseinsatz",
       "text": "Gemeinsam die Anlage herrichten. Wer mitmacht, bekommt Frühstück.",
-      "ort": "Treffpunkt am Clubhaus"
+      "ort": "Treffpunkt am Clubhaus",
+      "symbol": "🧹"
     },
     {
       "datum": "2027-06-12",
       "uhrzeit": "10:00",
       "art": "sonstiges",
       "titel": "Tag der offenen Tür",
-      "text": "Schläger ausprobieren, Platz testen, Leute kennenlernen. Ohne Anmeldung."
+      "text": "Schläger ausprobieren, Platz testen, Leute kennenlernen. Ohne Anmeldung.",
+      "symbol": "🚪"
     }
   ]
 }

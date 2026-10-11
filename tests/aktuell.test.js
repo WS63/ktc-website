@@ -185,3 +185,36 @@ test('Demo: SPIELPLAN_DEMO=1 verschiebt die Termine, aber echt:true nie — der 
   assert.deepEqual(an.echt, ['2026']);       // Spielplan der Saison 2026, unverschoben
   assert.ok(!an.normal.includes('2026'));    // im Demo-Modus liegt alles in der Zukunft
 });
+
+// ── Symbole (Emoji) statt Vorschaubild ─────────────────────────────────
+test('die Beitragsliste zeigt ein Symbol und kein Vorschaubild', () => {
+  const html = renderPage({ slug: 'a', page_type: 'standard', status: 'published', title: 'A',
+    content_json: { blocks: [{ type: 'beitragsliste', data: {} }] } },
+  { dynamicData: { beitragsliste: { gesamt: 2, eintraege: [
+    { datum: '1. Mai 2026', titel: 'Mit Symbol', symbol: '🏆', href: '/aktuelles/a/', bild: '/bilder/x.jpg' },
+    { datum: '2. Mai 2026', titel: 'Ohne Symbol', href: '/aktuelles/b/' },
+  ] } } });
+  assert.match(html, /class="eintrag__symbol" aria-hidden="true">🏆</);
+  assert.equal((html.match(/eintrag__symbol"/g) || []).length, 1);   // nur der erste hat eines
+  assert.doesNotMatch(html, /<img/);                                 // Bilder stehen in der Detailansicht
+});
+
+test('ein Termin mit Symbol zeigt das Emoji statt des Formzeichens, einer ohne behaelt es', () => {
+  const html = renderPage({ slug: 'k', page_type: 'standard', status: 'published', title: 'K',
+    content_json: { blocks: [{ type: 'termine', data: {} }] } }, { dynamicData: { termine: { termine: [
+    { datum: '2027-05-01', tag: '1. Mai', titel: 'Mit', art: 'verein', symbol: '🎉' },
+    { datum: '2027-05-02', tag: '2. Mai', titel: 'Ohne', art: 'verein' },
+  ] } } });
+  assert.match(html, /termin__emoji" aria-hidden="true">🎉</);
+  assert.equal((html.match(/termin__zeichen"/g) || []).length, 1);
+});
+
+test('die Beitragsseite zeigt das Bild in der Detailansicht und das Symbol im Kopf', async () => {
+  const { seitenBausteine } = await import('../src/seiten-teile.js');
+  const mit = seitenBausteine.beitrag({ datum: '2026-05-10', titel: 'T', absaetze: ['x'],
+    symbol: '🏆', bildUrl: '/bilder/foto.jpg', bildAlt: 'Ein Foto' });
+  assert.ok(mit.some((b) => b.type === 'bild' && b.data.pfad === '/bilder/foto.jpg'));
+  assert.match(mit.find((b) => b.type === 'hero').data.pill, /^🏆 /);
+  const ohne = seitenBausteine.beitrag({ datum: '2026-05-10', titel: 'T', absaetze: ['x'] });
+  assert.ok(!ohne.some((b) => b.type === 'bild'));
+});

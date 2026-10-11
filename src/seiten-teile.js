@@ -16,10 +16,14 @@ export const seitenBausteine = {
       aktionLabel: 'Platz buchen', aktionHref: '{{facts.links.buchung}}',
     }},
     { type: 'hero', data: {
-      pill: new Date(b.datum).toLocaleDateString('de-DE',
-        { day: 'numeric', month: 'long', year: 'numeric' }),
+      pill: `${b.symbol ? b.symbol + ' ' : ''}${new Date(b.datum).toLocaleDateString('de-DE',
+        { day: 'numeric', month: 'long', year: 'numeric' })}`,
       titel: b.titel,
     }},
+    // Das Bild gehoert in die Detailansicht. In der Uebersicht steht stattdessen
+    // das Symbol — ein Bild je Zeile machte aus fuenfzig Beitraegen im Jahr
+    // einen Flickenteppich, und nicht jeder Beitrag hat eines.
+    ...(b.bildUrl ? [{ type: 'bild', data: { pfad: b.bildUrl, alt: b.bildAlt || '', breite: 'text' } }] : []),
     { type: 'richtext', data: { absaetze: b.absaetze } },
     { type: 'cards', data: {
       karten: [{ titel: 'Zurück zur Übersicht',

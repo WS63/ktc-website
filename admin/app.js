@@ -190,6 +190,7 @@ async function oeffneSeite(id) {
     slug: el('input', { value: AKTUELL.slug || '' }),
     description: el('textarea', { style: 'min-height:62px' }),
     og_image: el('input', { value: AKTUELL.og_image || '', placeholder: '/uploads/…' }),
+    symbol: el('input', { value: AKTUELL.symbol || '', placeholder: '🎾', maxlength: 16, style: 'width:6em;font-size:22px' }),
   };
   felder.description.value = AKTUELL.description || '';
 
@@ -201,6 +202,7 @@ async function oeffneSeite(id) {
   const sammeln = () => ({
     title: felder.title.value, slug: felder.slug.value,
     description: felder.description.value, og_image: felder.og_image.value,
+    symbol: felder.symbol.value,
     content_json: AKTUELL.content_json,
   });
 
@@ -239,6 +241,9 @@ async function oeffneSeite(id) {
       el('div', { style: 'margin-top:14px' },
         el('label', { text: 'Beschreibung für Google und beim Teilen' }), felder.description,
         el('p', { class: 'hinweis', text: 'Rund 150 Zeichen. Was hier steht, liest jemand im Suchergebnis.' })),
+      el('div', { style: 'margin-top:14px' },
+        el('label', { text: 'Symbol in der Übersicht' }), felder.symbol,
+        el('p', { class: 'hinweis', text: 'Ein Emoji, das den Beitrag kennzeichnet — es steht in der Liste unter Aktuelles. Leer lassen = kein Symbol.' })),
       el('div', { style: 'margin-top:14px' },
         el('label', { text: 'Vorschaubild beim Teilen' }),
         el('div', { class: 'zeile' },

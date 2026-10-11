@@ -136,7 +136,7 @@ async function dynamischeDaten(inhalt, page) {
  */
 async function beitraegeLaden(grenze, versatz) {
   const zeilen = await query(
-    `SELECT slug, title, description, created_at, bild, bild_alt FROM pages
+    `SELECT slug, title, description, created_at, bild, bild_alt, symbol FROM pages
      WHERE page_type = 'beitrag' AND status = 'published'
      ORDER BY created_at DESC LIMIT $1 OFFSET $2`,
     [grenze, versatz]);
@@ -151,8 +151,7 @@ async function beitraegeLaden(grenze, versatz) {
       titel: z.title,
       text: z.description,
       href: `/aktuelles/${z.slug}/`,
-      bild: z.bild || '',
-      bildAlt: z.bild_alt || '',
+      symbol: z.symbol || '',
     })),
   };
 }

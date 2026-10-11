@@ -55,6 +55,10 @@ export default {
 
     .termin__zeichen { flex: none; width: 24px; height: 24px; margin-top: 2px;
       color: var(--signal); }
+    /* Ein eigenes Emoji ersetzt das Formzeichen der Art. Gleiche Spalte, gleiche
+       Hoehe: die Titel sollen untereinander an einer Kante stehen. */
+    .termin__emoji { flex: none; width: 24px; text-align: center; font-size: 22px;
+      line-height: 1.2; margin-top: 1px; }
     .termin__zeichen svg { width: 100%; height: 100%; display: block;
       fill: none; stroke: currentColor; stroke-width: 1.6;
       stroke-linecap: round; stroke-linejoin: round; }
@@ -95,7 +99,7 @@ export default {
     @media (max-width: 560px) {
       .termin { flex-wrap: wrap; gap: var(--raum-2); }
       .termin__wann { min-width: 0; }
-      .termin__zeichen { order: -1; }
+      .termin__zeichen, .termin__emoji { order: -1; }
     }
   `,
   render(data) {
@@ -118,9 +122,11 @@ export default {
     const zeilen = liste.map((t) => {
       const zeichen = ZEICHEN[t.art] || ZEICHEN.sonstiges;
       return html`<article class="termin">
-        <span class="termin__zeichen" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">${raw(zeichen)}</svg>
-        </span>
+        ${t.symbol
+          ? html`<span class="termin__emoji" aria-hidden="true">${t.symbol}</span>`
+          : html`<span class="termin__zeichen" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">${raw(zeichen)}</svg>
+            </span>`}
         <div class="termin__wann">
           <span class="termin__tag">${t.tag || t.datum}</span>
           ${t.uhrzeit ? html`<span class="termin__zeit">${t.uhrzeit} Uhr</span>` : ''}

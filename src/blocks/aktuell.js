@@ -45,6 +45,11 @@ export default {
     .aktuell h2 { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-2); }
 
     .aktuell__eintrag { padding: var(--raum-2) 0; border-top: 1px solid var(--linie); }
+    .aktuell__beitrag { display: flex; gap: var(--raum-2); align-items: flex-start; }
+    .aktuell__symbol { flex: none; width: 40px; height: 40px; display: grid; place-items: center;
+      font-size: 22px; line-height: 1; background: var(--flaeche); border-radius: var(--r-md); }
+    .aktuell__emoji { flex: none; width: 22px; text-align: center; font-size: 20px;
+      line-height: 1.3; margin-top: 1px; }
     .aktuell__eintrag:last-of-type { border-bottom: 1px solid var(--linie); }
     .aktuell__datum { display: block; font-size: 14px; color: var(--text-leise);
       margin-bottom: 2px; }
@@ -98,10 +103,13 @@ export default {
       ${beitraege.length
         ? beitraege.map((e) => {
             const z = ziel(e.href);
-            return html`<article class="aktuell__eintrag">
-              <span class="aktuell__datum">${e.datum}</span>
-              <h3>${z ? html`<a href="${raw(escapeAttr(z))}">${e.titel}</a>` : e.titel}</h3>
-              ${e.text ? html`<p class="aktuell__text">${e.text}</p>` : ''}
+            return html`<article class="aktuell__eintrag aktuell__beitrag">
+              ${e.symbol ? html`<span class="aktuell__symbol" aria-hidden="true">${e.symbol}</span>` : ''}
+              <div>
+                <span class="aktuell__datum">${e.datum}</span>
+                <h3>${z ? html`<a href="${raw(escapeAttr(z))}">${e.titel}</a>` : e.titel}</h3>
+                ${e.text ? html`<p class="aktuell__text">${e.text}</p>` : ''}
+              </div>
             </article>`;
           })
         : html`<p class="aktuell__leer">${data.leerBeitraege}</p>`}
@@ -113,9 +121,11 @@ export default {
       <h2>${data.termineTitel}</h2>
       ${termine.length
         ? termine.map((t) => html`<article class="aktuell__eintrag aktuell__termin">
-            <span class="aktuell__zeichen" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false">${raw(ZEICHEN[t.art] || ZEICHEN.sonstiges)}</svg>
-            </span>
+            ${t.symbol
+              ? html`<span class="aktuell__emoji" aria-hidden="true">${t.symbol}</span>`
+              : html`<span class="aktuell__zeichen" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">${raw(ZEICHEN[t.art] || ZEICHEN.sonstiges)}</svg>
+                </span>`}
             <span class="aktuell__wann">${t.tag || t.datum}${
               t.uhrzeit ? html`<small>${t.uhrzeit} Uhr</small>` : ''}</span>
             <h3>${t.titel}</h3>

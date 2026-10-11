@@ -21,23 +21,19 @@ export default {
   css: `
     .liste__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: 4px; }
     .liste__zaehler { font-size: 15px; color: var(--text-leise); margin-bottom: var(--raum-3); }
+    /* Links ein Symbol, rechts Datum, Titel und Text. Das Symbol (ein Emoji)
+       ersetzt das Vorschaubild: bei fuenfzig Beitraegen im Jahr hat nicht jeder
+       ein Foto, und eine Spalte, die mal gefuellt und mal leer ist, macht die
+       Liste unruhig. Ein Symbol hat jeder — es gibt jedem Beitrag ein Gesicht,
+       ohne dass jemand ein Bild suchen muss. Bilder stehen in der Detailansicht. */
     .eintrag { display: flex; gap: var(--raum-3); padding: var(--raum-3) 0;
       border-top: 1px solid var(--linie); max-width: var(--breite-text);
       align-items: flex-start; }
-    .eintrag__datum { font-size: 14px; color: var(--text-leise);
-      white-space: nowrap; min-width: 88px; padding-top: 3px; }
-    /* Das Vorschaubild hat eine feste Groesse und ein festes Seitenverhaeltnis.
-       Ohne beides springt die Zeilenhoehe mit jedem Bild, und eine Liste aus
-       fuenfzig Eintraegen wird zum Flickenteppich.
-       Es steht RECHTS, nicht links: solange nicht jeder Beitrag ein Bild hat,
-       wuerde ein Bild links die Zeile einruecken und die Titel saessen mal
-       hier, mal dort. Rechts bleibt die linke Kante ruhig, egal was fehlt.
-       Haben irgendwann alle Beitraege ein Bild, kann es nach links wandern. */
-    .eintrag__bild { order: 3; margin-left: auto; flex: none; width: 104px;
-      aspect-ratio: 4 / 3; border-radius: var(--r-sm); overflow: hidden;
-      background: var(--flaeche); }
-    @media (max-width: 560px) { .eintrag__bild { margin-left: 0; } }
-    .eintrag__bild img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .eintrag__symbol { flex: none; width: 52px; height: 52px; display: grid; place-items: center;
+      font-size: 28px; line-height: 1; background: var(--flaeche);
+      border-radius: var(--r-md); }
+    .eintrag__datum { display: block; font-size: 14px; color: var(--text-leise);
+      margin-bottom: 2px; }
     .eintrag h3 { font-size: 17px; margin-bottom: 3px; }
     .eintrag h3 a { color: var(--text); text-decoration: none; }
     .eintrag h3 a:hover { color: var(--signal); }
@@ -59,7 +55,6 @@ export default {
     .liste__mehr { display: inline-block; margin-top: var(--raum-3); font-size: var(--fs-md);
       color: var(--signal); text-decoration: none; border-bottom: 1px solid transparent; }
     .liste__mehr:hover { border-bottom-color: var(--signal); }
-    @media (max-width: 560px) { .eintrag { flex-direction: column; gap: 4px; } }
   `,
   render(data) {
     const alle = data.eintraege || [];
@@ -80,14 +75,10 @@ export default {
     }
     const eintraege = liste.map((e) => {
       const z = ziel(e.href);
-      const b = ziel(e.bild);
       return html`<article class="eintrag">
-        <div class="eintrag__datum">${e.datum}</div>
-        ${b ? html`<div class="eintrag__bild">
-          <img src="${raw(escapeAttr(b))}" alt="${raw(escapeAttr(e.bildAlt || ''))}"
-               loading="lazy" decoding="async">
-        </div>` : ''}
+        ${e.symbol ? html`<div class="eintrag__symbol" aria-hidden="true">${e.symbol}</div>` : ''}
         <div>
+          <span class="eintrag__datum">${e.datum}</span>
           <h3>${z ? html`<a href="${raw(escapeAttr(z))}">${e.titel}</a>` : e.titel}</h3>
           ${e.text ? html`<p>${e.text}</p>` : ''}
           ${e.thema ? html`<span class="thema">${e.thema}</span>` : ''}

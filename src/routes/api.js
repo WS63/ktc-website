@@ -169,7 +169,7 @@ router.put('/pages/:id', async (req, res) => {
   const alt = await queryOne('SELECT * FROM pages WHERE id = $1', [req.params.id]);
   if (!alt) return res.status(404).json({ fehler: 'Gibt es nicht.' });
 
-  const { title, description, og_image, status, content_json } = req.body || {};
+  const { title, description, og_image, status, content_json, symbol } = req.body || {};
   const neuSlug = saubererSlug(req.body?.slug) || alt.slug;
   const inhalt = content_json || JSON.parse(alt.content_json);
 
@@ -190,10 +190,15 @@ router.put('/pages/:id', async (req, res) => {
 
   await query(
     `UPDATE pages SET slug = $1, title = $2, description = $3, og_image = $4,
-       status = $5, content_json = $6, updated_at = $7 WHERE id = $8`,
+       status = $5, content_json = $6, updated_at = $7, symbol = $8 WHERE id = $9`,
     [neuSlug, title ?? alt.title, description ?? alt.description,
      og_image ?? alt.og_image, status ?? alt.status,
-     JSON.stringify(inhalt), jetzt(), alt.id]);
+     JSON.stringify(inhalt), jetzt(),
+     // Leer heisst 'kein Symbol', fehlt das Feld ganz, bleibt das alte.
+     // Die Platzhalter stehen in der Reihenfolge der Parameter: die SQLite-
+     // Uebersetzung in src/db.js zaehlt positionell.
+     symbol === undefined ? alt.symbol : (String(symbol).trim().slice(0, 16) || null),
+     alt.id]);
 
   leereCache();
 

@@ -1,4 +1,4 @@
-import { html, raw, markdownInline } from './_util.js';
+import { html, raw, escapeAttr, ziel, istExtern, markdownInline } from './_util.js';
 
 export default {
   name: 'preise',
@@ -10,11 +10,19 @@ export default {
     zeilen:   { type: 'liste', default: [], label: 'Zeilen: label, wert, hervor' },
     fussnoten:{ type: 'liste', default: [], label: 'Fußnoten — in der Reihenfolge der Ziffern' },
     hinweis:  { type: 'longtext', default: '', label: 'Hinweis darunter' },
+    infos:    { type: 'liste', default: [], label: 'Hinweise nebeneinander in einem Band: label, text' },
+    knopfLabel:  { type: 'text', default: '', label: 'Leiser Knopf unter dem Band: Beschriftung' },
+    knopfHref:   { type: 'text', default: '', label: 'Leiser Knopf: Ziel' },
+    knopfHinweis:{ type: 'text', default: '', label: 'Leiser Knopf: Hinweis daneben' },
+    titelGroesse: { type: 'auswahl', default: 'gross', label: 'Größe der Überschrift', optionen: ['gross', 'klein'] },
     grund:    { type: 'auswahl', default: 'weiss', label: 'Hintergrund', optionen: ['weiss', 'ruhig'] },
   },
   css: `
     .preise__titel { font-size: clamp(26px, 3.2vw, 36px); font-weight: 400;
       letter-spacing: 0; color: var(--text-leise); margin-bottom: var(--raum-3); }
+    /* Steht die Tabelle unter einer Aufstellung, die schon die Hauptsache zeigt, ist ihre
+       Ueberschrift die kleinere. */
+    .preise__titel--klein { font-size: clamp(22px, 2.6vw, 28px); }
 
     /* Streifen statt Linien. Eine Linie trennt zwei Zeilen, ein Streifen
        fasst eine Zeile zusammen — bei Betrag und Bezeichnung weit
@@ -50,6 +58,35 @@ export default {
       padding: var(--raum-2) var(--raum-3); margin-top: var(--raum-3);
       font-size: var(--fs-sm); max-width: var(--breite-text); }
     .section--ruhig .hinweis { background: var(--grund); }
+
+    /* Mehrere Hinweise als EIN Band ueber die volle Breite, nebeneinander: jeder bekommt
+       eine Marke und einen Satz. Dieselbe Tonlage wie das Angebotsband der Eckdaten,
+       aber leiser — hier steht Auskunft, kein Angebot. */
+    .preise__infos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: var(--raum-3); padding: var(--raum-3);
+      background: var(--signal-leise); }
+    /* Eine duenne Linie trennt die Hinweise, dazu reichlich Luft zu beiden Seiten. */
+    .preise__infos > div { padding: 0 var(--raum-4); }
+    .preise__infos > div:first-child { padding-left: var(--raum-1); }
+    .preise__infos > div:last-child { padding-right: 0; }
+    .preise__infos > div + div { border-left: 1px solid var(--linie-stark); }
+    @media (max-width: 760px) {
+      .preise__infos { grid-template-columns: 1fr; gap: var(--raum-3); }
+      .preise__infos > div, .preise__infos > div:first-child { padding: 0; }
+      .preise__infos > div + div { border-left: none; border-top: 1px solid var(--linie-stark);
+        padding-top: var(--raum-3); }
+    }
+    /* Die Marke traegt das Band: gross, fett, in Signalblau (5,1:1 auf dem Blauton, AA).
+       Ohne die Kante links gliedern Marken und Trennlinien allein. */
+    .preise__info-label { font-size: var(--fs-md); font-weight: 700; line-height: 1.25;
+      color: var(--signal); margin: 0 0 6px; }
+    /* Die Handlung am Ende der Preise, leise: das ist dieselbe Handlung wie der gelbe Knopf
+       im Aufmacher, einen Bildschirm weiter unten wiederholt. Gelb bleibt dem einen Knopf. */
+    .preise__aktion { display: flex; align-items: center; gap: var(--raum-3); flex-wrap: wrap;
+      margin-top: var(--raum-3); }
+    .preise__aktion-hinweis { font-size: var(--fs-sm); color: var(--text-leise); }
+    .preise__info-text { font-size: var(--fs-sm); line-height: 1.5; margin: 0;
+      color: var(--text); }
   `,
   render(data) {
     const zeilen = (data.zeilen || []).map((z) => html`
@@ -71,10 +108,19 @@ export default {
 
     return html`
       <section class="section preise${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}"><div class="container">
-        ${data.titel ? html`<h2 class="preise__titel">${data.titel}</h2>` : ''}
+        ${data.titel ? html`<h2 class="preise__titel${raw(data.titelGroesse === 'klein' ? ' preise__titel--klein' : '')}">${data.titel}</h2>` : ''}
         <table>${kopf}<tbody>${zeilen}</tbody></table>
         ${noten.length ? html`<ol class="preise__fussnoten">${noten}</ol>` : ''}
         ${data.hinweis ? html`<p class="hinweis">${markdownInline(data.hinweis)}</p>` : ''}
+        ${(data.infos || []).length ? html`<div class="preise__infos">${data.infos.map((i) => html`<div>
+          <p class="preise__info-label">${i.label}</p>
+          <p class="preise__info-text">${markdownInline(i.text || '')}</p>
+        </div>`)}</div>` : ''}
+        ${data.knopfLabel && ziel(data.knopfHref) ? html`<div class="preise__aktion">
+          <a class="knopf knopf--leise" href="${raw(escapeAttr(ziel(data.knopfHref)))}"${
+            istExtern(ziel(data.knopfHref)) ? raw(' target="_blank" rel="noopener noreferrer"') : ''}>${data.knopfLabel}</a>
+          ${data.knopfHinweis ? html`<span class="preise__aktion-hinweis">${data.knopfHinweis}</span>` : ''}
+        </div>` : ''}
       </div></section>`;
   },
 };

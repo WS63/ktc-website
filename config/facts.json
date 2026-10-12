@@ -19,11 +19,12 @@
     "jugendliche": "rund 120",
     "mannschaften": "mehr als 20",
     "_saison": "saison_start und saison_ende sind die genauen Angaben für Fließtext. 'saison' ist dieselbe Auskunft in einer kurzen Spanne — für Kacheln und Zeilen, in die 'Mitte bis Ende April bis November' nicht passt. Ändert sich eines, ändern sich beide.",
-  "saison": "April bis November",
-  "saison_start": "Mitte bis Ende April",
+    "saison": "April bis November",
+    "saison_start": "Mitte bis Ende April",
     "saison_ende": "November",
     "tennisschule": "Tennisschule Kaus",
-    "tennisschule_seit": "über 35 Jahren"
+    "tennisschule_seit": "über 35 Jahren",
+    "flutlicht_bis": "22:00 Uhr"
   },
   "vorstand": {
     "erster": {

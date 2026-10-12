@@ -232,15 +232,15 @@ export const seiten = [
         // Kachel sich bewegt und die Karte weiter das Alte behauptet (P2).
         { titel: 'Team und Wettkampf', text: 'Von der Kreisliga bis zur Landesebene, in allen Altersklassen. Wir spielen um jeden Punkt — und für die Geselligkeit.', linkLabel: 'Zu den Mannschaften', linkHref: '/mannschaften/',
           bild: bild('sport-wettkampf1', 'mittel'), bildAlt: bildAlt('sport-wettkampf1') },
-        { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung, Doppelturniere und Freundschaftsspiele gegen andere Vereine.', linkLabel: 'Zur Hobbyrunde', linkHref: '/sport/',
+        { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung, Doppelturniere und Freundschaftsspiele gegen andere Vereine.', linkLabel: 'Zur Hobbyrunde', linkHref: '/sport/#hobby',
           bild: bild('anlage-wiese', 'mittel'), bildAlt: bildAlt('anlage-wiese') },
         // Jugend und Tennisschule stehen nebeneinander, also muss der
         // Schnitt sauber sein: Jugend ist, WAS der Verein fuer Kinder tut,
         // die Tennisschule ist, WER unterrichtet — und zwar alle Mitglieder,
         // nicht nur die Jugend. Vorher sagten beide 'Lernkonzept'.
-        { titel: 'Jugend', text: 'Mannschaften, Tenniscamps und die Minis. Fördern und fordern, mit Spaß und ohne Druck.', linkLabel: 'Zur Jugendarbeit', linkHref: '/sport/',
+        { titel: 'Jugend', text: 'Mannschaften, Tenniscamps und die Minis. Fördern und fordern, mit Spaß und ohne Druck.', linkLabel: 'Zur Jugendarbeit', linkHref: '/sport/#jugend',
           bild: bild('sport-jugend', 'mittel'), bildAlt: bildAlt('sport-jugend') },
-        { titel: 'Tennisschule', text: 'Die {{facts.anlage.tennisschule}} unterrichtet seit {{facts.anlage.tennisschule_seit}} bei uns — Einzel- und Gruppenstunden für alle Mitglieder.', linkLabel: 'Zur Tennisschule', linkHref: '/sport/',
+        { titel: 'Tennisschule', text: 'Die {{facts.anlage.tennisschule}} unterrichtet seit {{facts.anlage.tennisschule_seit}} bei uns — Einzel- und Gruppenstunden für alle Mitglieder.', linkLabel: 'Zur Tennisschule', linkHref: '/sport/#tennisschule',
           bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
       ],
     }},
@@ -430,8 +430,26 @@ export const seiten = [
       zweitLabel: 'Erst mal fragen', zweitHref: '/kontakt/',
       bild: bild('anlage-zentrum-unten'), bildAlt: bildAlt('anlage-zentrum-unten'),
     }},
-    { type: 'preise', data: {
+    // Die Antwort auf die haeufigste Frage zuerst, gross: drei Betraege, darunter das
+    // Angebot fuer Neue, dann die ganze Liste.
+    { type: 'infokarten', data: {
       titel: 'Unsere Mitgliedsbeiträge',
+      titelGroesse: 'gross',
+      grund: 'weiss',
+      // Das Angebot fuer Neue steht fuer sich unter den Standardkarten. Der
+      // Partnerbeitrag wird gerechnet, nicht getippt: sind beide Betraege
+      // gleich, steht das nicht im Text, sondern in den Zahlen (P2).
+      angebotWert: '{{facts.beitraege.neumitglied_erstes_jahr}} €',
+      angebotText: '**Neu dabei?** So viel zahlst du im ersten Jahr als Neumitglied. Ein Partner als zweites Mitglied zahlt {{facts.beitraege.aktiv_partner}} €.',
+      karten: [
+        { label: 'Erwachsene',   wert: '{{facts.beitraege.aktiv}} €',           zusatz: 'pro Jahr, aktives Mitglied' },
+        { label: 'In Ausbildung', wert: '{{facts.beitraege.aktiv_ausbildung}} €', zusatz: 'pro Jahr, bis 27 mit Nachweis' },
+        { label: 'Jugend',       wert: '{{facts.beitraege.jugend}} €',          zusatz: 'pro Jahr, bis 18 Jahre' },
+      ],
+    }},
+    { type: 'preise', data: {
+      titel: 'Alle Beiträge im Detail',
+      titelGroesse: 'klein',
       // Kein Spaltenkopf: 'Mitgliedschaft' und 'pro Jahr' stehen ueber einer
       // Liste, die sich selbst erklaert. Der Zeitraum steht im Hinweis.
       zeilen: [
@@ -449,24 +467,23 @@ export const seiten = [
         'Gegen Nachweis eines Schüler-, Studenten- oder Ausbildungsausweises, bis zum vollendeten 27. Lebensjahr. Stichtag für alle Altersgrenzen ist der 31. Dezember des jeweiligen Jahres.',
         'Setzt voraus, dass mindestens ein Elternteil aktives Mitglied ist.',
       ],
-      hinweis: 'Alle Beiträge gelten für das Kalenderjahr. Wer ab dem {{facts.beitraege.halber_beitrag_ab}} einsteigt, zahlt für das laufende Jahr die Hälfte. Die Kündigungsfrist endet am {{facts.beitraege.kuendigungsfrist}}.',
+      // Drei Auskuenfte nebeneinander in einem Band statt eines Absatzes: so steht jede
+      // fuer sich da und das Ganze reicht ueber die volle Breite.
+      infos: [
+        { label: 'Abrechnung', text: 'Alle Beiträge gelten für das Kalenderjahr.' },
+        { label: 'Einstieg ab {{facts.beitraege.halber_beitrag_ab}}', text: 'Wer später einsteigt, zahlt für das laufende Jahr die Hälfte.' },
+        { label: 'Kündigung', text: 'Die Kündigungsfrist endet am {{facts.beitraege.kuendigungsfrist}}.' },
+      ],
+      // Die Anmeldung am Ende der Preise: derselbe Weg wie der gelbe Knopf oben, leise.
+      knopfLabel: 'Jetzt anmelden', knopfHref: '{{facts.links.buchung}}',
+      knopfHinweis: 'Die Anmeldung läuft über unsere eBuSy-Mitgliedsverwaltung.',
     }},
     { type: 'richtext', data: {
+      titel: 'Gäste und Spind',
+      grund: 'ruhig',
       absaetze: [
-        'Die Anmeldung läuft über die [eBuSy-Mitgliederverwaltung]({{facts.links.buchung}}). Dort buchst du später auch deine Plätze.',
-      ],
-    }},
-    { type: 'infokarten', data: {
-      titel: 'Gastspiel und Spind',
-      karten: [
-        { label: 'Gastspielgebühr', wert: '{{facts.gast.gebuehr}} €', zusatz: 'pro Gast, höchstens {{facts.gast.max_doppel}} im Doppel' },
-        { label: 'Spieldauer',      wert: '{{facts.gast.dauer_einzel}}', zusatz: 'im Einzel · {{facts.gast.dauer_doppel}} im Doppel' },
-        { label: 'Spind',           wert: '{{facts.spind.gebuehr}} €', zusatz: 'pro Jahr, Anfrage an {{facts.verein.email}}' },
-      ],
-    }},
-    { type: 'richtext', data: {
-      absaetze: [
-        'Gäste sind willkommen, egal ob jung oder alt. Ein Gastspiel ist nur zusammen mit einem Vereinsmitglied möglich, nicht aber zeitgleich zu Turnieren oder Punktspielen. Buchung und Abrechnung laufen über das Vereinsmitglied.',
+        'Gäste sind willkommen, egal ob jung oder alt. Ein Gastspiel kostet {{facts.gast.gebuehr}} € pro Gast, höchstens {{facts.gast.max_doppel}} Gäste im Doppel, und dauert {{facts.gast.dauer_einzel}} im Einzel oder {{facts.gast.dauer_doppel}} im Doppel. Es ist nur zusammen mit einem Vereinsmitglied möglich, nicht aber zeitgleich zu Turnieren oder Punktspielen. Buchung und Abrechnung laufen über das Vereinsmitglied.',
+        'Einen Spind gibt es für {{facts.spind.gebuehr}} € im Jahr. Schreib dazu an [{{facts.verein.email}}](mailto:{{facts.verein.email}}).',
       ],
     }},
     { ...FORMULAR, data: { ...FORMULAR.data,
@@ -672,14 +689,14 @@ export const seiten = [
   blocks: [
     NAV,
     { type: 'hero', data: {
-      pill: 'Jederzeit ein offenes Ohr',
+      pill: 'Kontakt',
       titel: 'Kontakt und Anfahrt',
       sub: 'Ruf an, schreib uns oder komm einfach vorbei. Am schnellsten geht es über {{facts.verein.email}}.',
       bild: bild('anlage-zentrum-oben'), bildAlt: bildAlt('anlage-zentrum-oben'),
     }},
     { type: 'personen', data: {
       titel: 'Der Vorstand',
-      vorspann: 'Wer wofür zuständig ist.',
+      vorspann: 'Jederzeit ein offenes Ohr für dich!',
       leute: vorstand,
     }},
     { type: 'richtext', data: {
@@ -718,15 +735,27 @@ export const seiten = [
         { frage: 'Wie werde ich Mitglied?',
           antwort: 'Schreib uns an [{{facts.verein.email}}](mailto:{{facts.verein.email}}) oder sprich uns auf der Anlage an. Zum Saisonstart im April bieten wir Schnupperkurse an — ideal, um den Club kennenzulernen. Alle Beiträge stehen auf der Seite [Mitglied werden](/mitglied-werden/).' },
         { frage: 'Was kosten die Mitgliedsbeiträge?',
-          antwort: 'Zwischen {{facts.beitraege.passiv}} € für eine passive und {{facts.beitraege.aktiv}} € für eine aktive Mitgliedschaft im Jahr. Als Erwachsene oder Erwachsener zahlst du im ersten Jahr nur {{facts.beitraege.neumitglied_erstes_jahr}} €. Die vollständige Liste steht auf der Seite [Mitglied werden](/mitglied-werden/).' },
-        { frage: 'Wann ist Saison?',
-          antwort: 'Die Freiluftsaison startet {{facts.anlage.saison_start}} und endet im {{facts.anlage.saison_ende}}. In den Sommermonaten stehen {{facts.anlage.plaetze}} gepflegte Sandplätze zur Verfügung. Der Trainingsbetrieb beginnt ebenfalls im April mit Tenniscamps und Schnupperkursen.' },
+          antwort: 'Zwischen {{facts.beitraege.passiv}} € für eine passive und {{facts.beitraege.aktiv}} € für eine aktive Mitgliedschaft im Jahr, mit eigenen Beiträgen für Jugendliche und Familien. Als Erwachsene oder Erwachsener zahlst du im ersten Jahr nur {{facts.beitraege.neumitglied_erstes_jahr}} €. Die vollständige Liste steht auf der Seite [Mitglied werden](/mitglied-werden/). Bei Fragen helfen wir dir gern persönlich weiter.' },
+        { frage: 'Wann ist Saison und wann haben die Außenplätze geöffnet?',
+          antwort: 'Die Freiluftsaison startet {{facts.anlage.saison_start}} und endet im {{facts.anlage.saison_ende}}. In den Sommermonaten stehen {{facts.anlage.plaetze}} gepflegte Sandplätze zur Verfügung. Der Trainingsbetrieb beginnt ebenfalls im April mit Tenniscamps und Schnupperkursen — die beste Zeit zum Einsteigen. Auch im Winter gibt es Alternativen, etwa unsere beliebte Winterrunde.' },
         { frage: 'Kann ich als Nichtmitglied einen Platz buchen?',
-          antwort: 'Die Plätze sind für Vereinsmitglieder reserviert. Als Gast eines Mitglieds kannst du aber mitspielen — die Gastspielgebühr beträgt {{facts.gast.gebuehr}} € pro Gast. Mitglieder buchen ihre Plätze über [eBuSy]({{facts.links.buchung}}).' },
+          antwort: 'Die Plätze sind für Vereinsmitglieder reserviert. Als Gast eines Mitglieds kannst du aber mitspielen — sprich einfach ein Mitglied an oder schnupper bei uns rein. Die Gastspielgebühr beträgt {{facts.gast.gebuehr}} € pro Gast. Mitglieder buchen ihre Plätze bequem über [eBuSy]({{facts.links.buchung}}).' },
+        { frage: 'Gibt es eine Flutlichtanlage für das Abendspiel?',
+          antwort: 'Ja. Die Flutlichtanlage springt bei Dämmerung automatisch an und ermöglicht Spiel bis {{facts.anlage.flutlicht_bis}} — ohne Aufpreis, die Nutzung ist im Beitrag enthalten. Perfekt für alle, die nach Feierabend noch Tennis spielen möchten.' },
+        { frage: 'Gibt es Tennistraining für Kinder und Jugendliche?',
+          antwort: 'Ja. Vom Kindertennis für die Kleinsten bis zum Angebot „Tennis für Minis“, bei dem Kinder und Eltern gemeinsam auf den Platz gehen, ist für jede Altersgruppe etwas dabei. Die {{facts.anlage.tennisschule}} unter Leitung von Oliver Kaus kümmert sich mit einem erfahrenen Trainerteam um den Nachwuchs. Die Jugendmannschaften nehmen an den Punktspielen teil, und in den Ferien finden regelmäßig Tenniscamps statt. Mehr dazu unter [Sport](/sport/#jugend).' },
+        { frage: 'Bietet der KTC Tenniskurse für Anfänger und Erwachsene an?',
+          antwort: 'Selbstverständlich. Die {{facts.anlage.tennisschule}} bietet Kurse für alle Levels — vom Anfänger bis zum Turnierspieler. Oliver Kaus und sein Team sorgen für individuelle Betreuung. Ob Einzeltraining, Gruppenkurs oder Wiedereinsteiger-Angebot: Wir finden das Passende für dich. Beliebt ist auch das gesellige „T-Time“-Format an Sonntagen während der Sommerferien. Mehr zur Schule unter [Sport](/sport/#tennisschule).' },
+        { frage: 'Ab welchem Alter können Kinder mit Tennis beginnen?',
+          antwort: 'Bereits im Vorschulalter. Das Kindertennis-Programm vermittelt spielerisch die Grundlagen. Besonders beliebt ist „Tennis für Minis“, wo Eltern mit ihren Kleinsten erste Schritte auf dem Platz machen. Die {{facts.anlage.tennisschule}} passt das Training altersgerecht an — ohne Druck, mit viel Freude.' },
+        { frage: 'Welche Mannschaften spielen beim KTC in der Medenrunde?',
+          antwort: 'Der KTC ist breit aufgestellt: Wir haben Jugend-, Damen- und Herrenmannschaften in verschiedenen Altersklassen und Spielklassen. Alle Teams stehen auf der Seite [Mannschaften](/mannschaften/), die Ergebnisse unter [Ergebnisse](/ergebnisse/). Die Punktspiele laufen während der Sommersaison. Du möchtest mitspielen? Sprich uns an — wir freuen uns über Verstärkung.' },
         { frage: 'Brauche ich eigene Ausrüstung?',
           antwort: 'Für die Minis-Kurse werden Schläger gestellt, du brauchst nur Sportschuhe. Ansonsten hilft dir die {{facts.anlage.tennisschule}} gern bei der Auswahl.' },
         { frage: 'Gibt es Gastronomie?',
           antwort: 'Ja — das Clubrestaurant {{facts.gastronomie.name}} mit sonniger Terrasse gehört zur Anlage und ist auch für Gäste ohne Schläger offen. Öffnungszeiten, Ruhetag und die Nummer für eine Tischreservierung stehen auf [Clubhaus und Terrasse](/clubhaus/).' },
+        { frage: 'Wie erreiche ich den Tennisclub und wo kann ich parken?',
+          antwort: 'Du findest uns im {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}. Kostenlose Parkplätze gibt es ausreichend auf dem angrenzenden Parkplatz der Kreissporthalle. Die Anfahrt mit Auto, Bus und Bahn steht unter [Kontakt und Anfahrt](/kontakt/).' },
       ],
     }},
     ASSISTENT,

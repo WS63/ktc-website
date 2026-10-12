@@ -8,9 +8,13 @@ export default {
     karten: { type: 'liste', default: [], label: 'Eckdaten: label, wert, zusatz' },
     grund:  { type: 'auswahl', default: 'ruhig', label: 'Hintergrund',
               optionen: ['ruhig', 'weiss', 'anschluss'] },
+    titelGroesse: { type: 'auswahl', default: 'normal', label: 'Größe der Überschrift', optionen: ['normal', 'gross'] },
+    angebotWert: { type: 'text', default: '', label: 'Angebotsband: die große Zahl' },
+    angebotText: { type: 'text', default: '', label: 'Angebotsband: der Satz daneben' },
   },
   css: `
     .info__titel { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-3); }
+    .info__titel--gross { font-size: clamp(26px, 3.2vw, 36px); }
     /* 240 statt 170: bei 170 passten auf einen 820-Pixel-Schirm noch drei
        Karten nebeneinander, jede davon so schmal, dass die Erlaeuterung drei
        Zeilen brauchte und die dritte abgeschnitten wurde. Lieber frueher
@@ -52,6 +56,18 @@ export default {
        waere hier eine Grenze, wo keine ist — und das obere Polster doppelt
        den Abstand, den der Text schon mitbringt. */
     .section--anschluss { border-top: none; padding-top: 0; }
+
+    /* Das Angebot unter den Standardkarten: ein getoentes Band mit Signalkante, wie der
+       Hinweis unter einer Tabelle — nur mit der Zahl vorn. Es steht fuer sich, damit
+       die Standardkarten ruhig bleiben. */
+    .info__angebot { display: flex; align-items: center; gap: var(--raum-3);
+      margin-top: var(--raum-2); padding: var(--raum-2) var(--raum-3);
+      background: var(--signal-leise); border-left: 4px solid var(--signal); }
+    .info__angebot-wert { flex: none; font-size: var(--fs-3xl); font-weight: 800;
+      line-height: 1.05; letter-spacing: -.025em; color: var(--signal); }
+    .info__angebot-text { margin: 0; font-size: var(--fs-sm); line-height: 1.5; }
+    @media (max-width: 560px) { .info__angebot { flex-direction: column; align-items: flex-start;
+      gap: var(--raum-1); } }
   `,
   render(data) {
     const karten = (data.karten || []).map((k) => html`<div class="info">
@@ -64,8 +80,12 @@ export default {
         data.grund === 'weiss' ? ''
         : data.grund === 'anschluss' ? ' section--anschluss'
         : ' section--ruhig')}"><div class="container">
-        ${data.titel ? html`<h2 class="info__titel">${data.titel}</h2>` : ''}
+        ${data.titel ? html`<h2 class="info__titel${raw(data.titelGroesse === 'gross' ? ' info__titel--gross' : '')}">${data.titel}</h2>` : ''}
         <div class="info__gitter">${karten}</div>
+        ${data.angebotWert ? html`<div class="info__angebot">
+          <span class="info__angebot-wert">${data.angebotWert}</span>
+          <p class="info__angebot-text">${markdownInline(data.angebotText || '')}</p>
+        </div>` : ''}
       </div></section>`;
   },
 };

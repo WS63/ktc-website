@@ -711,6 +711,7 @@ export const seiten = [
     { type: 'hero', data: {
       pill: 'Kurz beantwortet',
       titel: 'Häufige Fragen',
+      bild: bild('recht-faq'), bildAlt: bildAlt('recht-faq'),
     }},
     { type: 'faq', data: {
       fragen: [
@@ -754,7 +755,8 @@ export const seiten = [
   description: 'Anbieterkennzeichnung des Krifteler Tennisclubs e.V.: Anschrift, Vertretung, Kontakt und Vereinsregister.',
   blocks: [
     NAV,
-    { type: 'hero', data: { titel: 'Impressum' } },
+    { type: 'hero', data: { titel: 'Impressum',
+      bild: bild('recht-impressum'), bildAlt: bildAlt('recht-impressum') } },
     { type: 'richtext', data: {
       titel: 'Angaben nach § 5 DDG',
       absaetze: [
@@ -806,7 +808,8 @@ export const seiten = [
   description: 'Welche Daten bei der Nutzung dieser Website anfallen, wofür wir sie brauchen und welche Rechte du hast.',
   blocks: [
     NAV,
-    { type: 'hero', data: { titel: 'Datenschutz' } },
+    { type: 'hero', data: { titel: 'Datenschutz',
+      bild: bild('recht-datenschutz'), bildAlt: bildAlt('recht-datenschutz') } },
     { type: 'richtext', data: {
       absaetze: [
         'Der {{facts.verein.name}} nimmt den Schutz deiner Daten ernst. Diese Seite sagt dir, welche Daten bei der Nutzung dieser Website anfallen, wofür wir sie brauchen und was du tun kannst. Sie gilt für diese Website. Für Angebote anderer Anbieter, auf die wir verlinken, gelten deren eigene Erklärungen.',

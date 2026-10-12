@@ -288,9 +288,13 @@
    "800": {
     "pfad": "/bilder/club-werkstatt-800-639c67c9.jpg",
     "kb": 79
+   },
+   "1000": {
+    "pfad": "/bilder/club-werkstatt-1000-bada99e6.jpg",
+    "kb": 120
    }
   },
-  "gross": "/bilder/club-werkstatt-800-639c67c9.jpg",
+  "gross": "/bilder/club-werkstatt-1000-bada99e6.jpg",
   "mittel": "/bilder/club-werkstatt-800-639c67c9.jpg",
   "klein": "/bilder/club-werkstatt-400-ea0e0037.jpg"
  },
@@ -316,6 +320,75 @@
   "gross": "/bilder/club-whatsapp-1600-a29c112a.jpg",
   "mittel": "/bilder/club-whatsapp-800-e21d7a47.jpg",
   "klein": "/bilder/club-whatsapp-400-dd51f0e6.jpg"
+ },
+ "recht-datenschutz": {
+  "bereich": "themen",
+  "alt": "Ein goldenes Zahlenschloss liegt offen auf einer weißen Tastatur, daneben zwei Karten mit goldenem Chip",
+  "breite": 1800,
+  "hoehe": 1201,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/recht-datenschutz-400-5262666e.jpg",
+    "kb": 14
+   },
+   "800": {
+    "pfad": "/bilder/recht-datenschutz-800-ba91c2b1.jpg",
+    "kb": 38
+   },
+   "1600": {
+    "pfad": "/bilder/recht-datenschutz-1600-1df562f3.jpg",
+    "kb": 113
+   }
+  },
+  "gross": "/bilder/recht-datenschutz-1600-1df562f3.jpg",
+  "mittel": "/bilder/recht-datenschutz-800-ba91c2b1.jpg",
+  "klein": "/bilder/recht-datenschutz-400-5262666e.jpg"
+ },
+ "recht-faq": {
+  "bereich": "themen",
+  "alt": "Viele schwarze Fragezeichen als Körper auf dunklem Grund, zwei davon leuchten orange",
+  "breite": 2000,
+  "hoehe": 1125,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/recht-faq-400-d305f588.jpg",
+    "kb": 7
+   },
+   "800": {
+    "pfad": "/bilder/recht-faq-800-e2f15f9f.jpg",
+    "kb": 18
+   },
+   "1600": {
+    "pfad": "/bilder/recht-faq-1600-59907006.jpg",
+    "kb": 49
+   }
+  },
+  "gross": "/bilder/recht-faq-1600-59907006.jpg",
+  "mittel": "/bilder/recht-faq-800-e2f15f9f.jpg",
+  "klein": "/bilder/recht-faq-400-d305f588.jpg"
+ },
+ "recht-impressum": {
+  "bereich": "themen",
+  "alt": "Eine grüne Taste mit der Aufschrift „Impressum“ auf einer weißen Tastatur",
+  "breite": 1000,
+  "hoehe": 320,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/recht-impressum-400-5a4c728f.jpg",
+    "kb": 8
+   },
+   "800": {
+    "pfad": "/bilder/recht-impressum-800-61399fc2.jpg",
+    "kb": 19
+   },
+   "1000": {
+    "pfad": "/bilder/recht-impressum-1000-d0d49d62.jpg",
+    "kb": 37
+   }
+  },
+  "gross": "/bilder/recht-impressum-1000-d0d49d62.jpg",
+  "mittel": "/bilder/recht-impressum-800-61399fc2.jpg",
+  "klein": "/bilder/recht-impressum-400-5a4c728f.jpg"
  },
  "sport-ergebnisse": {
   "bereich": "themen",
@@ -468,9 +541,13 @@
    "800": {
     "pfad": "/bilder/2026-04-saisoneroeffnung-helfer-800-d19cd402.jpg",
     "kb": 179
+   },
+   "1200": {
+    "pfad": "/bilder/2026-04-saisoneroeffnung-helfer-1200-811ba6e3.jpg",
+    "kb": 451
    }
   },
-  "gross": "/bilder/2026-04-saisoneroeffnung-helfer-800-d19cd402.jpg",
+  "gross": "/bilder/2026-04-saisoneroeffnung-helfer-1200-811ba6e3.jpg",
   "mittel": "/bilder/2026-04-saisoneroeffnung-helfer-800-d19cd402.jpg",
   "klein": "/bilder/2026-04-saisoneroeffnung-helfer-400-2cb440c6.jpg"
  },
@@ -567,10 +644,14 @@
    "400": {
     "pfad": "/bilder/2026-09-punktrunde-damen-55-400-f117181f.jpg",
     "kb": 34
+   },
+   "768": {
+    "pfad": "/bilder/2026-09-punktrunde-damen-55-768-6b673461.jpg",
+    "kb": 118
    }
   },
-  "gross": "/bilder/2026-09-punktrunde-damen-55-400-f117181f.jpg",
-  "mittel": "/bilder/2026-09-punktrunde-damen-55-400-f117181f.jpg",
+  "gross": "/bilder/2026-09-punktrunde-damen-55-768-6b673461.jpg",
+  "mittel": "/bilder/2026-09-punktrunde-damen-55-768-6b673461.jpg",
   "klein": "/bilder/2026-09-punktrunde-damen-55-400-f117181f.jpg"
  },
  "2026-09-punktrunde-herren-40-ii": {
@@ -586,9 +667,13 @@
    "800": {
     "pfad": "/bilder/2026-09-punktrunde-herren-40-ii-800-f6341461.jpg",
     "kb": 127
+   },
+   "1000": {
+    "pfad": "/bilder/2026-09-punktrunde-herren-40-ii-1000-15fd92f8.jpg",
+    "kb": 176
    }
   },
-  "gross": "/bilder/2026-09-punktrunde-herren-40-ii-800-f6341461.jpg",
+  "gross": "/bilder/2026-09-punktrunde-herren-40-ii-1000-15fd92f8.jpg",
   "mittel": "/bilder/2026-09-punktrunde-herren-40-ii-800-f6341461.jpg",
   "klein": "/bilder/2026-09-punktrunde-herren-40-ii-400-58451bf2.jpg"
  },
@@ -605,9 +690,13 @@
    "800": {
     "pfad": "/bilder/2026-09-punktrunde-herren-50-ii-800-4cb382b7.jpg",
     "kb": 129
+   },
+   "1000": {
+    "pfad": "/bilder/2026-09-punktrunde-herren-50-ii-1000-3b751c60.jpg",
+    "kb": 205
    }
   },
-  "gross": "/bilder/2026-09-punktrunde-herren-50-ii-800-4cb382b7.jpg",
+  "gross": "/bilder/2026-09-punktrunde-herren-50-ii-1000-3b751c60.jpg",
   "mittel": "/bilder/2026-09-punktrunde-herren-50-ii-800-4cb382b7.jpg",
   "klein": "/bilder/2026-09-punktrunde-herren-50-ii-400-366008ea.jpg"
  },
@@ -624,9 +713,13 @@
    "800": {
     "pfad": "/bilder/2026-09-punktrunde-juniorinnen-u18-800-28b51653.jpg",
     "kb": 91
+   },
+   "1177": {
+    "pfad": "/bilder/2026-09-punktrunde-juniorinnen-u18-1177-57bdef3e.jpg",
+    "kb": 186
    }
   },
-  "gross": "/bilder/2026-09-punktrunde-juniorinnen-u18-800-28b51653.jpg",
+  "gross": "/bilder/2026-09-punktrunde-juniorinnen-u18-1177-57bdef3e.jpg",
   "mittel": "/bilder/2026-09-punktrunde-juniorinnen-u18-800-28b51653.jpg",
   "klein": "/bilder/2026-09-punktrunde-juniorinnen-u18-400-ed6720d3.jpg"
  },
@@ -643,9 +736,13 @@
    "800": {
     "pfad": "/bilder/2026-09-punktrunde-u12-800-0da91cba.jpg",
     "kb": 143
+   },
+   "900": {
+    "pfad": "/bilder/2026-09-punktrunde-u12-900-6336f9d2.jpg",
+    "kb": 180
    }
   },
-  "gross": "/bilder/2026-09-punktrunde-u12-800-0da91cba.jpg",
+  "gross": "/bilder/2026-09-punktrunde-u12-900-6336f9d2.jpg",
   "mittel": "/bilder/2026-09-punktrunde-u12-800-0da91cba.jpg",
   "klein": "/bilder/2026-09-punktrunde-u12-400-b7b58927.jpg"
  },
@@ -696,10 +793,14 @@
    "400": {
     "pfad": "/bilder/logo-htv-400-617c8a85.jpg",
     "kb": 7
+   },
+   "686": {
+    "pfad": "/bilder/logo-htv-686-2501e7e9.jpg",
+    "kb": 15
    }
   },
-  "gross": "/bilder/logo-htv-400-617c8a85.jpg",
-  "mittel": "/bilder/logo-htv-400-617c8a85.jpg",
+  "gross": "/bilder/logo-htv-686-2501e7e9.jpg",
+  "mittel": "/bilder/logo-htv-686-2501e7e9.jpg",
   "klein": "/bilder/logo-htv-400-617c8a85.jpg"
  },
  "logo-tennisschule": {

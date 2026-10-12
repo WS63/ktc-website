@@ -92,6 +92,9 @@ for (const bereich of BEREICHE) {
     const ziele = (bereich === 'logos' ? LOGO_GROESSEN : GROESSEN)
       .filter((b) => b <= mass);
     if (!ziele.length) ziele.push(mass);        // kleiner als jede Vorgabe
+    // Liegt die Quelle zwischen zwei Stufen (1000 px: Stufen 800 und 1600), geht sie
+    // selbst als groesste Fassung mit — sonst wuerde ein 1000-px-Bild auf 800 gedrueckt.
+    if (bereich !== 'logos' && mass < GROESSEN[0] && mass > Math.max(...ziele)) ziele.unshift(mass);
 
     if (bereich !== 'logos' && qb < 1600) {
       console.log(`  [WARN] ${name} ist nur ${qb} px breit. Auf grossen Schirmen unscharf.`);

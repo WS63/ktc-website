@@ -699,17 +699,14 @@ export const seiten = [
       vorspann: 'Jederzeit ein offenes Ohr für dich!',
       leute: vorstand,
     }},
+    // Eine Einladung statt zwei Verkehrsangaben: der Aufmacher sagt 'komm einfach vorbei',
+    // die Ueberschrift nimmt es auf, die zwei Wege stehen als Anfangsworte im Text.
     { type: 'richtext', data: {
-      titel: 'Mit dem Auto',
+      titel: 'Komm einfach vorbei',
+      grund: 'ruhig',
       absaetze: [
-        'A66, Abfahrt Frankfurt-Zeilsheim / Hofheim-Nord, Richtung Hofheim folgen. Am Ortseingang Hofheim an der zweiten Ampel, vor der Aral-Tankstelle, links in den Schmelzweg abbiegen. Die Anlage liegt unmittelbar links.',
-        'Parkplätze sind am unteren Ende der Anlage, auf dem Parkplatz der Kreissportanlage.',
-      ],
-    }},
-    { type: 'richtext', data: {
-      titel: 'Mit Bus und Bahn',
-      absaetze: [
-        'Mit der S-Bahn S1 bis Hofheim. Von dort weiter mit Bus 263, Bus 401 oder Bus 812 bis zur Haltestelle Kriftel Kreissporthalle. Von dort sind es rund 100 Meter den Schmelzweg aufwärts bis zum Eingang.',
+        '**Mit dem Auto:** A66, Abfahrt Frankfurt-Zeilsheim / Hofheim-Nord, Richtung Hofheim folgen. Am Ortseingang Hofheim an der zweiten Ampel, vor der Aral-Tankstelle, links in den Schmelzweg abbiegen. Die Anlage liegt unmittelbar links. Parkplätze sind am unteren Ende der Anlage, auf dem Parkplatz der Kreissporthalle.',
+        '**Mit Bus und Bahn:** Mit der S-Bahn S1 bis Hofheim. Von dort weiter mit Bus 263, Bus 401 oder Bus 812 bis zur Haltestelle Kriftel Kreissporthalle. Von dort sind es rund 100 Meter den Schmelzweg aufwärts bis zum Eingang.',
       ],
     }},
     FORMULAR,

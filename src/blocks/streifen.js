@@ -43,10 +43,15 @@ export default {
        Minimum weigert sich eine Grid-Spalte, unter ihren Inhalt zu
        schrumpfen — ein breites Bild sprengt dann die Zeile. */
     .streifen__gitter { display: grid; gap: var(--raum-4);
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
+    .streifen__leib { align-self: center; }
     .streifen--rechts .streifen__bild { order: 2; }
 
-    .streifen__bild img { width: 100%; height: auto; aspect-ratio: 4 / 3;
+    /* Das Bild fuellt die Hoehe der Textspalte: beide Kanten oben und unten
+       schliessen buendig ab, statt dass ein 4:3-Bild in der Mitte schwebt.
+       Die Mindesthoehe haelt es auch neben kurzem Text ein Bild. */
+    .streifen__bild { position: relative; min-height: 280px; }
+    .streifen__bild img { position: absolute; inset: 0; width: 100%; height: 100%;
       object-fit: cover; display: block; border-radius: var(--radius); }
 
     /* Das Logo des Partners, nicht unseres. Deshalb klein und ueber der
@@ -66,15 +71,18 @@ export default {
     .streifen__zeilen { list-style: none; padding: 0; margin: 0;
       border-top: 1px solid var(--linie); }
     .streifen__zeile { display: flex; justify-content: space-between;
-      gap: var(--raum-2); padding: 10px 0;
-      border-bottom: 1px solid var(--linie); font-size: var(--fs-sm); }
+      gap: var(--raum-2); padding: 7px 0;
+      border-bottom: 1px solid var(--linie); font-size: var(--fs-sm);
+      /* Eng gesetzt: mit der Zeilenhoehe des Fliesstextes standen Mittag und Abend
+         eine Leerzeile auseinander und der Block wurde hoeher als das Bild. */
+      line-height: 1.35; }
     .streifen__label { color: var(--text-leise); }
     /* Der Wert darf mehrere Zeilen haben. Bei Oeffnungszeiten stehen
        Mittag und Abend dann UNTEREINANDER und beide rechtsbuendig — als
        eine Zeile mit Mitteltrenner brach der Umbruch an beliebiger Stelle
        und 'Uhr' landete allein in der zweiten Zeile. */
     .streifen__wert { text-align: right; font-weight: 600;
-      display: flex; flex-direction: column; gap: 2px; }
+      display: flex; flex-direction: column; gap: 0; }
 
     .streifen__fussnote { font-size: 14px; color: var(--text-leise);
       margin-top: var(--raum-2); line-height: 1.55; }
@@ -89,6 +97,8 @@ export default {
        NACH dem Text waere dort ein Nachklapp ohne Aufgabe. */
     @media (max-width: 760px) {
       .streifen__gitter { grid-template-columns: 1fr; gap: var(--raum-3); }
+      .streifen__bild { min-height: 0; }
+      .streifen__bild img { position: static; height: auto; aspect-ratio: 4 / 3; }
       .streifen--rechts .streifen__bild { order: 0; }
     }
   `,

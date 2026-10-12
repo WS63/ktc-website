@@ -188,6 +188,7 @@ export const seiten = [
       // eigener Grund, keine Trennlinie dazwischen. Die ruhige Flaeche setzt
       // erst bei 'Sportliche Vielfalt' ein.
       grund: 'anschluss',
+      zaehlen: 'ja',   // die drei Zahlen zaehlen hoch, sobald sie sichtbar werden — einmal
       karten: [
         { label: 'Plätze', wert: '{{facts.anlage.plaetze}}',
           zusatz: 'gepflegt, bespielbar von {{facts.anlage.saison}}' },

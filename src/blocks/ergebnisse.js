@@ -51,12 +51,24 @@ export default {
       padding-bottom: 5px; border-bottom: 2px solid var(--linie-stark); }
     .erg__tabelle { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; line-height: 1.35; }
     .erg__tabelle td { padding: 4px 10px; vertical-align: baseline; }
-    .erg__tabelle td:nth-child(2) { width: 56px; }
-    .erg__tabelle td:nth-child(3) { width: 112px; }
     .erg__tabelle tr:nth-child(odd) { background: var(--flaeche); }
     .erg__paar .sie { color: var(--text-leise); }
     .erg__paar .wir { font-weight: 600; }
-    .erg__bericht { margin-left: 8px; font-size: 13px; white-space: nowrap; }
+    .erg__sie { color: var(--text-leise); }
+    .erg__wir { font-weight: 600; }
+
+    /* Kriftel steht in JEDER Zeile links, der Gegner in einer eigenen Spalte, Heim oder
+       Gast als Blase dazwischen. Beide Kennzeichen sind vier Buchstaben und gleich breit,
+       damit die Spalte ruhig bleibt. Die Spaltenbreiten stehen in der colgroup: die erste
+       Zeile kann eine ohne Ergebnis sein (zusammengefasste Zellen) und wuerde sie sonst
+       falsch vorgeben. */
+    .erg__blase { display: inline-block; width: 4.2em; text-align: center; box-sizing: border-box;
+      font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      border-radius: var(--r-pill); padding: 1px 0; border: 1px solid; line-height: 1.4; }
+    .erg__blase--heim { color: var(--signal); background: var(--signal-leise); border-color: var(--linie-aktiv); }
+    .erg__blase--gast { color: var(--text-leise); background: var(--grund); border-color: var(--linie-stark); }
+    .erg__bericht-sp { text-align: right; }
+    .erg__bericht { font-size: 13px; white-space: nowrap; }
     .erg__msg { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em;
       color: var(--signal); border: 1px solid var(--linie-aktiv); border-radius: 3px;
       padding: 0 4px; margin-left: 4px; white-space: nowrap; }
@@ -68,12 +80,15 @@ export default {
 
     @media (max-width: 640px) {
       .erg__tabelle { table-layout: auto; }
-      .erg__tabelle td:nth-child(2), .erg__tabelle td:nth-child(3) { width: auto; }
+      .erg__tabelle colgroup { display: none; }
       .erg__tabelle, .erg__tabelle tbody, .erg__tabelle tr, .erg__tabelle td { display: block; }
       .erg__tabelle tr { padding: 5px 4px; }
       .erg__tabelle td { padding: 1px 6px; }
-      .erg__zahl, .erg__offen { text-align: left; display: inline-block; }
-      .erg__aus { display: inline-block; }
+      .erg__tabelle td.erg__ort, .erg__tabelle td.erg__sie, .erg__tabelle td.erg__bericht-sp { display: inline-block; }
+      .erg__tabelle td.erg__bericht-sp { margin-left: 6px; }
+      /* 'td.' davor: die Regel 'tabelle td { display: block }' ist sonst staerker. */
+      .erg__tabelle td.erg__zahl, .erg__tabelle td.erg__offen { text-align: left; display: inline-block; }
+      .erg__tabelle td.erg__aus { display: inline-block; }
     }
   `,
   render(data) {
@@ -103,12 +118,15 @@ export default {
     const b = a.bilanz;
     const zeile = (e) => {
       const [sym, wort] = AUSGANG[e.ausgang] || [];
-      // Der Berichtslink steht hinter der Paarung, damit rechts nur noch zwei feste
-      // Spalten bleiben: die Zahl und der Ausgang.
+      // Der Berichtslink hat eine eigene Spalte: er beginnt in jeder Zeile an derselben Stelle.
       const bericht = e.bericht
         ? html`<a class="erg__bericht" href="${raw(escapeAttr(ziel(e.bericht)))}" target="_blank" rel="noopener noreferrer">Bericht ↗</a>` : '';
       return html`<tr>
-        <td class="erg__paar">${paarung(e)}${bericht}</td>
+        <td class="erg__wir">${e.mannschaft}${e.sg ? html`<span class="erg__msg" title="Spielgemeinschaft mit Partnervereinen">MSG</span>` : ''}</td>
+        <td class="erg__ort"><span class="erg__blase erg__blase--${e.zuhause ? 'heim' : 'gast'}"
+          title="${e.zuhause ? 'Heimspiel' : 'Auswärtsspiel'}">${e.zuhause ? 'Heim' : 'Gast'}</span></td>
+        <td class="erg__sie">${e.gegner}</td>
+        <td class="erg__bericht-sp">${bericht}</td>
         ${e.status === 'gespielt'
           ? html`<td class="erg__zahl">${e.matchpunkte}</td>
                  <td class="erg__aus"><span aria-hidden="true">${sym}</span> ${wort}</td>`
@@ -136,7 +154,7 @@ export default {
 
         ${slots.map((s) => html`<div class="erg__slot">
           <h3>${s.e.wochentag}${s.e.uhrzeit ? `, ${s.e.uhrzeit} Uhr` : ''}</h3>
-          <table class="erg__tabelle"><tbody>${s.zeilen.map(zeile)}</tbody></table>
+          <table class="erg__tabelle"><colgroup><col style="width:230px"><col style="width:68px"><col><col style="width:88px"><col style="width:56px"><col style="width:112px"></colgroup><tbody>${s.zeilen.map(zeile)}</tbody></table>
         </div>`)}
       </div></section>`;
   },

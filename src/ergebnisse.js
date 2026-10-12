@@ -57,7 +57,10 @@ export function ansicht(spiele, { we = '', jetzt = Date.now() } = {}) {
   const w = alle[i];
 
   const imFenster = spiele.filter((s) => s.datum >= w.von && s.datum <= w.bis)
+    // Je Anwurfzeit zuerst die Heimspiele, dann die Auswaertsspiele, dann nach Mannschaft:
+    // das ordnet die Liste, und wer zu Hause zuschaut, findet seine Spiele zusammen.
     .sort((a, b) => (a.datum + a.uhrzeit).localeCompare(b.datum + b.uhrzeit)
+      || (b.zuhause ? 1 : 0) - (a.zuhause ? 1 : 0)
       || a.mannschaft.localeCompare(b.mannschaft, 'de', { numeric: true }));
 
   const eintraege = imFenster.map((s) => {

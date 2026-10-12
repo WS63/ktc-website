@@ -112,7 +112,7 @@ const ASSISTENT = { type: 'assistent', data: {
 }};
 
 const FOOTER = { type: 'footer', data: {
-  zeile: '{{facts.verein.name}} · {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
+  zeile: '{{facts.verein.name}} · {{facts.verein.strasse}} · {{facts.verein.plz}} {{facts.verein.ort}}',
   // 'Clubhaus' steht hier und nicht in der Kopfzeile: das Restaurant ist
   // kein Vereinsthema und soll die sechs Menuepunkte nicht auf sieben
   // bringen. Aber es ist die Seite mit den Oeffnungszeiten — wer sie auf

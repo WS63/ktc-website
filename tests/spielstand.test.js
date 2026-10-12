@@ -185,17 +185,28 @@ test('Ansicht ohne Spiele ist leer, und die Seite sagt es', () => {
   assert.match(html, /Zurzeit liegen keine Spiele vor/);
 });
 
-test('Ergebnisseite: Heimmannschaft links, Ausgang als WORT, MSG-Etikett, keine Spielernamen', () => {
+test('Ergebnisseite: Kriftel links, Heim oder Gast als Blase, Ausgang als WORT, MSG-Etikett, keine Spielernamen', () => {
   const jetzt = berlinEpoch('2026-05-09', '20:00');
   const a = ansicht([
     sp({ mannschaft: 'Damen 40', zuhause: false, gegner: 'TV Ruppertshain', heim: 'TV Ruppertshain', gast: 'TC Kriftel',
       matchpunkte: '5:1', gespielt: true, sg: 'Diedenbergen/KTC' })], { jetzt });
   const html = renderPage({ slug: 'e', page_type: 'standard', status: 'published', title: 'E',
     content_json: { blocks: [{ type: 'ergebnisse', data: {} }] } }, { dynamicData: { ergebnisse: { ansicht: a, stand: 'Heute, 19:40 Uhr' } } });
-  assert.match(html, /<span class="sie">TV Ruppertshain<\/span> - <span class="wir">Damen 40<\/span>/);
+  assert.match(html, /<td class="erg__wir">Damen 40/);
+  assert.match(html, /erg__blase--gast"\s+title="Auswärtsspiel">Gast</);
+  assert.match(html, /<td class="erg__sie">TV Ruppertshain<\/td>/);
   assert.match(html, /Niederlage/);                    // 5:1 fuer den Gastgeber, wir waren Gast
   assert.match(html, /erg__msg/);
   assert.match(html, /Stand: Heute, 19:40 Uhr/);
+});
+
+test('Ergebnisliste: je Anwurfzeit zuerst die Heimspiele, dann die Auswaertsspiele', () => {
+  const jetzt = berlinEpoch('2026-05-09', '20:00');
+  const a = ansicht([
+    sp({ mannschaft: 'Damen', zuhause: false, gegner: 'TC Gast' }),
+    sp({ mannschaft: 'Herren', zuhause: true, gegner: 'TC Heim' }),
+    sp({ mannschaft: 'Damen 40', zuhause: true, gegner: 'TC Heim II' })], { jetzt });
+  assert.deepEqual(a.eintraege.map((e) => e.mannschaft), ['Damen 40', 'Herren', 'Damen']);
 });
 
 // ── Startseite: frische Ergebnisse ─────────────────────────────────────

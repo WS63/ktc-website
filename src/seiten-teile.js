@@ -35,7 +35,7 @@ export const seitenBausteine = {
       vorschlaege: ['Was kostet eine Mitgliedschaft?', 'Wann startet die Saison?'],
     }},
     { type: 'footer', data: {
-      zeile: '{{facts.verein.name}} · {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
+      zeile: '{{facts.verein.name}} · {{facts.verein.strasse}} · {{facts.verein.plz}} {{facts.verein.ort}}',
       baum: [
         { label: 'FAQ', href: '/faq/' },
         { label: 'Impressum', href: '/impressum/' },

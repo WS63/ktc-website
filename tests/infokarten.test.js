@@ -46,3 +46,37 @@ test('die Startseite zählt ihre drei Zahlen, die Beitragskarten nicht', async (
   const mw = seiten.find((x) => x.slug === 'mitglied-werden').blocks.filter((b) => b.type === 'infokarten');
   assert.ok(mw.every((b) => b.data.zaehlen !== 'ja'));
 });
+
+// ── Kontaktseite: Formular zuerst, zweispaltig ─────────────────────────
+const formularSeite = (daten) => ({
+  slug: 'probe', page_type: 'standard', status: 'published', title: 'Probe',
+  content_json: { blocks: [{ type: 'formular', data: { name: 'anfrage', titel: 'Schreib uns', felder: [], ...daten } }] },
+});
+
+test('formular: zweispaltig zeigt die Adresse neben dem Formular, einfach bleibt wie es war', () => {
+  const zwei = renderPage(formularSeite({ aufbau: 'zweispaltig', grund: 'ruhig', mailLabel: 'Oder per E-Mail', mailAdresse: 'info@x.de' }));
+  assert.match(zwei, /class="formular__zwei"/);
+  assert.match(zwei, /<a class="formular__mail" href="mailto:info@x.de">info@x.de<\/a>/);
+  assert.match(zwei, /section--ruhig/);
+  assert.equal((zwei.match(/<form/g) || []).length, 1);
+  const einfach = renderPage(formularSeite({}));
+  assert.doesNotMatch(einfach, /class="formular__zwei"/);   // im CSS steht der Name immer, im Markup nur zweispaltig
+  assert.equal((einfach.match(/<form/g) || []).length, 1);
+});
+
+test('formular: der leise Knopf ist nur auf Wunsch leise', () => {
+  assert.match(renderPage(formularSeite({ knopfStil: 'leise' })), /<button type="submit" class="formular__knopf--leise">/);
+  assert.doesNotMatch(renderPage(formularSeite({})), /formular__knopf--leise">/);
+});
+
+test('Kontaktseite: erst das Formular, dann der Vorstand mit Sprungmarke; Mitglied werden hat nur einen gelben Knopf', async () => {
+  const { seiten } = await import('../src/seiten.js');
+  const k = seiten.find((x) => x.slug === 'kontakt').blocks.map((b) => b.type);
+  assert.ok(k.indexOf('formular') < k.indexOf('personen'));
+  assert.equal(k.filter((t) => t === 'formular').length, 1);
+  const kb = seiten.find((x) => x.slug === 'kontakt').blocks;
+  assert.equal(kb.find((b) => b.type === 'personen').data.anker, 'vorstand');
+  assert.equal(kb.find((b) => b.type === 'hero').data.zweitHref, '#vorstand');
+  const mw = seiten.find((x) => x.slug === 'mitglied-werden').blocks.find((b) => b.type === 'formular');
+  assert.equal(mw.data.knopfStil, 'leise');
+});

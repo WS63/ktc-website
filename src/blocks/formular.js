@@ -1,4 +1,4 @@
-import { html, raw, escapeAttr, markdownInline } from './_util.js';
+import { html, raw, escapeAttr, ziel, markdownInline } from './_util.js';
 
 export default {
   name: 'formular',
@@ -10,6 +10,11 @@ export default {
     felder:   { type: 'liste', default: [], label: 'Felder: name, label, typ, pflicht' },
     knopf:    { type: 'text',  default: 'Absenden', label: 'Beschriftung des Knopfs' },
     danke:    { type: 'text',  default: 'Danke, wir melden uns.', label: 'Text nach dem Absenden' },
+    grund:    { type: 'auswahl', default: 'weiss', label: 'Hintergrund', optionen: ['weiss', 'ruhig'] },
+    aufbau:   { type: 'auswahl', default: 'einfach', label: 'Aufbau', optionen: ['einfach', 'zweispaltig'] },
+    mailLabel:   { type: 'text', default: '', label: 'Zweispaltig: Zeile über der Adresse' },
+    mailAdresse: { type: 'text', default: '', label: 'Zweispaltig: E-Mail-Adresse, groß neben dem Formular' },
+    knopfStil:   { type: 'auswahl', default: 'gelb', label: 'Knopf', optionen: ['gelb', 'leise'] },
   },
   css: `
     .formular { max-width: 46rem; }
@@ -31,9 +36,45 @@ export default {
       border: none; padding: 14px 30px; border-radius: var(--radius-knopf);
       background: var(--handlung); color: var(--handlung-text); }
     .formular button:hover { background: var(--handlung-hover); }
+    /* Ist der gelbe Knopf der Seite schon vergeben (Aufmacher), bekommt das Formular den leisen. */
+    .formular button.formular__knopf--leise { background: transparent; color: var(--signal);
+      border: 1px solid var(--signal); padding: 13px 28px; font-weight: 400; }
+    .formular button.formular__knopf--leise:hover { background: var(--signal-leise); }
     .formular button[disabled] { opacity: .5; cursor: default; }
     .formular__hinweis { font-size: 14px; color: var(--text-leise); }
     .formular__hinweis a { color: var(--signal); }
+    /* Zweispaltig, offen: zwei gleich breite Haelften mit einer feinen Linie dazwischen. Links die
+       Einladung und die Adresse, rechts das Formular ohne Kasten — die Felder sind nur Linien,
+       wie auf einem Briefbogen. Nichts rahmt das Formular ein, es traegt durch seine Ordnung. */
+    .formular__zwei { display: grid; gap: var(--raum-5); align-items: start;
+      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); }
+    .formular__linie { background: var(--linie-stark); align-self: stretch; }
+    .formular__zwei .formular__titel { font-size: clamp(30px, 4vw, 44px); font-weight: 600;
+      letter-spacing: -.02em; margin-bottom: var(--raum-2); }
+    .formular__zwei .formular__vorspann { font-size: var(--fs-md); margin-bottom: var(--raum-4); }
+    .formular__mail-label { font-size: 14px; color: var(--text-leise); margin: 0 0 4px; }
+    .formular__mail { font-size: clamp(20px, 2.4vw, 26px); font-weight: 600; color: var(--signal);
+      text-decoration: none; overflow-wrap: anywhere; border-bottom: 2px solid transparent; }
+    .formular__mail:hover { border-bottom-color: var(--signal); }
+    .formular--offen { max-width: none; margin: 0; }
+    /* Der Datenschutzhinweis steht in zwei Zeilen NEBEN dem Knopf, nicht darunter. */
+    .formular--offen .formular__fuss { flex-wrap: nowrap; align-items: center; gap: var(--raum-3); }
+    .formular--offen .formular__fuss button { flex: none; }
+    .formular--offen .formular__hinweis { flex: 1; min-width: 0; margin: 0; font-size: 14px; line-height: 1.45; }
+    @media (max-width: 560px) { .formular--offen .formular__fuss { flex-wrap: wrap; } }
+    .formular--offen .feld { margin-bottom: var(--raum-3); }
+    .formular--offen .feld label { font-size: 12px; font-weight: 500; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--text-leise); margin-bottom: 0; }
+    .formular--offen .feld input, .formular--offen .feld textarea { background: transparent;
+      border: none; border-bottom: 1.5px solid var(--linie-stark); border-radius: 0;
+      padding: 8px 0; box-shadow: none; }
+    .formular--offen .feld textarea { min-height: 96px; }
+    .formular--offen .feld input:focus, .formular--offen .feld textarea:focus {
+      border-bottom-color: var(--signal); box-shadow: 0 1px 0 0 var(--signal); }
+    @media (max-width: 860px) {
+      .formular__zwei { grid-template-columns: 1fr; gap: var(--raum-4); }
+      .formular__linie { display: none; }
+    }
     .formular__antwort { margin-top: var(--raum-2); font-size: 16px; }
     .formular__antwort[data-art="ok"] { color: var(--bestaetigt); }
     .formular__antwort[data-art="fehler"] { color: var(--warnung); }
@@ -51,23 +92,34 @@ export default {
       </div>`;
     });
 
-    return html`
-      <section class="section"><div class="container">
-        <form class="formular" data-formular="${raw(escapeAttr(data.name))}" novalidate>
-          ${data.titel ? html`<h2 class="formular__titel">${data.titel}</h2>` : ''}
-          ${data.vorspann ? html`<p class="formular__vorspann">${markdownInline(data.vorspann)}</p>` : ''}
-          ${felder}
+    const knopf = html`<button type="submit"${data.knopfStil === 'leise' ? raw(' class="formular__knopf--leise"') : ''}>${data.knopf}</button>`;
+    const fuss = html`${felder}
           <div class="formular__topf" aria-hidden="true">
             <label for="website-${raw(escapeAttr(data.name))}">Bitte frei lassen</label>
             <input id="website-${raw(escapeAttr(data.name))}" name="website" tabindex="-1" autocomplete="off">
           </div>
           <div class="formular__fuss">
-            <button type="submit">${data.knopf}</button>
+            ${knopf}
             <p class="formular__hinweis">Wir nutzen deine Angaben nur, um dir zu antworten.
               Mehr dazu im <a href="/datenschutz/">Datenschutz</a>.</p>
           </div>
-          <p class="formular__antwort" role="status" data-danke="${raw(escapeAttr(data.danke))}"></p>
-        </form>
+          <p class="formular__antwort" role="status" data-danke="${raw(escapeAttr(data.danke))}"></p>`;
+    const zwei = data.aufbau === 'zweispaltig';
+    const mail = ziel(`mailto:${data.mailAdresse || ''}`);
+    const kopf = html`${data.titel ? html`<h2 class="formular__titel">${data.titel}</h2>` : ''}
+          ${data.vorspann ? html`<p class="formular__vorspann">${markdownInline(data.vorspann)}</p>` : ''}`;
+    return html`
+      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}"><div class="container">
+        ${zwei
+          ? html`<div class="formular__zwei">
+              <div>${kopf}
+                ${data.mailAdresse ? html`<p class="formular__mail-label">${data.mailLabel}</p>
+                <a class="formular__mail" href="${raw(escapeAttr(mail))}">${data.mailAdresse}</a>` : ''}
+              </div>
+              <div class="formular__linie" aria-hidden="true"></div>
+              <form class="formular formular--offen" data-formular="${raw(escapeAttr(data.name))}" novalidate>${fuss}</form>
+            </div>`
+          : html`<form class="formular" data-formular="${raw(escapeAttr(data.name))}" novalidate>${kopf}${fuss}</form>`}
       </div></section>
       <script>${raw(SKRIPT)}</script>`;
   },

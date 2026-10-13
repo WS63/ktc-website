@@ -10,7 +10,9 @@ export default {
     schluss:  { type: 'text',     default: '', label: 'Abschlusszeile, ruhig und grau' },
     bild:     { type: 'image',    default: '', label: 'Bild rechts neben dem Text' },
     bildAlt:  { type: 'text',     default: '', label: 'Alt-Text des Bildes (Pflicht, wenn ein Bild steht)' },
-    bildStil: { type: 'auswahl',  default: 'foto', label: 'Art des Bildes', optionen: ['foto', 'logo', 'logoklein'] },
+    bildStil: { type: 'auswahl',  default: 'foto', label: 'Art des Bildes', optionen: ['foto', 'logo', 'logoklein', 'karte'] },
+    bildLink: { type: 'text', default: '', label: 'Bild als Link (öffnet in neuem Fenster)' },
+    bildUnterschrift: { type: 'text', default: '', label: 'Zeile unter dem Bild, z. B. Quellenangabe' },
     // Mehrere Fotos in einer schmalen Spalte neben dem Text, jedes nur mit einer
     // Unterschrift — keine Zuordnung zu einer Textstelle, keine Position im Text.
     // Das ist einfacher zu pflegen: Foto hinzufuegen, ein paar Worte dazu, fertig.
@@ -43,6 +45,10 @@ export default {
     .text__bild { margin: 0; }
     .text__bild img { display: block; max-width: 100%; height: auto; }
     .text__bild--foto img { width: 320px; border-radius: var(--radius); }
+    /* Eine Karte ist breiter als ein Foto: sie soll lesbar sein, nicht Beiwerk. */
+    .text--bild.text--karte .text__innen { grid-template-columns: minmax(0, 1fr) minmax(0, 540px); }
+    .text__bild--karte img { width: 100%; border-radius: var(--radius); border: 1px solid var(--linie); }
+    .text__bild figcaption { font-size: 12px; color: var(--text-still); margin-top: 6px; }
     /* Ein Logo mit weissem Grund soll wie aufgedruckt wirken, nicht wie ein
        weisses Kaestchen auf der grauen Flaeche: 'multiply' laesst Weiss
        verschwinden und Farbe stehen. Hat die Datei echte Transparenz, aendert
@@ -89,9 +95,10 @@ export default {
     // ungueltiger Anker und koennte Markup aufbrechen.
     const anker = String(data.anker || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
     const b = ziel(data.bild);
+    const bildLink = ziel(data.bildLink);
     const fotos = (data.bilder || []).filter((f) => ziel(f.pfad));
     const sektion = (innen) => html`
-      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}${raw(b ? ' text--bild' : fotos.length ? ' text--fotos' : '')}"${
+      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}${raw(b ? ' text--bild' : fotos.length ? ' text--fotos' : '')}${raw(b && data.bildStil === 'karte' ? ' text--karte' : '')}"${
         anker ? raw(` id="${escapeAttr(anker)}"`) : ''}><div class="container">${innen}</div></section>`;
     const text = html`<div class="text__koerper">${absaetze}</div>
         ${data.schluss ? html`<p class="text__schluss">${data.schluss}</p>` : ''}`;
@@ -118,9 +125,13 @@ export default {
           : b
           ? html`<div class="text__innen">
               <div>${titelLinks ? titel : ''}${text}</div>
-              <figure class="text__bild text__bild--${['logo', 'logoklein'].includes(data.bildStil) ? data.bildStil : 'foto'}">
-                <img src="${raw(escapeAttr(b))}" alt="${raw(escapeAttr(data.bildAlt || ''))}"
-                     loading="lazy" decoding="async">
+              <figure class="text__bild text__bild--${['logo', 'logoklein', 'karte'].includes(data.bildStil) ? data.bildStil : 'foto'}">
+                ${bildLink
+                  ? html`<a href="${raw(escapeAttr(bildLink))}" target="_blank" rel="noopener noreferrer"><img src="${raw(escapeAttr(b))}"
+                      alt="${raw(escapeAttr(data.bildAlt || ''))}" loading="lazy" decoding="async"></a>`
+                  : html`<img src="${raw(escapeAttr(b))}" alt="${raw(escapeAttr(data.bildAlt || ''))}"
+                      loading="lazy" decoding="async">`}
+                ${data.bildUnterschrift ? html`<figcaption>${data.bildUnterschrift}</figcaption>` : ''}
               </figure>
             </div>`
           : text}`);

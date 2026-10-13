@@ -39,7 +39,9 @@ export function markdownInline(text) {
     const z = ziel(href);
     if (!z) return label;
     const extern = istExtern(z) ? ' target="_blank" rel="noopener noreferrer"' : '';
-    return `<a href="${escapeAttr(z)}"${extern}>${label}</a>`;
+    // 'href' kommt aus dem schon maskierten Text: das '&amp;' einer Adresse mit Parametern
+    // zurueckholen, sonst wird es beim Maskieren des Attributs ein zweites Mal maskiert.
+    return `<a href="${escapeAttr(z.replace(/&amp;/g, '&'))}"${extern}>${label}</a>`;
   });
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');

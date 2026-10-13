@@ -321,6 +321,25 @@
   "mittel": "/bilder/club-whatsapp-800-e21d7a47.jpg",
   "klein": "/bilder/club-whatsapp-400-dd51f0e6.jpg"
  },
+ "kontakt-karte": {
+  "bereich": "themen",
+  "alt": "Kartenausschnitt von Kriftel mit dem Schmelzweg, eine blaue Markierung zeigt die Anlage des Krifteler Tennisclubs",
+  "breite": 768,
+  "hoehe": 512,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/kontakt-karte-400-3a8ec0c4.jpg",
+    "kb": 18
+   },
+   "768": {
+    "pfad": "/bilder/kontakt-karte-768-1d6f443d.jpg",
+    "kb": 78
+   }
+  },
+  "gross": "/bilder/kontakt-karte-768-1d6f443d.jpg",
+  "mittel": "/bilder/kontakt-karte-768-1d6f443d.jpg",
+  "klein": "/bilder/kontakt-karte-400-3a8ec0c4.jpg"
+ },
  "recht-datenschutz": {
   "bereich": "themen",
   "alt": "Ein goldenes Zahlenschloss liegt offen auf einer weißen Tastatur, daneben zwei Karten mit goldenem Chip",

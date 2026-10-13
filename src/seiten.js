@@ -489,7 +489,9 @@ export const seiten = [
     }},
     { ...FORMULAR, data: { ...FORMULAR.data,
       titel: 'Noch eine Frage offen?',
-      vorspann: 'Schreib uns, bevor du dich anmeldest — wir antworten meist am selben Tag.' } },
+      vorspann: 'Schreib uns, bevor du dich anmeldest — wir antworten meist am selben Tag.',
+      // Der gelbe Knopf dieser Seite steht schon im Aufmacher.
+      knopfStil: 'leise' } },
     ASSISTENT,
     FOOTER,
   ],
@@ -693,10 +695,24 @@ export const seiten = [
       pill: 'Kontakt',
       titel: 'Kontakt und Anfahrt',
       sub: 'Ruf an, schreib uns oder komm einfach vorbei. Am schnellsten geht es über {{facts.verein.email}}.',
+      zweitLabel: 'Direkt anrufen', zweitHref: '#vorstand',
       bild: bild('anlage-zentrum-oben'), bildAlt: bildAlt('anlage-zentrum-oben'),
     }},
+    // Bevor jemand schreibt: der kuerzere Weg. Steht die Antwort schon in der FAQ oder weiss sie
+    // der Assistent, spart sich der Fragende das Warten und der Vorstand die Mail.
+    { type: 'hinweisband', data: {
+      titel: 'Erst kurz nachschauen?',
+      text: 'Vieles lässt sich schnell klären: Schau in die [häufigen Fragen](/faq/) oder probier den Assistenten aus, [Frag den KTC](#frag-den-ktc) antwortet sofort. Bleibt trotzdem etwas offen, melde dich einfach bei uns, per Mail oder am Telefon.',
+    }},
+    // Die haeufigste Handlung der Seite zuerst: schreiben. Der Aufmacher verspricht die
+    // Adresse, hier steht sie neben dem Formular. Die Vorstandskarten sind das Verzeichnis
+    // fuer alle, die jemanden direkt anrufen wollen — sie stehen danach.
+    { ...FORMULAR, data: { ...FORMULAR.data, aufbau: 'zweispaltig',
+      mailLabel: 'Oder direkt per E-Mail', mailAdresse: '{{facts.verein.email}}' } },
     { type: 'personen', data: {
       titel: 'Der Vorstand',
+      anker: 'vorstand',
+      grund: 'ruhig',
       vorspann: 'Jederzeit ein offenes Ohr für dich!',
       leute: vorstand,
     }},
@@ -704,13 +720,18 @@ export const seiten = [
     // die Ueberschrift nimmt es auf, die zwei Wege stehen als Anfangsworte im Text.
     { type: 'richtext', data: {
       titel: 'Komm einfach vorbei',
-      grund: 'ruhig',
+      // Die Karte ist ein eigenes Bild (bilder/themen/kontakt-karte.jpg, OpenStreetMap) mit Link
+      // zu Google Maps im neuen Fenster: so wird beim Aufruf der Seite nichts von Google geladen.
+      // Fehlt das Bild, steht der Text mit dem Link allein da.
+      bild: bild('kontakt-karte', 'mittel'), bildAlt: bildAlt('kontakt-karte'), bildStil: 'karte',
+      bildLink: '{{facts.links.karte}}',
+      bildUnterschrift: 'Kartendaten © OpenStreetMap-Mitwirkende',
       absaetze: [
         '**Mit dem Auto:** A66, Abfahrt Frankfurt-Zeilsheim / Hofheim-Nord, Richtung Hofheim folgen. Am Ortseingang Hofheim an der zweiten Ampel, vor der Aral-Tankstelle, links in den Schmelzweg abbiegen. Die Anlage liegt unmittelbar links. Parkplätze sind am unteren Ende der Anlage, auf dem Parkplatz der Kreissporthalle.',
         '**Mit Bus und Bahn:** Mit der S-Bahn S1 bis Hofheim. Von dort weiter mit Bus 263, Bus 401 oder Bus 812 bis zur Haltestelle Kriftel Kreissporthalle. Von dort sind es rund 100 Meter den Schmelzweg aufwärts bis zum Eingang.',
+        '[Route in Google Maps planen ↗]({{facts.links.karte}})',
       ],
     }},
-    FORMULAR,
     ASSISTENT,
     FOOTER,
   ],

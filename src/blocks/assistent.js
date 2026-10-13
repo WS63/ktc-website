@@ -155,6 +155,10 @@ const SKRIPT = `
   }
   wurzel.querySelector('[data-auf-knopf]').addEventListener('click', function () { auf(true); });
   wurzel.querySelector('[data-zu]').addEventListener('click', function () { auf(false); });
+  // Ein Link '#frag-den-ktc' irgendwo auf der Seite oeffnet den Assistenten.
+  document.querySelectorAll('a[href="#frag-den-ktc"]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); auf(true); });
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && wurzel.hasAttribute('data-auf')) auf(false);
   });

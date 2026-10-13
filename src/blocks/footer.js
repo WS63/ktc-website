@@ -18,6 +18,9 @@ export default {
       align-items: center; padding-top: var(--raum-4); padding-bottom: var(--raum-4);
       font-size: 17px; color: var(--text-leise); }
     .fuss__innen span { margin-right: auto; }
+    /* Mit dem Chat-Knopf schwebt unten rechts ein Knopf ueber der Fusszeile: ihm bleibt Platz
+       unter den Links, damit er keinen Link verdeckt. */
+    body:has(#ktc-assistent) .fuss__innen { padding-bottom: calc(var(--raum-4) + 56px); }
     /* Weiss statt Blau: auf dunklem Grund wirkt das Signalblau wie ein
        Fremdkoerper. Dass es Links sind, zeigt der Strich beim Darueberfahren
        — und die Zeile steht ohnehin nur aus Links. */

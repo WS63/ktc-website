@@ -18,7 +18,10 @@ export default {
     /* Der Knopf: das Bild der Assistentin und ihr Name — ein Gegenueber, kein Werkzeug. */
     .ass__knopf { display: flex; align-items: center; gap: 10px; cursor: pointer;
       background: var(--grund); color: var(--text); border: none; font: inherit;
-      font-size: 16px; font-weight: 600; padding: 7px 22px 7px 8px; border-radius: 40px;
+      font-size: 16px; font-weight: 600; padding: 6px 21px 6px 7px; border-radius: 40px;
+      /* Ein duenner heller Rand: auf weissem oder grauem Grund faellt er nicht auf, auf der
+         dunklen Fusszeile trennt er den Knopf vom Grund (er hat dort dieselbe Farbe). */
+      border: 1.5px solid var(--text-leise);
       box-shadow: 0 3px 14px rgba(30,30,24,.22); }
     .ass__knopf:hover { background: var(--ueberfahren); }
     .ass__avatar { flex: none; width: 36px; height: 36px; border-radius: 50%; overflow: hidden;

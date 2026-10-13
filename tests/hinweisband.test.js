@@ -18,5 +18,5 @@ test('Kontaktseite: der Hinweis auf FAQ und Assistent steht vor dem Formular', (
   assert.ok(typen.indexOf('hinweisband') < typen.indexOf('formular'));
   const t = k.find((b) => b.type === 'hinweisband').data.text;
   assert.match(t, /\(\/faq\/\)/);
-  assert.match(t, /\(#frag-den-ktc\)/);
+  assert.match(t, /\(#frag-lisa\)/);
 });

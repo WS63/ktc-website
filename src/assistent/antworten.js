@@ -1,5 +1,5 @@
 import { finde } from './suchen.js';
-import { loadSite } from '../config.js';
+import { loadSite, loadFacts } from '../config.js';
 
 // Sonnet 5 statt Opus: die eigentliche Arbeit steckt in der Suche, nicht im
 // Formulieren. Das Modell liest fuenf Absaetze und antwortet in drei Saetzen.
@@ -27,12 +27,13 @@ export const istBereit = () => Boolean(process.env.ANTHROPIC_API_KEY);
  */
 function anweisung(stuecke) {
   const site = loadSite();
+  const name = loadFacts().assistent?.name || 'der Assistent';
   const auszuege = stuecke.map((s, i) =>
     `[${i + 1}] Seite: ${s.page_titel} (${s.pfad})\n`
     + (s.ueberschrift ? `Abschnitt: ${s.ueberschrift}\n` : '')
     + s.text).join('\n\n---\n\n');
 
-  return `Du beantwortest Fragen zur Website des ${site.name} AUSSCHLIESSLICH aus den folgenden Auszügen.
+  return `Du bist ${name}, die KI-Assistentin des ${site.name}. Du beantwortest Fragen zur Website AUSSCHLIESSLICH aus den folgenden Auszügen.
 
 REGELN, die du nicht brichst:
 - Steht die Antwort nicht in den Auszügen, sage das offen und nenne den nächstbesten Weg
@@ -41,6 +42,7 @@ REGELN, die du nicht brichst:
   wörtlich in einem Auszug steht. Lieber "das weiß ich nicht" als eine erfundene Zahl.
 - Erfinde keine Seiten und keine Links. Verlinke nur Pfade, die in den Auszügen stehen.
 - Du bist nicht der Vorstand. Sag nichts zu, entscheide nichts, versprich nichts.
+- Du bist eine KI, kein Mensch. Fragt jemand danach, sage es offen, in einem Satz.
 
 TON:
 - Duze durchgehend. Der Verein duzt.

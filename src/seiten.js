@@ -99,15 +99,18 @@ const NAV = { type: 'nav', data: {
  * Der Assistent steht auf jeder Seite. Er ist eine Nebensache im Sinne von P6:
  * faellt er aus, bleibt die Website vollstaendig bedienbar.
  */
+// Lisa: der Name steht in den Fakten (facts.assistent), der Text der Begruessung im Baustein.
+// Das Bild der Assistentin kommt aus bilder/logos/lisa.jpg; fehlt es, steht ihr Anfangsbuchstabe da.
 const ASSISTENT = { type: 'assistent', data: {
-  name: 'Frag den KTC',
-  begruessung: 'Ich kenne alles, was auf dieser Website steht — Beiträge, Termine, '
-    + 'Mannschaften, Anfahrt. Womit kann ich dir helfen?',
+  name: '{{facts.assistent.name}}',
+  rolle: '{{facts.assistent.rolle}}',
+  avatar: bild('lisa', 'klein'),
+  foto: bild('anlage-wiese', 'mittel'), fotoAlt: bildAlt('anlage-wiese'),
   vorschlaege: [
     'Was kostet eine Mitgliedschaft?',
-    'Wie werde ich Mitglied?',
-    'Kann ich als Gast mitspielen?',
-    'Wann startet die Saison?',
+    'Welche Termine stehen als Nächstes an?',
+    'Wann hat das Clubrestaurant geöffnet?',
+    'Wie komme ich zur Anlage?',
   ],
 }};
 
@@ -702,7 +705,7 @@ export const seiten = [
     // der Assistent, spart sich der Fragende das Warten und der Vorstand die Mail.
     { type: 'hinweisband', data: {
       titel: 'Erst kurz nachschauen?',
-      text: 'Vieles lässt sich schnell klären: Schau in die [häufigen Fragen](/faq/) oder probier den Assistenten aus, [Frag den KTC](#frag-den-ktc) antwortet sofort. Bleibt trotzdem etwas offen, melde dich einfach bei uns, per Mail oder am Telefon.',
+      text: 'Vieles lässt sich schnell klären: Schau in die [häufigen Fragen](/faq/) oder frag [Lisa](#frag-lisa), unsere KI-Assistentin: Sie antwortet sofort. Bleibt trotzdem etwas offen, melde dich einfach bei uns, per Mail oder am Telefon.',
     }},
     // Die haeufigste Handlung der Seite zuerst: schreiben. Der Aufmacher verspricht die
     // Adresse, hier steht sie neben dem Formular. Die Vorstandskarten sind das Verzeichnis
@@ -894,12 +897,12 @@ export const seiten = [
       ],
     }},
     { type: 'richtext', data: {
-      titel: '5. Der Assistent „Frag den KTC“',
+      titel: '5. Lisa, die KI-Assistentin',
       absaetze: [
-        'Auf jeder Seite kannst du einem Assistenten Fragen zum Verein stellen. Er antwortet ausschließlich aus den Inhalten dieser Website. Wenn du eine Frage abschickst, geht sie zusammen mit den letzten Nachrichten des Gesprächs und den passenden Textstellen dieser Website an einen KI-Dienst des Anbieters Anthropic, der die Antwort erzeugt. Anthropic sitzt in den USA. Die Übermittlung stützt sich auf Standardvertragsklauseln (Art. 46 DSGVO). Mehr dazu in den [Datenschutzhinweisen von Anthropic](https://www.anthropic.com/legal/privacy).',
-        '**Bitte gib im Chat keine persönlichen Daten ein**, weder deine eigenen noch die anderer. Der Assistent braucht sie nicht.',
+        'Auf jeder Seite kannst du Lisa, unserer KI-Assistentin, Fragen zum Verein stellen. Lisa ist keine Person, sondern ein Computerprogramm. Sie antwortet ausschließlich aus den Inhalten dieser Website. Wenn du eine Frage abschickst, geht sie zusammen mit den letzten Nachrichten des Gesprächs und den passenden Textstellen dieser Website an einen KI-Dienst des Anbieters Anthropic, der die Antwort erzeugt. Anthropic sitzt in den USA. Die Übermittlung stützt sich auf Standardvertragsklauseln (Art. 46 DSGVO). Mehr dazu in den [Datenschutzhinweisen von Anthropic](https://www.anthropic.com/legal/privacy).',
+        '**Bitte gib im Chat keine persönlichen Daten ein**, weder deine eigenen noch die anderer. Lisa braucht sie nicht.',
         'Wir speichern die Frage, die Antwort und die Seiten, aus denen geantwortet wurde, mit dem Zeitpunkt, ohne IP-Adresse und ohne Kennung. So sehen wir, was Besucher wissen wollen und auf der Website nicht finden. Die Einträge werden nach {{facts.datenschutz.frist_chat}} gelöscht. Damit niemand den Dienst überlastet, merkt sich der Server deine IP-Adresse für wenige Minuten im Arbeitsspeicher. Sie wird nicht in der Datenbank gespeichert und ist spätestens beim nächsten Neustart des Servers weg.',
-        'Rechtsgrundlage ist unser berechtigtes Interesse an einer einfachen Auskunft für Besucher (Art. 6 Abs. 1 lit. f DSGVO). Die Nutzung ist freiwillig. Die Website funktioniert ohne den Assistenten vollständig.',
+        'Rechtsgrundlage ist unser berechtigtes Interesse an einer einfachen Auskunft für Besucher (Art. 6 Abs. 1 lit. f DSGVO). Die Nutzung ist freiwillig. Die Website funktioniert ohne Lisa vollständig.',
       ],
     }},
     { type: 'richtext', data: {

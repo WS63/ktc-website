@@ -144,5 +144,9 @@
     "alter": "5 bis 8 Jahre",
     "kontakt_name": "Oliver Kaus",
     "kontakt_telefon": "+49 172 6750873"
+  },
+  "assistent": {
+    "name": "Lisa",
+    "rolle": "KI-Assistentin des KTC"
   }
 }

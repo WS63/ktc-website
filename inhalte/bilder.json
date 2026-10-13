@@ -822,6 +822,21 @@
   "mittel": "/bilder/logo-htv-686-2501e7e9.jpg",
   "klein": "/bilder/logo-htv-400-617c8a85.jpg"
  },
+ "lisa": {
+  "bereich": "logos",
+  "alt": "Porträt von Lisa, der KI-Assistentin des KTC (ein von einer KI erzeugtes Bild)",
+  "breite": 400,
+  "hoehe": 400,
+  "groessen": {
+   "400": {
+    "pfad": "/bilder/lisa-400-ff7f1137.jpg",
+    "kb": 18
+   }
+  },
+  "gross": "/bilder/lisa-400-ff7f1137.jpg",
+  "mittel": "/bilder/lisa-400-ff7f1137.jpg",
+  "klein": "/bilder/lisa-400-ff7f1137.jpg"
+ },
  "logo-tennisschule": {
   "bereich": "logos",
   "alt": "Kontaktangaben der Tennisschule Kaus",

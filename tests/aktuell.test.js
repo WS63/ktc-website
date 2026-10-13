@@ -284,7 +284,9 @@ test('Seed: ein Entwurf wird nur angelegt; was jemand veroeffentlicht, bleibt es
   try {
     seed();
     assert.equal(status(), 'draft');                                   // angelegt als Entwurf
-    assert.equal(abfrage("SELECT count(*) AS n FROM pages WHERE page_type = 'beitrag' AND status = 'published'")[0].n, 23);
+    // Soviele wie die Datei veroeffentlicht: eine feste Zahl waere beim naechsten Beitrag falsch.
+    const veroeffentlicht = JSON.parse(readFileSync('inhalte/beitraege.json', 'utf8')).filter((b) => b.status !== 'draft').length;
+    assert.equal(abfrage("SELECT count(*) AS n FROM pages WHERE page_type = 'beitrag' AND status = 'published'")[0].n, veroeffentlicht);
     abfrage(`UPDATE pages SET status = 'published' WHERE slug = '${slug}'`);
     seed();
     assert.equal(status(), 'published');                                // der zweite Seed laesst ihn stehen

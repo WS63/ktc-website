@@ -4,7 +4,7 @@ import { renderPage } from '../renderer.js';
 import { loadSite, loadArten } from '../config.js';
 import { holen, legen, bisMitternacht } from '../cache.js';
 import { zaehle } from '../zaehler.js';
-import { alleTermine, kuenftige, spielplanHinweis } from '../termin-quelle.js';
+import { kalenderTermine, kuenftige, vergangene, spielplanHinweis } from '../termin-quelle.js';
 import { suchtext, begriffe, beitraegeFiltern, termineFiltern } from '../suche.js';
 import { spielstand, infoStand } from '../spielstand.js';
 import { ansicht, neuesteErgebnisse } from '../ergebnisse.js';
@@ -126,7 +126,7 @@ async function dynamischeDaten(inhalt, page) {
     const b = inhalt.blocks.find((x) => x?.type === 'aktuell');
     const nB = Number(b?.data?.anzahlBeitraege) > 0 ? Number(b.data.anzahlBeitraege) : 2;
     const { gesamt, eintraege } = await beitraegeLaden(nB, 0);
-    daten.aktuell = { gesamt, beitraege: eintraege, termine: mitSymbol(kuenftige(alleTermine())),
+    daten.aktuell = { gesamt, beitraege: eintraege, termine: mitSymbol(kuenftige(kalenderTermine())),
       // Am Spieltag stehen hier die frischen Ergebnisse statt der naechsten Termine.
       ergebnisse: neuesteErgebnisse(spielstand(), { jetzt: Date.now() }) };
   }
@@ -143,10 +143,18 @@ async function dynamischeDaten(inhalt, page) {
     // ist eine reine Funktion (P1). Ein new Date() im Baustein machte sie vom
     // Tag abhaengig — dieselbe Seite saehe im April anders aus als im Mai, und
     // kein Test koennte das festhalten.
-    const kommend = kuenftige(alleTermine());
+    const arten = loadArten();
+    const vergangen = page.zeit === 'vergangen';
+    let liste = vergangen ? vergangene(kalenderTermine()) : kuenftige(kalenderTermine());
+    if (page.art) liste = liste.filter((t) => t.art === page.art);
+    if (page.suche) liste = termineFiltern(liste, page.suche);
     daten.termine = {
-      termine: mitSymbol(page.suche ? termineFiltern(kommend, page.suche) : kommend),
+      termine: mitSymbol(liste),
       stand: spielplanHinweis(), q: page.suche || '', basis: `/${page.slug}/`,
+      // Die Arten, nach denen sich filtern laesst: die mit einem Namen fuer Termine.
+      kategorien: Object.entries(arten).filter(([k, v]) => k[0] !== '_' && v.termin)
+        .map(([key, v]) => ({ key, label: v.termin, symbol: v.symbol })),
+      art: page.art || '', zeit: vergangen ? 'vergangen' : 'kommend',
     };
   }
   return daten;
@@ -271,7 +279,11 @@ router.get(/^\/(.*)$/, async (req, res, next) => {
     const q = suchtext(req.query.q);
     // ?we=JJJJ-MM-TT waehlt ein Spielwochenende. Wie die Suche: nie aus dem Speicher.
     const we = /^\d{4}-\d{2}-\d{2}$/.test(String(req.query.we || '')) ? String(req.query.we) : '';
-    if (!q && !we) {
+    // ?art=… waehlt eine Art von Terminen (nur eine, die es gibt), ?zeit=vergangen die Rueckschau.
+    const art = Object.entries(loadArten()).some(([k, v]) => k[0] !== '_' && v.termin && k === String(req.query.art || ''))
+      ? String(req.query.art) : '';
+    const zeit = req.query.zeit === 'vergangen' ? 'vergangen' : '';
+    if (!q && !we && !art && !zeit) {
       const zwischen = holen(pfad);
       if (zwischen) { zaehle(req.path); return res.type('html').send(zwischen); }
     }
@@ -282,13 +294,13 @@ router.get(/^\/(.*)$/, async (req, res, next) => {
     // Nur Seiten, die ein Suchfeld haben, nehmen den Suchtext an.
     const suchbar = begriffe(q).length > 0 && inhalt.blocks.some((b) =>
       ['beitragsliste', 'termine'].includes(b?.type) && b.data?.suche === 'an');
-    const page = { ...geladen, ...(suchbar ? { suche: q } : {}), ...(we ? { we } : {}) };
+    const page = { ...geladen, ...(suchbar ? { suche: q } : {}), ...(we ? { we } : {}), ...(art ? { art } : {}), ...(zeit ? { zeit } : {}) };
     const html = renderPage(page, { dynamicData: await dynamischeDaten(inhalt, page) });
     zaehle(req.path);
     // Eine Seite mit Terminen gilt nur bis Mitternacht: danach kann ein
     // Termin vorbei sein, und der Speicher wuesste nichts davon.
     const hatTermine = inhalt.blocks.some((b) => b?.type === 'termine' || b?.type === 'aktuell');
-    if (q || we) return res.type('html').set('Cache-Control', 'no-store').send(html);
+    if (q || we || art || zeit) return res.type('html').set('Cache-Control', 'no-store').send(html);
     // Der Spielstand aendert sich im Lauf des Tages: eine Minute, nicht bis Mitternacht.
     if (inhalt.blocks.some((b) => b?.type === 'ergebnisse' || b?.type === 'aktuell')) {
       return res.type('html').send(legen(pfad, html, Date.now() + 60 * 1000));

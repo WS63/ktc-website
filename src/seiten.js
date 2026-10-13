@@ -112,7 +112,7 @@ const ASSISTENT = { type: 'assistent', data: {
 }};
 
 const FOOTER = { type: 'footer', data: {
-  zeile: '{{facts.verein.name}} · {{facts.verein.strasse}} · {{facts.verein.plz}} {{facts.verein.ort}}',
+  zeile: '{{facts.verein.name}} · {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
   // 'Clubhaus' steht hier und nicht in der Kopfzeile: das Restaurant ist
   // kein Vereinsthema und soll die sechs Menuepunkte nicht auf sieben
   // bringen. Aber es ist die Seite mit den Oeffnungszeiten — wer sie auf
@@ -586,7 +586,7 @@ export const seiten = [
     }},
     { type: 'termine', data: {
       suche: 'an',
-      vorspann: 'Abgelaufene Termine verschwinden von selbst — was hier steht, kommt noch.',
+      vorspann: 'Was ansteht — und über „Vergangen“ auch, was schon war.',
       leerText: 'Zurzeit steht nichts an. Sobald die Termine der neuen Saison feststehen, erscheinen sie hier.',
       // Die Termine stehen NICHT hier, sondern in inhalte/termine.json —
       // dieselbe Quelle speist die Startseite (P3).

@@ -69,9 +69,16 @@ export default {
     .erg__blase--gast { color: var(--text-leise); background: var(--grund); border-color: var(--linie-stark); }
     .erg__bericht-sp { text-align: right; }
     .erg__bericht { font-size: 13px; white-space: nowrap; }
+    /* Spielgemeinschaft in zwei Farben: Blau = vom KTC gemeldet (durchgezogener Rand),
+       Orange = von einem Partnerverein gemeldet (gestrichelter Rand). Der Rand unterscheidet
+       auch ohne Farbe, das Wort im Tooltip und in der Legende sagt es dazu. */
     .erg__msg { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em;
       color: var(--signal); border: 1px solid var(--linie-aktiv); border-radius: 3px;
       padding: 0 4px; margin-left: 4px; white-space: nowrap; }
+    .erg__msg--partner { color: var(--msg-partner); border: 1px dashed var(--msg-partner); }
+    .erg__legende { font-size: 14px; color: var(--text-leise); margin: 0 0 var(--raum-3); display: flex;
+      flex-wrap: wrap; align-items: baseline; gap: 4px var(--raum-3); }
+    .erg__legende .erg__msg { margin: 0 6px 0 0; }
     .erg__zahl { font-variant-numeric: tabular-nums; font-weight: 700; text-align: right; }
     .erg__aus { color: var(--text-leise); white-space: nowrap; }
     .erg__offen { color: var(--text-leise); text-align: right; white-space: nowrap; }
@@ -100,8 +107,14 @@ export default {
     const link = (we, text, pfeil) => we
       ? html`<a href="${raw(escapeAttr(`${basis}?we=${we}`))}">${pfeil === 'z' ? '← ' : ''}${text}${pfeil === 'v' ? ' →' : ''}</a>` : '';
 
+    // Das MSG-Zeichen: Farbe und Rand sagen, wer die Spielgemeinschaft meldet.
+    const msg = (e) => html`<span class="erg__msg${raw(e.sgart === 'partner' ? ' erg__msg--partner' : '')}"
+      title="${e.sgart === 'partner' ? 'Spielgemeinschaft, gemeldet von einem Partnerverein' : 'Spielgemeinschaft, gemeldet vom KTC'}">MSG</span>`;
+    const hatMsg = (a.eintraege || []).some((e) => e.sg);
+    const legende = hatMsg ? html`<p class="erg__legende"><span><span class="erg__msg">MSG</span>Spielgemeinschaft, vom KTC gemeldet</span>
+      <span><span class="erg__msg erg__msg--partner">MSG</span>Spielgemeinschaft, von einem Partnerverein gemeldet</span></p>` : '';
     const paarung = (e) => {
-      const wir = html`<span class="wir">${e.mannschaft}</span>${e.sg ? html`<span class="erg__msg" title="Spielgemeinschaft mit Partnervereinen">MSG</span>` : ''}`;
+      const wir = html`<span class="wir">${e.mannschaft}</span>${e.sg ? msg(e) : ''}`;
       const sie = html`<span class="sie">${e.gegner}</span>`;
       return e.zuhause ? html`${wir} - ${sie}` : html`${sie} - ${wir}`;
     };
@@ -122,7 +135,7 @@ export default {
       const bericht = e.bericht
         ? html`<a class="erg__bericht" href="${raw(escapeAttr(ziel(e.bericht)))}" target="_blank" rel="noopener noreferrer">Bericht ↗</a>` : '';
       return html`<tr>
-        <td class="erg__wir">${e.mannschaft}${e.sg ? html`<span class="erg__msg" title="Spielgemeinschaft mit Partnervereinen">MSG</span>` : ''}</td>
+        <td class="erg__wir">${e.mannschaft}${e.sg ? msg(e) : ''}</td>
         <td class="erg__ort"><span class="erg__blase erg__blase--${e.zuhause ? 'heim' : 'gast'}"
           title="${e.zuhause ? 'Heimspiel' : 'Auswärtsspiel'}">${e.zuhause ? 'Heim' : 'Gast'}</span></td>
         <td class="erg__sie">${e.gegner}</td>
@@ -146,6 +159,7 @@ export default {
               a.offen ? html` · ${a.offen} noch offen` : ''}</p>` : ''}
         ${data.stand ? html`<p class="erg__stand">Stand: ${data.stand}. Die Ergebnisse stammen vom Hessischen Tennisverband; maßgeblich ist dort der Spielbericht.</p>` : ''}
 
+        ${legende}
         ${a.zuletzt.length ? html`<div class="erg__zuletzt"><h3>Gerade gemeldet</h3><ul>${a.zuletzt.map((e) => {
           const [sym, wort] = AUSGANG[e.ausgang] || [];
           return html`<li><span class="erg__wann">${e.wann}</span><span class="erg__paar">${paarung(e)}</span>

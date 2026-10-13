@@ -16,7 +16,7 @@ export default {
     .fuss { background: var(--grund); color: var(--text); }
     .fuss__innen { display: flex; gap: var(--raum-3); flex-wrap: wrap;
       align-items: center; padding-top: var(--raum-4); padding-bottom: var(--raum-4);
-      font-size: 15px; color: var(--text-leise); }
+      font-size: 17px; color: var(--text-leise); }
     .fuss__innen span { margin-right: auto; }
     /* Weiss statt Blau: auf dunklem Grund wirkt das Signalblau wie ein
        Fremdkoerper. Dass es Links sind, zeigt der Strich beim Darueberfahren

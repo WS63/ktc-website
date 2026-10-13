@@ -46,5 +46,5 @@ test('ein Termin mit kaputtem Datum verschwindet NICHT stumm', () => {
 test('der Baustein bekommt das Datum fertig formatiert', () => {
   // renderPage() soll sich nicht um Gebietsschemata kuemmern muessen.
   const [t] = kuenftige([{ datum: tage(3), titel: 'x' }]);
-  assert.match(t.tag, /^\d{1,2}\. \p{Lu}\p{Ll}+$/u);
+  assert.match(t.tag, /^\d{1,2}\. \p{Lu}\p{Ll}+ ’\d{2}$/u);       // "17. Apr ’27"
 });

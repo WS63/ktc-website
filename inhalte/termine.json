@@ -1,7 +1,17 @@
 {
-  "_hinweis": "Die Vereinstermine — EINE Quelle für Clubkalender und Startseite (P3). Datum als JJJJ-MM-TT, art ist spiel, club oder info. Abgelaufene Termine blendet die Website selbst aus, hier muss nichts gelöscht werden. Nach einer Änderung den Server neu starten: fertige Seiten liegen bis Mitternacht im Speicher. Spieltage der Medenrunde stehen NICHT hier: sie kommen aus dem HTV-Import (npm run spielplan). art ist spiel, club oder info (config/arten.json) — daraus ergibt sich das Symbol.",
-  "_achtung": "Die vier Einträge unten sind BEISPIELE aus Stufe 2, keine echten Termine. Ersetzen, sobald der Vorstand die Termine der Saison liefert.",
+  "_hinweis": "Die Vereinstermine — EINE Quelle für Clubkalender und Startseite (P3). Datum als JJJJ-MM-TT, art ist spiel (Sport), jugend, club oder info (Hinweis). Abgelaufene Termine blendet die Website selbst aus, hier muss nichts gelöscht werden. Nach einer Änderung den Server neu starten: fertige Seiten liegen bis Mitternacht im Speicher. Spieltage der Medenrunde stehen NICHT hier: sie kommen aus dem HTV-Import (npm run spielplan). art ist spiel, club oder info (config/arten.json) — daraus ergibt sich das Symbol.",
+  "_achtung": "Der Herbst-Aktionstag am 24.10.2026 ist ein ECHTER Termin (Einladung vom Vorstand), die drei Einträge mit Datum 2027 sind BEISPIELE aus Stufe 2. 'mehr' verweist auf einen Beitrag mit der Langfassung; 'bis' (JJJJ-MM-TT) macht einen mehrtägigen Termin. Die vier Einträge von 2026 (Mitgliederversammlung, Putztag, Himmelfahrt, Pfingsten) sind echte Termine aus den Beiträgen, für die Rückschau; Himmelfahrt und Pfingsten sind aus dem Feiertagskalender abgeleitet, bitte prüfen.",
   "termine": [
+    {
+      "datum": "2026-10-24",
+      "uhrzeit": "09:30",
+      "art": "club",
+      "titel": "KTC-Herbst-Aktionstag",
+      "text": "Gemeinsam die Anlage winterfest machen: Hecken und Bäume schneiden, Plätze und Rinnen reinigen, Werkstatt und Räume aufräumen. Getränke gibt es vom Verein, danach lädt er alle Helferinnen und Helfer zum Mittagessen ein. Eine kurze Rückmeldung per Mail erleichtert die Planung.",
+      "ort": "Anlage, bis ca. 13:00 Uhr",
+      "mehr": "/aktuelles/ktc-herbst-aktionstag-am-24-oktober-2026/",
+      "mehrLabel": "Aufgaben und was du mitbringst"
+    },
     {
       "datum": "2027-04-17",
       "uhrzeit": "14:00",
@@ -24,6 +34,43 @@
       "art": "info",
       "titel": "Tag der offenen Tür",
       "text": "Schläger ausprobieren, Platz testen, Leute kennenlernen. Ohne Anmeldung."
+    },
+    {
+      "datum": "2026-03-16",
+      "art": "info",
+      "titel": "Mitgliederversammlung",
+      "text": "Die ordentliche Mitgliederversammlung für das Geschäftsjahr 2025, im Clubrestaurant Spice of India.",
+      "ort": "Clubrestaurant",
+      "mehr": "/aktuelles/mitgliederversammlung-beim-ktc/",
+      "mehrLabel": "Zum Bericht"
+    },
+    {
+      "datum": "2026-04-18",
+      "uhrzeit": "09:30",
+      "art": "club",
+      "titel": "Frühjahrs-Putztag",
+      "text": "Gemeinsam die Anlage für die Sommersaison herrichten.",
+      "ort": "Anlage",
+      "mehr": "/aktuelles/fruehjahrs-putztag-am-18-april-2026-ab-930-uhr/",
+      "mehrLabel": "Zum Beitrag"
+    },
+    {
+      "datum": "2026-05-14",
+      "art": "spiel",
+      "titel": "Doppel an Christi Himmelfahrt",
+      "text": "Damen- und Herrendoppel der Mitglieder am Vormittag.",
+      "ort": "Plätze",
+      "mehr": "/aktuelles/glueck-mit-dem-wetter/",
+      "mehrLabel": "Zum Bericht"
+    },
+    {
+      "datum": "2026-05-24",
+      "art": "spiel",
+      "titel": "Pfingstturnier: der Hitzetest",
+      "text": "Das Mitglieder-Turnier am Pfingstsonntag.",
+      "ort": "Plätze",
+      "mehr": "/aktuelles/hitzetest-beim-ktc/",
+      "mehrLabel": "Zum Bericht"
     }
   ]
 }

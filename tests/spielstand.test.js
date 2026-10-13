@@ -200,13 +200,14 @@ test('Ergebnisseite: Kriftel links, Heim oder Gast als Blase, Ausgang als WORT, 
   assert.match(html, /Stand: Heute, 19:40 Uhr/);
 });
 
-test('Ergebnisliste: je Anwurfzeit zuerst die Heimspiele, dann die Auswaertsspiele', () => {
+test('Ergebnisliste: je Anwurfzeit zuerst Heim, dann Auswaerts; im Block Herren, Damen, Jugend', () => {
   const jetzt = berlinEpoch('2026-05-09', '20:00');
   const a = ansicht([
     sp({ mannschaft: 'Damen', zuhause: false, gegner: 'TC Gast' }),
     sp({ mannschaft: 'Herren', zuhause: true, gegner: 'TC Heim' }),
     sp({ mannschaft: 'Damen 40', zuhause: true, gegner: 'TC Heim II' })], { jetzt });
-  assert.deepEqual(a.eintraege.map((e) => e.mannschaft), ['Damen 40', 'Herren', 'Damen']);
+  // Heim vor Gast; im Block Herren vor Damen vor Jugend.
+  assert.deepEqual(a.eintraege.map((e) => e.mannschaft), ['Herren', 'Damen 40', 'Damen']);
 });
 
 // ── Startseite: frische Ergebnisse ─────────────────────────────────────

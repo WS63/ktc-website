@@ -24,6 +24,20 @@ export function wochenenden(spiele) {
   return raus;
 }
 
+/**
+ * Wer die Spielgemeinschaft meldet: steht der KTC im Namen zuerst ('KTC/Diedenb./Kelkh.'),
+ * ist es eine Krifteler Mannschaft mit Spielern anderer Vereine; sonst eine Mannschaft des
+ * Partnervereins mit KTC-Mitgliedern ('Diedenbergen/KTC'). Ohne 'sg' ist es keine MSG.
+ */
+export const sgArt = (sg) => (!sg ? '' : /^ktc\b/i.test(String(sg).trim()) ? 'ktc' : 'partner');
+
+/**
+ * Die Reihenfolge der Mannschaften in einem Block: Herren, Damen, Junioren, Juniorinnen,
+ * gemischte Jugend — innerhalb davon nach Altersklasse und Zahl (Herren, Herren 30, Herren 40 II).
+ */
+const ARTEN = [/^herren/i, /^damen/i, /^junioren/i, /^juniorinnen/i, /^gemischt/i];
+const artRang = (name) => { const i = ARTEN.findIndex((r) => r.test(String(name))); return i < 0 ? ARTEN.length : i; };
+
 const monat = (tag) => new Date(`${tag}T12:00:00Z`).toLocaleDateString('de-DE', { month: 'long', timeZone: 'UTC' });
 const tagZahl = (tag) => Number(tag.slice(8));
 
@@ -61,6 +75,7 @@ export function ansicht(spiele, { we = '', jetzt = Date.now() } = {}) {
     // das ordnet die Liste, und wer zu Hause zuschaut, findet seine Spiele zusammen.
     .sort((a, b) => (a.datum + a.uhrzeit).localeCompare(b.datum + b.uhrzeit)
       || (b.zuhause ? 1 : 0) - (a.zuhause ? 1 : 0)
+      || artRang(a.mannschaft) - artRang(b.mannschaft)
       || a.mannschaft.localeCompare(b.mannschaft, 'de', { numeric: true }));
 
   const eintraege = imFenster.map((s) => {
@@ -68,7 +83,7 @@ export function ansicht(spiele, { we = '', jetzt = Date.now() } = {}) {
     const start = berlinEpoch(s.datum, s.uhrzeit || '12:00');
     return {
       tag: s.datum, wochentag: WOCHENTAG(s.datum), uhrzeit: s.uhrzeit || '',
-      mannschaft: s.mannschaft, sg: s.sg || '', heim: s.heim, gast: s.gast, zuhause: s.zuhause,
+      mannschaft: s.mannschaft, sg: s.sg || '', sgart: sgArt(s.sg), heim: s.heim, gast: s.gast, zuhause: s.zuhause,
       gegner: s.gegner, matchpunkte: s.matchpunkte || '', ausgang: e?.ausgang || '',
       // ohne Ergebnis: ist das Spiel noch nicht angepfiffen, oder fehlt die Meldung?
       status: e ? 'gespielt' : (Number.isFinite(start) && jetzt < start ? 'kommt' : 'offen'),
@@ -119,7 +134,7 @@ export function neuesteErgebnisse(spiele, { jetzt = Date.now(), n = 3, tage = 2 
 
   return {
     eintraege: frisch.slice(0, n).map((s) => ({
-      mannschaft: s.mannschaft, sg: s.sg || '', zuhause: s.zuhause, gegner: s.gegner,
+      mannschaft: s.mannschaft, sg: s.sg || '', sgart: sgArt(s.sg), zuhause: s.zuhause, gegner: s.gegner,
       matchpunkte: s.matchpunkte, ausgang: ergebnis(s).ausgang,
     })),
     weitere: Math.max(0, frisch.length - n),

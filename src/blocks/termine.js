@@ -29,6 +29,9 @@ export default {
     suche:    { type: 'auswahl', default: 'aus', label: 'Suchfeld über der Liste', optionen: ['aus', 'an'] },
     q:        { type: 'auto',  default: '', label: 'Suchtext — kommt aus der Adresse' },
     basis:    { type: 'auto',  default: '', label: 'Adresse der Seite, für das Suchformular' },
+    kategorien: { type: 'auto', default: [], label: 'Die Arten der Termine — kommen aus config/arten.json' },
+    art:      { type: 'auto',  default: '', label: 'Gewählte Art — kommt aus der Adresse' },
+    zeit:     { type: 'auto',  default: 'kommend', label: 'kommend oder vergangen — kommt aus der Adresse' },
     leerText: { type: 'text',  default: 'Zurzeit stehen keine Termine an.',
                 label: 'Text, wenn nichts ansteht' },
     anzahl:   { type: 'text',  default: '', label: 'Höchstens so viele zeigen — leer heißt alle' },
@@ -47,7 +50,7 @@ export default {
     /* Datum und Uhrzeit stehen in einer eigenen Spalte mit fester Breite.
        Ohne sie saessen die Titel je nach Laenge des Datums anders — bei
        zwanzig Zeilen untereinander faellt das sofort auf. */
-    .termin__wann { flex: none; min-width: 104px; padding-top: 2px; }
+    .termin__wann { flex: none; min-width: 132px; padding-top: 2px; }
     .termin__tag { font-size: var(--fs-md); font-weight: 600; line-height: 1.2;
       display: block; }
     .termin__zeit { font-size: 14px; color: var(--text-leise); display: block;
@@ -58,7 +61,25 @@ export default {
     .termin__emoji { flex: none; width: 24px; text-align: center; font-size: 22px;
       line-height: 1.2; margin-top: 1px; }
 
-    .termin h3 { font-size: var(--fs-md); margin-bottom: 3px; }
+    .termin__titel { font-size: var(--fs-md); font-weight: 500; line-height: 1.2; margin: 0 0 3px; }
+    .termin__mehr { display: inline-block; margin-top: 8px; font-size: var(--fs-sm); color: var(--signal);
+      text-decoration: none; border-bottom: 1px solid transparent; }
+    .termin__mehr:hover { border-bottom-color: var(--signal); }
+    /* Die Monatsueberschrift gliedert die Liste grob nach der Zeit. */
+    .termine__monat { font-size: 14px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--text-leise); margin: var(--raum-4) 0 0; padding-bottom: 6px;
+      border-bottom: 2px solid var(--linie-stark); max-width: var(--breite-text); }
+    .termine__monat:first-of-type { margin-top: var(--raum-3); }
+
+    /* Auswahl: wenige Arten und kommend oder vergangen — Links, keine Schaltflaechen, ohne Skript. */
+    .termine__auswahl { display: flex; flex-wrap: wrap; gap: var(--raum-1); margin-bottom: var(--raum-2); }
+    .termine__auswahl a { display: inline-block; padding: 6px 14px; font-size: 15px; line-height: 1.3;
+      color: var(--text); text-decoration: none; border: 1px solid var(--linie-stark);
+      border-radius: var(--r-pill); }
+    .termine__auswahl a:hover { background: var(--signal-leise); border-color: var(--signal); }
+    .termine__auswahl a[aria-current="true"] { background: var(--signal-leise); border-color: var(--signal);
+      color: var(--signal); font-weight: 600; }
+    .termine__auswahl .trenn { flex-basis: 100%; height: 0; }
     .termin p { font-size: var(--fs-sm); color: var(--text-leise); line-height: 1.6; }
     /* Die Mannschaften eines Termins, in zwei Gruppen: Heimspiele zuerst,
        dann Auswaertsspiele. Kleiner und leiser als der Text darueber, damit
@@ -107,27 +128,57 @@ export default {
       ${data.titel ? html`<h2 class="termine__titel">${data.titel}</h2>` : ''}
       ${data.vorspann ? html`<p class="termine__vorspann">${data.vorspann}</p>` : ''}`;
 
+    // Die Auswahl besteht aus Adressen (?art=…&zeit=…): jede Ansicht laesst sich verlinken und
+    // laeuft ohne JavaScript. Der Suchtext bleibt beim Umschalten erhalten.
+    const adresse = (neu) => {
+      const art = 'art' in neu ? neu.art : data.art;
+      const zeit = 'zeit' in neu ? neu.zeit : data.zeit;
+      const p = new URLSearchParams();
+      if (art) p.set('art', art);
+      if (zeit === 'vergangen') p.set('zeit', 'vergangen');
+      if (data.q) p.set('q', data.q);
+      const q = p.toString();
+      return `${data.basis || ''}${q ? `?${q}` : ''}`;
+    };
+    const chip = (text, href, aktiv) => html`<a href="${raw(escapeAttr(href))}"${aktiv ? raw(' aria-current="true"') : ''}>${text}</a>`;
+    const kategorien = data.kategorien || [];
+    const auswahl = kategorien.length
+      ? html`<nav class="termine__auswahl" aria-label="Termine auswählen">
+          ${chip('Kommend', adresse({ zeit: 'kommend' }), data.zeit !== 'vergangen')}
+          ${chip('Vergangen', adresse({ zeit: 'vergangen' }), data.zeit === 'vergangen')}
+          <span class="trenn"></span>
+          ${chip('Alle', adresse({ art: '' }), !data.art)}
+          ${kategorien.map((k) => chip(`${k.symbol} ${k.label}`, adresse({ art: k.key }), data.art === k.key))}
+        </nav>` : '';
     const suchen = data.suche === 'an'
-      ? sucheFeld({ aktion: data.basis, q: data.q, treffer: liste.length, platzhalter: 'Termine und Mannschaften durchsuchen …' }) : '';
+      ? sucheFeld({ aktion: data.basis, q: data.q, treffer: liste.length,
+          platzhalter: 'Suchen, z. B. Arbeitseinsatz, Turnier, Mai …' }) : '';
     if (!liste.length) {
       return html`<section class="section"><div class="container">
         ${kopf}
+        ${auswahl}
         ${suchen}
-        <p class="termine__vorspann">${data.q ? 'Dazu gibt es keinen Termin. Probier ein anderes Wort.' : data.leerText}</p>
+        <p class="termine__vorspann">${data.q || data.art || data.zeit === 'vergangen'
+          ? 'Dazu gibt es keinen Termin. Probier eine andere Auswahl oder ein anderes Wort.' : data.leerText}</p>
       </div></section>`;
     }
 
+    let monat = null;
     const zeilen = liste.map((t) => {
-      return html`<article class="termin">
+      const neuerMonat = t.monat && t.monat !== monat;
+      monat = t.monat || monat;
+      const linkZiel = ziel(t.mehr);
+      return html`${neuerMonat ? html`<h3 class="termine__monat">${t.monat}</h3>` : ''}<article class="termin">
         ${t.symbol
           ? html`<span class="termin__emoji" aria-hidden="true" title="${t.symbolText || ''}">${t.symbol}</span>`
           : ''}
         <div class="termin__wann">
           <span class="termin__tag">${t.tag || t.datum}</span>
-          ${t.uhrzeit ? html`<span class="termin__zeit">${t.uhrzeit} Uhr</span>` : ''}
+          ${t.wochentag || t.uhrzeit
+            ? html`<span class="termin__zeit">${[t.wochentag, t.uhrzeit ? `${t.uhrzeit} Uhr` : ''].filter(Boolean).join(' · ')}</span>` : ''}
         </div>
         <div>
-          <h3>${t.titel}</h3>
+          <h4 class="termin__titel">${t.titel}</h4>
           ${t.text ? html`<p>${markdownInline(t.text)}</p>` : ''}
           ${(t.gruppen || []).map((g) => html`<div class="termin__gruppe">
             <h4>${g.titel}</h4>
@@ -143,6 +194,7 @@ export default {
             })}</tbody></table>
           </div>`)}
           ${t.ort ? html`<span class="termin__ort">${t.ort}</span>` : ''}
+          ${linkZiel ? html`<a class="termin__mehr" href="${raw(escapeAttr(linkZiel))}">${t.mehrLabel || 'Mehr zum Termin'} →</a>` : ''}
         </div>
       </article>`;
     });
@@ -150,9 +202,10 @@ export default {
     return html`
       <section class="section"><div class="container">
         ${kopf}
+        ${auswahl}
         ${suchen}
         <div>${zeilen}</div>
-        ${data.stand && liste.some((t) => (t.gruppen || []).length)
+        ${data.stand && liste.some((t) => t.art === 'spiel')
           ? html`<p class="termine__stand">${data.stand}</p>` : ''}
         ${data.mehrLabel && mehr
           ? html`<a class="termine__mehr" href="${raw(escapeAttr(mehr))}">${data.mehrLabel} →</a>`

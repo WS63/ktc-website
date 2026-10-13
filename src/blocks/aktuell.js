@@ -70,7 +70,7 @@ export default {
     /* Termine: Zeichen und Datum in einer festen Spalte, damit die Titel
        untereinander an einer Kante stehen. */
     .aktuell__termin { display: flex; gap: var(--raum-2); align-items: flex-start; }
-    .aktuell__wann { flex: none; min-width: 96px; font-weight: 600; font-size: var(--fs-sm);
+    .aktuell__wann { flex: none; min-width: 112px; font-weight: 600; font-size: var(--fs-sm);
       padding-top: 2px; }
     .aktuell__wann small { display: block; font-weight: 400; color: var(--text-leise);
       font-size: 14px; }

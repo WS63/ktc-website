@@ -44,6 +44,9 @@
     "achtung-text": "#8a5000",
     "alarm-text":   "#b3200a",
 
+    "_msg": "Spielgemeinschaft (MSG): Signalblau = vom KTC gemeldet, 'msg-partner' = von einem Partnerverein gemeldet. Ein zweiter Ton neben dem Blau, als Text auf Weiß 6,0:1 und auf der Zebrafläche #e3e7ec 4,7:1 geprüft. Gelb bleibt dem einen Knopf.",
+    "msg-partner":  "#a14a00",
+
     "_alt": "Die ersten Namen aus Stufe 1. Sie bleiben, weil Bausteine sie nutzen — neuer Code schreibt 'alarm-text' und 'gut-text'.",
     "warnung":      "#fa320a",
     "bestaetigt":   "#006e00"

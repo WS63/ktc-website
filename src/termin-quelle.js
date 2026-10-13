@@ -16,6 +16,7 @@
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { planAusSpeicher } from './spielstand.js';
+import { wochenenden } from './ergebnisse.js';
 
 const DATEI = 'inhalte/termine.json';
 
@@ -74,6 +75,30 @@ export function spieltageAus(plan) {
       };
     })
     .sort((a, b) => (a.datum + a.uhrzeit).localeCompare(b.datum + b.uhrzeit));
+}
+
+/**
+ * Die Spieltermine fuer den KALENDER: ein Eintrag je Spielwochenende statt eines je
+ * Anwurfzeit. Der Kalender soll nicht durch 55 Zeilen fuehren, und die Spiele selbst
+ * stehen auf der Ergebnisseite, sortiert und mit Ergebnissen — der Eintrag verweist dorthin.
+ *
+ * Der Assistent bekommt weiter die Einzelspiele (spieltageAus): er soll wissen, wann die
+ * Herren 40 spielen, auch wenn der Kalender das nicht Zeile fuer Zeile zeigt.
+ */
+export function wochenendTermine(plan) {
+  const begegnungen = (plan?.begegnungen || []).filter((b) => b.datum);
+  return wochenenden(begegnungen).map((w) => {
+    const dabei = begegnungen.filter((b) => b.datum >= w.von && b.datum <= w.bis);
+    const heim = dabei.filter((b) => b.zuhause).length;
+    return {
+      datum: w.von, bis: w.bis, uhrzeit: '', art: 'spiel',
+      titel: 'HTV-Medenspieltag',
+      // Gerechnet, nie getippt (P3/P4).
+      text: `${dabei.length} ${dabei.length === 1 ? 'Begegnung' : 'Begegnungen'}`
+        + (heim ? `, davon ${heim} ${heim === 1 ? 'Heimspiel' : 'Heimspiele'} auf unserer Anlage.` : '.'),
+      mehr: `/ergebnisse/?we=${w.von}`, mehrLabel: 'Spiele und Ergebnisse',
+    };
+  });
 }
 
 const SPIELPLAN_VERZ = 'inhalte/spielplan';
@@ -155,6 +180,12 @@ export function spielplanHinweis() {
 export const alleTermine = ({ echt = false } = {}) =>
   [...vereinsTermine(), ...spieltageAus(spielplan({ echt }).plan)];
 
+/**
+ * Was der KALENDER und die Startseite zeigen: Vereinstermine und je Spielwochenende ein
+ * Eintrag. Die Einzelspiele (alleTermine) bleiben dem Assistenten.
+ */
+export const kalenderTermine = () => [...vereinsTermine(), ...wochenendTermine(spielplan().plan)];
+
 /** Heute 0:00 — ein Termin von heute Abend ist noch nicht vorbei. */
 function heuteNull() {
   const d = new Date();
@@ -162,26 +193,72 @@ function heuteNull() {
   return d;
 }
 
+const MONATE = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+const MONATSNAMEN = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September',
+  'Oktober', 'November', 'Dezember'];
+const WOCHENTAGE = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+const teile = (datum) => (/^\d{4}-\d{2}-\d{2}$/.test(datum || '')
+  ? { j: datum.slice(2, 4), m: Number(datum.slice(5, 7)) - 1, t: Number(datum.slice(8)),
+      w: WOCHENTAGE[new Date(`${datum}T12:00:00Z`).getUTCDay()] }
+  : null);
+
+/**
+ * Das Datum kurz und mit Jahr: "17. Apr ’27", bei mehreren Tagen "9.–10. Mai ’26".
+ * Fertiger Text, damit der Baustein kein Datum formatieren muss und frei von Gebietsschema
+ * bleibt (P1). Ein ungueltiges Datum kommt unveraendert zurueck.
+ */
+export function tagText(datum, bis = '') {
+  const a = teile(datum);
+  if (!a) return datum || '';
+  const b = bis && bis !== datum ? teile(bis) : null;
+  if (!b) return `${a.t}. ${MONATE[a.m]} ’${a.j}`;
+  if (a.m === b.m && a.j === b.j) return `${a.t}.–${b.t}. ${MONATE[a.m]} ’${a.j}`;
+  return `${a.t}. ${MONATE[a.m]}${a.j === b.j ? '' : ` ’${a.j}`}–${b.t}. ${MONATE[b.m]} ’${b.j}`;
+}
+
+/** "Oktober ’26": die Ueberschrift, unter der ein Termin steht. */
+export const monatText = (datum) => {
+  const a = teile(datum);
+  return a ? `${MONATSNAMEN[a.m]} ’${a.j}` : '';
+};
+
+/** Wochentag, kurz: "Sa", bei mehreren Tagen "Fr–So". */
+export const wochentagText = (datum, bis = '') => {
+  const a = teile(datum);
+  if (!a) return '';
+  const b = bis && bis !== datum ? teile(bis) : null;
+  return b ? `${a.w}–${b.w}` : a.w;
+};
+
+const mitText = (t) => ({
+  ...t,
+  tag: tagText(t.datum, t.bis), wochentag: wochentagText(t.datum, t.bis), monat: monatText(t.datum),
+});
+
+const ende = (t) => new Date(`${t.bis || t.datum}T00:00:00`);
+const schluessel = (t) => `${t.datum}${t.uhrzeit || ''}`;
+
 /**
  * Die Termine, die noch kommen — aelteste zuerst.
  *
  * Das Datum steht als JJJJ-MM-TT in den Daten. Ein Termin ohne gueltiges
  * Datum bleibt drin: lieber ein Eintrag zu viel als einer, der stumm
- * verschwindet, weil jemand sich vertippt hat.
+ * verschwindet, weil jemand sich vertippt hat. Ein mehrtaegiger Termin
+ * gilt bis zu seinem LETZTEN Tag.
  */
 export function kuenftige(termine) {
   const schwelle = heuteNull();
   return termine
-    .filter((t) => {
-      const d = new Date(`${t.datum}T00:00:00`);
-      return Number.isNaN(d.getTime()) || d >= schwelle;
-    })
-    .sort((a, b) => `${a.datum}${a.uhrzeit || ''}`.localeCompare(`${b.datum}${b.uhrzeit || ''}`))
-    .map((t) => ({
-      ...t,
-      // Der Baustein soll kein Datum formatieren muessen — er bekommt den
-      // fertigen Text und bleibt damit frei von Gebietsschema-Logik.
-      tag: new Date(`${t.datum}T00:00:00`).toLocaleDateString('de-DE',
-        { day: 'numeric', month: 'long' }),
-    }));
+    .filter((t) => { const d = ende(t); return Number.isNaN(d.getTime()) || d >= schwelle; })
+    .sort((a, b) => schluessel(a).localeCompare(schluessel(b)))
+    .map(mitText);
+}
+
+/** Die Termine, die vorbei sind — juengste zuerst. Ein ungueltiges Datum zaehlt nie als vorbei. */
+export function vergangene(termine) {
+  const schwelle = heuteNull();
+  return termine
+    .filter((t) => { const d = ende(t); return !Number.isNaN(d.getTime()) && d < schwelle; })
+    .sort((a, b) => schluessel(b).localeCompare(schluessel(a)))
+    .map(mitText);
 }

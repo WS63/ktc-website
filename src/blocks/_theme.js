@@ -41,6 +41,7 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -.015em; font-weight: 500; margin
 p { margin: 0; }
 a { color: var(--signal); }
 a:hover { color: var(--signal-hover); }
+a[href^="mailto:"] { white-space: nowrap; }
 .container { width: 100%; max-width: var(--breite); margin: 0 auto; padding: 0 var(--raum-3); }
 .section { padding: var(--raum-5) 0; }
 

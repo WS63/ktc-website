@@ -57,7 +57,7 @@ export default {
     .aktuell__eintrag:last-of-type { border-bottom: 1px solid var(--linie); }
     .aktuell__datum { display: block; font-size: 14px; color: var(--text-leise);
       margin-bottom: 2px; }
-    .aktuell__eintrag h3 { font-size: var(--fs-md); margin-bottom: 3px; }
+    .aktuell__eintrag h3 { font-size: 18px; font-weight: 600; margin-bottom: 3px; }
     .aktuell__eintrag h3 a { color: var(--text); text-decoration: none; }
     .aktuell__eintrag h3 a:hover { color: var(--signal); }
     /* line-clamp ist hier die Notbremse, nicht der Entwurf — der Text eines

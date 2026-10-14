@@ -17,7 +17,9 @@ function fakten(text, { roh = false } = {}) {
       console.warn(`[Motor] [WARN] Fakt fehlt: ${pfad}`);
       return '[…]';
     }
-    return roh ? String(wert) : escapeHtml(wert);
+    // Telefonnummern bleiben in einem Stueck: geschuetzte Leerzeichen statt Umbruch nach '+49'.
+    const text = /(^|\.)telefon\w*$/.test(pfad) ? String(wert).replace(/ /g, '\u00a0') : String(wert);
+    return roh ? text : escapeHtml(text);
   });
 }
 

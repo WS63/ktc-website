@@ -39,7 +39,7 @@ export default {
       font-size: 28px; line-height: 1.1; margin-top: 2px; }
     .eintrag__datum { display: block; font-size: 14px; color: var(--text-leise);
       margin-bottom: 2px; }
-    .eintrag h3 { font-size: 17px; margin-bottom: 3px; }
+    .eintrag h3 { font-size: 18px; font-weight: 600; margin-bottom: 3px; }
     .eintrag h3 a { color: var(--text); text-decoration: none; }
     .eintrag h3 a:hover { color: var(--signal); }
     .eintrag p { font-size: 15px; color: var(--text-leise); line-height: 1.6; }

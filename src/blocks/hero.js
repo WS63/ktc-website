@@ -109,6 +109,9 @@ export default {
     /* Die Obergrenzen sind an der Vorlage gemessen und an der Containerbreite
        geprueft: Logo plus Wortmarke muessen bei 1120 px nebeneinander passen,
        sonst bricht die Zeile um und der ganze Aufbau faellt auseinander. */
+    /* Die Zeile und die Handlungen sitzen etwas hoeher: unten bleibt mehr vom Foto, und der
+       Aufmacher wirkt nicht bodenlastig. */
+    .hero--bild.hero--zeile .container { padding-bottom: calc(var(--raum-5) + var(--raum-4)); }
     .hero--zeile { --wort-gr: clamp(30px, 5vw, 70px);
                    --titel-gr: clamp(22px, 3.7vw, 52px);
                    /* Der Textblock aus beiden Zeilen — das Mass, an dem das

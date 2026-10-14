@@ -1,4 +1,4 @@
-# Die Stimme des Krifteler Tennisclubs
+# Die Stimme des Krifteler Tennis-Clubs
 
 Diese Datei geht bei jedem Generator-Lauf an das Modell. Sie ist der Unterschied
 zwischen „ein Text über Tennis" und „ein Text vom KTC".

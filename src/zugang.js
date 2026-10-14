@@ -56,7 +56,7 @@ export function zugangsschutz({ name, passwort, ausnahmen = ['/health'] } = {}) 
     // stoeren, der sich einmal vertippt hat.
     setTimeout(() => {
       res.status(401)
-        .set('WWW-Authenticate', 'Basic realm="Krifteler Tennisclub (Vorschau)", charset="UTF-8"')
+        .set('WWW-Authenticate', 'Basic realm="Krifteler Tennis-Club (Vorschau)", charset="UTF-8"')
         // Nie zwischenspeichern: sonst bliebe die Sperrseite im Browser, auch
         // nachdem jemand das richtige Passwort kennt.
         .set('Cache-Control', 'no-store')

@@ -16,12 +16,13 @@ const menue = [
   // kein Vereinsthema und soll die sechs Kopfpunkte nicht auf sieben bringen.
   // Aber dort stehen die Oeffnungszeiten — und wer sie auf dem Telefon
   // einmal verlassen hat, findet eine Seite ohne Menuepunkt nicht wieder.
-  { ort: 'fuss', label: 'Clubhaus',        href: '/clubhaus/' },
+  { ort: 'fuss', label: 'Restaurant',      href: '/clubhaus/' },
   // Der Ergebnisdienst steht in der Fusszeile: der Kopf ist voll, und wer am
   // Spieltag Ergebnisse sucht, kennt den Weg dorthin.
   { ort: 'fuss', label: 'Ergebnisse',      href: '/ergebnisse/' },
   { ort: 'fuss', label: 'WhatsApp',        href: '/whatsapp/' },
   { ort: 'fuss', label: 'FAQ',             href: '/faq/' },
+  { ort: 'fuss', label: 'Satzung',         href: '/satzung-und-ordnungen/' },
   { ort: 'fuss', label: 'Impressum',       href: '/impressum/' },
   { ort: 'fuss', label: 'Datenschutz',     href: '/datenschutz/' },
 ];

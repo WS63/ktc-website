@@ -53,7 +53,7 @@ function wert(v) {
 }
 
 const zeilen = [
-  '-- Krifteler Tennisclub — Inhalt aus SQLite',
+  '-- Krifteler Tennis-Club — Inhalt aus SQLite',
   `-- erzeugt am ${new Date().toISOString()}`,
   '--',
   '-- Einspielen in Coolify: Datenbank → Import Backup → diese Datei.',

@@ -57,7 +57,7 @@ function anweisung(typName) {
   const gold = lies(`page-types/${typName}/golden.html`);
   const prompt = lies(`page-types/${typName}/prompt.md`);
 
-  return `Du baust eine Seite für die Website des Krifteler Tennisclubs.
+  return `Du baust eine Seite für die Website des Krifteler Tennis-Clubs.
 
 Du lieferst AUSSCHLIESSLICH JSON. Kein Text davor, kein Text danach, keine
 Code-Zäune. Das erste Zeichen deiner Antwort ist {, das letzte }.

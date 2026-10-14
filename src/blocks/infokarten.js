@@ -12,6 +12,7 @@ export default {
     zaehlen: { type: 'auswahl', default: 'nein', label: 'Zahlen beim Sichtbarwerden hochzählen', optionen: ['nein', 'ja'] },
     angebotWert: { type: 'text', default: '', label: 'Angebotsband: die große Zahl' },
     angebotText: { type: 'text', default: '', label: 'Angebotsband: der Satz daneben' },
+    angebotFussnote: { type: 'text', default: '', label: 'Angebotsband: Fußnote — das Zeichen ¹ steht dann an der Zahl' },
   },
   css: `
     .info__titel { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: var(--raum-3); }
@@ -77,6 +78,8 @@ export default {
     .info__angebot-wert { flex: none; font-size: var(--fs-3xl); font-weight: 800;
       line-height: 1.05; letter-spacing: -.025em; color: var(--signal); }
     .info__angebot-text { margin: 0; font-size: var(--fs-sm); line-height: 1.5; }
+    .info__angebot-marke { font-size: .45em; vertical-align: super; font-weight: 600; margin-left: 2px; }
+    .info__fussnote { font-size: 14px; color: var(--text-leise); margin: 8px 0 0; }
     @media (max-width: 560px) { .info__angebot { flex-direction: column; align-items: flex-start;
       gap: var(--raum-1); } }
   `,
@@ -103,9 +106,10 @@ export default {
         ${data.titel ? html`<h2 class="info__titel${raw(data.titelGroesse === 'gross' ? ' info__titel--gross' : '')}">${data.titel}</h2>` : ''}
         <div class="info__gitter">${karten}</div>
         ${data.angebotWert ? html`<div class="info__angebot">
-          <span class="info__angebot-wert">${data.angebotWert}</span>
+          <span class="info__angebot-wert">${data.angebotWert}${data.angebotFussnote ? html`<sup class="info__angebot-marke" aria-hidden="true">¹</sup>` : ''}</span>
           <p class="info__angebot-text">${markdownInline(data.angebotText || '')}</p>
         </div>` : ''}
+        ${data.angebotWert && data.angebotFussnote ? html`<p class="info__fussnote">¹ ${data.angebotFussnote}</p>` : ''}
         ${data.zaehlen === 'ja' ? html`<script>${raw(SKRIPT)}</script>` : ''}
       </div></section>`;
   },

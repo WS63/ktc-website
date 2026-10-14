@@ -83,7 +83,7 @@ const htv = (gruppe, wettbewerb) =>
   + `?championship=${wettbewerb}&group=${gruppe}`;
 
 const NAV = { type: 'nav', data: {
-  marke: 'krifteler tennisclub',
+  marke: 'Krifteler Tennis-Club e.V.',
   baum: menue,
   aktionLabel: 'Platz buchen',
   aktionHref: '{{facts.links.buchung}}',
@@ -110,8 +110,9 @@ const FOOTER = { type: 'footer', data: {
   // bringen. Aber es ist die Seite mit den Oeffnungszeiten — wer sie auf
   // dem Telefon einmal verlassen hat, findet sie sonst nicht wieder.
   baum: [
-    { label: 'Clubhaus',    href: '/clubhaus/' },
+    { label: 'Restaurant',  href: '/clubhaus/' },
     { label: 'FAQ',         href: '/faq/' },
+    { label: 'Satzung', href: '/satzung-und-ordnungen/' },
     { label: 'Impressum',   href: '/impressum/' },
     { label: 'Datenschutz', href: '/datenschutz/' },
   ],
@@ -148,13 +149,13 @@ export const seiten = [
 {
   slug: 'start', page_type: 'home',
   title: 'Lust auf Tennis?',
-  description: 'Krifteler Tennisclub: sieben Sandplätze, über 500 Mitglieder, Tennis in familiärer Atmosphäre im Main-Taunus-Kreis.',
+  description: 'Krifteler Tennis-Club: sieben Sandplätze, über 500 Mitglieder, Tennis in familiärer Atmosphäre im Main-Taunus-Kreis.',
   blocks: [
     NAV,
     { type: 'hero', data: {
       // Keine Pille, kein Untertitel. Zwei Zeilen neben dem Logo: der
       // Vereinsname fuehrt, die Frage antwortet leiser darunter.
-      wortmarke: 'Krifteler Tennisclub',
+      wortmarke: 'Krifteler Tennis-Club',
       titel: 'Lust auf Tennis',
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       zweitLabel: 'Erst mal vorbeikommen', zweitHref: '/kontakt/',
@@ -167,13 +168,13 @@ export const seiten = [
     { type: 'richtext', data: {
       titel: 'Bei uns findest du deinen Platz',
       absaetze: [
-        'Tennis in familiärer Atmosphäre, auf einer der schönsten Anlagen im Main-Taunus-Kreis. {{facts.anlage.plaetze}} gepflegte {{facts.anlage.belag}}plätze, ein gemütliches Clubhaus und eine sonnige Terrasse mit [guter Gastronomie](/clubhaus/) — hier bleibst du nach dem Spiel gern noch sitzen. Wir sind {{facts.anlage.mitglieder}} Mitglieder, darunter {{facts.anlage.jugendliche}} Kinder und Jugendliche.',
-        'Ob du anfängst, nach Jahren wieder einsteigst oder ambitioniert in der Mannschaft spielst — bei uns findest du das passende Angebot. Im Jugend- und Erwachsenenbereich spielen wir Wettkämpfe bis zur Landesebene. Im Freizeitbereich gibt es übers Jahr Turniere und Veranstaltungen.',
-        'Trainieren kannst du bei der {{facts.anlage.tennisschule}} — Einzel- und Gruppenstunden für alle Mitglieder, vom ersten Schläger bis zum Mannschaftstraining. Wir vertrauen ihr seit {{facts.anlage.tennisschule_seit}}, mit eingespieltem Trainerteam und klarem Lernkonzept.',
-        'Interessiert an einer Mitgliedschaft oder einem Schnuppertraining? Beiträge, Anträge und alles zum Herunterladen stehen auf [Mitglied werden](/mitglied-werden/). Oder komm einfach am {{facts.verein.strasse}} in {{facts.verein.ort}} vorbei — [so findest du uns](/kontakt/).',
+        'Tennis in familiärer Atmosphäre, auf einer der schönsten Anlagen im Main-Taunus-Kreis. {{facts.anlage.plaetze}} gepflegte {{facts.anlage.belag}}plätze, ein gemütliches Restaurant und eine sonnige Terrasse mit [guter Gastronomie](/clubhaus/). Hier bleibst du nach dem Spiel gern noch sitzen. Wir sind {{facts.anlage.mitglieder}} Mitglieder, darunter {{facts.anlage.jugendliche}} Kinder und Jugendliche.',
+        'Ob du anfängst, nach Jahren wieder einsteigst oder ambitioniert in der Mannschaft spielst, bei uns findest du das passende Angebot. Im Jugend- und Erwachsenenbereich spielen wir Wettkämpfe bis zur Landesebene. Im Freizeitbereich gibt es übers Jahr Turniere und Veranstaltungen.',
+        'Trainieren kannst du bei der {{facts.anlage.tennisschule}}: Einzel- und Gruppenstunden für alle Mitglieder, vom ersten Schläger bis zum Mannschaftstraining. Wir vertrauen ihr seit {{facts.anlage.tennisschule_seit}}, mit eingespieltem Trainerteam und klarem Lernkonzept.',
+        'Interessiert an einer Mitgliedschaft oder einem Schnuppertraining? Beiträge, Anträge und alles zum Herunterladen stehen auf [Mitglied werden](/mitglied-werden/). Oder komm einfach am {{facts.verein.strasse}} in {{facts.verein.ort}} vorbei, [so findest du uns](/kontakt/).',
       ],
       // Eigenes Feld statt fetter Absatz: ein Claim klingt aus, er ruft nicht.
-      schluss: 'Dein Krifteler Tennisclub — sportlich, herzlich, familiär.',
+      schluss: 'Dein Krifteler Tennis-Club: sportlich, herzlich, familiär.',
     }},
     { type: 'infokarten', data: {
       // 'anschluss': die Eckdaten gehoeren zum Textabschnitt darueber — kein
@@ -223,7 +224,7 @@ export const seiten = [
         // getipptes 'Über 20' — neben der Kachel darueber, die denselben
         // Wert aus facts.json zieht. Beim naechsten Saisonstand haette die
         // Kachel sich bewegt und die Karte weiter das Alte behauptet (P2).
-        { titel: 'Team und Wettkampf', text: 'Von der Kreisliga bis zur Landesebene, in allen Altersklassen. Wir spielen um jeden Punkt — und für die Geselligkeit.', linkLabel: 'Zu den Mannschaften', linkHref: '/mannschaften/',
+        { titel: 'Team und Wettkampf', text: 'Von der Kreisliga bis zur Landesebene, in allen Altersklassen. Wir spielen um jeden Punkt und für die Geselligkeit.', linkLabel: 'Zu den Mannschaften', linkHref: '/mannschaften/',
           bild: bild('sport-wettkampf1', 'mittel'), bildAlt: bildAlt('sport-wettkampf1') },
         { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung, Doppelturniere und Freundschaftsspiele gegen andere Vereine.', linkLabel: 'Zur Hobbyrunde', linkHref: '/sport/#hobby',
           bild: bild('anlage-wiese', 'mittel'), bildAlt: bildAlt('anlage-wiese') },
@@ -233,7 +234,7 @@ export const seiten = [
         // nicht nur die Jugend. Vorher sagten beide 'Lernkonzept'.
         { titel: 'Jugend', text: 'Mannschaften, Tenniscamps und die Minis. Fördern und fordern, mit Spaß und ohne Druck.', linkLabel: 'Zur Jugendarbeit', linkHref: '/sport/#jugend',
           bild: bild('sport-jugend', 'mittel'), bildAlt: bildAlt('sport-jugend') },
-        { titel: 'Tennisschule', text: 'Die {{facts.anlage.tennisschule}} unterrichtet seit {{facts.anlage.tennisschule_seit}} bei uns — Einzel- und Gruppenstunden für alle Mitglieder.', linkLabel: 'Zur Tennisschule', linkHref: '/sport/#tennisschule',
+        { titel: 'Tennisschule', text: 'Die {{facts.anlage.tennisschule}} unterrichtet seit {{facts.anlage.tennisschule_seit}} bei uns, mit Einzel- und Gruppenstunden für alle Mitglieder.', linkLabel: 'Zur Tennisschule', linkHref: '/sport/#tennisschule',
           bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
       ],
     }},
@@ -242,8 +243,8 @@ export const seiten = [
       // Zeiten nicht hier, koennte weder die Seite noch der Assistent die
       // haeufigste Frage ueberhaupt beantworten: 'Haben die heute offen?'
       grund: 'ruhig',
-      titel: 'Clubhaus und Terrasse',
-      text: 'Nach dem Match sitzen bleiben. Das Clubrestaurant **{{facts.gastronomie.name}}** kocht {{facts.gastronomie.kueche}} auf der wohl schönsten Sonnenterrasse Kriftels — für Mitglieder, Gäste und alle, die gar nicht spielen.',
+      titel: 'Restaurant und Terrasse',
+      text: 'Nach dem Match sitzen bleiben. Das Clubrestaurant **{{facts.gastronomie.name}}** kocht {{facts.gastronomie.kueche}} auf der wohl schönsten Sonnenterrasse Kriftels, für Mitglieder, Gäste und alle, die gar nicht spielen. {{facts.gastronomie.ergaenzung}}',
       bild: bild('club-restaurant', 'mittel'), bildAlt: bildAlt('club-restaurant'),
       zeilen: [
         // Zwei Werte, zwei Zeilen. Als ein Text mit Mitteltrenner brach der
@@ -254,7 +255,7 @@ export const seiten = [
         { label: 'Ruhetag', wert: '{{facts.gastronomie.ruhetag}}' },
         { label: 'Tisch reservieren', wert: '{{facts.gastronomie.telefon}}' },
       ],
-      fussnote: 'Stand {{facts.gastronomie.zeiten_stand}}. Außerhalb der Freiluftsaison gelten andere Zeiten — dann am besten kurz anrufen.',
+      fussnote: 'Stand {{facts.gastronomie.zeiten_stand}}. Außerhalb der Freiluftsaison gelten andere Zeiten. Dann am besten kurz anrufen.',
       linkLabel: 'Mehr zum Clubrestaurant', linkHref: '/clubhaus/',
     }},
     ASSISTENT,
@@ -266,7 +267,7 @@ export const seiten = [
 {
   slug: 'sport', page_type: 'sport',
   title: 'Sport',
-  description: 'Wettkampf, Hobbyrunde, Jugend und Tennisschule beim Krifteler Tennisclub — alles auf einer Seite.',
+  description: 'Wettkampf, Hobbyrunde, Jugend und Tennisschule beim Krifteler Tennis-Club — alles auf einer Seite.',
   blocks: [
     NAV,
     { type: 'hero', data: {
@@ -305,6 +306,7 @@ export const seiten = [
       absaetze: [
         'Der KTC stellt {{facts.anlage.mannschaften}} Wettspiel-Mannschaften in unterschiedlichen Alters- und Leistungsklassen. Das Spektrum reicht von Kindern ab 12 Jahren bis zu den Senioren 60. Unsere Mannschaften spielen um jeden Punkt, aber auch für die Geselligkeit.',
         'Welche Teams antreten, in welcher Spielklasse und wo der Spielplan steht: [alle Mannschaften im Überblick](/mannschaften/). Wie sie am Wochenende gespielt haben, steht unter [Ergebnisse](/ergebnisse/).',
+        '**Du möchtest in einer Mannschaft spielen?** Dein Ansprechpartner ist {{facts.vorstand.sport.name}}, {{facts.vorstand.sport.rolle}}: {{facts.vorstand.sport.telefon}} oder [{{facts.vorstand.sport.email}}](mailto:{{facts.vorstand.sport.email}}).',
       ],
     }},
     { type: 'richtext', data: {
@@ -323,6 +325,7 @@ export const seiten = [
         'Im KTC hat die Förderung von Kindern und Jugendlichen einen besonderen Stellenwert. Die Nachwuchsarbeit ist das Herz des Vereins — sie sorgt für frischen Wind und Gemeinschaft auf und neben dem Platz.',
         'Unser Ziel: Kindern und Jugendlichen die besten Bedingungen bieten, um Tennis mit Spaß zu lernen, sich sportlich weiterzuentwickeln und über sich hinauszuwachsen. Dabei zählt nicht nur das Training, sondern auch Teamgeist, Fairness und das gemeinsame Erlebnis im Club.',
         'Wir führen unsere jungen Talente Schritt für Schritt an das Turniertennis heran und ebnen ihnen den Weg in die Erwachsenenmannschaften.',
+        '**Dein Ansprechpartner für die Jugend:** {{facts.vorstand.jugend.name}}, {{facts.vorstand.jugend.rolle}}: {{facts.vorstand.jugend.telefon}} oder [{{facts.vorstand.jugend.email}}](mailto:{{facts.vorstand.jugend.email}}).',
       ],
     }},
     // Die Tennisschule steht DIREKT unter der Jugend, nicht hinter den
@@ -341,7 +344,7 @@ export const seiten = [
       absaetze: [
         'Seit {{facts.anlage.tennisschule_seit}} vertraut der KTC auf die Kompetenz der {{facts.anlage.tennisschule}}. Geleitet von den staatlich geprüften Tennislehrern Bertrand und Oliver Kaus, steht sie für Qualität, Engagement und messbaren Trainingserfolg.',
         'Mit einem motivierten Trainerteam und modernen Lehrmethoden begleitet sie Kinder, Jugendliche und Erwachsene — vom Einsteiger bis zum Turnierspieler. Sie gehört zu den vom Deutschen Tennis Bund und vom Verband Deutscher Tennislehrer anerkannten Top-50-Tennisschulen.',
-        'Kosten für individuelles Training, Tennis-Camps und Kurse sind nicht im Clubbeitrag enthalten. Eines ihrer Angebote ist der Kurs **Tennis für Minis** für die Jüngsten.',
+        'Kosten für individuelles Training, Tennis-Camps und Kurse sind nicht im Clubbeitrag enthalten. Eines ihrer Angebote ist der Kurs **Tennis für Minis** für die Jüngsten. Kinder können in der ersten Saison ohne Mitgliedschaft mittrainieren, [so geht’s](/mitglied-werden/#kinder-training).',
       ],
     }},
     { type: 'infokarten', data: {
@@ -375,7 +378,7 @@ export const seiten = [
 {
   slug: 'mannschaften', page_type: 'standard',
   title: 'Mannschaften',
-  description: 'Alle Wettspiel-Mannschaften des Krifteler Tennisclubs mit Spielgemeinschaft, Teamstärke und Spielklasse.',
+  description: 'Alle Wettspiel-Mannschaften des Krifteler Tennis-Clubs mit Spielgemeinschaft, Teamstärke und Spielklasse.',
   blocks: [
     NAV,
     { type: 'hero', data: {
@@ -412,13 +415,13 @@ export const seiten = [
 {
   slug: 'mitglied-werden', page_type: 'standard',
   title: 'Mitglied werden',
-  description: 'Beiträge, Bedingungen und Anmeldung beim Krifteler Tennisclub. Keine Aufnahmegebühr, keine Arbeitsstunden.',
+  description: 'Beiträge, Bedingungen und Anmeldung beim Krifteler Tennis-Club. Keine Aufnahmegebühr, keine Arbeitsstunden.',
   blocks: [
     NAV,
     { type: 'hero', data: {
       pill: 'Dabei sein',
       titel: 'Mitglied werden',
-      sub: 'Keine Aufnahmegebühr, keine Arbeitsstunden. Im ersten Jahr zahlst du als Erwachsene oder Erwachsener nur {{facts.beitraege.neumitglied_erstes_jahr}} €.',
+      sub: 'Keine Aufnahmegebühr, keine Arbeitsstunden. Im ersten Jahr zahlen Erwachsene nur {{facts.beitraege.neumitglied_erstes_jahr}} €.',
       ctaLabel: 'Jetzt anmelden', ctaHref: '{{facts.links.buchung}}',
       zweitLabel: 'Erst mal fragen', zweitHref: '/kontakt/',
       bild: bild('anlage-zentrum-unten'), bildAlt: bildAlt('anlage-zentrum-unten'),
@@ -434,6 +437,7 @@ export const seiten = [
       // gleich, steht das nicht im Text, sondern in den Zahlen (P2).
       angebotWert: '{{facts.beitraege.neumitglied_erstes_jahr}} €',
       angebotText: '**Neu dabei?** So viel zahlst du im ersten Jahr als Neumitglied. Ein Partner als zweites Mitglied zahlt {{facts.beitraege.aktiv_partner}} €.',
+      angebotFussnote: 'Voraussetzung: {{facts.beitraege.neumitglied_voraussetzung}}.',
       karten: [
         { label: 'Erwachsene',   wert: '{{facts.beitraege.aktiv}} €',           zusatz: 'pro Jahr, aktives Mitglied' },
         { label: 'In Ausbildung', wert: '{{facts.beitraege.aktiv_ausbildung}} €', zusatz: 'pro Jahr, bis 27 mit Nachweis' },
@@ -446,17 +450,18 @@ export const seiten = [
       // Kein Spaltenkopf: 'Mitgliedschaft' und 'pro Jahr' stehen ueber einer
       // Liste, die sich selbst erklaert. Der Zeitraum steht im Hinweis.
       zeilen: [
-        { label: 'Neumitglied Erwachsene, erstes Jahr', wert: '{{facts.beitraege.neumitglied_erstes_jahr}} EUR', hervor: true },
+        { label: 'Neumitglied Erwachsene, erstes Jahr', fussnote: 1, wert: '{{facts.beitraege.neumitglied_erstes_jahr}} EUR', hervor: true },
         { label: 'Aktives Mitglied (1. Mitglied)', wert: '{{facts.beitraege.aktiv}} EUR' },
         { label: 'Aktives Mitglied (2. Mitglied als Ehe- oder Lebenspartner)', wert: '{{facts.beitraege.aktiv_partner}} EUR' },
-        { label: 'Aktives Mitglied in Ausbildung', fussnote: 1, wert: '{{facts.beitraege.aktiv_ausbildung}} EUR' },
+        { label: 'Aktives Mitglied in Ausbildung', fussnote: 2, wert: '{{facts.beitraege.aktiv_ausbildung}} EUR' },
         { label: 'Jugendmitglied (bis vollendetem 18. Lebensjahr)', wert: '{{facts.beitraege.jugend}} EUR' },
-        { label: 'Jugendmitglied als Familienmitglied', fussnote: 2, wert: '{{facts.beitraege.jugend_familie}} EUR' },
+        { label: 'Jugendmitglied als Familienmitglied', fussnote: 3, wert: '{{facts.beitraege.jugend_familie}} EUR' },
         { label: 'Passives Mitglied', wert: '{{facts.beitraege.passiv}} EUR' },
       ],
       // Die beiden Erlaeuterungen standen vorher als Absaetze unter der
       // Tabelle. Als Fussnote sitzen sie an der Zeile, zu der sie gehoeren.
       fussnoten: [
+        'Voraussetzung: {{facts.beitraege.neumitglied_voraussetzung}}.',
         'Gegen Nachweis eines Schüler-, Studenten- oder Ausbildungsausweises, bis zum vollendeten 27. Lebensjahr. Stichtag für alle Altersgrenzen ist der 31. Dezember des jeweiligen Jahres.',
         'Setzt voraus, dass mindestens ein Elternteil aktives Mitglied ist.',
       ],
@@ -471,11 +476,22 @@ export const seiten = [
       knopfLabel: 'Jetzt anmelden', knopfHref: '{{facts.links.buchung}}',
       knopfHinweis: 'Die Anmeldung läuft über unsere eBuSy-Mitgliedsverwaltung.',
     }},
+    // Kinder im laengeren Schnupperkurs brauchen keine Mitgliedschaft, aber die Anmeldung ueber eBuSy:
+    // einmaliger Gastspielbeitrag fuer EINE Saison, dort der Haken statt des Mitgliedsantrags.
     { type: 'richtext', data: {
-      titel: 'Gäste und Spind',
+      titel: 'Kindertraining ohne Mitgliedschaft',
+      anker: 'kinder-training',
       grund: 'ruhig',
       absaetze: [
-        'Gäste sind willkommen, egal ob jung oder alt. Ein Gastspiel kostet {{facts.gast.gebuehr}} € pro Gast, höchstens {{facts.gast.max_doppel}} Gäste im Doppel, und dauert {{facts.gast.dauer_einzel}} im Einzel oder {{facts.gast.dauer_doppel}} im Doppel. Es ist nur zusammen mit einem Vereinsmitglied möglich, nicht aber zeitgleich zu Turnieren oder Punktspielen. Buchung und Abrechnung laufen über das Vereinsmitglied.',
+        'Nimmt dein Kind an einem längeren Schnupperkurs bei der {{facts.anlage.tennisschule}} teil, muss es nicht gleich Mitglied werden. Für die Sommersaison zahlt es einmalig **{{facts.kindertraining.beitrag}} €** Gastspielbeitrag. Das gilt für **eine Saison**: Im Folgejahr ist für das Training eine Mitgliedschaft nötig.',
+        'Der Beitrag gilt für die Plätze **während des Trainings**. Zum freien Spielen außerhalb des Trainings braucht dein Kind eine Mitgliedschaft. Den Unterricht selbst stellt die Tennisschule gesondert in Rechnung.',
+        '**So meldest du dein Kind an:** Die Anmeldung läuft über [eBuSy]({{facts.links.buchung}}). Setze dort statt eines Mitgliedschaftsantrags den Haken bei „{{facts.kindertraining.ebusy_haken}}“.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: 'Gastspieler und Spinde',
+      absaetze: [
+        'Gäste sind willkommen, egal ob jung oder alt. Ein Gastspiel kostet {{facts.gast.gebuehr}} € pro Gast, höchstens {{facts.gast.max_doppel}} Gäste im Doppel, und dauert {{facts.gast.dauer_einzel}} im Einzel oder {{facts.gast.dauer_doppel}} im Doppel. Es ist nur zusammen mit einem Vereinsmitglied möglich, nicht aber zeitgleich zu Turnieren oder Punktspielen. Buchung und Abrechnung laufen über das Vereinsmitglied. Die Regeln dazu stehen in der [Platzordnung](/platzordnung/).',
         'Einen Spind gibt es für {{facts.spind.gebuehr}} € im Jahr. Schreib dazu an [{{facts.verein.email}}](mailto:{{facts.verein.email}}).',
       ],
     }},
@@ -499,12 +515,12 @@ export const seiten = [
 // nirgends — ausser in Branchenverzeichnissen, die den Ruhetag nicht kennen.
 {
   slug: 'clubhaus', page_type: 'standard',
-  title: 'Clubhaus und Terrasse',
-  description: 'Das Clubrestaurant des Krifteler Tennisclubs mit Sonnenterrasse: Küche, Öffnungszeiten und Tischreservierung.',
+  title: 'Restaurant und Terrasse',
+  description: 'Das Clubrestaurant des Krifteler Tennis-Clubs mit Sonnenterrasse: Küche, Öffnungszeiten und Tischreservierung.',
   blocks: [
     NAV,
     { type: 'hero', data: {
-      titel: 'Clubhaus und Terrasse',
+      titel: 'Restaurant und Terrasse',
       sub: 'Essen, trinken und sitzen bleiben — auf der wohl schönsten Sonnenterrasse Kriftels. Auch ohne Schläger.',
       bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),
       // Kein Knopf. Die Handlung hier ist ein Anruf, und der steht als
@@ -516,7 +532,7 @@ export const seiten = [
       // Ueberschrift und nicht in der Kopfzeile.
       logo: bild('logo-restaurant', 'mittel'), logoAlt: bildAlt('logo-restaurant'),
       titel: 'Das Clubrestaurant',
-      text: '**{{facts.gastronomie.name}}** bringt {{facts.anlage.belag}}platz und Currygeruch zusammen: Clubwirt {{facts.gastronomie.wirt}} kocht {{facts.gastronomie.kueche}} nach Originalrezepten — mit frischen Zutaten, hausgemachten Soßen und einer großen Auswahl an vegetarischen und veganen Gerichten. Beliebt sind die fettarmen Tandoori-Gerichte aus dem traditionellen Ofen.',
+      text: '**{{facts.gastronomie.name}}** bringt {{facts.anlage.belag}}platz und Currygeruch zusammen: Clubwirt {{facts.gastronomie.wirt}} kocht {{facts.gastronomie.kueche}} nach Originalrezepten, mit frischen Zutaten, hausgemachten Soßen und einer großen Auswahl an vegetarischen und veganen Gerichten. Beliebt sind die fettarmen Tandoori-Gerichte aus dem traditionellen Ofen. {{facts.gastronomie.ergaenzung}}',
       bild: bild('club-restaurant', 'mittel'), bildAlt: bildAlt('club-restaurant'),
       zeilen: [
         // Zwei Werte, zwei Zeilen. Als ein Text mit Mitteltrenner brach der
@@ -545,7 +561,7 @@ export const seiten = [
 {
   slug: 'aktuelles', page_type: 'aktuelles',
   title: 'Aktuelles',
-  description: 'Neuigkeiten, Ergebnisse und Termine aus dem Krifteler Tennisclub.',
+  description: 'Neuigkeiten, Ergebnisse und Termine aus dem Krifteler Tennis-Club.',
   blocks: [
     NAV,
     { type: 'hero', data: {
@@ -567,7 +583,7 @@ export const seiten = [
 {
   slug: 'kalender', page_type: 'standard',
   title: 'Clubkalender',
-  description: 'Termine des Krifteler Tennisclubs: Spieltage der Medenrunde, Clubveranstaltungen und was sonst ansteht.',
+  description: 'Termine des Krifteler Tennis-Clubs: Spieltage der Medenrunde, Clubveranstaltungen und was sonst ansteht.',
   blocks: [
     NAV,
     { type: 'hero', data: {
@@ -605,7 +621,7 @@ export const seiten = [
 {
   slug: 'ergebnisse', page_type: 'standard',
   title: 'Ergebnisse',
-  description: 'Die Ergebnisse aller Mannschaften des Krifteler Tennisclubs am Spielwochenende, sobald sie beim Hessischen Tennisverband gemeldet sind.',
+  description: 'Die Ergebnisse aller Mannschaften des Krifteler Tennis-Clubs am Spielwochenende, sobald sie beim Hessischen Tennisverband gemeldet sind.',
   blocks: [
     NAV,
     { type: 'hero', data: {
@@ -638,7 +654,7 @@ export const seiten = [
 {
   slug: 'whatsapp', page_type: 'standard',
   title: 'WhatsApp-Infodienst',
-  description: 'Neuigkeiten, Ergebnisse und Platzinfos des Krifteler Tennisclubs direkt aufs Handy: einmal anmelden, jederzeit abmelden.',
+  description: 'Neuigkeiten, Ergebnisse und Platzinfos des Krifteler Tennis-Clubs direkt aufs Handy: einmal anmelden, jederzeit abmelden.',
   blocks: [
     NAV,
     { type: 'hero', data: {
@@ -680,7 +696,7 @@ export const seiten = [
 {
   slug: 'kontakt', page_type: 'standard',
   title: 'Kontakt und Anfahrt',
-  description: 'Ansprechpartner im Vorstand des Krifteler Tennisclubs und wie du zur Anlage am Schmelzweg kommst.',
+  description: 'Ansprechpartner im Vorstand des Krifteler Tennis-Clubs und wie du zur Anlage am Schmelzweg kommst.',
   blocks: [
     NAV,
     { type: 'hero', data: {
@@ -746,7 +762,7 @@ export const seiten = [
         { frage: 'Wie werde ich Mitglied?',
           antwort: 'Schreib uns an [{{facts.verein.email}}](mailto:{{facts.verein.email}}) oder sprich uns auf der Anlage an. Zum Saisonstart im April bieten wir Schnupperkurse an — ideal, um den Club kennenzulernen. Alle Beiträge stehen auf der Seite [Mitglied werden](/mitglied-werden/).' },
         { frage: 'Was kosten die Mitgliedsbeiträge?',
-          antwort: 'Zwischen {{facts.beitraege.passiv}} € für eine passive und {{facts.beitraege.aktiv}} € für eine aktive Mitgliedschaft im Jahr, mit eigenen Beiträgen für Jugendliche und Familien. Als Erwachsene oder Erwachsener zahlst du im ersten Jahr nur {{facts.beitraege.neumitglied_erstes_jahr}} €. Die vollständige Liste steht auf der Seite [Mitglied werden](/mitglied-werden/). Bei Fragen helfen wir dir gern persönlich weiter.' },
+          antwort: 'Zwischen {{facts.beitraege.passiv}} € für eine passive und {{facts.beitraege.aktiv}} € für eine aktive Mitgliedschaft im Jahr, mit eigenen Beiträgen für Jugendliche und Familien. Im ersten Jahr zahlen Erwachsene nur {{facts.beitraege.neumitglied_erstes_jahr}} € (Voraussetzung: {{facts.beitraege.neumitglied_voraussetzung}}). Die vollständige Liste steht auf der Seite [Mitglied werden](/mitglied-werden/). Bei Fragen helfen wir dir gern persönlich weiter.' },
         { frage: 'Wann ist Saison und wann haben die Außenplätze geöffnet?',
           antwort: 'Die Freiluftsaison startet {{facts.anlage.saison_start}} und endet im {{facts.anlage.saison_ende}}. In den Sommermonaten stehen {{facts.anlage.plaetze}} gepflegte Sandplätze zur Verfügung. Der Trainingsbetrieb beginnt ebenfalls im April mit Tenniscamps und Schnupperkursen — die beste Zeit zum Einsteigen. Auch im Winter gibt es Alternativen, etwa unsere beliebte Winterrunde.' },
         { frage: 'Kann ich als Nichtmitglied einen Platz buchen?',
@@ -759,14 +775,151 @@ export const seiten = [
           antwort: 'Selbstverständlich. Die {{facts.anlage.tennisschule}} bietet Kurse für alle Levels — vom Anfänger bis zum Turnierspieler. Oliver Kaus und sein Team sorgen für individuelle Betreuung. Ob Einzeltraining, Gruppenkurs oder Wiedereinsteiger-Angebot: Wir finden das Passende für dich. Beliebt ist auch das gesellige „T-Time“-Format an Sonntagen während der Sommerferien. Mehr zur Schule unter [Sport](/sport/#tennisschule).' },
         { frage: 'Ab welchem Alter können Kinder mit Tennis beginnen?',
           antwort: 'Bereits im Vorschulalter. Das Kindertennis-Programm vermittelt spielerisch die Grundlagen. Besonders beliebt ist „Tennis für Minis“, wo Eltern mit ihren Kleinsten erste Schritte auf dem Platz machen. Die {{facts.anlage.tennisschule}} passt das Training altersgerecht an — ohne Druck, mit viel Freude.' },
+        { frage: 'Kann mein Kind erst einmal ohne Mitgliedschaft trainieren?',
+          antwort: 'Ja, für eine Saison. Nimmt dein Kind an einem längeren Schnupperkurs der {{facts.anlage.tennisschule}} teil, zahlt es einmalig {{facts.kindertraining.beitrag}} € Gastspielbeitrag statt eines Mitgliedsbeitrags. Die Anmeldung läuft über [eBuSy]({{facts.links.buchung}}), dort wird der Haken „{{facts.kindertraining.ebusy_haken}}“ gesetzt. Im Folgejahr ist eine Mitgliedschaft nötig. Alle Einzelheiten stehen auf [Mitglied werden](/mitglied-werden/#kinder-training).' },
         { frage: 'Welche Mannschaften spielen beim KTC in der Medenrunde?',
           antwort: 'Der KTC ist breit aufgestellt: Wir haben Jugend-, Damen- und Herrenmannschaften in verschiedenen Altersklassen und Spielklassen. Alle Teams stehen auf der Seite [Mannschaften](/mannschaften/), die Ergebnisse unter [Ergebnisse](/ergebnisse/). Die Punktspiele laufen während der Sommersaison. Du möchtest mitspielen? Sprich uns an — wir freuen uns über Verstärkung.' },
         { frage: 'Brauche ich eigene Ausrüstung?',
           antwort: 'Für die Minis-Kurse werden Schläger gestellt, du brauchst nur Sportschuhe. Ansonsten hilft dir die {{facts.anlage.tennisschule}} gern bei der Auswahl.' },
         { frage: 'Gibt es Gastronomie?',
-          antwort: 'Ja — das Clubrestaurant {{facts.gastronomie.name}} mit sonniger Terrasse gehört zur Anlage und ist auch für Gäste ohne Schläger offen. Öffnungszeiten, Ruhetag und die Nummer für eine Tischreservierung stehen auf [Clubhaus und Terrasse](/clubhaus/).' },
+          antwort: 'Ja — das Clubrestaurant {{facts.gastronomie.name}} mit sonniger Terrasse gehört zur Anlage und ist auch für Gäste ohne Schläger offen. Öffnungszeiten, Ruhetag und die Nummer für eine Tischreservierung stehen auf [Restaurant und Terrasse](/clubhaus/).' },
         { frage: 'Wie erreiche ich den Tennisclub und wo kann ich parken?',
           antwort: 'Du findest uns im {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}. Kostenlose Parkplätze gibt es ausreichend auf dem angrenzenden Parkplatz der Kreissporthalle. Die Anfahrt mit Auto, Bus und Bahn steht unter [Kontakt und Anfahrt](/kontakt/).' },
+      ],
+    }},
+    ASSISTENT,
+    FOOTER,
+  ],
+},
+
+// ══════════════════════════════════════════════════════════ SATZUNG UND ORDNUNGEN
+//
+// Die Satzung bleibt ein PDF (die beschlossene Fassung, mit Stand), die Platzordnung steht
+// zusaetzlich als Seite da: nach ihren Regeln wird gefragt, und der Assistent liest nur Seiten.
+// Die Ordnung des Hessischen Tennisverbands steht NICHT hier — sie gilt dort in ihrer
+// aktuellen Fassung, wie die Spielplaene.
+{
+  slug: 'satzung-und-ordnungen', page_type: 'standard',
+  title: 'Satzung und Platzordnung',
+  description: 'Satzung und Platzordnung des Krifteler Tennis-Clubs: die Regeln des Vereins zum Nachlesen.',
+  blocks: [
+    NAV,
+    { type: 'hero', data: {
+      pill: 'Zum Nachlesen',
+      titel: 'Satzung und Platzordnung',
+      sub: 'Die Regeln des Vereins, wie der Vorstand und die Mitgliederversammlung sie beschlossen haben.',
+      bild: bild('anlage-platz2'), bildAlt: bildAlt('anlage-platz2'),
+    }},
+    { type: 'richtext', data: {
+      titel: 'Satzung',
+      absaetze: [
+        'Die Satzung regelt Name und Zweck des Vereins, die Mitgliedschaft, die Rechte und Pflichten der Mitglieder und die Organe des Vereins. Sie gilt in der Fassung von {{facts.dokumente.satzung_stand}}.',
+        '[Satzung als PDF ansehen]({{facts.links.satzung}}) · {{facts.dokumente.satzung_seiten}} Seiten',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: 'Platzordnung',
+      grund: 'ruhig',
+      absaetze: [
+        'Die Platzordnung sagt, wer wann spielen darf, wie Plätze gebucht und gepflegt werden und was für Gäste und das Training gilt.',
+        '[Platzordnung lesen](/platzordnung/) · [als PDF ansehen]({{facts.links.platzordnung_pdf}})',
+      ],
+    }},
+    { type: 'richtext', data: {
+      absaetze: [
+        'Maßgeblich ist immer die vom Verein beschlossene Fassung. Fragen dazu beantwortet der [Vorstand](/kontakt/#vorstand).',
+      ],
+    }},
+    ASSISTENT,
+    FOOTER,
+  ],
+},
+
+// ══════════════════════════════════════════════════════════ PLATZORDNUNG
+//
+// Der Wortlaut der Platzordnung 2026 (PDF in assets/dokumente/). Die Gebuehr und die
+// Spielzeiten kommen aus den Fakten (P2), alles andere steht, wie es beschlossen ist —
+// auch die Schreibweise der Ordnung. Gliederung wie in der Ordnung: 1 bis 7; die
+// Unterpunkte zaehlen als 5.1, 5.2 ... statt als verschachtelte Liste.
+{
+  slug: 'platzordnung', page_type: 'rechtstext',
+  title: 'Platzordnung',
+  description: 'Die Platzordnung des Krifteler Tennis-Clubs: Spielberechtigung, Platzpflege, Buchung, Training und Gäste.',
+  blocks: [
+    NAV,
+    { type: 'hero', data: {
+      pill: 'Regeln auf der Anlage',
+      titel: 'Platzordnung',
+      bild: bild('anlage-platz2'), bildAlt: bildAlt('anlage-platz2'),
+    }},
+    { type: 'richtext', data: {
+      titel: '1. Spielberechtigung',
+      absaetze: [
+        'Jedes aktive Vereinsmitglied ist jederzeit, mit Ausnahme zu Zeiten von Verbandsspielen, Clubmeisterschaften oder vereinsinternen Veranstaltungen, spielberechtigt, wenn es die Satzung erfüllt, die Spiel- und Platzordnung einhält und seinen Mitgliedsbeitrag nicht im Rückstand ist. Ein Anspruch auf einen bestimmten Platz besteht nicht.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '2. Platzpflege',
+      absaetze: [
+        'Der Tennisplatz ist nur mit Tennisschuhen und entsprechender Kleidung zu betreten.',
+        'Der Platz muss freigegeben und spielfähig sein. Bei trockenen Plätzen muss der Platz vor Spielbeginn ganzflächig beregnet werden. Nach dem Spielen ist der Platz abzuziehen bzw. abzufegen (nur mit weichem Netz).',
+        'Die Linien sind mit dem Handbesen zu säubern.',
+        'Benutzte Geräte sind wieder ordnungsgemäß wegzustellen bzw. hinzuhängen.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '3. Ordnung und Sauberkeit',
+      absaetze: [
+        'Tennissachen, Schuhe und sonstiges Zubehör sind in den dafür vorgesehenen Regalen im Eingangsbereich des Sanitärtraktes abzustellen. Auf Plätzen und in der Anlage benutzte Gläser und Flaschen sind in die Wirtschaftsräume des Clubhauses zurückzubringen. Für Abfälle sind auf den Plätzen und in der Anlage ausreichend Behälter vorhanden. Das Clubhaus und die Duschen sollten mit Tennisschuhen nicht betreten werden. Reinigungszonen sind zu benutzen. Hunde sollten nicht auf die Anlage gebracht werden.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '4. Spielzeit',
+      absaetze: [
+        '**Einzel:** {{facts.gast.dauer_einzel}} (inklusive 5 Minuten Platzpflege)',
+        '**Doppel:** {{facts.gast.dauer_doppel}} (inklusive 5 Minuten Platzpflege)',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '5. Platzbuchungen',
+      absaetze: [
+        '**5.1** Platzbelegungen erfolgen mit Hilfe eines elektronischen Buchungssystems. Das Buchungssystem ist über das Internet ([tennisclub-kriftel.ebusy.de]({{facts.links.buchung}})) oder die eBuSy App möglich. Platzbelegungen für Einzel und Doppel sind ausführbar. Platzreservierungen für die Tennisschule, für Tennis-Turniere und für Mannschaftstraining sowie Platzsperrungen werden ebenfalls im System dargestellt.',
+        '**5.2** Jedes aktive Mitglied kann selbst einen Termin buchen. Mehrere Platzbuchungen für ein Mitglied sind nicht möglich. Eine Buchung als Mitspieler zählt in gleicher Weise.',
+        '**5.3** Platzbuchungen können nur vor Spielbeginn gebucht werden, und bis 15 Minuten vor Spielbeginn geändert oder gelöscht werden.',
+        '**5.4** Es gelten folgende zeitliche Buchungsfristen zum Spielbeginn: **werktags bis 18 Uhr:** Vorausbuchung 24 Stunden vor Spielbeginn · **werktags ab 18 Uhr:** Vorausbuchung 2 Stunden vor Spielbeginn · **am Wochenende:** Vorausbuchung 24 Stunden vor Spielbeginn.',
+        '**5.5** Eine neue Belegung erfolgt im Zeitraster der elektronischen Belegungstafel. Falls eine vorherige Belegung besteht, hat die neue Belegung lückenlos an die Vorherige anzugrenzen.',
+        '**5.6** Die Spieler*innen haben sich spätestens 5 Minuten vor Buchungsbeginn am reservierten Platz einzufinden und bei den Vorgängern bemerkbar zu machen.',
+        '**5.7** Plätze gelten als frei, die 5 Minuten nach Beginn der Spielzeit nicht belegt werden oder auf denen nicht alle Spieler*innen anwesend sind. Es kann zur gleichen Zeit neu belegt werden.',
+        '**5.8** Spieler*innen dürfen erst nach Spielende, Pflege und Räumung des Platzes erneut einen Platz belegen. Mitgliedern, die noch nicht gespielt haben, gebührt der Vorrang.',
+        '**5.9** Manipulationen von Platzbelegungen durch Verwendung anderer Namenschilder oder unbegründetes Austauschen von Namensschildern der Spielpartner*innen vor Spielbeginn sind nicht zulässig. Der Platzanspruch ist bei Manipulationen hinfällig.',
+        '**5.10** Die Mitglieder sind aufgerufen, sich bei Meinungsverschiedenheiten fair und freundlich zu einigen.',
+        '**5.11** Alle Clubmitglieder sind angehalten, einen harmonischen und erholsamen Spielbetrieb zu gewährleisten. Bei Drangzeiten oder bei außerordentlichen Engpässen (Unbespielbarkeit von Plätzen) sollte das Arrangieren von Doppeln die gesellige Regel sein. Grobe Verstöße gegen die Spielordnung können dem/der Sportwart*in mitgeteilt werden, wenn sie nicht auf Spielerebene zu bereinigen sind.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '6. Trainingsplätze für Mannschafts- sowie Gruppentraining',
+      absaetze: [
+        'Die Bestimmung der Plätze für Mannschaftstraining erfolgt durch den Sportwart*in. Die Belegung ist per Aushang bzw. auf der Spieltafel ersichtlich. Die Belegung ist mit den entsprechenden Schildern durch Sportwart*in, Trainer*in bzw. Mannschaftsspieler*innen zu organisieren.',
+        '**6.1** Trainingsplätze mit Trainer*in sind rechtzeitig durch die Tennisschule im Belegungssystem zu kennzeichnen. Plätze der Tennisschule sind in der Regel Platz 4, 5 und 6. Bei Unbespielbarkeit kann auf den ersten bespielbaren Platz mit Priorität ausgewichen werden.',
+        '**6.2** Trainingsplatzreservierungen für Mannschaftstraining ohne Trainer*in werden vom Sportwart*in vorgegeben. Die Spieler*innen einer Mannschaft sind angehalten, die individuellen Spielzeiten auf ihrem Trainingsplatz untereinander zu koordinieren. Alle Spieler*innen der entsprechenden Mannschaft dürfen keine Platzbelegung vornehmen, die parallel zum Mannschaftstraining, unmittelbar davor oder danach bestünden.',
+        '**6.3** Die Trainingsteilnehmer*innen können auf freien Plätzen ohne Belegung spielen, haben den Platz auf Verlangen für andere Mitglieder freizumachen. Wird der reservierte Trainingsplatz nicht von den Mannschaftsmitgliedern zur reservierten Zeit belegt (siehe 5-Minuten-Regelung), kann der Platz von anderen Mitgliedern für 60 Minuten belegt werden.',
+        '**6.4** An Wochenenden und nach 18 Uhr besteht kein Platzanspruch für private Trainerstunden.',
+      ],
+    }},
+    { type: 'richtext', data: {
+      titel: '7. Gäste',
+      absaetze: [
+        'Gäste haben nur mit einem Clubmitglied Spielberechtigung. Wochentags gilt diese Spielberechtigung bis 18 Uhr, an Sonn- und Feiertagen nur dann, wenn Plätze freistehen.',
+        '**7.1** Im Belegungssystem reserviert das Clubmitglied einen Platz. Das Clubmitglied verwendet seine Marke und die Marke „Gast“ (Einzel). Bei Doppel sind entsprechend weitere Marken von Clubmitgliedern bzw. Gastmarken zu verwenden.',
+        '**7.2** Die Gebühr für einen Gast (aktuell {{facts.gast.gebuehr}} EUR) wird über das Belegungssystem ermittelt und dem jeweiligen Mitglied im Rahmen des bestehenden SEPA-Einzugsauftrages belastet. Mit der Einladung eines Gastes stimmt das Clubmitglied den vorstehenden Regelungen sowie dem Einzug der Gastgebühr zu.',
+        '**7.3** Nach 18 Uhr oder an Sonn- und Feiertagen beanspruchte Plätze durch Gastspieler sind auf Verlangen von Clubmitgliedern freizugeben, wenn kein anderer Platz zur Verfügung steht.',
+        '**7.4** Bereits begonnene Spiele können jedoch zu Ende geführt werden.',
+        'Der Vorstand',
+      ],
+    }},
+    { type: 'richtext', data: {
+      absaetze: [
+        '[Platzordnung als PDF ansehen]({{facts.links.platzordnung_pdf}}) · Die Satzung des Vereins steht unter [Satzung und Platzordnung](/satzung-und-ordnungen/).',
       ],
     }},
     ASSISTENT,
@@ -792,7 +945,7 @@ export const seiten = [
 {
   slug: 'impressum', page_type: 'rechtstext',
   title: 'Impressum',
-  description: 'Anbieterkennzeichnung des Krifteler Tennisclubs e.V.: Anschrift, Vertretung, Kontakt und Vereinsregister.',
+  description: 'Anbieterkennzeichnung des Krifteler Tennis-Clubs e.V.: Anschrift, Vertretung, Kontakt und Vereinsregister.',
   blocks: [
     NAV,
     { type: 'hero', data: { titel: 'Impressum',

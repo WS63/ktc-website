@@ -16,11 +16,11 @@ test('Zerlegen · nav, footer und Assistent kommen nicht in den Index', () => {
   // Der Assistent wuerde sonst seine eigene Begruessung indizieren — sie steht
   // auf jeder Seite und passt wortwoertlich zu jeder Frage.
   const s = zerlege(seite([
-    { type: 'nav', data: { marke: 'Krifteler Tennisclub, ein sehr langer Markentext hier' } },
+    { type: 'nav', data: { marke: 'Krifteler Tennis-Club, ein sehr langer Markentext hier' } },
     { type: 'assistent', data: { begruessung: 'Ich kenne alles, was auf dieser Website steht und helfe dir gern weiter bei allen Fragen.' } },
     { type: 'richtext', data: { titel: 'Echter Inhalt',
       absaetze: ['Dies ist ein echter Absatz mit genug Text, um in den Index zu kommen.'] } },
-    { type: 'footer', data: { zeile: 'Krifteler Tennisclub e.V., Schmelzweg 6 in Kriftel' } },
+    { type: 'footer', data: { zeile: 'Krifteler Tennis-Club e.V., Schmelzweg 6 in Kriftel' } },
   ]));
   const alles = s.map((x) => x.text).join(' ');
   assert.ok(!alles.includes('Ich kenne alles'), 'der Assistent hat sich selbst indiziert');

@@ -12,7 +12,7 @@ const menue = [
 export const seitenBausteine = {
   beitrag: (b) => [
     { type: 'nav', data: {
-      marke: 'krifteler tennisclub', baum: menue,
+      marke: 'Krifteler Tennis-Club e.V.', baum: menue,
       aktionLabel: 'Platz buchen', aktionHref: '{{facts.links.buchung}}',
     }},
     { type: 'hero', data: {

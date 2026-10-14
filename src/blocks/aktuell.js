@@ -19,7 +19,7 @@ export default {
   name: 'aktuell',
   label: 'Aktuell — Beiträge und Termine',
   schema: {
-    beitraegeTitel: { type: 'text', default: 'Aus dem Verein', label: 'Überschrift links' },
+    beitraegeTitel: { type: 'text', default: 'Aktuelles', label: 'Überschrift links' },
     termineTitel:   { type: 'text', default: 'Nächste Termine', label: 'Überschrift rechts' },
     beitraege: { type: 'auto', default: [], label: 'Beiträge — kommen aus der Datenbank' },
     gesamt:    { type: 'auto', default: 0,  label: 'Zahl aller Beiträge — gerechnet' },

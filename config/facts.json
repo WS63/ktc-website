@@ -1,7 +1,7 @@
 {
   "_hinweis": "Fakten-SSOT (P2). Die KI darf formulieren, aber keine Zahl behaupten. Fehlt ein Wert, erscheint sichtbar […].",
   "verein": {
-    "name": "Krifteler Tennisclub e.V.",
+    "name": "Krifteler Tennis-Club e.V.",
     "kurz": "KTC",
     "gegruendet": "",
     "strasse": "Schmelzweg 6",
@@ -81,7 +81,8 @@
     "aufnahmegebuehr": "keine",
     "arbeitsstunden": "keine",
     "kuendigungsfrist": "30. November",
-    "halber_beitrag_ab": "1. Juli"
+    "halber_beitrag_ab": "1. Juli",
+    "neumitglied_voraussetzung": "keine Mitgliedschaft in den letzten 5 Jahren"
   },
   "gast": {
     "gebuehr": "15,00",
@@ -98,7 +99,9 @@
     "instagram": "",
     "whatsapp": "",
     "medenrunde": "",
-    "karte": "https://www.google.com/maps/search/?api=1&query=Schmelzweg+6%2C+65830+Kriftel"
+    "karte": "https://www.google.com/maps/search/?api=1&query=Schmelzweg+6%2C+65830+Kriftel",
+    "satzung": "/assets/dokumente/ktc-satzung-stand-2018-12.pdf",
+    "platzordnung_pdf": "/assets/dokumente/ktc-platzordnung-2026.pdf"
   },
   "zeiten": {
     "anlage": ""
@@ -131,7 +134,8 @@
     "zeiten_abend": "17:00 – 22:30 Uhr",
     "zeiten_wochenende": "12:00 – 22:30 Uhr",
     "zeiten_werktage": "Montag, Mittwoch bis Freitag",
-    "ruhetag": "Dienstag, außer an Feiertagen"
+    "ruhetag": "Dienstag, außer an Feiertagen",
+    "ergaenzung": "Für Sportler und Kinder gibt es daneben auch Bodenständiges."
   },
   "minis": {
     "kursgebuehr_kind": "99",
@@ -148,5 +152,13 @@
   "assistent": {
     "name": "Lisa",
     "rolle": "KI-Assistentin des KTC"
+  },
+  "dokumente": {
+    "satzung_stand": "Dezember 2018",
+    "satzung_seiten": "5"
+  },
+  "kindertraining": {
+    "beitrag": "60",
+    "ebusy_haken": "Kind Gastbeitrag Tennistraining (keine Mitgliedschaft im Verein)"
   }
 }

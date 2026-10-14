@@ -1,7 +1,7 @@
 {
  "anlage-clubhaus-unten": {
   "bereich": "anlage",
-  "alt": "Der Bereich am Clubhaus des Krifteler Tennisclubs",
+  "alt": "Der Bereich am Clubhaus des Krifteler Tennis-Clubs",
   "breite": 2000,
   "hoehe": 1200,
   "groessen": {
@@ -24,7 +24,7 @@
  },
  "anlage-platz2": {
   "bereich": "anlage",
-  "alt": "Ein Sandplatz des Krifteler Tennisclubs, umgeben von grünen Banden und Bäumen",
+  "alt": "Ein Sandplatz des Krifteler Tennis-Clubs, umgeben von grünen Banden und Bäumen",
   "breite": 2400,
   "hoehe": 1440,
   "groessen": {
@@ -47,7 +47,7 @@
  },
  "anlage-platz67oben": {
   "bereich": "anlage",
-  "alt": "Blick über die hinteren Sandplätze des Krifteler Tennisclubs",
+  "alt": "Blick über die hinteren Sandplätze des Krifteler Tennis-Clubs",
   "breite": 2400,
   "hoehe": 1440,
   "groessen": {
@@ -93,7 +93,7 @@
  },
  "anlage-wiese": {
   "bereich": "anlage",
-  "alt": "Die Terrasse des Krifteler Tennisclubs mit aufgespannten Sonnenschirmen über Holzbänken, davor die Liegewiese, dahinter ein Sandplatz",
+  "alt": "Die Terrasse des Krifteler Tennis-Clubs mit aufgespannten Sonnenschirmen über Holzbänken, davor die Liegewiese, dahinter ein Sandplatz",
   "breite": 2000,
   "hoehe": 1200,
   "groessen": {
@@ -162,7 +162,7 @@
  },
  "anlage-tennisplatz": {
   "bereich": "themen",
-  "alt": "Weite Aufnahme eines Sandplatzes mit Netz und den grünen Werbebanden des Krifteler Tennisclubs",
+  "alt": "Weite Aufnahme eines Sandplatzes mit Netz und den grünen Werbebanden des Krifteler Tennis-Clubs",
   "breite": 2560,
   "hoehe": 819,
   "groessen": {
@@ -323,7 +323,7 @@
  },
  "kontakt-karte": {
   "bereich": "themen",
-  "alt": "Kartenausschnitt von Kriftel mit dem Schmelzweg, eine blaue Markierung zeigt die Anlage des Krifteler Tennisclubs",
+  "alt": "Kartenausschnitt von Kriftel mit dem Schmelzweg, eine blaue Markierung zeigt die Anlage des Krifteler Tennis-Clubs",
   "breite": 768,
   "hoehe": 512,
   "groessen": {
@@ -824,7 +824,7 @@
  },
  "lisa": {
   "bereich": "logos",
-  "alt": "Porträt von Lisa, der KI-Assistentin des KTC (ein von einer KI erzeugtes Bild)",
+  "alt": "Porträt von Lisa, der KI-Assistentin des KTC (ein mit einer KI erzeugtes Bild, es zeigt keine reale Person)",
   "breite": 400,
   "hoehe": 400,
   "groessen": {

@@ -14,10 +14,13 @@ export default {
        Aufmacher sie eroeffnet — und trennt sich ohne Linie von der hellen
        Flaeche darueber. Gemessen gegen #1e1e18: Text 5,2:1 und mehr. */
     .fuss { background: var(--grund); color: var(--text); }
-    .fuss__innen { display: flex; gap: var(--raum-3); flex-wrap: wrap;
+    .fuss__innen { display: flex; gap: var(--raum-2) 20px; flex-wrap: wrap;
       align-items: center; padding-top: var(--raum-4); padding-bottom: var(--raum-4);
       font-size: 17px; color: var(--text-leise); }
     .fuss__innen span { margin-right: auto; }
+    /* Der Vereinsname steht ueber der Anschrift: zwei Zeilen brauchen weniger Breite, und alle
+       Links bleiben in einer Reihe. */
+    .fuss__adresse b { display: block; font-weight: 400; color: var(--text); }
     /* Mit dem Chat-Knopf schwebt unten rechts ein Knopf ueber der Fusszeile: ihm bleibt Platz
        unter den Links, damit er keinen Link verdeckt. */
     body:has(#ktc-assistent) .fuss__innen { padding-bottom: calc(var(--raum-4) + 56px); }
@@ -35,9 +38,16 @@ export default {
       const extern = istExtern(z) ? raw(' target="_blank" rel="noopener noreferrer"') : '';
       return html`<a href="${raw(escapeAttr(z))}"${extern}>${p.label}</a>`;
     });
+    // 'Name · Anschrift': der Name kommt in die erste, die Anschrift in die zweite Zeile.
+    const adresse = (zeile) => {
+      const [name, ...rest] = String(zeile || '').split(' · ');
+      return rest.length
+        ? html`<span class="fuss__adresse"><b>${name}</b>${rest.join(' · ')}</span>`
+        : html`<span>${zeile}</span>`;
+    };
     return html`
       <footer class="fuss section--dunkel"><div class="container fuss__innen">
-        <span>${data.zeile}</span>${links}
+        ${adresse(data.zeile)}${links}
       </div></footer>`;
   },
 };

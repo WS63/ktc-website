@@ -532,7 +532,7 @@ export const seiten = [
       // Ueberschrift und nicht in der Kopfzeile.
       logo: bild('logo-restaurant', 'mittel'), logoAlt: bildAlt('logo-restaurant'),
       titel: 'Das Clubrestaurant',
-      text: '**{{facts.gastronomie.name}}** bringt {{facts.anlage.belag}}platz und Currygeruch zusammen: Clubwirt {{facts.gastronomie.wirt}} kocht {{facts.gastronomie.kueche}} nach Originalrezepten, mit frischen Zutaten, hausgemachten Soßen und einer großen Auswahl an vegetarischen und veganen Gerichten. Beliebt sind die fettarmen Tandoori-Gerichte aus dem traditionellen Ofen. {{facts.gastronomie.ergaenzung}}',
+      text: '**{{facts.gastronomie.name}}** bringt {{facts.anlage.belag}}platz und Currygeruch zusammen: Clubwirt {{facts.gastronomie.wirt}} kocht {{facts.gastronomie.kueche}} nach Originalrezepten, mit frischen Zutaten, hausgemachten Soßen und einer großen Auswahl an vegetarischen und veganen Gerichten. Beliebt sind die fettarmen Tandoori-Gerichte aus dem traditionellen Ofen, aber auch Bodenständiges für unsere Sportler und Jugendlichen.',
       bild: bild('club-restaurant', 'mittel'), bildAlt: bildAlt('club-restaurant'),
       zeilen: [
         // Zwei Werte, zwei Zeilen. Als ein Text mit Mitteltrenner brach der

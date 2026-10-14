@@ -154,8 +154,7 @@ export default {
                      placeholder="Deine Frage an ${name} …" maxlength="500">
               <button class="section--dunkel" type="submit" aria-label="Absenden">→</button>
             </form>
-            <p class="ass__klein">${name} ist eine KI und antwortet nur aus den Seiten des Clubs.
-              Fehler sind möglich 🙂${avatarSrc ? ' Auch ihr Bild hat eine KI erzeugt.' : ''} · <a href="/datenschutz/">Datenschutz</a></p>
+            <p class="ass__klein">${name} lernt noch – Fehler sind möglich 😊 · <a href="/datenschutz/">Datenschutz</a></p>
           </div>
         </div>
       </div>

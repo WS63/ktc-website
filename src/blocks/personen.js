@@ -28,10 +28,10 @@ export default {
     .person__name { font-size: clamp(13px, 7.9cqw, 20px); margin-bottom: 10px; white-space: nowrap; }
     .person__vorname { font-weight: 400; color: var(--text-leise); }
     .person__nachname { font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: .02em; }
-    /* Wie beim Namen: die laengste Adresse (30 Zeichen, etwa 15,5 x Schriftgroesse) soll in
-       die Karte passen. 6 % der Kartenbreite, hoechstens 15 px. Alle Karten sind gleich breit,
+    /* Wie beim Namen: die laengste Adresse (30 Zeichen, gemessen 16,7 x Schriftgroesse) soll mit
+       Reserve in die Karte passen. 5,4 % der Kartenbreite, hoechstens 14 px. Alle Karten sind gleich breit,
        also bekommen alle Zeilen dieselbe Groesse. */
-    .person__kontakt { font-size: clamp(12px, 6cqw, 15px); }
+    .person__kontakt { font-size: clamp(12px, 5.4cqw, 14px); }
     .person__kontakt a { color: var(--signal); text-decoration: none; display: block; }
     .person__kontakt a:hover { text-decoration: underline; }
   `,

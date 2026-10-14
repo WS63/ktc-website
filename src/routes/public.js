@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { query, queryOne } from '../db.js';
 import { renderPage } from '../renderer.js';
-import { loadSite, loadArten } from '../config.js';
+import { loadSite, loadArten, loadAssistent } from '../config.js';
+import { readFileSync, existsSync } from 'node:fs';
 import { holen, legen, bisMitternacht } from '../cache.js';
 import { zaehle } from '../zaehler.js';
 import { kalenderTermine, kuenftige, vergangene, spielplanHinweis } from '../termin-quelle.js';
@@ -75,6 +76,10 @@ router.get('/sitemap.xml', async (_req, res, next) => {
   } catch (err) { next(err); }
 });
 
+// Die Bilder, wie 'npm run bilder' sie erzeugt hat (Name → Adressen). Einmal beim Start gelesen.
+const bilderVerzeichnis = existsSync('inhalte/bilder.json')
+  ? JSON.parse(readFileSync('inhalte/bilder.json', 'utf8')) : {};
+
 /**
  * Menue, Fusszeile und Uebersichten sind Abfragen, keine gepflegten Listen (P3).
  * Neue Seite im Menue → sie steht drin, ohne dass jemand einen Baustein anfasst.
@@ -96,6 +101,19 @@ async function dynamischeDaten(inhalt, page) {
       if (kopf.length) daten.nav = { baum: kopf };
       if (fuss.length) daten.footer = { baum: fuss };
     }
+  }
+
+  // Lisa kommt aus der Konfiguration, nicht aus dem, was beim Seeden in der Seite gelandet ist:
+  // sonst zeigten Seiten, die im Cockpit bearbeitet wurden (der Seed ueberspringt sie), den alten
+  // Namen, den alten Text und kein Bild. 'begruessung' leer = der Standardtext im Baustein.
+  if (typen.has('assistent')) {
+    const a = loadAssistent();
+    daten.assistent = {
+      name: '{{facts.assistent.name}}', rolle: '{{facts.assistent.rolle}}', begruessung: '',
+      avatar: bilderVerzeichnis[a.avatarBild]?.klein || '',
+      foto: bilderVerzeichnis[a.fotoBild]?.mittel || '', fotoAlt: bilderVerzeichnis[a.fotoBild]?.alt || '',
+      vorschlaege: a.vorschlaege || [],
+    };
   }
 
   if (typen.has('beitragsliste')) {

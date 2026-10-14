@@ -1,0 +1,11 @@
+{
+  "_hinweis": "Lisa, die Assistentin — EINMAL hier und im Code, nicht in jeder Seite. Name und Rolle stehen in facts.json (facts.assistent). Der Server setzt diese Angaben beim Ausliefern jeder Seite ein und überschreibt damit, was beim Seeden einmal in der Datenbank gelandet ist: eine umbenannte Assistentin ist so nach dem Neustart überall zu sehen, auch auf Seiten, die im Cockpit bearbeitet wurden.",
+  "avatarBild": "lisa",
+  "fotoBild": "anlage-wiese",
+  "vorschlaege": [
+    "Was kostet eine Mitgliedschaft?",
+    "Welche Termine stehen als Nächstes an?",
+    "Wann hat das Clubrestaurant geöffnet?",
+    "Wie komme ich zur Anlage?"
+  ]
+}

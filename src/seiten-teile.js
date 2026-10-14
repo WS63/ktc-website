@@ -1,10 +1,4 @@
 /** Bausteine fuer Seiten, die aus Daten entstehen — hier: die Beitraege. */
-import { readFileSync, existsSync } from 'node:fs';
-
-// Das Bild der Assistentin (bilder/logos/lisa.jpg), wie es die Seiten in src/seiten.js beziehen.
-// Fehlt es, steht ihr Anfangsbuchstabe da.
-const bilder = existsSync('inhalte/bilder.json') ? JSON.parse(readFileSync('inhalte/bilder.json', 'utf8')) : {};
-const lisaBild = bilder.lisa?.klein || '';
 
 const menue = [
   { label: 'Club',            href: '/' },
@@ -35,12 +29,7 @@ export const seitenBausteine = {
         text: 'Alle Neuigkeiten aus dem Verein.',
         linkLabel: 'Zu Aktuelles', linkHref: '/aktuelles/' }],
     }},
-    { type: 'assistent', data: {
-      name: '{{facts.assistent.name}}',
-      rolle: '{{facts.assistent.rolle}}',
-      avatar: lisaBild,
-      vorschlaege: ['Was kostet eine Mitgliedschaft?', 'Welche Termine stehen als Nächstes an?'],
-    }},
+    { type: 'assistent', data: {} },
     { type: 'footer', data: {
       zeile: '{{facts.verein.name}} · {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
       baum: [

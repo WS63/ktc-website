@@ -155,7 +155,7 @@ export default {
               <button class="section--dunkel" type="submit" aria-label="Absenden">→</button>
             </form>
             <p class="ass__klein">${name} ist eine KI und antwortet nur aus den Seiten des Clubs.
-              Fehler sind möglich 🙂${avatarSrc ? ' Auch ihr Bild ist von einer KI erzeugt.' : ''} · <a href="/datenschutz/">Datenschutz</a></p>
+              Fehler sind möglich 🙂${avatarSrc ? ' Auch ihr Bild hat eine KI erzeugt.' : ''} · <a href="/datenschutz/">Datenschutz</a></p>
           </div>
         </div>
       </div>

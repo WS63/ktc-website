@@ -54,6 +54,10 @@ export const loadTheme = () => holen('theme');
  * Cockpit-Override: die Zahl der Arten ist eine Gestaltungsentscheidung, keine
  * Einstellung. Einmal gelesen, dann aus dem Speicher.
  */
+/** Lisa: Bildnamen und Vorschlaege (config/assistent.json). Reine Datei, einmal gelesen. */
+let assistent = null;
+export const loadAssistent = () => (assistent ??= datei('assistent'));
+
 let arten = null;
 export function loadArten() {
   if (!arten) {

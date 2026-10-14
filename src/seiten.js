@@ -99,20 +99,9 @@ const NAV = { type: 'nav', data: {
  * Der Assistent steht auf jeder Seite. Er ist eine Nebensache im Sinne von P6:
  * faellt er aus, bleibt die Website vollstaendig bedienbar.
  */
-// Lisa: der Name steht in den Fakten (facts.assistent), der Text der Begruessung im Baustein.
-// Das Bild der Assistentin kommt aus bilder/logos/lisa.jpg; fehlt es, steht ihr Anfangsbuchstabe da.
-const ASSISTENT = { type: 'assistent', data: {
-  name: '{{facts.assistent.name}}',
-  rolle: '{{facts.assistent.rolle}}',
-  avatar: bild('lisa', 'klein'),
-  foto: bild('anlage-wiese', 'mittel'), fotoAlt: bildAlt('anlage-wiese'),
-  vorschlaege: [
-    'Was kostet eine Mitgliedschaft?',
-    'Welche Termine stehen als Nächstes an?',
-    'Wann hat das Clubrestaurant geöffnet?',
-    'Wie komme ich zur Anlage?',
-  ],
-}};
+// Lisa: Name und Rolle stehen in den Fakten (facts.assistent), Bild und Vorschlaege in config/assistent.json.
+// Der Server setzt sie beim Ausliefern ein (src/routes/public.js) — hier steht nur, DASS sie da ist.
+const ASSISTENT = { type: 'assistent', data: {} };
 
 const FOOTER = { type: 'footer', data: {
   zeile: '{{facts.verein.name}} · {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
@@ -900,6 +889,7 @@ export const seiten = [
       titel: '5. Lisa, die KI-Assistentin',
       absaetze: [
         'Auf jeder Seite kannst du Lisa, unserer KI-Assistentin, Fragen zum Verein stellen. Lisa ist keine Person, sondern ein Computerprogramm. Sie antwortet ausschließlich aus den Inhalten dieser Website. Wenn du eine Frage abschickst, geht sie zusammen mit den letzten Nachrichten des Gesprächs und den passenden Textstellen dieser Website an einen KI-Dienst des Anbieters Anthropic, der die Antwort erzeugt. Anthropic sitzt in den USA. Die Übermittlung stützt sich auf Standardvertragsklauseln (Art. 46 DSGVO). Mehr dazu in den [Datenschutzhinweisen von Anthropic](https://www.anthropic.com/legal/privacy).',
+        'Lisa und ihr Bild sind mit künstlicher Intelligenz erzeugt. Das Bild zeigt keine reale Person.',
         '**Bitte gib im Chat keine persönlichen Daten ein**, weder deine eigenen noch die anderer. Lisa braucht sie nicht.',
         'Wir speichern die Frage, die Antwort und die Seiten, aus denen geantwortet wurde, mit dem Zeitpunkt, ohne IP-Adresse und ohne Kennung. So sehen wir, was Besucher wissen wollen und auf der Website nicht finden. Die Einträge werden nach {{facts.datenschutz.frist_chat}} gelöscht. Damit niemand den Dienst überlastet, merkt sich der Server deine IP-Adresse für wenige Minuten im Arbeitsspeicher. Sie wird nicht in der Datenbank gespeichert und ist spätestens beim nächsten Neustart des Servers weg.',
         'Rechtsgrundlage ist unser berechtigtes Interesse an einer einfachen Auskunft für Besucher (Art. 6 Abs. 1 lit. f DSGVO). Die Nutzung ist freiwillig. Die Website funktioniert ohne Lisa vollständig.',

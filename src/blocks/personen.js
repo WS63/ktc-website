@@ -29,9 +29,9 @@ export default {
     .person__vorname { font-weight: 400; color: var(--text-leise); }
     .person__nachname { font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: .02em; }
     /* Wie beim Namen: die laengste Adresse (30 Zeichen, gemessen 16,7 x Schriftgroesse) soll mit
-       Reserve in die Karte passen. 5,4 % der Kartenbreite, hoechstens 14 px. Alle Karten sind gleich breit,
+       Reserve in die Karte passen. 5,9 % der Kartenbreite, hoechstens 15 px. Alle Karten sind gleich breit,
        also bekommen alle Zeilen dieselbe Groesse. */
-    .person__kontakt { font-size: clamp(12px, 5.4cqw, 14px); }
+    .person__kontakt { font-size: clamp(12px, 5.9cqw, 15px); }
     .person__kontakt a { color: var(--signal); text-decoration: none; display: block; }
     .person__kontakt a:hover { text-decoration: underline; }
   `,

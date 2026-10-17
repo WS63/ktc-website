@@ -148,7 +148,7 @@ const vorstand = ['erster', 'zweite', 'sport', 'jugend', 'kasse', 'technik', 'pr
 const lisaKarte = {
   rolle: 'KI-Assistentin', name: '{{facts.assistent.name}}',
   bild: bild('lisa', 'klein'),
-  text: 'Antwortet sofort, jederzeit.',
+  text: 'Nicht im Vorstand, aber immer da.',
   linkLabel: 'Frag {{facts.assistent.name}}', linkHref: '#frag-lisa', nurMitAssistent: true,
 };
 

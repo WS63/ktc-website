@@ -1,11 +1,51 @@
 import { finde } from './suchen.js';
 import { loadSite, loadFacts } from '../config.js';
+import { lokal, assistentAktiv } from './bereit.js';
 
 // Haiku 5.5 statt Sonnet oder Opus: die eigentliche Arbeit steckt in der Suche, nicht im
 // Formulieren. Das Modell liest fuenf Absaetze und antwortet in drei Saetzen. Haiku ist dafuer
 // schnell genug, kostet einen Bruchteil und unterstuetzt 'effort' und Streaming wie die groesseren.
 // Umstellen ist eine Zeile in .env — CHAT_MODELL=claude-sonnet-5-5 (oder claude-opus-5-5)
-const MODELL = process.env.CHAT_MODELL || 'claude-haiku-5-5';
+const MODELL = process.env.CHAT_MODELL || (lokal() ? 'gemma4:12b' : 'claude-haiku-5-5');
+
+/**
+ * Lokaler Anbieter (CHAT_ANBIETER=lokal): ein Modell auf dem eigenen Rechner, erreichbar ueber die
+ * OpenAI-kompatible Schnittstelle (Ollama: http://localhost:11434/v1). Liefert nur die Textstuecke;
+ * alles andere (Suche, Anweisung, Quellen, Verlauf) bleibt wie beim Anthropic-Zweig.
+ */
+async function* lokalerStrom(system, nachrichten) {
+  const basis = (process.env.LOKAL_URL || 'http://localhost:11434/v1').replace(/\/+$/, '');
+  const antwort = await fetch(`${basis}/chat/completions`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    signal: AbortSignal.timeout(180_000),   // die erste Frage laedt das Modell in den Speicher
+    body: JSON.stringify({
+      model: MODELL, stream: true, max_tokens: 1024, temperature: 0.2,
+      reasoning_effort: 'none',             // kurze Auskunft, keine Gedankenkette; unbekanntes wird ignoriert
+      messages: [{ role: 'system', content: system }, ...nachrichten],
+    }),
+  });
+  if (!antwort.ok) throw new Error(`Lokales Modell: HTTP ${antwort.status}`);
+
+  const dekoder = new TextDecoder();
+  let rest = '';
+  let denkt = false;                        // innerhalb eines <think>-Blocks wird nichts angezeigt
+  for await (const stueck of antwort.body) {
+    rest += dekoder.decode(stueck, { stream: true });
+    const zeilen = rest.split('\n');
+    rest = zeilen.pop();
+    for (const zeile of zeilen) {
+      if (!zeile.startsWith('data:')) continue;
+      const daten = zeile.slice(5).trim();
+      if (!daten || daten === '[DONE]') continue;
+      let text = '';
+      try { text = JSON.parse(daten).choices?.[0]?.delta?.content || ''; } catch { continue; }
+      if (text.includes('<think>')) denkt = true;
+      if (!denkt && text) yield text;
+      if (text.includes('</think>')) denkt = false;
+    }
+  }
+}
 
 let clientVersprechen = null;
 async function holeClient() {
@@ -16,7 +56,7 @@ async function holeClient() {
   return clientVersprechen;
 }
 
-export const istBereit = () => Boolean(process.env.ANTHROPIC_API_KEY);
+export const istBereit = assistentAktiv;
 
 /**
  * Die Anweisung. Dieselbe Strenge wie beim Fakten-Tor (P2): die Fakten kommen
@@ -81,8 +121,8 @@ export async function* antworte(frage, verlauf = []) {
     return;
   }
 
-  const client = await holeClient();
-  if (!client) {
+  const client = lokal() ? null : await holeClient();
+  if (!client && !lokal()) {
     yield { art: 'fehler',
       text: 'Der Assistent ist gerade nicht erreichbar. Schau solange direkt auf der Seite nach.' };
     return;
@@ -105,28 +145,36 @@ export async function* antworte(frage, verlauf = []) {
       { role: 'user', content: frage },
     ];
 
-    const strom = client.messages.stream({
-      model: MODELL,
-      max_tokens: 1024,
-      // Kurze, klare Auskunft — dafuer braucht es kein tiefes Nachdenken,
-      // und der Mensch wartet vor einem Chatfenster.
-      output_config: { effort: 'low' },
-      system: [{ type: 'text', text: anweisung(stuecke) }],
-      messages: nachrichten,
-    });
-
     let ganz = '';
-    for await (const teil of strom) {
-      if (teil.type === 'content_block_delta' && teil.delta?.type === 'text_delta') {
-        ganz += teil.delta.text;
-        yield { art: 'text', text: teil.delta.text };
-      }
-    }
 
-    const fertig = await strom.finalMessage();
-    if (fertig.stop_reason === 'refusal') {
-      yield { art: 'text',
-        text: '\n\nDazu kann ich nichts sagen. Wende dich bitte direkt an den Verein.' };
+    if (lokal()) {
+      for await (const text of lokalerStrom(anweisung(stuecke), nachrichten)) {
+        ganz += text;
+        yield { art: 'text', text };
+      }
+    } else {
+      const strom = client.messages.stream({
+        model: MODELL,
+        max_tokens: 1024,
+        // Kurze, klare Auskunft — dafuer braucht es kein tiefes Nachdenken,
+        // und der Mensch wartet vor einem Chatfenster.
+        output_config: { effort: 'low' },
+        system: [{ type: 'text', text: anweisung(stuecke) }],
+        messages: nachrichten,
+      });
+
+      for await (const teil of strom) {
+        if (teil.type === 'content_block_delta' && teil.delta?.type === 'text_delta') {
+          ganz += teil.delta.text;
+          yield { art: 'text', text: teil.delta.text };
+        }
+      }
+
+      const fertig = await strom.finalMessage();
+      if (fertig.stop_reason === 'refusal') {
+        yield { art: 'text',
+          text: '\n\nDazu kann ich nichts sagen. Wende dich bitte direkt an den Verein.' };
+      }
     }
     yield { art: 'fertig', quellen: quellen.slice(0, 3), gefunden: stuecke.length, ganz };
   } catch (err) {

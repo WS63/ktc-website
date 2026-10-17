@@ -1,3 +1,4 @@
+import { assistentAktiv } from '../assistent/bereit.js';
 import { html, raw, escapeAttr, ziel } from './_util.js';
 
 export default {
@@ -104,7 +105,7 @@ export default {
   render(data) {
     // P6: ohne Schluessel erscheint kein Knopf, der ins Leere fuehrt.
     // Die Website bleibt vollstaendig bedienbar — sie hat eben keinen Chat.
-    if (!process.env.ANTHROPIC_API_KEY) return '';
+    if (!assistentAktiv()) return '';
 
     const vorschlaege = (data.vorschlaege || [])
       .map((v) => (typeof v === 'string' ? v : v?.frage))

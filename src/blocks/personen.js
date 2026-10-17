@@ -1,3 +1,4 @@
+import { assistentAktiv } from '../assistent/bereit.js';
 import { html, raw, escapeAttr, ziel } from './_util.js';
 
 export default {
@@ -55,7 +56,7 @@ export default {
       return i < 0 ? html`<span class="person__einzel">${t}</span>`
         : html`<span class="person__vorname">${t.slice(0, i)}</span> <span class="person__nachname">${t.slice(i + 1)}</span>`;
     };
-    const leute = (data.leute || []).filter((p) => !p.nurMitAssistent || process.env.ANTHROPIC_API_KEY).map((p) => {
+    const leute = (data.leute || []).filter((p) => !p.nurMitAssistent || assistentAktiv()).map((p) => {
       if (p.bild || p.text) {
         const bildSrc = ziel(p.bild);
         const href = ziel(p.linkHref);

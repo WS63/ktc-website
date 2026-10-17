@@ -1,10 +1,11 @@
 import { finde } from './suchen.js';
 import { loadSite, loadFacts } from '../config.js';
 
-// Sonnet 5 statt Opus: die eigentliche Arbeit steckt in der Suche, nicht im
-// Formulieren. Das Modell liest fuenf Absaetze und antwortet in drei Saetzen.
-// Umstellen ist eine Zeile in .env — CHAT_MODELL=claude-opus-5
-const MODELL = process.env.CHAT_MODELL || 'claude-sonnet-5';
+// Haiku 5.5 statt Sonnet oder Opus: die eigentliche Arbeit steckt in der Suche, nicht im
+// Formulieren. Das Modell liest fuenf Absaetze und antwortet in drei Saetzen. Haiku ist dafuer
+// schnell genug, kostet einen Bruchteil und unterstuetzt 'effort' und Streaming wie die groesseren.
+// Umstellen ist eine Zeile in .env — CHAT_MODELL=claude-sonnet-5-5 (oder claude-opus-5-5)
+const MODELL = process.env.CHAT_MODELL || 'claude-haiku-5-5';
 
 let clientVersprechen = null;
 async function holeClient() {

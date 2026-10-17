@@ -45,7 +45,7 @@
     Offen: Git-Repository anlegen, in Coolify deployen, Domain, Bilder aufs Volume.
 
 **Assistent (Stufe 7):** Volltextsuche in JavaScript, keine Embeddings, keine Vektordatenbank.
-  Modell: claude-sonnet-5 (ANTHROPIC_API_KEY in .env). Umstellen: CHAT_MODELL in .env.
+  Modell: claude-haiku-5-5 (ANTHROPIC_API_KEY in .env). Umstellen: CHAT_MODELL in .env.
   Ohne Schlüssel erscheint kein Chatfenster — die Website läuft vollständig weiter (P6).
 
 **Offene Punkte (Design/Inhalt):**

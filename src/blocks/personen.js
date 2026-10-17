@@ -8,7 +8,7 @@ export default {
     vorspann: { type: 'longtext', default: '', label: 'Zeile darunter' },
     anker:    { type: 'text', default: '', label: 'Sprungmarke, z. B. vorstand' },
     grund:    { type: 'auswahl', default: 'weiss', label: 'Hintergrund', optionen: ['weiss', 'ruhig'] },
-    leute:    { type: 'liste', default: [], label: 'Personen: rolle, name, telefon, email' },
+    leute:    { type: 'liste', default: [], label: 'Personen: rolle, name, telefon, email (Karte mit Bild: bild, text, linkLabel, linkHref, nurMitAssistent)' },
   },
   css: `
     .personen__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: 6px; }
@@ -34,16 +34,41 @@ export default {
     .person__kontakt { font-size: clamp(12px, 5.9cqw, 15px); }
     .person__kontakt a { color: var(--signal); text-decoration: none; display: block; }
     .person__kontakt a:hover { text-decoration: underline; }
+    /* Karte ohne Telefon (Lisa): derselbe Aufbau wie die anderen, damit die Reihe gleich hoch
+       bleibt. Statt Telefon eine Zeile Text, statt E-Mail der Link; das Bild sitzt rechts oben
+       in der Ecke, der Name auf der Hoehe aller Namen. Die Flaeche ist das helle Blau der
+       Hinweise (--signal-leise), nicht das dunkle Grau: ein Mensch aus Fleisch faellt nicht
+       auf, eine KI-Karte darf sich absetzen, aber nicht draengen. */
+    .person { position: relative; }
+    .section .person--ki { background: var(--signal-leise); border-color: var(--signal); }
+    .person__bild { position: absolute; top: 16px; right: 16px; width: 52px; height: 52px;
+      border-radius: 50%; object-fit: cover; display: block; border: 2px solid var(--grund); }
+    .person__einzel { font-weight: 700; color: var(--text); }
+    .person__kontakt span { display: block; color: var(--text-leise); }
+    .person--ki .person__kontakt a { font-weight: 600; }
   `,
   render(data) {
     // Der letzte Teil des Namens ist der Nachname; steht nur ein Wort da, bleibt es, wie es ist.
     const name = (n) => {
       const t = String(n || '').trim();
       const i = t.lastIndexOf(' ');
-      return i < 0 ? t
+      return i < 0 ? html`<span class="person__einzel">${t}</span>`
         : html`<span class="person__vorname">${t.slice(0, i)}</span> <span class="person__nachname">${t.slice(i + 1)}</span>`;
     };
-    const leute = (data.leute || []).map((p) => {
+    const leute = (data.leute || []).filter((p) => !p.nurMitAssistent || process.env.ANTHROPIC_API_KEY).map((p) => {
+      if (p.bild || p.text) {
+        const bildSrc = ziel(p.bild);
+        const href = ziel(p.linkHref);
+        return html`<article class="person person--ki">
+          ${bildSrc ? html`<img class="person__bild" src="${raw(escapeAttr(bildSrc))}" alt="" width="52" height="52" loading="lazy">` : ''}
+          ${p.rolle ? html`<p class="person__rolle">${p.rolle}</p>` : ''}
+          <p class="person__name">${name(p.name)}</p>
+          <div class="person__kontakt">
+            ${p.text ? html`<span>${p.text}</span>` : ''}
+            ${p.linkLabel && href ? html`<a href="${raw(escapeAttr(href))}">${p.linkLabel} →</a>` : ''}
+          </div>
+        </article>`;
+      }
       const tel = ziel(`tel:${String(p.telefon || '').replace(/\s/g, '')}`);
       const mail = ziel(`mailto:${p.email || ''}`);
       return html`<article class="person">

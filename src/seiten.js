@@ -143,6 +143,15 @@ const vorstand = ['erster', 'zweite', 'sport', 'jugend', 'kasse', 'technik', 'pr
   email:   `{{facts.vorstand.${k}.email}}`,
 }));
 
+// Lisa als achte Karte: kein Vorstandsmitglied, aber der schnellste Weg zu einer Antwort.
+// Ohne Assistent (kein Schluessel) fehlt die Karte, sonst fuehrte ihr Link ins Leere.
+const lisaKarte = {
+  rolle: 'KI-Assistentin', name: '{{facts.assistent.name}}',
+  bild: bild('lisa', 'klein'),
+  text: 'Antwortet sofort, jederzeit.',
+  linkLabel: 'Frag {{facts.assistent.name}}', linkHref: '#frag-lisa', nurMitAssistent: true,
+};
+
 export const seiten = [
 
 // ══════════════════════════════════════════════════════════ STARTSEITE
@@ -722,7 +731,7 @@ export const seiten = [
       anker: 'vorstand',
       grund: 'ruhig',
       vorspann: 'Jederzeit ein offenes Ohr für dich!',
-      leute: vorstand,
+      leute: [...vorstand, lisaKarte],
     }},
     // Eine Einladung statt zwei Verkehrsangaben: der Aufmacher sagt 'komm einfach vorbei',
     // die Ueberschrift nimmt es auf, die zwei Wege stehen als Anfangsworte im Text.

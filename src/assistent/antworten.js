@@ -111,6 +111,7 @@ const NICHTS_GEFUNDEN = 'Dazu finde ich auf der Website nichts. '
  * lahmlegt, ist schlimmer als kein Chat.
  */
 export async function* antworte(frage, verlauf = []) {
+  const start = Date.now();
   const stuecke = await finde(frage, 6);
 
   if (!stuecke.length) {
@@ -176,6 +177,9 @@ export async function* antworte(frage, verlauf = []) {
           text: '\n\nDazu kann ich nichts sagen. Wende dich bitte direkt an den Verein.' };
       }
     }
+    // Welcher Weg genommen wurde, steht im Server-Log: so bleibt nicht zu raten, ob die Antwort
+    // von Anthropic oder vom lokalen Modell kam.
+    console.log(`[Assistent] ${lokal() ? 'lokal' : 'Anthropic'} · ${MODELL} · ${((Date.now() - start) / 1000).toFixed(1)} s`);
     yield { art: 'fertig', quellen: quellen.slice(0, 3), gefunden: stuecke.length, ganz };
   } catch (err) {
     console.error('[Assistent] [FEHLER]', err.message);

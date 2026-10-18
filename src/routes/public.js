@@ -81,6 +81,22 @@ const bilderVerzeichnis = existsSync('inhalte/bilder.json')
   ? JSON.parse(readFileSync('inhalte/bilder.json', 'utf8')) : {};
 
 /**
+ * Zu jeder erzeugten Bildadresse die ganze Reihe ihrer Groessen als srcset:
+ * '/bilder/x-1600-….jpg' → '/bilder/x-400-….jpg 400w, … 1600w'.
+ *
+ * Damit laedt ein Telefon im Aufmacher die 400er- oder 800er-Fassung statt
+ * acht Bilder in 1600 Pixeln. Die Seite selbst nennt weiter nur eine Adresse —
+ * die Reihe kommt hier dazu, beim Ausliefern, und braucht kein Feld im Cockpit.
+ * Im Cockpit hochgeladene Bilder haben keine Reihe und bleiben, wie sie sind (P6).
+ */
+const SRCSETS = Object.fromEntries(Object.values(bilderVerzeichnis).flatMap((b) => {
+  const reihe = Object.entries(b.groessen || {})
+    .sort(([a], [z]) => Number(a) - Number(z))
+    .map(([breite, g]) => `${g.pfad} ${breite}w`).join(', ');
+  return reihe ? Object.values(b.groessen).map((g) => [g.pfad, reihe]) : [];
+}));
+
+/**
  * Menue, Fusszeile und Uebersichten sind Abfragen, keine gepflegten Listen (P3).
  * Neue Seite im Menue → sie steht drin, ohne dass jemand einen Baustein anfasst.
  */
@@ -102,6 +118,8 @@ async function dynamischeDaten(inhalt, page) {
       if (fuss.length) daten.footer = { baum: fuss };
     }
   }
+
+  if (typen.has('hero')) daten.hero = { srcsets: SRCSETS };
 
   // Lisa kommt aus der Konfiguration, nicht aus dem, was beim Seeden in der Seite gelandet ist:
   // sonst zeigten Seiten, die im Cockpit bearbeitet wurden (der Seed ueberspringt sie), den alten

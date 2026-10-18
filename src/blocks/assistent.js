@@ -3,6 +3,10 @@ import { html, raw, escapeAttr, ziel } from './_util.js';
 
 export default {
   name: 'assistent',
+  // Fuer die Content-Security-Policy (src/sicherheit.js): sie erlaubt genau
+  // dieses Inline-Skript ueber seinen Hash. Ein Getter, weil SKRIPT erst
+  // weiter unten steht.
+  get skripte() { return [SKRIPT]; },
   label: 'Assistent — Chat über die Website',
   schema: {
     name:      { type: 'text',  default: 'Lisa', label: 'Name der Assistentin' },

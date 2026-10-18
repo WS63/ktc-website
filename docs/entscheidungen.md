@@ -61,7 +61,9 @@
 **Offene Fakten:**
   - Vereinsregister-Nummer und Registergericht — **bei einem e.V. Pflichtangabe im Impressum, fehlt heute**
   - Echte Facebook- und Instagram-Adressen — heute stehen Theme-Platzhalter drin
-  - Öffnungszeiten Anlage und Clubrestaurant
+  - ERLEDIGT: Öffnungszeiten — die Anlage hat **keine festen Öffnungszeiten**, deshalb gibt es
+    keinen Fakt dafür und keine Zeile im Fuß (entschieden 2026-10-18). Die Zeiten des
+    Clubrestaurants stehen unter `facts.gastronomie`.
 
   - ERLEDIGT: Logo als Vektordatei vorhanden, aufgeräumt unter assets/
   - ERLEDIGT: Hausnummer gefunden (Schmelzweg 6), stand auf der Minis-Seite

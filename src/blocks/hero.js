@@ -216,15 +216,26 @@ export default {
     }
     const n = alle.length;
 
+    // Die Groessenreihe kommt beim Ausliefern dazu (src/routes/public.js, 'srcsets').
+    // Fehlt sie, bleibt es bei der einen Adresse (P6). Der Aufmacher ist immer
+    // schirmbreit, deshalb 100vw.
+    const reihe = (src) => {
+      const s = data.srcsets?.[src];
+      return s ? raw(` srcset="${escapeAttr(s)}" sizes="100vw"`) : '';
+    };
+
+    // Das erste Bild ist das, was man sieht: es kommt zuerst. Die weiteren
+    // tauchen fruehestens nach einem Platz von SLOT_S Sekunden auf und duerfen
+    // warten — 'low' laesst ihnen die Leitung erst, wenn das erste da ist.
     const fotos = n === 1
-      ? html`<img class="hero__foto" src="${raw(escapeAttr(bild))}"
+      ? html`<img class="hero__foto" src="${raw(escapeAttr(bild))}"${reihe(bild)}
                   alt="${raw(escapeAttr(data.bildAlt || ''))}"
                   fetchpriority="high" decoding="async">`
       : alle.map((src, i) => html`<img class="hero__foto hero__foto--wechsel"
              style="--i: ${raw(String(i))}; animation-name: hero-blende-${raw(String(n))}"
-             src="${raw(escapeAttr(src))}"
+             src="${raw(escapeAttr(src))}"${reihe(src)}
              alt="${raw(i === 0 ? escapeAttr(data.bildAlt || '') : '')}"
-             ${raw(i === 0 ? 'fetchpriority="high"' : 'aria-hidden="true"')} decoding="async">`);
+             ${raw(i === 0 ? 'fetchpriority="high"' : 'aria-hidden="true" fetchpriority="low"')} decoding="async">`);
 
     return html`
       <section class="section hero hero--bild${raw(zeile ? ' hero--zeile' : '')}"

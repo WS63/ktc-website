@@ -2,6 +2,8 @@ import { html, raw, escapeAttr, ziel, markdownInline } from './_util.js';
 
 export default {
   name: 'formular',
+  // Fuer die Content-Security-Policy (src/sicherheit.js), siehe assistent.js.
+  get skripte() { return [SKRIPT]; },
   label: 'Formular',
   schema: {
     name:     { type: 'text',  default: 'anfrage', label: 'Name des Formulars' },

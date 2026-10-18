@@ -5,6 +5,7 @@ import { aktualisiere } from './src/config.js';
 import api from './src/routes/api.js';
 import oeffentlich from './src/routes/public.js';
 import { zugangsschutz } from './src/zugang.js';
+import { sicherheitsKoepfe } from './src/sicherheit.js';
 import { DEMO_AN } from './src/termin-quelle.js';
 import { starten as spielstandLaden, starteZeitplan } from './src/spielstand.js';
 
@@ -43,6 +44,16 @@ try {
 const app = express();
 app.disable('x-powered-by');
 
+// Coolify stellt einen Proxy (Traefik) vor den Server. Ohne diese Zeile kaeme
+// jede Anfrage scheinbar von dessen Adresse: req.ip waere fuer alle Besucher
+// dieselbe — und die Bremsen fuer Chat und Formular traefen alle zugleich.
+// req.secure waere nie wahr, obwohl der Besucher HTTPS benutzt. Genau EIN
+// Proxy: mehr zu vertrauen hiesse, gefaelschte X-Forwarded-For-Zeilen zu glauben.
+app.set('trust proxy', 1);
+
+// Sicherheits-Kopfzeilen auf JEDER Antwort, auch auf der Sperrseite und /health.
+app.use(sicherheitsKoepfe());
+
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
 // Name und Passwort vor der ganzen Website — solange die Seite nicht oeffentlich
@@ -68,6 +79,10 @@ app.use('/uploads', express.static('data/uploads', { maxAge: '365d', immutable: 
 
 // Das Logo als Datei, falls jemand es verlinken will.
 app.use('/assets', express.static('assets', { maxAge: '7d' }));
+
+// Jede Seite nennt ihr Zeichen im <head> (src/renderer.js). Manche Programme
+// fragen trotzdem blind nach /favicon.ico — sie bekommen das Logo statt 404.
+app.get('/favicon.ico', (_req, res) => res.redirect(301, '/assets/ktc-logo-rahmen.svg'));
 
 // Bilder, die zur Website gehoeren. Kommen mit dem Deploy, nicht vom Volume.
 // Der Inhalts-Hash im Dateinamen macht sie unveraenderlich.

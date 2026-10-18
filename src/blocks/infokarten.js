@@ -2,6 +2,8 @@ import { html, raw, markdownInline } from './_util.js';
 
 export default {
   name: 'infokarten',
+  // Fuer die Content-Security-Policy (src/sicherheit.js), siehe assistent.js.
+  get skripte() { return [SKRIPT]; },
   label: 'Eckdaten',
   schema: {
     titel:  { type: 'text',  default: '', label: 'Überschrift' },

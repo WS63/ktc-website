@@ -346,6 +346,14 @@ docker build -t ktc-website .
 - **`/app/data` muss ein dauerhaftes Volume sein.** Sonst sind alle hochgeladenen Bilder
   nach dem nächsten Deploy weg und die Seiten zeigen ins Leere.
 - **`SIGTERM`** schreibt die gesammelten Aufrufe weg, bevor der Prozess endet
+- **Sicherheits-Kopfzeilen** (`src/sicherheit.js`) auf jeder Antwort: CSP ohne fremde
+  Server, `nosniff`, `Referrer-Policy`, `Permissions-Policy`; HSTS nur über HTTPS.
+  **Inline-Skripte sind nur über ihren Hash erlaubt.** Ein Baustein mit `<script>` meldet
+  es unter `skripte` — sonst blockiert der Browser es still, und `tests/sicherheit.test.js`
+  schlägt fehl.
+- **`trust proxy` steht auf 1** (Traefik vor dem Server). Ohne das sähe der Server jede
+  Anfrage von derselben Adresse: die Bremsen für Chat (12 / 10 Min.) und Formular
+  (5 / 10 Min., `src/bremse.js`) träfen alle Besucher zugleich, und HSTS käme nie.
 
 **Zwei Fallen, hier gefunden:**
 

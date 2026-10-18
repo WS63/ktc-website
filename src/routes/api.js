@@ -11,6 +11,7 @@ import { aktualisiere } from '../config.js';
 import { anmelden, abmelden, schuetzen, nurErlaubtes, istAngemeldet, rolle } from '../auth.js';
 import redaktion from './redaktion.js';
 import { leereCache } from '../cache.js';
+import { bremseFuer } from '../bremse.js';
 
 const router = Router();
 const jetzt = () => new Date().toISOString();
@@ -21,9 +22,19 @@ router.post('/logout', abmelden);
 router.get('/ich', (req, res) => res.json({ angemeldet: istAngemeldet(req), rolle: rolle(req) }));
 
 // ── Die eine Handlung: ein Formular. OEFFENTLICH, bewusst vor schuetzen(). ──
+//
+// Fuenf Anfragen in zehn Minuten von derselben Adresse reichen jedem Menschen,
+// auch einer Familie hinter einem Anschluss. Was darueber liegt, fuellt nur die
+// Tabelle — der Honigtopf faengt dumme Bots, die Bremse die anderen.
+const formularZuSchnell = bremseFuer({ fensterMs: 10 * 60 * 1000, hoechstens: 5 });
+
 router.post('/form/:name', express.json({ limit: '64kb' }), async (req, res) => {
   const { website, ...daten } = req.body || {};
   if (website) return res.json({ ok: true });          // 1. Honigtopf: Bots fuellen ihn aus
+  if (formularZuSchnell(req.ip)) {
+    return res.status(429).json({
+      fehler: 'Das waren gerade viele Anfragen auf einmal. Probier es in ein paar Minuten noch einmal.' });
+  }
 
   try {
     // 2. ZUERST speichern, DANN benachrichtigen. Nie umgekehrt — sonst gehen
@@ -51,16 +62,7 @@ router.post('/form/:name', express.json({ limit: '64kb' }), async (req, res) => 
 //
 // Eine einfache Bremse: mehr als 12 Fragen in 10 Minuten von derselben
 // Adresse sind kein Mensch, der sich informiert.
-const bremse = new Map();
-function zuSchnell(adresse) {
-  const jetztMs = Date.now();
-  const fenster = 10 * 60 * 1000;
-  const liste = (bremse.get(adresse) || []).filter((t) => jetztMs - t < fenster);
-  liste.push(jetztMs);
-  bremse.set(adresse, liste);
-  if (bremse.size > 5000) bremse.clear();          // kein unbegrenztes Wachsen
-  return liste.length > 12;
-}
+const zuSchnell = bremseFuer({ fensterMs: 10 * 60 * 1000, hoechstens: 12 });
 
 router.post('/chat', express.json({ limit: '16kb' }), async (req, res) => {
   const { antworte, istBereit } = await import('../assistent/antworten.js');

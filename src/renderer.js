@@ -70,6 +70,7 @@ export function renderPage(page, { dynamicData = {} } = {}) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(page.title || site.name)}${escapeHtml(site.titleSuffix || '')}</title>
+<link rel="icon" type="image/svg+xml" href="/assets/ktc-logo-rahmen.svg">
 <meta name="description" content="${escapeHtml(page.description || '')}">
 <link rel="canonical" href="${escapeHtml((site.domain || '') + (page.slug === 'start' ? '/' : `/${page.slug}/`))}">
 <meta property="og:title" content="${escapeHtml(page.title || site.name)}">

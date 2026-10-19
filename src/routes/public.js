@@ -1,15 +1,18 @@
 import { Router } from 'express';
 import { query, queryOne } from '../db.js';
 import { renderPage } from '../renderer.js';
-import { loadSite, loadArten, loadAssistent } from '../config.js';
+import { loadSite, loadArten, loadAssistent, loadFacts } from '../config.js';
+import { mannschaften, saison } from '../mannschaften.js';
+import { kalenderText, vereinsEreignisse, mannschaftsEreignisse, heimspielEreignisse, slugVon,
+  mannschaftenImPlan } from '../kalender-abo.js';
 import { readFileSync, existsSync } from 'node:fs';
 import { holen, legen, bisMitternacht } from '../cache.js';
 import { zaehle } from '../zaehler.js';
-import { kalenderTermine, kuenftige, vergangene, spielplanHinweis } from '../termin-quelle.js';
+import { kalenderTermine, kuenftige, vergangene, spielplanHinweis, vereinsTermine, echterSpielplan } from '../termin-quelle.js';
 import { suchtext, begriffe, beitraegeFiltern, termineFiltern } from '../suche.js';
 import { spielstand, infoStand } from '../spielstand.js';
 import { ansicht, neuesteErgebnisse } from '../ergebnisse.js';
-import { berlinWann } from '../zeit.js';
+import { berlinWann, berlinTag, tagPlus } from '../zeit.js';
 
 const router = Router();
 
@@ -75,6 +78,113 @@ router.get('/sitemap.xml', async (_req, res, next) => {
       + `\n</urlset>\n`);
   } catch (err) { next(err); }
 });
+
+// ── Kalender-Abo (src/kalender-abo.js) ──────────────────────────────────
+//
+// Die Feeds nehmen IMMER die echten Spieltermine (echterSpielplan), nie die im
+// Demo-Modus verschobenen: was einmal in einem fremden Kalender steht, holt
+// niemand mehr zurueck.
+//
+// Mannschaften: Erwachsene behalten eine Adresse ueber die Jahre (dieselben Leute,
+// das Abo laeuft weiter), die Jugend bekommt eine je Saison (/kalender/mannschaft/
+// 2026/junioren-u15.ics) — die Teams wechseln jedes Jahr, ein altes Abo bleibt auf
+// seiner Saison stehen. Eine aufgeloeste Mannschaft liefert weiter ihre alten Spiele
+// statt 404: sonst zeigt der Kalender des Abonnenten einen Fehler.
+const ABO_FEST = { club: '/kalender/club.ics', heimspiele: '/kalender/heimspiele.ics' };
+const istJugend = (slug) => (saison.jugend || []).some((t) => slugVon(t.name) === slug);
+
+/** Der Name zu einer Abo-Adresse: aus der laufenden Saison, sonst aus dem Spielstand. */
+function aboName(slug) {
+  const jetzt = mannschaften.find((t) => slugVon(t.name) === slug);
+  if (jetzt) return jetzt.name;
+  return mannschaftenImPlan(echterSpielplan()).find((n) => slugVon(n) === slug) || null;
+}
+
+/** Wohin /kalender/abo/<feed>/ fuehrt — die Jugend in die laufende Saison. */
+function aboPfad(feed) {
+  if (ABO_FEST[feed]) return ABO_FEST[feed];
+  if (!aboName(feed)) return null;
+  return istJugend(feed) && saison.saison
+    ? `/kalender/mannschaft/${saison.saison}/${feed}.ics` : `/kalender/mannschaft/${feed}.ics`;
+}
+
+function aboText(feed, basis, nurSaison = '') {
+  const f = loadFacts();
+  // Fehlt die Dauer in den Fakten, haben Spiele nur einen Anfang — nichts wird erfunden (P2).
+  const stunden = Number(f.kalender?.dauer_wettkampf_stunden) > 0 ? Number(f.kalender.dauer_wettkampf_stunden) : null;
+  const v = f.verein || {};
+  const anschrift = v.strasse ? `${v.name}, ${v.strasse}, ${v.plz} ${v.ort}` : '';
+  if (feed === 'club') {
+    return kalenderText({ name: 'KTC · Clubleben', beschreibung: 'Termine des Krifteler Tennis-Clubs',
+      ereignisse: vereinsEreignisse(vereinsTermine(), { basis }) });
+  }
+  if (feed === 'heimspiele') {
+    return kalenderText({ name: 'KTC · Heimspiele', beschreibung: 'Medenspiele auf der Anlage des Krifteler Tennis-Clubs',
+      ereignisse: heimspielEreignisse(echterSpielplan(), { stunden, anschrift }) });
+  }
+  const name = aboName(feed);
+  if (!name) return null;
+  const ereignisse = mannschaftsEreignisse(echterSpielplan(), name, { stunden, anschrift, saison: nurSaison });
+  // Eine Saison, in der die Mannschaft nie gespielt hat, ist eine falsche Adresse.
+  if (nurSaison && !ereignisse.length) return null;
+  const gemeldet = mannschaften.some((t) => t.name === name);
+  return kalenderText({
+    name: `KTC · ${name}${nurSaison ? ` · ${nurSaison}` : ''}`,
+    beschreibung: `Medenspiele der Mannschaft ${name}${nurSaison ? ` in der Saison ${nurSaison}` : ''}.`
+      + (gemeldet || nurSaison ? '' : ' In der laufenden Saison ist sie nicht gemeldet — hier stehen ihre bisherigen Spiele.'),
+    ereignisse });
+}
+
+function aboSenden(req, res, next, feed, nurSaison = '') {
+  const text = aboText(feed, `${req.protocol}://${req.get('host')}`, nurSaison);
+  if (!text) return next();
+  // Jedes Abholen zaehlt: so steht im Cockpit, welche Abos benutzt werden.
+  zaehle(req.path);
+  res.type('text/calendar; charset=utf-8')
+    .set('Cache-Control', 'max-age=3600')
+    .set('Content-Disposition', `inline; filename="ktc-${feed}${nurSaison ? `-${nurSaison}` : ''}.ics"`)
+    .send(text);
+}
+
+router.get('/kalender/mannschaft/:saison/:datei', (req, res, next) => {
+  const m = /^([a-z0-9-]+)\.ics$/.exec(req.params.datei);
+  return m && /^\d{4}$/.test(req.params.saison) ? aboSenden(req, res, next, m[1], req.params.saison) : next();
+});
+
+router.get('/kalender/:datei', (req, res, next) => {
+  const m = /^(club|heimspiele)\.ics$/.exec(req.params.datei);
+  return m ? aboSenden(req, res, next, m[1]) : next();
+});
+
+router.get('/kalender/mannschaft/:datei', (req, res, next) => {
+  const m = /^([a-z0-9-]+)\.ics$/.exec(req.params.datei);
+  return m ? aboSenden(req, res, next, m[1]) : next();
+});
+
+/**
+ * Der Weg zum Abonnieren: /kalender/abo/<feed>/ leitet auf webcal:// weiter, mit
+ * ?google=1 zu Google Kalender. Dadurch stehen auf den Seiten nur RELATIVE Links —
+ * beim Umzug auf die echte Domain muss nichts neu geseedet werden, und ziel()
+ * braucht keine Ausnahme fuer webcal:. Die Adresse kommt aus der Anfrage selbst.
+ */
+function aboWeiter(req, res, next, feed, google) {
+  const pfad = aboPfad(String(feed || ''));
+  if (!pfad) return next();
+  const webcal = `webcal://${req.get('host')}${pfad}`;
+  if (google) {
+    return res.redirect(302, `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(webcal)}`);
+  }
+  res.redirect(302, webcal);
+}
+
+// Das Formular "Deine Mannschaft": /kalender/abo/?mannschaft=herren-40&weg=google
+router.get('/kalender/abo', (req, res, next) => {
+  if (!req.query.mannschaft) return res.redirect(302, '/kalender/#abo');
+  return aboWeiter(req, res, next, req.query.mannschaft, req.query.weg === 'google');
+});
+
+router.get('/kalender/abo/:feed', (req, res, next) =>
+  aboWeiter(req, res, next, req.params.feed, Boolean(req.query.google)));
 
 // Die Bilder, wie 'npm run bilder' sie erzeugt hat (Name → Adressen). Einmal beim Start gelesen.
 const bilderVerzeichnis = existsSync('inhalte/bilder.json')
@@ -182,6 +292,12 @@ async function dynamischeDaten(inhalt, page) {
     const arten = loadArten();
     const vergangen = page.zeit === 'vergangen';
     let liste = vergangen ? vergangene(kalenderTermine()) : kuenftige(kalenderTermine());
+    // Was vor mehr als zwei Wochen war, interessiert kaum noch: nur das Juengere bleibt
+    // aufgeklappt. Die Grenze rechnet die Route, nicht der Baustein (P1).
+    if (vergangen) {
+      const grenze = tagPlus(berlinTag(), -14);
+      liste = liste.map((t) => ({ ...t, frisch: String(t.bis || t.datum) >= grenze }));
+    }
     if (page.art) liste = liste.filter((t) => t.art === page.art);
     if (page.suche) liste = termineFiltern(liste, page.suche);
     daten.termine = {

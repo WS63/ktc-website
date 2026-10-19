@@ -234,6 +234,62 @@ ersten Zeile eines Spieltags, die folgenden Begegnungen erben es). Ein Import
 der Termine ist also möglich — er braucht dann aber ein sichtbares „Stand: …"
 und muss einen Ausfall des Abrufs überleben, ohne die Seite zu beschädigen.
 
+### Die Terminliste auf `/kalender/`
+
+- **Nach vorn wichtig, nach hinten nicht:** `termine` mit `zuklappen: 'an'` ordnet die
+  Monate in `<details>`. Kommend sind die **nächsten zwei Monate mit Terminen** offen,
+  spätere stehen zugeklappt mit ihrer Zahl da. Vergangen ist nur offen, was jünger als
+  **zwei Wochen** ist — die Route markiert es als `frisch`, der Baustein kennt keine Uhr (P1).
+- **Spielwochenenden sind `kompakt`** (`wochenendTermine`): eine Zeile, der Titel ist der
+  Link zu den Ergebnissen. Drei Zeilen je Wochenende drückten die Clubtermine aus dem Blick.
+- **Keine Suche auf `/kalender/`** — die Filter darüber und Lisa reichen.
+- **Demo-Modus verschiebt in Schritten von 52 Wochen**, nicht um Kalenderjahre: sonst
+  wird aus dem Spielwochenende Fr–So ein Sa–Mo.
+
+### Das Kalender-Abo
+
+`src/kalender-abo.js` baut drei Zuschnitte, **kein „Alles“** — zweihundert Termine
+im Kalender kündigt man nach einer Woche:
+
+| Adresse | Inhalt | ein Termin je |
+|---|---|---|
+| `/kalender/club.ics` | Vereinstermine aus `inhalte/termine.json` | Termin |
+| `/kalender/heimspiele.ics` | Medenspiele auf **unserer** Anlage (ohne Heimspiele einer Partner-SG) | Datum + Anwurfzeit |
+| `/kalender/mannschaft/<name>.ics` | eine Mannschaft, Name wie `herren-40-ii` | Begegnung |
+
+- **Immer die echten Termine** (`echterSpielplan()`), nie die im Demo-Modus
+  verschobenen. Was einmal in einem fremden Kalender steht, holt niemand zurück.
+  Ein Test prüft das in einem eigenen Prozess mit `SPIELPLAN_DEMO=1`.
+- **Dauer der Medenspiele:** `facts.kalender.dauer_wettkampf_stunden` (5). Der HTV nennt
+  nur den Anfang. Fehlt der Fakt, haben Spiele nur eine Startzeit.
+- **Vereinstermine haben keine Standarddauer.** In `termine.json`: nur `datum` =
+  ganztägig · `bis` = mehrtägig · `uhrzeit` = nur Start · `uhrzeit` + `ende` = Spanne ·
+  `bis` + `uhrzeit` (+ `ende`) = **täglich wiederholt** (Trainingscamp).
+- **Ortszeit mit `TZID=Europe/Berlin`**, nicht UTC — sonst springt ein Camp über die
+  Zeitumstellung um eine Stunde.
+- **Feste ID je Begegnung** (Gruppe, Heim, Gast, Runde — kein Datum): eine Verlegung
+  verschiebt den Termin, statt ihn zu verdoppeln. `begegnungsSchluessel` muss gleich
+  bleiben wie `spielstand.schluessel` — `kalender-abo.js` darf `spielstand.js` nicht
+  importieren, weil es über `seiten.js` am Seed hängt und `db.js` beim Import die
+  Datenbank wählt.
+- **Erwachsene und Jugend unterschiedlich**, weil die Teams es sind: Erwachsene
+  behalten **eine Adresse über die Jahre** (`/kalender/mannschaft/herren-40.ics`, alle
+  Saisons — dieselben Leute, das Abo läuft weiter). Die Jugend bekommt **eine je Saison**
+  (`/kalender/mannschaft/2026/junioren-u15-ii.ics`) — die Teams setzen sich jedes Jahr neu
+  zusammen; ein altes Abo bleibt auf seiner Saison stehen und zeigt nie fremde Kinder.
+  Eine **aufgelöste Mannschaft** liefert weiter ihre alten Spiele statt 404, sonst zeigt
+  der Kalender des Abonnenten einen Fehler.
+- **Abonniert wird über `/kalender/abo/<feed>/`** bzw. das Formular `/kalender/abo/?mannschaft=…&weg=apple|google`:
+  Weiterleitung auf `webcal://` oder Google Kalender. Die Links auf den Seiten bleiben
+  relativ — beim Domainwechsel muss nichts neu geseedet werden. Android kann `webcal:`
+  nicht, deshalb steht überall auch der Google-Weg.
+- **Der Baustein `abo`** (`src/blocks/abo.js`) steht auf `/kalender/` unter dem Anker `#abo`,
+  der Aufmacher springt mit einem leisen Knopf dorthin. „Deine Mannschaft“ ist die erste
+  Karte, die Auswahl kommt aus derselben Jahresdatei wie die Tabellen auf `/mannschaften/`.
+  Neue Saison: Datei anlegen, `npm run seed` — Auswahl und Jugend-Adressen stimmen.
+- Solange der Zugangsschutz an ist, holt nur Apple Kalender (mit Passwortabfrage)
+  die Feeds ab. Wirksam wird das Abo mit dem Livegang.
+
 ## Das Cockpit
 
 Der Prüfstein aus Stufe 3: **ein Mensch ohne Entwickler muss neun Dinge können.**

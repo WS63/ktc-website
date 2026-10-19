@@ -84,8 +84,15 @@ export default {
     .hero--bild .hero__sub { color: rgba(255,255,255,.88); }
     .hero--bild .hero__pill { color: #fff; border-color: rgba(255,255,255,.65);
       background: rgba(255,255,255,.10); backdrop-filter: blur(2px); }
-    .hero--bild .knopf--leise { color: #fff; border-color: rgba(255,255,255,.75); }
-    .hero--bild .knopf--leise:hover { background: rgba(255,255,255,.14); color: #fff; }
+    /* Der leise Knopf auf dem Foto bekommt eine eigene, abgedunkelte Glasflaeche.
+       Nur Kontur und weisse Schrift trugen auf dunklen Fotos, auf hellen (der
+       Clubkalender: weisse Papierschnipsel) war er kaum zu finden. Mit 45 %
+       Dunkel unter der Schrift liegt Weiss auch auf dem hellsten Foto bei rund
+       5,5:1. Weiss gefuellt waere lauter — und stuende auf 'Mitglied werden'
+       gleich laut neben dem gelben Knopf. */
+    .hero--bild .knopf--leise { color: #fff; border-color: rgba(255,255,255,.9);
+      background: rgba(30,30,24,.45); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .hero--bild .knopf--leise:hover { background: rgba(30,30,24,.6); color: #fff; }
 
     /* Das Logo im Bild. Die Fassung mit halbdurchlaessigem Grund ist genau
        dafuer gemacht — sie traegt sich selbst, egal wie unruhig das Foto an

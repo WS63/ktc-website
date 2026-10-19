@@ -97,6 +97,9 @@ export function wochenendTermine(plan) {
       text: `${dabei.length} ${dabei.length === 1 ? 'Begegnung' : 'Begegnungen'}`
         + (heim ? `, davon ${heim} ${heim === 1 ? 'Heimspiel' : 'Heimspiele'} auf unserer Anlage.` : '.'),
       mehr: `/ergebnisse/?we=${w.von}`, mehrLabel: 'Spiele und Ergebnisse',
+      // Einzeilig im Kalender: der Titel ist der Link. Zwanzig Spielwochenenden mit je
+      // drei Zeilen drueckten die Clubtermine aus dem Blick.
+      kompakt: true,
     };
   });
 }
@@ -120,12 +123,21 @@ const SPIELPLAN_VERZ = 'inhalte/spielplan';
 export const DEMO_AN = process.argv.includes('--demo') || process.env.SPIELPLAN_DEMO === '1';
 const DEMO = DEMO_AN;
 
+/**
+ * Verschoben wird in Schritten von 52 Wochen (364 Tagen), nicht um Kalenderjahre:
+ * dann bleibt jeder Termin auf seinem Wochentag. Um ein Jahr verschoben wurde aus
+ * dem Spielwochenende Fr–So ein Sa–Mo, und Medenspiele am Montag sehen in jeder
+ * Vorfuehrung nach einem Fehler aus. 'jahre' zaehlt die Schritte.
+ */
 export function jahreVerschieben(plan, heute = new Date()) {
   const spaeteste = (plan.begegnungen || []).map((b) => b.datum).filter(Boolean).sort().pop();
   if (!spaeteste) return { plan, jahre: 0 };
   heute = new Date(heute); heute.setHours(0, 0, 0, 0);
   let jahre = 0;
-  const verschoben = (d, n) => `${Number(d.slice(0, 4)) + n}${d.slice(4)}`;
+  const verschoben = (d, n) => {
+    const [j, m, t] = d.split('-').map(Number);
+    return new Date(Date.UTC(j, m - 1, t + 364 * n)).toISOString().slice(0, 10);
+  };
   while (new Date(`${verschoben(spaeteste, jahre)}T00:00:00`) < heute) jahre++;
   if (jahre === 0) return { plan, jahre: 0 };
   return { jahre, plan: { ...plan, begegnungen: plan.begegnungen.map((b) => (
@@ -164,7 +176,7 @@ export function spielplanHinweis() {
   if (!d || Number.isNaN(d.getTime())) return '';
   const stand = d.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
   if (jahre > 0) {
-    return `DEMO: Die Spieltermine der Saison ${plan.saison} sind um ${jahre === 1 ? 'ein Jahr' : jahre + ' Jahre'}`
+    return `DEMO: Die Spieltermine der Saison ${plan.saison} sind um ${jahre * 52} Wochen`
       + ` verschoben, damit der Kalender etwas zeigt. Es sind keine echten Termine.`;
   }
   return `Spieltermine vom HTV, Stand ${stand}. Verlegungen stehen erst nach dem nächsten Abruf hier`
@@ -177,6 +189,12 @@ export function spielplanHinweis() {
  *              Daten: er soll einem Mitglied nicht ein Spiel am 8. Mai 2027
  *              nennen, das es nicht gibt, nur weil die Vorschau Demodaten zeigt.
  */
+/**
+ * Die echten Begegnungen, nie verschoben — fuer das Kalender-Abo. Ein Demo-Termin
+ * in einem fremden Kalender waere nicht mehr zurueckzuholen.
+ */
+export const echterSpielplan = () => spielplan({ echt: true }).plan;
+
 export const alleTermine = ({ echt = false } = {}) =>
   [...vereinsTermine(), ...spieltageAus(spielplan({ echt }).plan)];
 

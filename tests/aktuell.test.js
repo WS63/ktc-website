@@ -158,10 +158,13 @@ import { jahreVerschieben } from '../src/termin-quelle.js';
 
 const plan = { saison: '2026', begegnungen: [{ datum: '2026-05-08' }, { datum: '2026-09-13' }, { datum: '' }] };
 
-test('Demo: ein abgelaufener Plan rueckt um ganze Jahre nach vorn, bis er in der Zukunft liegt', () => {
+test('Demo: ein abgelaufener Plan rueckt in Schritten von 52 Wochen nach vorn, bis er in der Zukunft liegt', () => {
   const { plan: neu, jahre } = jahreVerschieben(plan, new Date('2026-10-11T12:00:00'));
   assert.equal(jahre, 1);
-  assert.deepEqual(neu.begegnungen.map((b) => b.datum), ['2027-05-08', '2027-09-13', '']);
+  assert.deepEqual(neu.begegnungen.map((b) => b.datum), ['2027-05-07', '2027-09-12', '']);
+  // Der Wochentag bleibt: 8. Mai 2026 war ein Freitag, der 7. Mai 2027 ist es auch.
+  const wt = (d) => new Date(`${d}T12:00:00Z`).getUTCDay();
+  assert.equal(wt(neu.begegnungen[0].datum), wt('2026-05-08'));
   // Zwei Jahre spaeter: zwei Jahre Verschiebung.
   assert.equal(jahreVerschieben(plan, new Date('2027-10-11T12:00:00')).jahre, 2);
 });

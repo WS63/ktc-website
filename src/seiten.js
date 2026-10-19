@@ -58,12 +58,24 @@ const AUFMACHER_BILDER = [
  * trotzdem (P6).
  */
 import { saison } from './mannschaften.js';
+import { slugVon } from './kalender-abo.js';
 export { saison };
 
 /** Eine Mannschaft als Tabellenzeile, mit Link auf ihre HTV-Gruppe. */
 const mannschaftsZeile = (m) => [
   m.name, m.sg, m.staerke,
   { text: m.klasse, href: htv(m.gruppe, saison.wettbewerbe[m.wettbewerb || 'standard']) },
+];
+
+/**
+ * Die Mannschaften fuer die Auswahl im Kalender-Abo — aus derselben Jahresdatei
+ * wie die Tabellen. Neue Saison: neue Datei, npm run seed, die Liste stimmt.
+ * Das Abo selbst stand erst als eigene Spalte in der Tabelle: 29 Zeilen mal zwei
+ * blaue Links drueckten die Spielklasse an den Rand. Jetzt eine Auswahl an einem Ort.
+ */
+const ABO_MANNSCHAFTEN = [
+  ...saison.erwachsene.map((m) => ({ name: m.name, slug: slugVon(m.name), gruppe: 'Erwachsene' })),
+  ...saison.jugend.map((m) => ({ name: m.name, slug: slugVon(m.name), gruppe: 'Jugend' })),
 ];
 
 /**
@@ -402,7 +414,7 @@ export const seiten = [
       titel: 'Mannschaften der Erwachsenen',
       kopf: ['Mannschaft', 'Spielgemeinschaft', 'Stärke', 'Spielklasse'],
       zeilen: saison.erwachsene.map(mannschaftsZeile),
-      hinweis: 'Ein Klick auf die Spielklasse führt zur Gruppe beim Hessischen Tennisverband — dort stehen Spielplan, Tabelle und Ergebnisse.',
+      hinweis: 'Ein Klick auf die Spielklasse führt zur Gruppe beim Hessischen Tennisverband — dort stehen Spielplan, Tabelle und Ergebnisse. Alle Spiele deiner Mannschaft direkt in deinem Kalender: [Kalender abonnieren](/kalender/#abo)',
     }},
     { type: 'tabelle', data: {
       titel: 'Mannschaften der Jugend',
@@ -599,14 +611,28 @@ export const seiten = [
       pill: 'Was ansteht',
       titel: 'Clubkalender',
       sub: 'Spieltage, Veranstaltungen und Termine rund um die Anlage.',
+      // Leise, kein Gelb: der Weg zum Abo, das sonst unter der ganzen Liste uebersehen wird.
+      zweitLabel: 'Kalender abonnieren', zweitHref: '#abo',
       bild: bild('club-kalender'), bildAlt: bildAlt('club-kalender'),
     }},
     { type: 'termine', data: {
-      suche: 'an',
+      // Keine Suche: eine Handvoll Termine, und die Auswahl darueber filtert schon.
+      // Wer etwas Bestimmtes sucht, fragt Lisa.
+      // Zugeklappt: kommend die naechsten zwei Monate offen, vergangen nur die letzten
+      // zwei Wochen. Wichtig ist, was als Naechstes kommt.
+      zuklappen: 'an',
       vorspann: 'Was ansteht — und über „Vergangen“ auch, was schon war.',
       leerText: 'Zurzeit steht nichts an. Sobald die Termine der neuen Saison feststehen, erscheinen sie hier.',
       // Die Termine stehen NICHT hier, sondern in inhalte/termine.json —
       // dieselbe Quelle speist die Startseite (P3).
+    }},
+    // Das Abo: drei Zuschnitte statt einem fuer alles (src/kalender-abo.js), die
+    // Mannschaft vorn. Der Aufmacher springt mit 'Kalender abonnieren' hierher (#abo).
+    { type: 'abo', data: {
+      titel: 'Der Spielplan kommt zu dir',
+      vorspann: 'Einmal abonnieren, und Termine, Verlegungen und Ergebnisse landen von selbst in deinem Kalender, auf dem Handy wie am Computer.',
+      mannschaften: ABO_MANNSCHAFTEN,
+      hinweis: 'Auf einem Android-Handy nimm „Google Kalender“. Kalender-Apps holen Änderungen in Abständen ab, Google oft nur einmal am Tag. Ein Jugend-Abo gilt für eine Saison, weil sich die Teams jedes Jahr neu zusammensetzen. Maßgeblich bleibt der Spielplan beim Verband.',
     }},
     { type: 'richtext', data: {
       titel: 'Spieltermine der Mannschaften',

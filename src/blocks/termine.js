@@ -27,6 +27,8 @@ export default {
                 label: 'Termine — kommen aus inhalte/termine.json' },
     stand:    { type: 'auto',  default: '', label: 'Hinweis zur Herkunft der Spieltermine — kommt aus dem Import' },
     suche:    { type: 'auswahl', default: 'aus', label: 'Suchfeld über der Liste', optionen: ['aus', 'an'] },
+    zuklappen:{ type: 'auswahl', default: 'aus', optionen: ['aus', 'an'],
+                label: 'Monate zuklappen: kommend die nächsten zwei offen, vergangen nur die letzten zwei Wochen' },
     q:        { type: 'auto',  default: '', label: 'Suchtext — kommt aus der Adresse' },
     basis:    { type: 'auto',  default: '', label: 'Adresse der Seite, für das Suchformular' },
     kategorien: { type: 'auto', default: [], label: 'Die Arten der Termine — kommen aus config/arten.json' },
@@ -112,6 +114,29 @@ export default {
       border-bottom: 1px solid transparent; }
     .termine__mehr:hover { border-bottom-color: var(--signal); }
 
+    /* Kompakt (Spielwochenenden): eine Zeile, der Titel ist der Link, weniger Polster. */
+    .termin--kompakt { padding: var(--raum-2) 0; }
+    .termin--kompakt .termin__titel { margin: 0; line-height: 1.5; }
+    .termin__link { color: var(--signal); text-decoration: none; border-bottom: 1px solid transparent; }
+    .termin__link:hover { border-bottom-color: var(--signal); }
+    .termin__kurz { font-size: var(--fs-sm); font-weight: 400; color: var(--text-leise); }
+
+    /* Zugeklappte Monate: die Kopfzeile traegt Monat, Zahl und einen Winkel. Reines
+       <details>: kein Skript, und die Suche im Browser klappt Treffer selbst auf. */
+    .termine__gruppe { max-width: var(--breite-text); margin-top: var(--raum-4); }
+    .termine__gruppe:first-of-type { margin-top: var(--raum-3); }
+    .termine__kopf { display: flex; align-items: baseline; gap: var(--raum-2); cursor: pointer;
+      list-style: none; padding-bottom: 6px; border-bottom: 2px solid var(--linie-stark); }
+    .termine__kopf::-webkit-details-marker { display: none; }
+    .termine__kopf:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+    .termine__gruppe .termine__monat { margin: 0; padding: 0; border: 0; }
+    .termine__zahl { font-size: var(--fs-sm); color: var(--text-leise); }
+    .termine__kopf::after { content: ''; margin-left: auto; width: 8px; height: 8px;
+      border-right: 2px solid var(--text-leise); border-bottom: 2px solid var(--text-leise);
+      transform: translateY(-3px) rotate(45deg); transition: transform var(--t-schnell) var(--ease); }
+    .termine__gruppe:not([open]) .termine__kopf::after { transform: rotate(-45deg); }
+    .termine__kopf:hover .termine__monat { color: var(--text); }
+
     @media (max-width: 560px) {
       .termin { flex-wrap: wrap; gap: var(--raum-2); }
       .termin__wann { min-width: 0; }
@@ -163,20 +188,24 @@ export default {
       </div></section>`;
     }
 
-    let monat = null;
-    const zeilen = liste.map((t) => {
-      const neuerMonat = t.monat && t.monat !== monat;
-      monat = t.monat || monat;
+    const eintrag = (t) => {
       const linkZiel = ziel(t.mehr);
-      return html`${neuerMonat ? html`<h3 class="termine__monat">${t.monat}</h3>` : ''}<article class="termin">
-        ${t.symbol
+      const wann = html`${t.symbol
           ? html`<span class="termin__emoji" aria-hidden="true" title="${t.symbolText || ''}">${t.symbol}</span>`
           : ''}
         <div class="termin__wann">
           <span class="termin__tag">${t.tag || t.datum}</span>
           ${t.wochentag || t.uhrzeit
             ? html`<span class="termin__zeit">${[t.wochentag, t.uhrzeit ? `${t.uhrzeit} Uhr` : ''].filter(Boolean).join(' · ')}</span>` : ''}
-        </div>
+        </div>`;
+      // Kompakt: der Titel ist der Link, der Text steht in derselben Zeile.
+      if (t.kompakt && linkZiel) {
+        return html`<article class="termin termin--kompakt">${wann}
+          <div><h4 class="termin__titel"><a class="termin__link" href="${raw(escapeAttr(linkZiel))}">${t.titel}</a>${
+            t.text ? html`<span class="termin__kurz"> · ${t.text}</span>` : ''}</h4></div>
+        </article>`;
+      }
+      return html`<article class="termin">${wann}
         <div>
           <h4 class="termin__titel">${t.titel}</h4>
           ${t.text ? html`<p>${markdownInline(t.text)}</p>` : ''}
@@ -197,6 +226,32 @@ export default {
           ${linkZiel ? html`<a class="termin__mehr" href="${raw(escapeAttr(linkZiel))}">${t.mehrLabel || 'Mehr zum Termin'} →</a>` : ''}
         </div>
       </article>`;
+    };
+
+    // Nach Monaten gruppiert. Die Liste kommt schon sortiert.
+    const gruppen = [];
+    for (const t of liste) {
+      const letzte = gruppen[gruppen.length - 1];
+      if (letzte && letzte.monat === (t.monat || '')) letzte.termine.push(t);
+      else gruppen.push({ monat: t.monat || '', termine: [t] });
+    }
+
+    // Zugeklappt: kommend sind die naechsten zwei Monate offen — was danach kommt,
+    // braucht heute niemand. Vergangen ist nur offen, was die Route als 'frisch'
+    // markiert hat (die letzten zwei Wochen); aeltere Monate stehen mit ihrer Zahl da.
+    // Ob ein Termin frisch ist, entscheidet die Route: der Baustein kennt keine Uhr (P1).
+    const zu = data.zuklappen === 'an';
+    const offen = (g, i) => (data.zeit === 'vergangen' ? g.termine.some((t) => t.frisch) : i < 2);
+    const zeilen = gruppen.map((g, i) => {
+      if (!zu || !g.monat) {
+        return html`${g.monat ? html`<h3 class="termine__monat">${g.monat}</h3>` : ''}${g.termine.map(eintrag)}`;
+      }
+      const n = g.termine.length;
+      return html`<details class="termine__gruppe"${offen(g, i) ? raw(' open') : ''}>
+        <summary class="termine__kopf"><h3 class="termine__monat">${g.monat}</h3>
+          <span class="termine__zahl">${n} ${n === 1 ? 'Termin' : 'Termine'}</span></summary>
+        ${g.termine.map(eintrag)}
+      </details>`;
     });
 
     return html`

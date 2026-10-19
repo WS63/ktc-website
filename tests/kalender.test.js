@@ -99,3 +99,50 @@ test('Ergebnisliste: MSG in zwei Ausführungen mit Legende', () => {
   assert.match(h, /class="erg__msg"\s+title="Spielgemeinschaft, gemeldet vom KTC"/);
   assert.match(h, /class="erg__legende"/);
 });
+
+// ── Zuklappen und kompakte Spielwochenenden ──────────────────────────────
+import hero from '../src/blocks/hero.js';
+
+const liste = (dyn, data = {}) => renderPage({ slug: 'kalender', page_type: 'standard', status: 'published', title: 'K',
+  content_json: { blocks: [{ type: 'termine', data: { zuklappen: 'an', ...data } }] } },
+{ dynamicData: { termine: { basis: '/kalender/', kategorien, art: '', zeit: 'kommend', ...dyn } } });
+
+test('Kommend: die naechsten zwei Monate offen, spaetere zu und mit Zahl', () => {
+  const h = liste({ termine: [term({ monat: 'Oktober ’26' }), term({ monat: 'November ’26' }),
+    term({ monat: 'Dezember ’26' }), term({ monat: 'Dezember ’26', titel: 'Zweiter' })] });
+  const gruppen = h.match(/<details class="termine__gruppe"( open)?>/g);
+  assert.deepEqual(gruppen.map((g) => g.includes(' open')), [true, true, false]);
+  assert.match(h, /Dezember ’26<\/h3>\s*<span class="termine__zahl">2 Termine<\/span>/);
+});
+
+test('Vergangen: nur offen, was die Route als frisch markiert', () => {
+  const h = liste({ zeit: 'vergangen', termine: [term({ monat: 'Oktober ’26', frisch: true }),
+    term({ monat: 'September ’26' }), term({ monat: 'August ’26' })] });
+  const gruppen = h.match(/<details class="termine__gruppe"( open)?>/g);
+  assert.deepEqual(gruppen.map((g) => g.includes(' open')), [true, false, false]);
+});
+
+test('Ohne zuklappen bleibt die Liste, wie sie war', () => {
+  const h = liste({ termine: [term({}), term({ monat: 'November ’26' })] }, { zuklappen: 'aus' });
+  assert.doesNotMatch(h, /<details class="termine__gruppe"/);
+  assert.equal((h.match(/class="termine__monat"/g) || []).length, 2);
+});
+
+test('Spielwochenende kompakt: der Titel ist der Link, keine Extrazeile', () => {
+  const h = liste({ termine: [term({ art: 'spiel', kompakt: true, titel: 'HTV-Medenspieltag',
+    text: '26 Begegnungen, davon 11 Heimspiele auf unserer Anlage.', mehr: '/ergebnisse/?we=2027-05-07' })] });
+  assert.match(h, /<article class="termin termin--kompakt">/);
+  assert.match(h, /<a class="termin__link" href="\/ergebnisse\/\?we=2027-05-07">HTV-Medenspieltag<\/a><span class="termin__kurz"> · 26 Begegnungen/);
+  assert.doesNotMatch(h, /class="termin__mehr"/);
+});
+
+test('Wochenendtermine sind als kompakt markiert', () => {
+  const [w] = wochenendTermine({ begegnungen: [b({})] });
+  assert.equal(w.kompakt, true);
+});
+
+test('Der leise Knopf hat auf Fotos eine eigene Flaeche, nicht nur eine Kontur', () => {
+  const regel = hero.css.match(/\.hero--bild \.knopf--leise \{[^}]*\}/)?.[0] || '';
+  assert.match(regel, /background: rgba\(30,30,24,\.45\)/);
+  assert.match(regel, /backdrop-filter/);
+});

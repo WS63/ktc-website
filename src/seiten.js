@@ -40,11 +40,41 @@ const menue = [
  * jedem Bildwechsel, der Name bleibt. Fehlt eines, faellt es stumm aus der
  * Liste — die uebrigen blenden weiter (P6).
  */
-const AUFMACHER_BILDER = [
-  'anlage-zentrum-oben', 'anlage-platz67oben', 'anlage-clubhaus-unten',
-  'anlage-tennisplatz', 'anlage-platz2', 'anlage-zentrum-unten',
-  'anlage-platz67unten',
-].map((n) => ({ src: bild(n), alt: bildAlt(n) })).filter((b) => b.src);
+// Der Rundgang des Aufmachers: die Startseite in Themen. Je Bild ein Thema mit Kernaussage, Zahlen und
+// Links zu den Unterseiten. Zahlen und Namen aus den Fakten (P2), nie getippt; die Auskuenfte selbst
+// (Zeiten, Preislisten, Tabellen) stehen auf den Unterseiten.
+const thema = (name, kicker, text, fakten, links, fussnote = '') =>
+  ({ src: bild(name), alt: bildAlt(name), kicker, reiter: kicker, text, fakten, links, fussnote });
+// Die Aussage steht weiss, die Zahlen darunter im Akzent (Schluesselwoerter zwischen Sternen, *Wort*, waeren
+// moeglich, sind hier nicht gesetzt: weiss und eine farbige Zahlenzeile wirken ruhiger).
+// Zahlen zaehlen mit dem Einblenden: 'rund 20' erscheint als '20+', 'keine' mit 'ab' zaehlt herunter
+// (von 100 auf 0 Euro; die 100 ist nur die Startmarke der Animation, kein Beitrag).
+const AUFMACHER_RUNDGANG = [
+  thema('anlage-zentrum-unten', 'Der Club',
+    'Zum Spielen und zum Bleiben',
+    [{ wert: '{{facts.anlage.plaetze}}', label: '{{facts.anlage.belag}}plätze' },
+     { wert: '{{facts.anlage.plaetze_led}}', label: 'mit LED-Flutlicht' },
+     { wert: 'Terrasse', label: 'und Restaurant {{facts.gastronomie.name}}' }],
+    [{ label: 'Restaurant und Terrasse', href: '/clubhaus/' }, { label: 'So findest du uns', href: '/kontakt/' }]),
+  thema('sport-wettkampf4', 'Sport',
+    'Vom ersten Schläger bis zum Punktspiel',
+    [{ wert: '{{facts.anlage.mannschaften}}', label: 'Mannschaften, bis zur Landesebene' }],
+    [{ label: 'Zu den Mannschaften', href: '/mannschaften/' }, { label: 'Zur Hobbyrunde, ohne Anmeldung', href: '/sport/#hobby' }]),
+  thema('sport-jugend', 'Jugend & Training',
+    'Erst die Kinder, dann die Eltern',
+    [{ wert: '{{facts.anlage.jugendliche}}', label: 'Kinder und Jugendliche' },
+     { wert: '{{facts.anlage.tennisschule_jahre}}', label: 'Jahre Tennisschule Kaus' }],
+    [{ label: 'Zur Jugend', href: '/sport/#jugend' }, { label: 'Zur Tennisschule', href: '/sport/#tennisschule' }]),
+  // Dreimal null: was beim Einstieg wegfaellt. Die Zahlen zaehlen von einer Startmarke auf 0 herunter (die Marke
+  // ist Animation, kein Beitrag). Der Beitrag fuer Neue steht als Schluesselwort in der Aussage.
+  thema('anlage-wiese', 'Dabei sein',
+    'Als Neumitglied im ersten Jahr nur *{{facts.beitraege.neumitglied_erstes_jahr}} €*',
+    [{ wert: '{{facts.beitraege.aufnahmegebuehr}}', ab: 100, einheit: '€', label: 'Aufnahmegebühr' },
+     { wert: '{{facts.beitraege.arbeitsstunden}}', ab: 20, label: 'Arbeitsstunden' },
+     { wert: '{{facts.beitraege.verzehrgutscheine}}', ab: 100, einheit: '€', label: 'Verzehrgutscheine' }],
+    [{ label: 'Beiträge und Anmeldung', href: '/mitglied-werden/' }, { label: 'Aktuelles und Termine', href: '/aktuelles/' }],
+    'Voraussetzung: {{facts.beitraege.neumitglied_voraussetzung}}.'),
+].filter((b) => b.src);
 
 /**
  * Die Mannschaften der laufenden Saison.
@@ -180,104 +210,24 @@ export const seiten = [
       titel: 'Lust auf Tennis',
       ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
       zweitLabel: 'Erst mal vorbeikommen', zweitHref: '/kontakt/',
-      bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),
-      // Der Ort, in acht Ansichten. Alle aus bilder/anlage/ — dem Ordner fuer
-      // Aufnahmen ohne erkennbare Personen, der genau dafuer da ist.
-      bilder: AUFMACHER_BILDER,
-      marke: 'ja', aufbau: 'zeile',
+      // Rundgang: die Startseite in Themen. Mit jedem Bild wechseln Thema, Kernaussage, Zahlen und Link
+      // (AUFMACHER_RUNDGANG oben); Name, Claim und die Knoepfe bleiben. Das erste Bild: blauer Himmel,
+      // roter Sand, die Flutlichtmasten.
+      bild: bild('anlage-zentrum-unten'), bildAlt: bildAlt('anlage-zentrum-unten'),
+      bilder: AUFMACHER_RUNDGANG,
+      marke: 'ja', aufbau: 'rundgang',
+      weiterLabel: 'Aktuelles', weiterHref: '#aktuell',
     }},
-    { type: 'richtext', data: {
-      titel: 'Bei uns findest du deinen Platz',
-      absaetze: [
-        'Tennis in familiärer Atmosphäre, auf einer der schönsten Anlagen im Main-Taunus-Kreis. {{facts.anlage.plaetze}} gepflegte {{facts.anlage.belag}}plätze, ein gemütliches Restaurant und eine sonnige Terrasse mit [guter Gastronomie](/clubhaus/). Hier bleibst du nach dem Spiel gern noch sitzen. Wir sind {{facts.anlage.mitglieder}} Mitglieder, darunter {{facts.anlage.jugendliche}} Kinder und Jugendliche.',
-        'Ob du anfängst, nach Jahren wieder einsteigst oder ambitioniert in der Mannschaft spielst, bei uns findest du das passende Angebot. Im Jugend- und Erwachsenenbereich spielen wir Wettkämpfe bis zur Landesebene. Im Freizeitbereich gibt es übers Jahr Turniere und Veranstaltungen.',
-        'Trainieren kannst du bei der {{facts.anlage.tennisschule}}: Einzel- und Gruppenstunden für alle Mitglieder, vom ersten Schläger bis zum Mannschaftstraining. Wir vertrauen ihr seit {{facts.anlage.tennisschule_seit}}, mit eingespieltem Trainerteam und klarem Lernkonzept.',
-        'Interessiert an einer Mitgliedschaft oder einem Schnuppertraining? Beiträge, Anträge und alles zum Herunterladen stehen auf [Mitglied werden](/mitglied-werden/). Oder komm einfach am {{facts.verein.strasse}} in {{facts.verein.ort}} vorbei, [so findest du uns](/kontakt/).',
-      ],
-      // Eigenes Feld statt fetter Absatz: ein Claim klingt aus, er ruft nicht.
-      schluss: 'Dein Krifteler Tennis-Club: sportlich, herzlich, familiär.',
-    }},
-    { type: 'infokarten', data: {
-      // 'anschluss': die Eckdaten gehoeren zum Textabschnitt darueber — kein
-      // eigener Grund, keine Trennlinie dazwischen. Die ruhige Flaeche setzt
-      // erst bei 'Sportliche Vielfalt' ein.
-      grund: 'anschluss',
-      zaehlen: 'ja',   // die drei Zahlen zaehlen hoch, sobald sie sichtbar werden — einmal
-      karten: [
-        { label: 'Plätze', wert: '{{facts.anlage.plaetze}}',
-          zusatz: 'gepflegt, bespielbar von {{facts.anlage.saison}}' },
-        { label: 'Mitglieder', wert: '{{facts.anlage.mitglieder}}',
-          zusatz: 'davon {{facts.anlage.jugendliche}} Kinder und Jugendliche' },
-        { label: 'Mannschaften', wert: '{{facts.anlage.mannschaften}}',
-          zusatz: 'Junioren bis Senioren 60, plus Hobbyrunde' },
-      ],
-    }},
-    // Direkt nach den Eckdaten: die Vorstellung ist fertig, jetzt kommt der
-    // Verein, der LEBT. Fuer das Mitglied, das jede Woche kommt, ist das der
-    // Grund der Seite — er soll ihn nach einer Bildschirmhoehe finden und
-    // nicht hinter Angebot und Gastronomie. Fuer den Interessenten ist ein
-    // voller Kalender ein Argument. Bewusst ohne Knopf: der eine gelbe
-    // gehoert 'Mitglied werden'.
+    // Direkt unter dem Aufmacher, der den Club in Themen vorstellt: der Verein, der LEBT. Fuer das
+    // Mitglied, das jede Woche kommt, ist das der Grund der Seite. Fuer den Interessenten ist ein
+    // voller Kalender ein Argument. Bewusst ohne Knopf: der eine gelbe gehoert 'Mitglied werden'.
     { type: 'aktuell', data: {
-      // Grau: der lebendige Teil der Seite (Neuigkeiten, Termine) hebt sich vom
-      // Werbeteil ab. Danach wechseln die Flaechen: weiss (Karten), grau
-      // (Clubhaus), dunkel (Fusszeile) — nie zwei gleiche nebeneinander.
+      // Grau: der lebendige Teil der Seite (Neuigkeiten, Termine), danach die dunkle Fusszeile.
+      // Die Seite endet hier: den Einstieg (Beitrag, Anmeldung) sagt der Aufmacher, der Knopf und das Menue.
       grund: 'ruhig',
       beitraegeHref: '/aktuelles/',
       termineHref: '/kalender/',
       ergebnisseHref: '/ergebnisse/',
-    }},
-    { type: 'cards', data: {
-      // VIER Karten, nicht fuenf. Der Container misst 1120 px, abzueglich
-      // 2 x 24 px Polster bleiben 1072. Das Gitter ist minmax(250px, 1fr)
-      // bei 24 px Luecke: 4 x 250 + 3 x 24 = 1072 — passt auf den Pixel.
-      // Eine fuenfte Karte braeche in eine zweite Reihe und saesse dort
-      // allein ueber die volle Breite. Wer hier etwas ergaenzt, nimmt
-      // etwas anderes heraus.
-      //
-      // Die Gastronomie steht bewusst NICHT hier: diese Reihe beantwortet
-      // 'warum Mitglied werden', und das Restaurant ist oeffentlich. Sie
-      // bekommt den Streifen darunter, der auch die Oeffnungszeiten traegt.
-      titel: 'Was dich bei uns erwartet',
-      grund: 'weiss',
-      karten: [
-        // KEINE Mannschaftszahl in diesem Text. Sie stand hier frueher als
-        // getipptes 'Über 20' — neben der Kachel darueber, die denselben
-        // Wert aus facts.json zieht. Beim naechsten Saisonstand haette die
-        // Kachel sich bewegt und die Karte weiter das Alte behauptet (P2).
-        { titel: 'Team und Wettkampf', text: 'Von der Kreisliga bis zur Landesebene, in allen Altersklassen. Wir spielen um jeden Punkt und für die Geselligkeit.', linkLabel: 'Zu den Mannschaften', linkHref: '/mannschaften/',
-          bild: bild('sport-wettkampf1', 'mittel'), bildAlt: bildAlt('sport-wettkampf1') },
-        { titel: 'Hobby und Freizeit', text: 'Die Hobbyrunde ohne Anmeldung, Doppelturniere und Freundschaftsspiele gegen andere Vereine.', linkLabel: 'Zur Hobbyrunde', linkHref: '/sport/#hobby',
-          bild: bild('anlage-wiese', 'mittel'), bildAlt: bildAlt('anlage-wiese') },
-        // Jugend und Tennisschule stehen nebeneinander, also muss der
-        // Schnitt sauber sein: Jugend ist, WAS der Verein fuer Kinder tut,
-        // die Tennisschule ist, WER unterrichtet — und zwar alle Mitglieder,
-        // nicht nur die Jugend. Vorher sagten beide 'Lernkonzept'.
-        { titel: 'Jugend', text: 'Mannschaften, Tenniscamps und die Minis. Fördern und fordern, mit Spaß und ohne Druck.', linkLabel: 'Zur Jugendarbeit', linkHref: '/sport/#jugend',
-          bild: bild('sport-jugend', 'mittel'), bildAlt: bildAlt('sport-jugend') },
-        { titel: 'Tennisschule', text: 'Die {{facts.anlage.tennisschule}} unterrichtet seit {{facts.anlage.tennisschule_seit}} bei uns, mit Einzel- und Gruppenstunden für alle Mitglieder.', linkLabel: 'Zur Tennisschule', linkHref: '/sport/#tennisschule',
-          bild: bild('club-tennisnetz', 'mittel'), bildAlt: bildAlt('club-tennisnetz') },
-      ],
-    }},
-    { type: 'streifen', data: {
-      // Der Clubwirt hat keine eigene Website — geprueft. Stuenden die
-      // Zeiten nicht hier, koennte weder die Seite noch der Assistent die
-      // haeufigste Frage ueberhaupt beantworten: 'Haben die heute offen?'
-      grund: 'ruhig',
-      titel: 'Restaurant und Terrasse',
-      text: 'Nach dem Match sitzen bleiben. Das Clubrestaurant **{{facts.gastronomie.name}}** kocht {{facts.gastronomie.kueche}} auf der wohl schönsten Sonnenterrasse Kriftels, für Mitglieder, Gäste und alle, die gar nicht spielen. {{facts.gastronomie.ergaenzung}}',
-      bild: bild('club-restaurant', 'mittel'), bildAlt: bildAlt('club-restaurant'),
-      zeilen: [
-        // Zwei Werte, zwei Zeilen. Als ein Text mit Mitteltrenner brach der
-        // Umbruch dort, wo er gerade passte — 'Uhr' stand allein unten.
-        { label: '{{facts.gastronomie.zeiten_werktage}}',
-          wert: ['{{facts.gastronomie.zeiten_mittag}}', '{{facts.gastronomie.zeiten_abend}}'] },
-        { label: 'Samstag und Sonntag', wert: '{{facts.gastronomie.zeiten_wochenende}}' },
-        { label: 'Ruhetag', wert: '{{facts.gastronomie.ruhetag}}' },
-        { label: 'Tisch reservieren', wert: '{{facts.gastronomie.telefon}}' },
-      ],
-      fussnote: 'Stand {{facts.gastronomie.zeiten_stand}}. Außerhalb der Freiluftsaison gelten andere Zeiten. Dann am besten kurz anrufen.',
-      linkLabel: 'Mehr zum Clubrestaurant', linkHref: '/clubhaus/',
     }},
     ASSISTENT,
     FOOTER,

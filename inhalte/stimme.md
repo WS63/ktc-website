@@ -33,7 +33,7 @@ Das heißt **nicht** betulich. Es heißt: nah, ohne anzubiedern.
 | statt | lieber |
 |---|---|
 | eine hervorragend gepflegte Anlage | sieben Sandplätze |
-| zahlreiche Mannschaften | mehr als 20 Mannschaften |
+| zahlreiche Mannschaften | rund 20 Mannschaften |
 | günstige Konditionen | 225 € im ersten Jahr |
 | in unmittelbarer Nähe | 100 Meter den Schmelzweg hoch |
 | ein erfahrenes Trainerteam | die Tennisschule Kaus, seit über 35 Jahren |

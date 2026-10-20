@@ -165,7 +165,7 @@ export default {
     </div>`;
 
     return html`
-      <section class="section aktuell${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}"><div class="container">
+      <section class="section aktuell${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}" id="aktuell"><div class="container">
         <div class="aktuell__gitter">${spalteBeitraege}${erg.length ? spalteErgebnisse : spalteTermine}</div>
       </div></section>`;
   },

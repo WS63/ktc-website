@@ -229,7 +229,12 @@ async function dynamischeDaten(inhalt, page) {
     }
   }
 
-  if (typen.has('hero')) daten.hero = { srcsets: SRCSETS };
+  if (typen.has('hero')) {
+    // Der naechste Vereinstermin fuer das Thema 'Dabei sein' im Aufmacher; ohne Termin faellt die Zahl weg.
+    const naechster = kuenftige(vereinsTermine())[0];
+    daten.hero = { srcsets: SRCSETS, naechsterTermin: naechster ? { tag: naechster.tag, titel: naechster.titel } : null };
+  }
+  if (typen.has('kapitel')) daten.kapitel = { srcsets: SRCSETS };
 
   // Lisa kommt aus der Konfiguration, nicht aus dem, was beim Seeden in der Seite gelandet ist:
   // sonst zeigten Seiten, die im Cockpit bearbeitet wurden (der Seed ueberspringt sie), den alten

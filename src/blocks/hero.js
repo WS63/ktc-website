@@ -1,7 +1,9 @@
-import { html, raw, escapeAttr, ziel, istExtern } from './_util.js';
+import { html, raw, escapeAttr, escapeHtml, ziel, istExtern } from './_util.js';
 
 export default {
   name: 'hero',
+  // Fuer die Content-Security-Policy (src/sicherheit.js): das Zaehl-Skript des Rundgangs.
+  get skripte() { return [SKRIPT]; },
   label: 'Aufmacher',
   schema: {
     pill:      { type: 'text',     default: '', label: 'Kleine Zeile darüber' },
@@ -13,11 +15,13 @@ export default {
     zweitHref: { type: 'text',     default: '', label: 'Ziel des zweiten Knopfs' },
     bild:      { type: 'image',    default: '', label: 'Hintergrundbild' },
     bildAlt:   { type: 'text',     default: '', label: 'Alt-Text des Bildes' },
-    bilder:    { type: 'liste',    default: [], label: 'Weitere Bilder — blenden nacheinander durch' },
+    bilder:    { type: 'liste',    default: [], label: 'Weitere Bilder — blenden nacheinander durch (Rundgang: je mit src, alt, kicker, text, fakten, links)' },
     marke:     { type: 'auswahl',  default: 'nein', label: 'Logo ins Bild',
                  optionen: ['nein', 'ja'] },
     aufbau:    { type: 'auswahl',  default: 'bild', label: 'Aufbau mit Bild',
-                 optionen: ['bild', 'zeile'] },
+                 optionen: ['bild', 'zeile', 'rundgang'] },
+    weiterLabel: { type: 'text', default: '', label: 'Rundgang: Hinweis nach unten, Beschriftung' },
+    weiterHref:  { type: 'text', default: '', label: 'Rundgang: Hinweis nach unten, Ziel (Sprungmarke)' },
     wortmarke: { type: 'text',     default: '', label: 'Vereinsname neben dem Zeichen' },
   },
   css: `
@@ -167,6 +171,140 @@ export default {
     @media (max-width: 560px) {
       .hero__zeile { gap: var(--raum-2); }
     }
+
+    /* Rundgang: der Aufmacher ist die Startseite in Themen. Mit jedem Bild wechselt alles, was dazu
+       gehoert: Thema, Kernaussage, Zahlen und Link. Name, Claim und der gelbe Knopf bleiben. Unten
+       eine Leiste mit den Themen: antippen haelt den Wechsel an und zeigt dieses Thema (reines CSS:
+       versteckte Auswahlfelder und :has()). Ein Bild nach dem anderen, ein Takt: nur eine Bewegung
+       zur Zeit. Das Foto zoomt dabei sehr langsam heran. */
+    .hero--rundgang .hero__rahmen { min-height: min(84vh, 800px); }
+    .hero--rundgang .hero__slide { position: absolute; inset: 0; margin: 0; overflow: hidden;
+      opacity: 0; animation-duration: calc(var(--n) * var(--slot));
+      animation-delay: calc(var(--i) * var(--slot) - var(--blende)); animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out; }
+    .hero--rundgang .hero__slide .hero__foto { animation-duration: calc(var(--n) * var(--slot));
+      animation-delay: calc(var(--i) * var(--slot) - var(--blende)); animation-iteration-count: infinite;
+      animation-timing-function: linear; }
+    /* Der Themenblock steht auf der Bildmitte, nicht nur unten: der Verlauf setzt frueher und kraeftiger ein. */
+    .hero--rundgang .hero__schleier { background: linear-gradient(180deg, rgba(30,30,24,.10) 0%,
+      rgba(30,30,24,.30) 30%, rgba(30,30,24,.56) 58%, rgba(30,30,24,.74) 100%); }
+    .hero--rundgang .hero__zeile { align-items: flex-start; }
+    .hero__themen { display: grid; max-width: 64ch;
+      margin: clamp(28px, 5.5vh, 60px) 0; }
+    .hero__thema { grid-area: 1 / 1; opacity: 0; visibility: hidden; color: var(--text-hell);
+      animation-duration: calc(var(--n) * var(--slot));
+      animation-delay: calc(var(--i) * var(--slot) - var(--blende)); animation-iteration-count: infinite;
+      animation-timing-function: ease-out; }
+    /* Das Thema: im Akzent, fett, mit kurzer Linie davor (wie die Marken-Zeile der Vorbilder): gut lesbar auf jedem Foto. */
+    .hero__thema-kicker { display: flex; align-items: center; gap: 12px; margin: 0 0 14px;
+      font-size: clamp(14px, 1.3vw, 17px); font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--titel-akzent); text-shadow: 0 1px 12px rgba(30,30,24,.7); }
+    .hero__thema-kicker::before { content: ''; flex: none; width: 30px; height: 2px; background: currentColor; }
+    /* Die Aussage: weiss, Schluesselwoerter im Akzent (*Wort* im Text). Der Schatten liegt als Filter auf
+       dem Absatz, damit er auch unter den Woertern im Akzent sitzt. */
+    .hero__thema-text { font-size: clamp(22px, 2.8vw, 38px); font-weight: 700; line-height: 1.15;
+      letter-spacing: -.01em; margin: 0 0 var(--raum-3); filter: drop-shadow(0 1px 12px rgba(30,30,24,.6)); }
+    .hero__stich { color: var(--titel-akzent); }
+    .hero__thema-fakten { display: flex; flex-wrap: wrap; gap: 14px 44px; list-style: none; padding: 0;
+      margin: 0 0 var(--raum-3); }
+    .hero__thema-wert { display: block; font-size: clamp(34px, 4vw, 56px); font-weight: 800; color: var(--titel-akzent);
+      line-height: 1; text-shadow: 0 1px 14px rgba(30,30,24,.55); font-variant-numeric: tabular-nums; }
+    .hero__plus { transition: opacity .35s ease; }
+    .hero__feder { transform-origin: left center; animation: hero-feder .7s cubic-bezier(.3, 1.5, .5, 1) both; }
+    @keyframes hero-feder { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }
+    .hero__thema-label { display: block; font-size: clamp(16px, 1.5vw, 19px); font-weight: 600; margin-top: 8px;
+      line-height: 1.3; text-shadow: 0 1px 8px rgba(30,30,24,.6); }
+    /* Die Zahlen zaehlen mit dem Einblenden hoch (oder herunter): ein kleines Skript am Ende des Aufmachers
+       (SKRIPT) setzt sie, sobald ihr Thema beginnt. Im Markup steht der Endwert: ohne Skript oder bei
+       'Bewegung reduzieren' bleibt es dabei. */
+    /* Die Teile eines Themas blenden nacheinander ein (Kicker, Aussage, Zahlen, Links). */
+    .hero__t-teil { animation-duration: calc(var(--n) * var(--slot));
+      animation-delay: calc(var(--i) * var(--slot) - var(--blende) + var(--k, 0) * .16s);
+      animation-iteration-count: infinite; animation-timing-function: ease-out; }
+    /* Das erste Thema steht beim Laden schon da (die Runde beginnt mittendrin). Damit auch seine Teile
+       einblenden und seine Zahlen zaehlen, laeuft beim Laden einmal eine zweite, kurze Animation obenauf. */
+    .hero__intro { animation-duration: calc(var(--n) * var(--slot)), 1.4s;
+      animation-delay: calc(var(--i) * var(--slot) - var(--blende) + var(--k, 0) * .16s), calc(var(--k, 0) * .16s);
+      animation-iteration-count: infinite, 1; animation-fill-mode: none, backwards;
+      animation-timing-function: ease-out, ease-out; }
+    /* Die Bedingung zu einem Preis steht beim Preis, klein, aber im selben Block. */
+    .hero__thema-fuss { margin: 14px 0 0; font-size: 13px; line-height: 1.4; text-shadow: 0 1px 8px rgba(30,30,24,.7); }
+    .hero__thema-links { display: flex; flex-wrap: wrap; gap: 8px 28px; }
+    .hero__thema-link { color: var(--text-hell); text-decoration: none; font-size: 17px; padding-bottom: 2px;
+      border-bottom: 1px solid rgba(255,255,255,.55); text-shadow: 0 1px 8px rgba(30,30,24,.6); }
+    .hero__thema-link:hover { border-bottom-color: var(--text-hell); color: var(--text-hell); }
+    .hero--rundgang .hero__titel { font-weight: 700; text-transform: none; letter-spacing: -.01em; line-height: 1.05; }
+    .hero--rundgang .hero__wort { letter-spacing: .08em; font-weight: 500; }
+    .hero--rundgang .hero__knoepfe { justify-content: flex-start; padding-right: 0; margin-top: 0; }
+    .hero--rundgang.hero--zeile { --wort-gr: clamp(14px, 1.5vw, 20px);
+                                  --titel-gr: clamp(38px, 6vw, 84px); }
+    .hero--bild.hero--rundgang .container { padding-top: var(--raum-4); padding-bottom: calc(var(--raum-5) + var(--raum-3)); }
+
+    /* Die Leiste: ein Reiter je Thema, der Strich fuellt sich, solange das Thema steht. */
+    .hero__leiste { position: absolute; z-index: 3; margin: 0; display: flex; gap: 14px; align-items: flex-end;
+      left: max(var(--raum-3), calc((100% - var(--breite)) / 2 + var(--raum-3)));
+      right: max(var(--raum-3), calc((100% - var(--breite)) / 2 + var(--raum-3)));
+      bottom: var(--raum-3); }
+    /* Der Hinweis nach unten: 'Aktuelles' wartet unter dem Aufmacher. Der Pfeil wippt leise (nur ohne
+       'Bewegung reduzieren'). Rechts ueber der Leiste, damit er weder Text noch Knoepfe beruehrt. */
+    .hero__weiter { position: absolute; z-index: 3; right: max(var(--raum-3), calc((100% - var(--breite)) / 2 + var(--raum-3)));
+      bottom: calc(var(--raum-3) + 54px); display: inline-flex; align-items: center; gap: 8px; color: var(--text-hell);
+      font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
+      text-shadow: 0 1px 10px rgba(30,30,24,.7); }
+    .hero__weiter:hover { color: var(--text-hell); }
+    .hero__weiter-pfeil { display: inline-block; font-size: 18px; line-height: 1; }
+    @media (prefers-reduced-motion: no-preference) {
+      .hero__weiter-pfeil { animation: hero-wippen 2.2s ease-in-out infinite; }
+    }
+    @keyframes hero-wippen { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+    .hero__t { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .hero__reiter { flex: 1; min-width: 0; cursor: pointer; color: var(--text-hell); font-size: 14px;
+      text-shadow: 0 1px 8px rgba(30,30,24,.6); }
+    .hero__reiter span.hero__reiter-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+    .hero__strich { display: block; height: 3px; border-radius: 2px; background: rgba(255,255,255,.38);
+      overflow: hidden; margin-bottom: 7px; }
+    .hero__strich i { display: block; height: 100%; width: 100%; background: var(--titel-akzent);
+      transform: scaleX(0); transform-origin: left center; animation-duration: calc(var(--n) * var(--slot));
+      animation-delay: calc(var(--blende) * -1); animation-iteration-count: infinite;
+      animation-timing-function: linear; }
+    .hero__t:focus-visible + .hero__reiter { outline: 2px solid var(--text-hell); outline-offset: 3px; border-radius: 2px; }
+    .hero__steuerung { flex: none; display: flex; gap: 6px; align-items: flex-end; }
+    .hero__pause { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .hero__pause-knopf, .hero__auto { color: var(--text-hell); font: inherit; font-size: 13px; cursor: pointer;
+      background: none; border: 0; padding: 4px 8px; border-radius: var(--r-sm);
+      text-shadow: 0 1px 8px rgba(30,30,24,.6); }
+    .hero__pause-knopf:hover, .hero__auto:hover { background: rgba(30,30,24,.35); }
+    .hero__pause:focus-visible + .hero__pause-knopf, .hero__auto:focus-visible { outline: 2px solid var(--text-hell); outline-offset: 2px; }
+    .hero__pause:checked + .hero__pause-knopf .hero__pause-an,
+    .hero__pause-knopf .hero__pause-aus { display: none; }
+    .hero__pause:checked + .hero__pause-knopf .hero__pause-aus { display: inline; }
+    .hero__auto { display: none; }
+    .hero--rundgang:has(.hero__t:checked) .hero__auto { display: inline-block; }
+    .hero--rundgang:has(.hero__t:checked) .hero__pause-knopf { display: none; }
+    /* Anhalten: auf Wunsch, beim Darueberfahren der Leiste mit der Maus und beim Tastaturfokus. Nicht beim
+       Text: eine Maus, die ruhig ueber dem Aufmacher liegt, wuerde sonst alles anhalten. */
+    .hero--rundgang:has(.hero__pause:checked) *, .hero--rundgang:has(.hero__leiste:hover, :focus-visible) *
+      { animation-play-state: paused !important; }
+    @media (max-width: 760px) {
+      .hero--rundgang .hero__rahmen { min-height: 94svh; }
+      .hero__reiter span.hero__reiter-name { font-size: 11px; letter-spacing: .06em; }
+      .hero__leiste { gap: 8px; }
+      .hero__steuerung { display: none; }
+      .hero__weiter { display: none; }
+      .hero--bild.hero--rundgang .container { padding-bottom: calc(var(--raum-5) + var(--raum-3)); }
+      .hero__themen { margin: var(--raum-3) 0; }
+      .hero__thema-text { margin-bottom: var(--raum-2); }
+      .hero__thema-fakten { gap: 10px 28px; margin-bottom: var(--raum-2); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero--rundgang .hero__slide, .hero--rundgang .hero__slide .hero__foto, .hero__thema,
+      .hero__strich i, .hero__t-teil, .hero__feder { animation: none !important; }
+      .hero__t-teil { opacity: 1; transform: none; }
+      .hero--rundgang .hero__slide:first-of-type { opacity: 1; }
+      .hero__thema:first-of-type { opacity: 1; visibility: visible; }
+      .hero__pause-knopf { display: none; }
+    }
     @media (max-width: 640px) {
       .hero { padding: var(--raum-5) 0 var(--raum-4); }
       .hero.hero--bild { padding: 0; }
@@ -178,7 +316,8 @@ export default {
     const z1 = ziel(data.ctaHref), z2 = ziel(data.zweitHref);
     const bild = ziel(data.bild);
 
-    const zeile = bild && data.aufbau === 'zeile';
+    const rundgang = bild && data.aufbau === 'rundgang';
+    const zeile = bild && (data.aufbau === 'zeile' || rundgang);
 
     const knoepfe = (data.ctaLabel && z1) || (data.zweitLabel && z2)
       ? html`<div class="hero__knoepfe">
@@ -196,13 +335,14 @@ export default {
         ${data.wortmarke ? html`<p class="hero__wort">${data.wortmarke}</p>` : ''}
         ${data.pill ? html`<p class="hero__pill">${data.pill}</p>` : ''}
         <h1 class="hero__titel">${data.titel}</h1>
+        ${rundgang ? rundgangThemen(data, bild) : ''}
         ${data.sub ? html`<p class="hero__sub">${data.sub}</p>` : ''}`;
 
     const inhalt = zeile
       ? html`<div class="container"><div class="hero__unten">
           <div class="hero__zeile">
             ${data.marke === 'ja'
-              ? html`<img class="hero__zeichen" src="/assets/ktc-logo-bild-2026.svg"
+              ? html`<img class="hero__zeichen" src="/assets/ktc-logo-bild-${raw(rundgang ? 'dunkel' : '2026')}.svg"
                           alt="" aria-hidden="true" decoding="async">`
               : ''}
             <div>${wortblock}</div>
@@ -213,6 +353,8 @@ export default {
 
     // P6: kein Bild haelt nichts auf — dann eben die schlichte Fassung.
     if (!bild) return html`<section class="section hero">${inhalt}</section>`;
+
+    if (rundgang) return rundgangAufmacher(data, bild, inhalt);
 
     // Das Hauptbild zuerst, dann die weiteren. Doppelte fliegen raus — sonst
     // steht dasselbe Foto zweimal im Lauf und wirkt wie ein Haenger.
@@ -301,4 +443,207 @@ const BLENDE_S = 1.4;
  */
 function neuesFenster(z) {
   return istExtern(z) ? raw(' target="_blank" rel="noopener noreferrer"') : '';
+}
+
+// ── Rundgang ───────────────────────────────────────────────────────────────────────────────────
+
+const RUNDGANG_SLOT_S = 9;
+const RUNDGANG_BLENDE_S = 1.4;
+
+/**
+ * Die Themen des Rundgangs: je Bild ein Eintrag mit Thema (kicker), Kernaussage (text), Zahlen
+ * (fakten) und Links. 'bilder' ist die Liste; das Hauptbild kommt nur dazu, wenn es dort fehlt.
+ * Eine Zahl mit 'quelle: termin' zeigt den naechsten Vereinstermin (der Server liefert ihn); gibt
+ * es keinen, faellt sie weg.
+ */
+function rundgangFolge(data, bild) {
+  const termin = data.naechsterTermin;
+  const norm = (b) => {
+    const e = typeof b === 'string' ? { src: b } : (b || {});
+    const fakten = (e.fakten || []).map((f) => (f && f.quelle === 'termin'
+      ? (termin ? { wert: termin.tag, label: termin.titel } : null) : f)).filter((f) => f && f.wert).slice(0, 3);
+    const links = (e.links || []).filter((l) => l && l.label && ziel(l.href)).slice(0, 2);
+    return { src: ziel(e.src), alt: e.alt || '', kicker: e.kicker || '', reiter: e.reiter || e.kicker || '', text: e.text || '', fakten, links, fussnote: e.fussnote || '' };
+  };
+  const liste = (data.bilder || []).map(norm).filter((e) => e.src);
+  if (!liste.some((e) => e.src === bild)) liste.unshift({ ...norm({ src: bild, alt: data.bildAlt }) });
+  // Doppelte fliegen raus: dasselbe Foto zweimal im Lauf waere ein Haenger.
+  const gesehen = new Set();
+  return liste.filter((e) => (gesehen.has(e.src) ? false : gesehen.add(e.src)));
+}
+
+/** Die Keyframes des Rundgangs fuer n Themen: Blende, Zoom, Thema, Strich je Thema. */
+function rundgangRegeln(n) {
+  const T = n * RUNDGANG_SLOT_S;
+  const pc = (sek) => Math.round((sek / T) * 10000) / 100;
+  const b = RUNDGANG_BLENDE_S;
+  const [pb, p1, p2] = [pc(b), pc(RUNDGANG_SLOT_S), pc(RUNDGANG_SLOT_S + b)];
+  const nach = Math.round((p2 + 0.01) * 100) / 100;
+  let css = `@keyframes hero-rg-blende-${n}{0%{opacity:0}${pb}%{opacity:1}${p1}%{opacity:1}${p2}%{opacity:0}100%{opacity:0}}`
+    + `@keyframes hero-rg-zoom-${n}{0%{transform:scale(1)}${p2}%{transform:scale(1.07)}100%{transform:scale(1.07)}}`
+    + `@keyframes hero-rg-text-${n}{0%{opacity:0;transform:translateY(8px);visibility:visible}${pb}%{opacity:1;transform:none}`
+    + `${p1}%{opacity:1;transform:none}${p2}%{opacity:0;visibility:visible}${nach}%{visibility:hidden}100%{opacity:0;visibility:hidden}}`;
+  css += `@keyframes hero-rg-teil-${n}{0%{opacity:0;transform:translateY(10px)}${pb}%{opacity:1;transform:none}`
+    + `${p1}%{opacity:1;transform:none}${p2}%{opacity:0}100%{opacity:0}}`
+    + `@keyframes hero-rg-intro{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}`;
+  for (let i = 0; i < n; i++) {
+    const von = Math.round((i / n) * 10000) / 100;
+    const bis = Math.round(((i + 1) / n) * 10000) / 100;
+    // Der laufende Strich ist gelb; ist sein Thema durch, wird er hellgrau und bleibt es bis zum Rundenende.
+    const nach = Math.round((bis + 0.01) * 100) / 100;
+    css += `@keyframes hero-rg-fuell-${n}-${i}{0%{transform:scaleX(0);background:var(--titel-akzent)}${von}%{transform:scaleX(0)}`
+      + `${bis}%{transform:scaleX(1);background:var(--titel-akzent)}${nach}%{background:var(--text-hell-leise)}`
+      + `100%{transform:scaleX(1);background:var(--text-hell-leise)}}`;
+  }
+  // Ein Thema angetippt: der Wechsel steht, genau dieses Thema ist zu sehen.
+  const w = '.hero--rundgang:has(.hero__t:checked)';
+  css += `${w} .hero__slide,${w} .hero__thema{animation:none;opacity:0}`
+    + `${w} .hero__thema{visibility:hidden}${w} .hero__foto{animation:none}`
+    + `${w} .hero__strich i{animation:none;transform:scaleX(0)}`
+    + `${w} .hero__t-teil{animation:none;opacity:1;transform:none}`;
+  for (let k = 0; k < n; k++) {
+    const a = `.hero--rundgang:has(#hero-t${k}:checked)`;
+    css += `${a} .hero__slide[data-i="${k}"],${a} .hero__thema[data-i="${k}"]{opacity:1;visibility:visible}`
+      + `${a} label[for="hero-t${k}"] .hero__strich i{transform:scaleX(1)}`;
+  }
+  return css;
+}
+
+function rundgangAufmacher(data, bild, inhalt) {
+  const folge = rundgangFolge(data, bild);
+  const n = folge.length;
+  const anim = (name) => raw(n > 1 ? `; animation-name: ${name}` : '');
+  const reihe = (src) => {
+    const r = data.srcsets?.[src];
+    return r ? raw(` srcset="${escapeAttr(r)}" sizes="100vw"`) : '';
+  };
+
+  const folien = folge.map((b, i) => html`<figure class="hero__slide" data-i="${raw(String(i))}" style="--i: ${raw(String(i))}${anim(`hero-rg-blende-${n}`)}"${raw(i === 0 ? '' : ' aria-hidden="true"')}>
+      <img class="hero__foto" style="--i: ${raw(String(i))}${anim(`hero-rg-zoom-${n}`)}" src="${raw(escapeAttr(b.src))}"${reihe(b.src)}
+           alt="${raw(i === 0 ? escapeAttr(b.alt) : '')}"
+           ${raw(i === 0 ? 'fetchpriority="high"' : 'fetchpriority="low"')} decoding="async">
+    </figure>`);
+
+  const leiste = n > 1 ? html`<form class="hero__leiste" aria-label="Themen">
+      ${folge.map((b, i) => html`<input type="radio" name="hero-thema" id="hero-t${raw(String(i))}" class="hero__t" aria-label="${raw(escapeAttr(b.reiter || `Thema ${i + 1}`))}"><label class="hero__reiter" for="hero-t${raw(String(i))}"><span class="hero__strich"><i style="animation-name: hero-rg-fuell-${raw(String(n))}-${raw(String(i))}"></i></span><span class="hero__reiter-name">${b.reiter || ''}</span></label>`)}
+      <span class="hero__steuerung">
+        <input type="checkbox" id="hero-pause" class="hero__pause" aria-label="Bildwechsel anhalten">
+        <label for="hero-pause" class="hero__pause-knopf"><span class="hero__pause-an">Anhalten</span><span class="hero__pause-aus">Weiter</span></label>
+        <button type="reset" class="hero__auto">Automatisch</button>
+      </span>
+    </form>` : '';
+
+  return html`
+    <section class="section hero hero--bild hero--zeile hero--rundgang"
+             style="--n: ${raw(String(n))}; --slot: ${raw(String(RUNDGANG_SLOT_S))}s; --blende: ${raw(String(RUNDGANG_BLENDE_S))}s">
+      ${n > 1 ? raw(`<style>${rundgangRegeln(n)}</style>`) : ''}
+      <div class="hero__rahmen">
+        ${folien}
+        <div class="hero__schleier"></div>
+        ${inhalt}
+        ${leiste}
+      </div>
+      ${data.weiterHref && ziel(data.weiterHref) ? html`<a class="hero__weiter" href="${raw(escapeAttr(ziel(data.weiterHref)))}">${data.weiterLabel || 'Weiter'} <span class="hero__weiter-pfeil" aria-hidden="true">↓</span></a>` : ''}
+      ${n > 1 && folge.some((b) => b.fakten.some((f) => zahlTeile(f))) ? raw(`<script>${SKRIPT}</script>`) : ''}
+    </section>`;
+}
+
+
+// Das Hochzaehlen der Zahlen im Rundgang. Es startet, wenn ein Thema beginnt (die Animation des Themas meldet
+// 'animationstart' beim ersten Mal und 'animationiteration' in jeder Runde) und wenn jemand ein Thema antippt.
+// Es verzoegert um den Versatz der Zahlenzeile (320 ms), damit man die Zahl beim Einblenden laufen sieht.
+const SKRIPT = `
+(function () {
+  var wurzel = document.querySelector('.hero--rundgang');
+  if (!wurzel) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var DAUER = 1800, VERZUG = 320;
+  var stufe = function (t) { return 1 - Math.pow(1 - t, 3); };
+  function zaehle(el) {
+    var von = parseInt(el.getAttribute('data-von'), 10), bis = parseInt(el.getAttribute('data-bis'), 10);
+    if (isNaN(von) || isNaN(bis)) return;
+    if (el.__fertig) return;   // jede Zahl zaehlt nur einmal: in den naechsten Runden steht sie einfach da
+    var lauf = (el.__lauf = (el.__lauf || 0) + 1), start = null;
+    var plus = el.nextElementSibling && el.nextElementSibling.classList.contains('hero__plus') ? el.nextElementSibling : null;
+    if (plus) plus.style.opacity = '0';
+    el.textContent = von;
+    // Mit Zeitgeber statt requestAnimationFrame: der steht in einem verdeckten Fenster still und die Zahl
+    // spraenge ans Ende; die Uhr laeuft immer.
+    function schritt() {
+      if (el.__lauf !== lauf) return;
+      if (start === null) start = Date.now();
+      var t = Math.min(1, (Date.now() - start) / DAUER);
+      el.textContent = Math.round(von + (bis - von) * stufe(t));
+      if (t < 1) { setTimeout(schritt, 30); return; }
+      el.textContent = bis;
+      el.__fertig = true;
+      if (plus) plus.style.opacity = '1';
+      // Der Feder-Effekt am Ende: die Zahl federt einmal kurz nach.
+      var wert = el.closest('.hero__thema-wert');
+      if (wert) {
+        wert.classList.add('hero__feder');
+        wert.addEventListener('animationend', function () { wert.classList.remove('hero__feder'); }, { once: true });
+      }
+    }
+    setTimeout(schritt, VERZUG);
+  }
+  function thema(th) { if (th) th.querySelectorAll('.hero__zahl').forEach(zaehle); }
+  wurzel.querySelectorAll('.hero__thema').forEach(function (th) {
+    var los = function (e) { if (e.target === th) thema(th); };
+    th.addEventListener('animationstart', los);
+    th.addEventListener('animationiteration', los);
+  });
+  wurzel.querySelectorAll('.hero__t').forEach(function (r, i) {
+    r.addEventListener('change', function () { thema(wurzel.querySelector('.hero__thema[data-i="' + i + '"]')); });
+  });
+})();
+`;
+
+const VOR_WORTE = /^(?:über|rund|mehr als|etwa|ca\.)\s+/i;
+
+/**
+ * Eine Zahl, die zaehlt. Mit 'ab' zaehlt sie herunter (zum Beispiel von 100 auf 0 Euro bei 'keine').
+ * Ohne: hoch bis zum Wert. Ein Vorwort wie 'rund' oder 'ueber' wird zum Plus hinter der Zahl ('rund 120'
+ * wird '120+'); das Plus erscheint erst, wenn die Zahl angekommen ist. Mit zwei Zahlen (ein Datum) oder ohne Zahl: kein Zaehler.
+ */
+function zahlTeile(f) {
+  const wert = String(f.wert).trim();
+  if (f.ab != null && Number.isFinite(Number(f.ab))) {
+    const ziel0 = /^(keine?|kein|null)$/i.test(wert) ? 0 : (/^\d{1,5}$/.test(wert) ? Number(wert) : null);
+    if (ziel0 == null) return null;
+    return { von: Number(f.ab), zahl: ziel0, plus: false, nach: f.einheit ? ` ${f.einheit}` : '' };
+  }
+  const plus = VOR_WORTE.test(wert);
+  const m = /^(\d{1,4})(\D*)$/.exec(wert.replace(VOR_WORTE, ''));
+  return m ? { von: 0, zahl: Number(m[1]), plus, nach: m[2] } : null;
+}
+
+/** Die Aussage: *Schluesselwoerter* stehen im Akzent. Erst maskieren, dann markieren. */
+function aussage(text) {
+  return raw(escapeHtml(String(text)).replace(/\*([^*]+)\*/g, '<span class="hero__stich">$1</span>'));
+}
+
+/** Der Themenblock unter der Ueberschrift: je Bild einer, alle im selben Feld, einer nach dem anderen sichtbar. */
+function rundgangThemen(data, bild) {
+  const folge = rundgangFolge(data, bild);
+  const n = folge.length;
+  if (!folge.some((b) => b.text || b.kicker || b.fakten.length)) return '';
+  const mehr = n > 1;
+  const teil = (i, k) => raw(mehr
+    ? `style="--k: ${k}; animation-name: hero-rg-teil-${n}${i === 0 ? ', hero-rg-intro' : ''}"` : '');
+  const klasse = (i) => (mehr && i === 0 ? ' hero__intro' : '');
+  const wert = (f) => {
+    const z = mehr ? zahlTeile(f) : null;
+    if (!z) return html`<span class="hero__thema-wert">${f.wert}</span>`;
+    // Im Markup steht der Endwert; das Skript zaehlt von 'von' dorthin. Vorleser lesen den ganzen Wert.
+    const anzeige = `<span class="hero__zahl" data-von="${z.von}" data-bis="${z.zahl}">${z.zahl}</span>${z.plus ? '<span class="hero__plus">+</span>' : ''}${escapeHtml(z.nach)}`;
+    return html`<span class="hero__thema-wert"><span class="nur-vorleser">${f.wert}</span><span aria-hidden="true">${raw(anzeige)}</span></span>`;
+  };
+  return html`<div class="hero__themen">${folge.map((b, i) => html`<div class="hero__thema" data-i="${raw(String(i))}" style="--i: ${raw(String(i))}${raw(mehr ? `; animation-name: hero-rg-text-${n}` : '')}"${raw(i === 0 ? '' : ' aria-hidden="true"')}>
+      ${b.kicker ? html`<p class="hero__thema-kicker hero__t-teil${raw(klasse(i))}" ${teil(i, 0)}>${b.kicker}</p>` : ''}
+      ${b.text ? html`<p class="hero__thema-text hero__t-teil${raw(klasse(i))}" ${teil(i, 1)}>${aussage(b.text)}</p>` : ''}
+      ${b.fakten.length ? html`<ul class="hero__thema-fakten hero__t-teil${raw(klasse(i))}" ${teil(i, 2)}>${b.fakten.map((f) => html`<li>${wert(f)}<span class="hero__thema-label">${f.label}</span></li>`)}</ul>` : ''}
+      ${b.links.length ? html`<div class="hero__thema-links hero__t-teil${raw(klasse(i))}" ${teil(i, 3)}>${b.links.map((l) => html`<a class="hero__thema-link" href="${raw(escapeAttr(ziel(l.href)))}">${l.label} →</a>`)}</div>` : ''}
+      ${b.fussnote ? html`<p class="hero__thema-fuss hero__t-teil${raw(klasse(i))}" ${teil(i, 4)}>${b.fussnote}</p>` : ''}
+    </div>`)}</div>`;
 }

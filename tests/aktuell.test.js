@@ -40,11 +40,12 @@ test('aktuell ist kein Knopf — die eine Handlung bleibt Mitglied werden', () =
   assert.equal((html.match(/class="knopf"/g) || []).length, 0);
 });
 
-test('die Startseite zeigt aktuell vor dem Angebot', () => {
+test('die Startseite zeigt aktuell direkt unter dem Aufmacher und endet dort', () => {
   const start = seiten.find((s) => s.slug === 'start');
   const typen = start.blocks.map((b) => b.type);
-  assert.ok(typen.indexOf('aktuell') > typen.indexOf('infokarten'));
-  assert.ok(typen.indexOf('aktuell') < typen.indexOf('cards'));
+  assert.equal(typen.indexOf('aktuell'), typen.indexOf('hero') + 1);
+  assert.ok(!typen.includes('cards') && !typen.includes('richtext') && !typen.includes('infokarten'),
+    'die Themen und das Angebot stehen im Aufmacher, nicht noch einmal darunter');
 });
 
 test('Kalender und Startseite haben EINE Quelle: der Kalender-Baustein bringt keine eigene Liste mit', () => {

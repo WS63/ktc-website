@@ -39,12 +39,12 @@ test('infokarten zählen nur mit zaehlen: ja, und der Endwert steht immer da', (
   assert.doesNotMatch(nein, /IntersectionObserver/);
 });
 
-test('die Startseite zählt ihre drei Zahlen, die Beitragskarten nicht', async () => {
+test('die Beitragskarten zählen nicht hoch, die Startseite hat keine Eckdaten mehr', async () => {
+  // Das Hochzählen kann der Baustein weiter (siehe oben); die Startseite zeigt ihre Zahlen im Aufmacher.
   const { seiten } = await import('../src/seiten.js');
-  const start = seiten.find((x) => x.slug === 'start').blocks.find((b) => b.type === 'infokarten');
-  assert.equal(start.data.zaehlen, 'ja');
+  assert.equal(seiten.find((x) => x.slug === 'start').blocks.filter((b) => b.type === 'infokarten').length, 0);
   const mw = seiten.find((x) => x.slug === 'mitglied-werden').blocks.filter((b) => b.type === 'infokarten');
-  assert.ok(mw.every((b) => b.data.zaehlen !== 'ja'));
+  assert.ok(mw.length > 0 && mw.every((b) => b.data.zaehlen !== 'ja'));
 });
 
 // ── Kontaktseite: Formular zuerst, zweispaltig ─────────────────────────

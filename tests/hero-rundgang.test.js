@@ -185,3 +185,33 @@ test('Rundgang: der Preis für Neue nennt seine Bedingung im selben Block, und d
   assert.match(h, /<p class="hero__thema-fuss hero__t-teil hero__intro" [^>]*>Voraussetzung: x\.<\/p>/);
   assert.match(h, /\.hero__reiter span\.hero__reiter-name \{[^}]*text-transform: uppercase/);
 });
+
+test('Rundgang: Vorleser bekommen eine Zusammenfassung mit Überschrift je Thema, der Wechsel selbst ist stumm', () => {
+  const h = renderPage(seite({ ...grund, bilder: [
+    th('a', 'Ort', { text: 'Sieben *Sandplätze*', fakten: [{ wert: '7', label: 'Plätze' }], links: [{ label: 'Mehr', href: '/clubhaus/' }], fussnote: 'Gilt im ersten Jahr' }),
+    th('b', 'Spielen'), th('c', 'Jugend')] }));
+  const ueberblick = h.slice(h.indexOf('<section class="nur-vorleser"'), h.indexOf('</section>', h.indexOf('<section class="nur-vorleser"')));
+  assert.equal((ueberblick.match(/<h2>/g) || []).length, 3);
+  assert.match(ueberblick, /<h2>Ort<\/h2>/);
+  assert.match(ueberblick, /<p>Sieben Sandplätze<\/p>/, 'ohne Sternchen und ohne Hervorhebung');
+  assert.match(ueberblick, /<li>7 Plätze<\/li>/);
+  assert.match(ueberblick, /Gilt im ersten Jahr/);
+  // Die Textteile der Themen sind für Vorleser stumm, damit nichts doppelt gelesen wird; die Links bleiben.
+  assert.match(h, /hero__thema-text hero__t-teil hero__intro" style="[^"]*" aria-hidden="true"/);
+  assert.doesNotMatch(h, /<div class="hero__thema-links[^>]*aria-hidden/);
+  assert.match(h, /<a class="hero__thema-link" href="\/clubhaus\/">/);
+});
+
+test('Rundgang mit nur einem Thema bleibt wie er war: keine Zusammenfassung, nichts stumm', () => {
+  const h = renderPage(seite({ ...grund, bilder: [th('a', 'Ort')] }));
+  assert.doesNotMatch(h, /class="nur-vorleser"/);
+  assert.doesNotMatch(h, /hero__thema-text[^>]*aria-hidden/);
+});
+
+test('Cockpit: das Schema nennt die Felder eines Themas, daraus macht der Editor die Vorlage für ein neues', async () => {
+  const hero = (await import('../src/blocks/hero.js')).default;
+  // Dieselbe Regel wie vorlageSchluessel() in admin/app.js: alles nach dem ersten Doppelpunkt, getrennt am Komma.
+  const felder = hero.schema.bilder.label.match(/:\s*(.+)$/)[1].split(',').map((s) => s.trim());
+  assert.deepEqual(felder, ['src', 'reiter', 'alt', 'kicker', 'text', 'fakten', 'links', 'fussnote']);
+  for (const f of felder) assert.match(f, /^[a-zA-Z]+$/, `${f}: sonst lässt der Editor das Feld weg`);
+});

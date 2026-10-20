@@ -41,9 +41,12 @@ Ein Test hält das fest: höchstens ein `.knopf` je Seite.
 
 - **Signal `#0050ff` (Blau)** macht die Arbeit: Links, Menü, Rahmen, Hinweise, Kartenkanten.
   Es markiert, es füllt keine großen Flächen.
-- **Akzent `#ffbe00` (Gelb)** hat genau eine Aufgabe: der Knopf „Mitglied werden".
-  **Ein gelber Knopf pro Bildschirm, sonst nirgends.** Gelb hat auf Weiß 1,66:1 Kontrast —
-  es kann niemals Textfarbe sein, deshalb ist es nur für die eine Fläche reserviert.
+- **Akzent `#ffbe00` (Gelb)** hat zwei Aufgaben, mehr nicht: die Fläche des Knopfes „Mitglied
+  werden" — **ein gelber Knopf pro Bildschirm** — und, nur im Aufmacher der Startseite auf dem
+  dunklen Foto, den Akzent für Thema, Zahlen und laufenden Balken (`--titel-akzent`, derselbe
+  Gelbton; so am 20.10.2026 entschieden, Blau und Grün trugen auf dem Foto nicht). Sonst nirgends.
+  Gelb hat auf Weiß 1,66:1 Kontrast: **nie Textfarbe auf hellem Grund**, nur Fläche mit dunkler
+  Schrift oder Schrift auf dem dunklen Foto.
 - Das Logo bleibt vierfarbig. Es ist die Marke, nicht die Bedienung.
 - **Hell ist der Normalfall.** Zwei helle Töne wechseln sich ab. Ein einzelner Abschnitt darf
   dunkel sein: `.section--dunkel` setzt dieselben Variablennamen neu — die Tokens kippen, die
@@ -58,7 +61,9 @@ npm run dev     # Entwicklung, startet bei Änderungen neu
 npm start       # Betrieb
 npm test        # 11 Tests: Prinzipien, Sicherheit, Vertrag
 npm run seed    # alle Seiten und Beiträge anlegen oder aktualisieren
-                # überspringt Seiten mit status 'edited' (P5) — mit -- --force überschreiben
+                # überspringt Seiten mit status 'edited' (P5) und Seiten, die im Cockpit geändert
+                # wurden (gemerkter Stand `pages.seed_hash` weicht ab) — mit -- --force überschreiben.
+                # Seiten ohne gemerkten Stand (vor Migration 014) bekommen den Seed einmalig wie früher.
 npm run struktur # Menü und die 301-Umleitungen der alten Website anlegen (einmalig)
 ```
 

@@ -15,7 +15,7 @@ export default {
     zweitHref: { type: 'text',     default: '', label: 'Ziel des zweiten Knopfs' },
     bild:      { type: 'image',    default: '', label: 'Hintergrundbild' },
     bildAlt:   { type: 'text',     default: '', label: 'Alt-Text des Bildes' },
-    bilder:    { type: 'liste',    default: [], label: 'Weitere Bilder — blenden nacheinander durch (Rundgang: je mit src, alt, kicker, text, fakten, links)' },
+    bilder:    { type: 'liste',    default: [], label: 'Weitere Bilder — blenden nacheinander durch, im Rundgang ein Thema je Bild: src, reiter, alt, kicker, text, fakten, links, fussnote' },
     marke:     { type: 'auswahl',  default: 'nein', label: 'Logo ins Bild',
                  optionen: ['nein', 'ja'] },
     aufbau:    { type: 'auswahl',  default: 'bild', label: 'Aufbau mit Bild',
@@ -623,6 +623,15 @@ function aussage(text) {
   return raw(escapeHtml(String(text)).replace(/\*([^*]+)\*/g, '<span class="hero__stich">$1</span>'));
 }
 
+/** Die Themen als ruhiger Text fuer Vorleser: je Thema eine Ueberschrift, die Aussage ohne Hervorhebung, die Zahlen als Liste. */
+function vorleserUeberblick(folge) {
+  return html`<section class="nur-vorleser" aria-label="Das Wichtigste im Überblick">${folge.map((b) => html`
+    ${b.kicker || b.reiter ? html`<h2>${b.kicker || b.reiter}</h2>` : ''}
+    ${b.text ? html`<p>${String(b.text).replace(/\*([^*]+)\*/g, '$1')}</p>` : ''}
+    ${b.fakten.length ? html`<ul>${b.fakten.map((f) => html`<li>${f.wert} ${f.label}</li>`)}</ul>` : ''}
+    ${b.fussnote ? html`<p>${b.fussnote}</p>` : ''}`)}</section>`;
+}
+
 /** Der Themenblock unter der Ueberschrift: je Bild einer, alle im selben Feld, einer nach dem anderen sichtbar. */
 function rundgangThemen(data, bild) {
   const folge = rundgangFolge(data, bild);
@@ -639,11 +648,16 @@ function rundgangThemen(data, bild) {
     const anzeige = `<span class="hero__zahl" data-von="${z.von}" data-bis="${z.zahl}">${z.zahl}</span>${z.plus ? '<span class="hero__plus">+</span>' : ''}${escapeHtml(z.nach)}`;
     return html`<span class="hero__thema-wert"><span class="nur-vorleser">${f.wert}</span><span aria-hidden="true">${raw(anzeige)}</span></span>`;
   };
-  return html`<div class="hero__themen">${folge.map((b, i) => html`<div class="hero__thema" data-i="${raw(String(i))}" style="--i: ${raw(String(i))}${raw(mehr ? `; animation-name: hero-rg-text-${n}` : '')}"${raw(i === 0 ? '' : ' aria-hidden="true"')}>
-      ${b.kicker ? html`<p class="hero__thema-kicker hero__t-teil${raw(klasse(i))}" ${teil(i, 0)}>${b.kicker}</p>` : ''}
-      ${b.text ? html`<p class="hero__thema-text hero__t-teil${raw(klasse(i))}" ${teil(i, 1)}>${aussage(b.text)}</p>` : ''}
-      ${b.fakten.length ? html`<ul class="hero__thema-fakten hero__t-teil${raw(klasse(i))}" ${teil(i, 2)}>${b.fakten.map((f) => html`<li>${wert(f)}<span class="hero__thema-label">${f.label}</span></li>`)}</ul>` : ''}
+  // Das sehende Auge bekommt den Rundgang, der Vorleser eine ruhige Zusammenfassung: die Themen wechseln von
+  // selbst, und ein Vorleser liest den Aufbau, nicht das, was gerade eingeblendet ist. Darum sind die Textteile
+  // der Themen fuer ihn stumm; die Links bleiben erreichbar (sie sind auch per Tastatur erreichbar).
+  const stumm = raw(mehr ? ' aria-hidden="true"' : '');
+  const themen = html`<div class="hero__themen">${folge.map((b, i) => html`<div class="hero__thema" data-i="${raw(String(i))}" style="--i: ${raw(String(i))}${raw(mehr ? `; animation-name: hero-rg-text-${n}` : '')}"${raw(!mehr || i === 0 ? '' : ' aria-hidden="true"')}>
+      ${b.kicker ? html`<p class="hero__thema-kicker hero__t-teil${raw(klasse(i))}" ${teil(i, 0)}${stumm}>${b.kicker}</p>` : ''}
+      ${b.text ? html`<p class="hero__thema-text hero__t-teil${raw(klasse(i))}" ${teil(i, 1)}${stumm}>${aussage(b.text)}</p>` : ''}
+      ${b.fakten.length ? html`<ul class="hero__thema-fakten hero__t-teil${raw(klasse(i))}" ${teil(i, 2)}${stumm}>${b.fakten.map((f) => html`<li>${wert(f)}<span class="hero__thema-label">${f.label}</span></li>`)}</ul>` : ''}
       ${b.links.length ? html`<div class="hero__thema-links hero__t-teil${raw(klasse(i))}" ${teil(i, 3)}>${b.links.map((l) => html`<a class="hero__thema-link" href="${raw(escapeAttr(ziel(l.href)))}">${l.label} →</a>`)}</div>` : ''}
-      ${b.fussnote ? html`<p class="hero__thema-fuss hero__t-teil${raw(klasse(i))}" ${teil(i, 4)}>${b.fussnote}</p>` : ''}
+      ${b.fussnote ? html`<p class="hero__thema-fuss hero__t-teil${raw(klasse(i))}" ${teil(i, 4)}${stumm}>${b.fussnote}</p>` : ''}
     </div>`)}</div>`;
+  return mehr ? html`${themen}${vorleserUeberblick(folge)}` : themen;
 }

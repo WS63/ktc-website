@@ -329,8 +329,11 @@ function feldBauen(block, feld, art) {
   return el('div', { class: 'feldreihe' }, el('label', { text: art.label }), steuer);
 }
 
-/** Listen: Absätze als Zeilen, Objekte mit eigenen Unterfeldern. */
-function listenFeld(block, feld, art, wert) {
+/** Unterlisten in Listen-Einträgen (z. B. die Zahlen und Links eines Themas im Aufmacher): ihre Felder. */
+const UNTERLISTEN = { fakten: ['wert', 'label'], links: ['label', 'href'] };
+
+/** Listen: Absätze als Zeilen, Objekte mit eigenen Unterfeldern, darin wieder Listen. */
+function listenFeld(block, feld, art, wert, vorlage = vorlageSchluessel(block.type, feld)) {
   const liste = Array.isArray(wert) ? [...wert] : [];
   (block.data ||= {})[feld] = liste;
   const bereich = el('div', {});
@@ -350,13 +353,22 @@ function listenFeld(block, feld, art, wert) {
         el('div', { class: 'zeile', style: 'margin-top:8px' }, hoch, entfernen));
     }
 
-    const schluessel = [...new Set([...Object.keys(eintrag),
-      ...vorlageSchluessel(block.type, feld)])];
+    const schluessel = [...new Set([...Object.keys(eintrag), ...vorlage])];
     return el('div', { class: 'unterliste' },
       ...schluessel.map((k) => {
+        // Eine Liste im Eintrag (fakten, links) bekommt ihren eigenen Editor. Als Textfeld wuerde sie
+        // '[object Object]' zeigen und beim Tippen in eine Zeichenkette verwandelt — der Aufmacher bräche.
+        if (UNTERLISTEN[k] || Array.isArray(eintrag[k])) {
+          return listenFeld({ type: block.type, data: eintrag }, k, { label: k },
+            eintrag[k], UNTERLISTEN[k] || []);
+        }
         const i2 = el('input', { value: eintrag[k] ?? '',
           oninput: (e) => { liste[i][k] = e.target.value; } });
-        return el('div', { class: 'feldreihe' }, el('label', { text: k }), i2);
+        const zeile = k === 'src'
+          ? el('div', { class: 'zeile' }, i2, el('button', { type: 'button', class: 'klein', text: 'Bild wählen',
+              onclick: () => waehleBild((pfad) => { i2.value = pfad; liste[i][k] = pfad; }) }))
+          : i2;
+        return el('div', { class: 'feldreihe' }, el('label', { text: k }), zeile);
       }),
       el('div', { class: 'zeile' }, hoch, entfernen));
   }));
@@ -367,8 +379,8 @@ function listenFeld(block, feld, art, wert) {
     bereich,
     el('div', { class: 'zeile' },
       el('button', { type: 'button', class: 'klein', text: '+ Eintrag', onclick: () => {
-        const v = vorlageSchluessel(block.type, feld);
-        liste.push(v.length ? Object.fromEntries(v.map((k) => [k, ''])) : '');
+        const v = vorlage;
+        liste.push(v.length ? Object.fromEntries(v.map((k) => [k, UNTERLISTEN[k] ? [] : ''])) : '');
         zeichnen();
       } })));
 }

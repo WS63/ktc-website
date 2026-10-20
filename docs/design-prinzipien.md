@@ -73,7 +73,7 @@ Verbindlich sind die Werte in `config/theme.json`. Hier steht, was sie tun.
 | Signal, gedrückt | `--signal-hover` | `#0000c8` | Hover und aktiver Zustand |
 | Signal, gedeckt | `--signal-leise` | `#eaf0ff` | Getönte Fläche hinter Signal-Elementen |
 | Signal auf Dunkel | `--signal-hell` | `#5b8cff` | dieselbe Rolle im dunklen Abschnitt |
-| **Akzent** | `--handlung` | `#ffbe00` | **nur** der Knopf „Mitglied werden" |
+| **Akzent** | `--handlung` | `#ffbe00` | der Knopf „Mitglied werden"; im Aufmacher auf dunklem Foto zusätzlich Thema, Zahlen und laufender Balken (`--titel-akzent`, gleicher Ton) |
 | Akzent, gedrückt | `--handlung-hover` | `#e8ac00` | Hover auf genau diesem Knopf |
 | Schrift auf Akzent | `--handlung-text` | `#1e1e18` | dunkel, weil Gelb keine weiße Schrift trägt |
 | Text | `--text` | `#1e1e18` | Fließtext, Überschriften |
@@ -84,11 +84,17 @@ Verbindlich sind die Werte in `config/theme.json`. Hier steht, was sie tun.
 
 - **Signal `#0050ff` macht die Arbeit.** Es markiert, es füllt keine großen Flächen. Ein
   Abschnitt ganz in Blau ist ein Fehler; eine blaue Kante an einer Karte ist richtig.
-- **Akzent `#ffbe00` hat genau eine Aufgabe:** der Knopf „Mitglied werden".
-  **Ein gelber Knopf pro Bildschirm, sonst nirgends.** Auch „Platz buchen" bekommt ihn nicht.
-  Ein Test hält das fest: höchstens ein `.knopf` je Seite.
-- **Gelb ist niemals Textfarbe.** Auf Weiß erreicht es 1,66:1. Es existiert ausschließlich als
-  Fläche mit dunkler Schrift darauf. Diese Regel ist nicht Geschmack, sie ist gemessen.
+- **Akzent `#ffbe00` hat zwei Aufgaben:** der Knopf „Mitglied werden" und, im Aufmacher der
+  Startseite auf dem dunklen Foto, der Akzent für Thema, Zahlen und laufenden Balken
+  (`--titel-akzent` in `config/theme.json`, derselbe Gelbton). **Ein gelber Knopf pro
+  Bildschirm, sonst nirgends** — auch „Platz buchen" bekommt ihn nicht. Ein Test hält das fest:
+  höchstens ein `.knopf` je Seite.
+  *Entschieden am 20.10.2026:* Blau und Grün trugen auf dem dunklen Foto nicht, Weiß allein
+  ließ die Zahlen untergehen. Der Akzent gilt nur dort. Die Zahlen sind groß (ab 28 px) und
+  tragen einen Schatten; bei neuen Fotos den Kontrast prüfen.
+- **Gelb ist nie Textfarbe auf hellem Grund.** Auf Weiß erreicht es 1,66:1. Dort existiert es
+  ausschließlich als Fläche mit dunkler Schrift darauf. Als Schrift steht es nur auf dem
+  abgedunkelten Foto des Aufmachers. Diese Regel ist nicht Geschmack, sie ist gemessen.
 - **Nie zwei volle Flächen Blau und Gelb nebeneinander.** Der Akzent verliert seine Wirkung in
   dem Moment, in dem er Gesellschaft bekommt.
 
@@ -311,8 +317,9 @@ Die Takte stehen als Tokens bereit: `--denk-puls` (Atmung eines Balkens), `--den
 @media (prefers-reduced-motion: reduce) { .denkt__puls i, .denkt__wort { animation: none; } }
 ```
 
-**Die Balken sind blau, nicht gelb.** Gelb gehört dem einen Knopf; ein zweites gelbes Element
-auf dem Schirm nimmt ihm die Wirkung.
+**Die Balken des Chats sind blau, nicht gelb.** Gelb gehört dem Knopf und dem Aufmacher-Akzent;
+ein gelbes Element im Chatfenster nähme dem Knopf die Wirkung. (Der laufende Balken der
+Themenleiste im Aufmacher ist gelb: dort ist es der Akzent.)
 
 **Die Wörter sind Tätigkeiten, keine Floskeln:** „liest deine Frage", „sucht auf der Seite",
 „gleicht ab", „formuliert" — nie „Lädt …" oder „Bitte warten". Für den Wechsel je Takt einen
@@ -481,7 +488,8 @@ Ehrlich aufgeführt, damit niemand sie für den Maßstab hält:
 **SO**
 - Heller Grund, zwei helle Töne im Wechsel, viel Luft.
 - Jeder Wert aus `config/theme.json`. Raum in 4er-Schritten, Schriftgrößen aus der Skala.
-- **Ein gelber Knopf pro Seite.** Alles andere `.knopf--leise`.
+- **Ein gelber Knopf pro Seite.** Alles andere `.knopf--leise` oder die Pille. Gelb als Akzent
+  nur im Aufmacher auf dem dunklen Foto (Thema, Zahlen, laufender Balken).
 - Blau markiert, es füllt nicht.
 - Farbigen Text nur über die geprüften `-text`-Fassungen.
 - Höchstens ein dunkler Abschnitt, und der kippt die Tokens, nicht die Bausteine.
@@ -492,7 +500,8 @@ Ehrlich aufgeführt, damit niemand sie für den Maßstab hält:
 
 **NICHT SO**
 - Farben hartkodieren · Inline-Styles · `!important`.
-- Gelb als Textfarbe · ein zweiter gelber Knopf · Gelb und Blau als zwei volle Flächen.
+- Gelb als Textfarbe auf hellem Grund · ein zweiter gelber Knopf · Gelb außerhalb des Aufmachers
+  als Akzent · Gelb und Blau als zwei volle Flächen.
 - Blau als große Fläche · Logofarben als UI-Palette.
 - `<span>`/`<div>` als Knopf · Karte **und** innenliegender Knopf gleichzeitig klickbar.
 - `--text-still` für etwas, das jemand wissen muss.

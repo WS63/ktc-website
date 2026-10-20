@@ -8,6 +8,7 @@ import { zugangsschutz } from './src/zugang.js';
 import { sicherheitsKoepfe } from './src/sicherheit.js';
 import { DEMO_AN } from './src/termin-quelle.js';
 import { starten as spielstandLaden, starteZeitplan } from './src/spielstand.js';
+import { starteAufraeumen } from './src/aufraeumen.js';
 
 /**
  * Beim Start die Datenbank vorbereiten.
@@ -123,6 +124,9 @@ app.use((err, _req, res, _next) => {
 // ein Test schon gar nicht. In Coolify: HTV_ABRUF=1.
 if (process.env.HTV_ABRUF === '1') starteZeitplan();
 else console.log('[Spielstand] Zeitplan AUS (HTV_ABRUF=1 schaltet den Abruf beim HTV ein).');
+
+// Die Datenschutzerklaerung verspricht Loeschfristen; hier werden sie durchgesetzt.
+starteAufraeumen();
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port,

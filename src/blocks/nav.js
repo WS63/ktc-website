@@ -10,6 +10,7 @@ export default {
     aktionHref: { type: 'text', default: '', label: 'Ziel des rechten Links' },
     aktionArt:  { type: 'auswahl', default: 'text', label: 'Darstellung des rechten Links',
                   optionen: ['text', 'ebusy'] },
+    pilleHref:  { type: 'text', default: '/mitglied-werden/', label: 'Menüpunkt, der als Pille am Ende steht (Ziel)' },
     knopfLabel: { type: 'text', default: '', label: 'Knopf in der Leiste' },
     knopfHref:  { type: 'text', default: '', label: 'Ziel des Knopfs' },
   },
@@ -27,10 +28,16 @@ export default {
        Vereinsname steht daneben als Text und traegt die Marke allein. */
     .kopf__zeichen { height: 40px; width: 40px; display: block; flex: none; }
     .kopf__menue { display: flex; gap: var(--raum-3); align-items: center;
-      font-size: 19px; }
+      font-size: 19px; margin-left: var(--raum-4); }
     .kopf__menue a { color: var(--text); text-decoration: none; padding: 6px 0;
       border-bottom: 2px solid transparent; white-space: nowrap; }
     .kopf__menue a:hover { color: var(--signal); border-bottom-color: var(--signal); }
+    /* Die eine Handlung, 'Mitglied werden': als Pille mit blauem Rand am Ende des Menues. Blau, nicht gelb:
+       der gelbe Knopf steht im Aufmacher, zwei gelbe Flaechen untereinander waeren zu viel. */
+    .kopf__menue a.kopf__pille { border: 1px solid var(--signal); border-radius: var(--r-pill);
+      padding: 3px 14px; color: var(--signal); font-size: 16px; font-weight: 500; margin-left: 4px;
+      transition: background .15s ease, color .15s ease; }
+    .kopf__menue a.kopf__pille:hover { background: var(--signal); color: var(--text-hell); border-color: var(--signal); }
     .kopf__jetzt { color: var(--signal); text-decoration: none; white-space: nowrap;
       font-size: 19px; flex: none; }
     .kopf__jetzt:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -38,7 +45,7 @@ export default {
     /* Abgesetzt vom Menue: der Platz buchen fuehrt aus der Website hinaus in
        ein anderes System, das ist keine weitere Seite des Clubs. Ein duenner
        Strich und mehr Luft sagen das, ohne dass ein Wort dafuer noetig ist. */
-    .kopf__jetzt--ebusy { margin-left: var(--raum-3); padding-left: var(--raum-4);
+    .kopf__jetzt--ebusy { margin-left: var(--raum-2); padding-left: var(--raum-3);
       border-left: 1px solid var(--linie); display: flex; align-items: center; }
     .kopf__jetzt--ebusy:hover { text-decoration: none; }
     /* Die Wortmarke des Buchungssystems, nachgebaut als Text: 'e' kursiv in
@@ -67,13 +74,13 @@ export default {
     .kopf__schalter { display: none; }
     .kopf__klappe { display: none; }
 
-    /* 1080 statt 800 — gemessen. Marke 212 + Menue 550 + eBuSy 133 + zwei
-       Luecken von je 40 + Abstand 24 + Polster 48 = 1047 px. Darunter laeuft
+    /* 1100 statt 800 — gemessen. Marke 263 + Menue 568 (mit der Pille 'Mitglied werden') + eBuSy 96 +
+       zwei Luecken von je 40 + Abstand 40 vor dem Menue + Polster 48 = 1095 px. Darunter laeuft
        die Leiste ueber: 'Kontakt' wird abgeschnitten, die Wortmarke rutscht
        aus dem Bild. Das trifft das iPad hochkant (820 und 834) und jedes
        halbe Notebook-Fenster. Bei 800 sprang das Menue erst viel zu spaet
        auf den Burger. */
-    @media (max-width: 1080px) {
+    @media (max-width: 1100px) {
       .kopf__innen { flex-wrap: wrap; gap: var(--raum-2); }
       .kopf__klappe { display: flex; align-items: center; gap: 7px; cursor: pointer;
         font-size: 15px; color: var(--text); border: 1px solid var(--linie);
@@ -90,11 +97,12 @@ export default {
       .kopf__schalter:checked ~ .kopf__innen .kopf__balken::after {
         transform: translateY(-3.75px) rotate(-45deg); }
 
-      .kopf__menue { display: none; width: 100%; flex-direction: column;
+      .kopf__menue { display: none; width: 100%; margin-left: 0; flex-direction: column;
         align-items: stretch; gap: 0; padding-bottom: 8px; }
       .kopf__schalter:checked ~ .kopf__innen .kopf__menue { display: flex; }
       .kopf__menue a { padding: 13px 2px; border-bottom: 1px solid var(--linie); }
       .kopf__menue a:hover { border-bottom-color: var(--signal); }
+      .kopf__menue a.kopf__pille { margin: 12px 0 4px; padding: 12px 18px; text-align: center; }
       .kopf__jetzt { display: none; }
       .kopf__jetzt--ebusy { margin-left: 0; padding-left: 2px; border-left: none; }
       .kopf__schalter:checked ~ .kopf__innen .kopf__jetzt {
@@ -105,12 +113,15 @@ export default {
     }
   `,
   render(data) {
-    const punkte = (data.baum || []).map((p) => {
+    const alle = (data.baum || []).map((p) => {
       const z = ziel(p.href);
-      if (!z) return '';
-      const extern = istExtern(z) ? raw(' target="_blank" rel="noopener noreferrer"') : '';
-      return html`<a href="${raw(escapeAttr(z))}"${extern}>${p.label}</a>`;
-    });
+      return z ? { z, label: p.label, extern: istExtern(z) ? raw(' target="_blank" rel="noopener noreferrer"') : '' } : null;
+    }).filter(Boolean);
+    // Der Menuepunkt fuer die eine Handlung wandert ans Ende und wird zur Pille.
+    const pilleZiel = ziel(data.pilleHref);
+    const pille = pilleZiel ? alle.find((p) => p.z === pilleZiel) : null;
+    const punkte = [...alle.filter((p) => p !== pille), ...(pille ? [pille] : [])].map((p) =>
+      html`<a${p === pille ? raw(' class="kopf__pille"') : ''} href="${raw(escapeAttr(p.z))}"${p.extern}>${p.label}</a>`);
     const aktion = ziel(data.aktionHref);
     const knopf = ziel(data.knopfHref);
     return html`

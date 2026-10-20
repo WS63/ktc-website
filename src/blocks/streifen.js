@@ -87,10 +87,7 @@ export default {
     .streifen__fussnote { font-size: 14px; color: var(--text-leise);
       margin-top: var(--raum-2); line-height: 1.55; }
 
-    .streifen__mehr { display: inline-block; margin-top: var(--raum-3);
-      font-size: var(--fs-md); color: var(--signal); text-decoration: none;
-      border-bottom: 1px solid transparent; }
-    .streifen__mehr:hover { border-bottom-color: var(--signal); }
+    .streifen__mehr { margin-top: var(--raum-3); }
 
     /* Unter 760 px untereinander. Das Bild bleibt oben — auch in der
        Fassung 'rechts': auf dem Telefon gibt es kein Rechts, und ein Bild
@@ -125,7 +122,7 @@ export default {
       ${zeilen.length ? html`<ul class="streifen__zeilen">${zeilen}</ul>` : ''}
       ${data.fussnote ? html`<p class="streifen__fussnote">${markdownInline(data.fussnote)}</p>` : ''}
       ${data.linkLabel && l
-        ? html`<a class="streifen__mehr" href="${raw(escapeAttr(l))}"${extern}>${data.linkLabel} →</a>`
+        ? html`<a class="pille streifen__mehr" href="${raw(escapeAttr(l))}"${extern}>${data.linkLabel} →</a>`
         : ''}
     </div>`;
 

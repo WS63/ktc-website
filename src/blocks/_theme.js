@@ -69,6 +69,13 @@ a[href^="mailto:"] { white-space: nowrap; }
    etwa ein Nachsatz unter einer Tabelle. */
 .section--eng { padding-top: 0; }
 .section--eng + .section { border-top: 1px solid var(--linie); }
+/* Die Pille: der weiterfuehrende Weg am Ende eines Blocks ('Alle Beitraege', 'Mehr zum Restaurant').
+   Ebene 2 zwischen dem gelben Knopf (die eine Handlung) und dem Text-Link (im Fliesstext, Fusszeile, Menue).
+   Auf Fotos steht dieselbe Form als dunkles Glas: '.knopf--leise' im Aufmacher. */
+.pille { display: inline-block; padding: 11px 24px; border-radius: var(--r-pill); background: var(--signal-leise);
+  color: var(--signal); border: 1px solid var(--signal); font-size: var(--fs-sm); font-weight: 600; line-height: 1.3;
+  text-decoration: none; transition: background .15s ease, color .15s ease; }
+.pille:hover { background: var(--signal); color: var(--text-hell); }
 .nur-vorleser {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
   clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;

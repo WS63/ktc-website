@@ -21,7 +21,7 @@ const menue = [
   // Spieltag Ergebnisse sucht, kennt den Weg dorthin.
   { ort: 'fuss', label: 'Ergebnisse',      href: '/ergebnisse/' },
   { ort: 'fuss', label: 'WhatsApp',        href: '/whatsapp/' },
-  { ort: 'fuss', label: 'FAQ',             href: '/faq/' },
+  { ort: 'fuss', label: 'Häufige Fragen', href: '/faq/' },
   { ort: 'fuss', label: 'Satzung',         href: '/satzung-und-ordnungen/' },
   { ort: 'fuss', label: 'Impressum',       href: '/impressum/' },
   { ort: 'fuss', label: 'Datenschutz',     href: '/datenschutz/' },

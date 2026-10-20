@@ -85,10 +85,9 @@ export default {
     .aktuell__erg-zahl { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
     .aktuell__erg-aus { color: var(--text-leise); font-size: 14px; white-space: nowrap; min-width: 6.2em; }
     .aktuell__erg-weitere { font-size: 14px; color: var(--text-leise); margin: 6px 0 0; }
-    .aktuell__mehr { display: inline-block; margin-top: var(--raum-2); font-size: var(--fs-md);
-      color: var(--signal); text-decoration: none; border-bottom: 1px solid transparent; }
-    .aktuell__mehr + .aktuell__mehr { margin-left: var(--raum-3); }
-    .aktuell__mehr:hover { border-bottom-color: var(--signal); }
+    .aktuell__beispiel { display: inline-block; margin-left: 6px; padding: 1px 9px; border: 1px solid var(--linie-stark);
+      border-radius: var(--r-pill); font-size: 12px; font-weight: 500; color: var(--text-leise); vertical-align: middle; }
+    .aktuell__pillen { display: flex; flex-wrap: wrap; gap: var(--raum-2); margin-top: var(--raum-4); }
 
     @media (max-width: 860px) {
       .aktuell__gitter { grid-template-columns: 1fr; gap: var(--raum-4); }
@@ -101,10 +100,12 @@ export default {
     const termine = (data.termine || []).slice(0, nT);
     const gesamt = Number(data.gesamt) > 0 ? Number(data.gesamt) : beitraege.length;
 
+    // Die Wege zu den Listen stehen als Pillen in EINER Zeile unter beiden Spalten, nicht je Spalte
+    // in verschiedener Hoehe. Sie sind Links (Signal), keine Knoepfe: der eine gelbe gehoert dem Aufmacher.
     const links = (label, href, zusatz = '') => {
       const z = ziel(href);
       return label && z
-        ? html`<a class="aktuell__mehr" href="${raw(escapeAttr(z))}">${label}${zusatz} →</a>` : '';
+        ? html`<a class="pille" href="${raw(escapeAttr(z))}">${label}${zusatz} →</a>` : '';
     };
 
     const spalteBeitraege = html`<div>
@@ -122,8 +123,6 @@ export default {
             </article>`;
           })
         : html`<p class="aktuell__leer">${data.leerBeitraege}</p>`}
-      ${links(data.beitraegeLabel, data.beitraegeHref,
-              gesamt > beitraege.length ? ` (${gesamt})` : '')}
     </div>`;
 
     const spalteTermine = html`<div>
@@ -135,10 +134,9 @@ export default {
               : ''}
             <span class="aktuell__wann">${t.tag || t.datum}${
               t.uhrzeit ? html`<small>${t.uhrzeit} Uhr</small>` : ''}</span>
-            <h3>${t.titel}</h3>
+            <h3>${t.titel}${t.beispiel ? html` <span class="aktuell__beispiel">Beispiel</span>` : ''}</h3>
           </article>`)
         : html`<p class="aktuell__leer">${data.leerTermine}</p>`}
-      ${links(data.termineLabel, data.termineHref)}
     </div>`;
 
     // Am Spieltag wechselt die rechte Spalte: statt der naechsten Termine stehen dort
@@ -160,13 +158,16 @@ export default {
         </div>`;
       })}
       ${data.ergebnisse?.weitere ? html`<p class="aktuell__erg-weitere">und ${data.ergebnisse.weitere} weitere</p>` : ''}
-      ${links('Alle Ergebnisse', data.ergebnisseHref)}
-      ${links(data.termineLabel, data.termineHref)}
     </div>`;
 
     return html`
       <section class="section aktuell${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}" id="aktuell"><div class="container">
         <div class="aktuell__gitter">${spalteBeitraege}${erg.length ? spalteErgebnisse : spalteTermine}</div>
+        <div class="aktuell__pillen">
+          ${links(data.beitraegeLabel, data.beitraegeHref, gesamt > beitraege.length ? ` (${gesamt})` : '')}
+          ${erg.length ? links('Alle Ergebnisse', data.ergebnisseHref) : ''}
+          ${links(data.termineLabel, data.termineHref)}
+        </div>
       </div></section>`;
   },
 };

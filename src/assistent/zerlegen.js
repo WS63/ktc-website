@@ -36,7 +36,7 @@ const STICHWORTE = {
   personen:  'Ansprechpartner Kontakt Vorstand zuständig anrufen erreichen Telefon E-Mail wer',
   preise:    'Preis Kosten Beitrag bezahlen teuer günstig Gebühr wieviel',
   tabelle:   'Übersicht Liste Mannschaften Liga Klasse',
-  faq:       'Frage Antwort häufig',
+  faq:       'Frage Antwort häufig FAQ',
   infokarten:'Eckdaten Termin Zeit Uhrzeit wann wo Kosten',
   beitragsliste: 'Neuigkeiten Nachrichten aktuell Berichte',
   termine:   'Termin Termine Kalender Veranstaltung wann Spieltag Saisoneröffnung',

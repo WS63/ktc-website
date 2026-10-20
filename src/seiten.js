@@ -153,7 +153,7 @@ const FOOTER = { type: 'footer', data: {
   // dem Telefon einmal verlassen hat, findet sie sonst nicht wieder.
   baum: [
     { label: 'Restaurant',  href: '/clubhaus/' },
-    { label: 'FAQ',         href: '/faq/' },
+    { label: 'Häufige Fragen', href: '/faq/' },
     { label: 'Satzung', href: '/satzung-und-ordnungen/' },
     { label: 'Impressum',   href: '/impressum/' },
     { label: 'Datenschutz', href: '/datenschutz/' },

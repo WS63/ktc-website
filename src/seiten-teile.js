@@ -33,7 +33,7 @@ export const seitenBausteine = {
     { type: 'footer', data: {
       zeile: '{{facts.verein.name}} · {{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}',
       baum: [
-        { label: 'FAQ', href: '/faq/' },
+        { label: 'Häufige Fragen', href: '/faq/' },
         { label: 'Impressum', href: '/impressum/' },
         { label: 'Datenschutz', href: '/datenschutz/' },
       ],

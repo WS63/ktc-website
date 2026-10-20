@@ -196,7 +196,8 @@ export function spielplanHinweis() {
 export const echterSpielplan = () => spielplan({ echt: true }).plan;
 
 export const alleTermine = ({ echt = false } = {}) =>
-  [...vereinsTermine(), ...spieltageAus(spielplan({ echt }).plan)];
+  // 'echt' ist die Sicht fuer Lisa und die Abos: ohne Beispieltermine und ohne verschobene Spieltage.
+  [...vereinsTermine().filter((t) => !echt || !t.beispiel), ...spieltageAus(spielplan({ echt }).plan)];
 
 /**
  * Was der KALENDER und die Startseite zeigen: Vereinstermine und je Spielwochenende ein

@@ -1,6 +1,6 @@
 {
   "_hinweis": "Die Vereinstermine — EINE Quelle für Clubkalender und Startseite (P3). Datum als JJJJ-MM-TT, art ist spiel (Sport), jugend, club oder info (Hinweis). Abgelaufene Termine blendet die Website selbst aus, hier muss nichts gelöscht werden. Nach einer Änderung den Server neu starten: fertige Seiten liegen bis Mitternacht im Speicher. Spieltage der Medenrunde stehen NICHT hier: sie kommen aus dem HTV-Import (npm run spielplan). art ist spiel, club oder info (config/arten.json) — daraus ergibt sich das Symbol.",
-  "_achtung": "Der Herbst-Aktionstag am 24.10.2026 ist ein ECHTER Termin (Einladung vom Vorstand), die drei Einträge mit Datum 2027 sind BEISPIELE aus Stufe 2. 'mehr' verweist auf einen Beitrag mit der Langfassung; 'bis' (JJJJ-MM-TT) macht einen mehrtägigen Termin. Die vier Einträge von 2026 (Mitgliederversammlung, Putztag, Himmelfahrt, Pfingsten) sind echte Termine aus den Beiträgen, für die Rückschau; Himmelfahrt und Pfingsten sind aus dem Feiertagskalender abgeleitet, bitte prüfen.",
+  "_achtung": "Der Herbst-Aktionstag am 24.10.2026 ist ein ECHTER Termin (Einladung vom Vorstand), die drei Einträge mit Datum 2027 sind BEISPIELE aus Stufe 2. 'mehr' verweist auf einen Beitrag mit der Langfassung; 'bis' (JJJJ-MM-TT) macht einen mehrtägigen Termin. Die vier Einträge von 2026 (Mitgliederversammlung, Putztag, Himmelfahrt, Pfingsten) sind echte Termine aus den Beiträgen, für die Rückschau; Himmelfahrt und Pfingsten sind aus dem Feiertagskalender abgeleitet, bitte prüfen. Beispiele tragen \"beispiel\": true: sie erscheinen mit dem Zeichen „Beispiel“, kommen nicht in die Kalender-Abos und nicht in Lisas Antworten, und ein Test schlägt fehl, sobald die Seite für Suchmaschinen freigegeben wird (suchmaschinen: true), solange noch eines drinsteht.",
   "termine": [
     {
       "datum": "2026-10-24",
@@ -18,7 +18,8 @@
       "art": "club",
       "titel": "Saisoneröffnung",
       "text": "Start in die Freiluftsaison mit Schleifchenturnier und anschließendem Grillen.",
-      "ort": "Clubhaus und Plätze"
+      "ort": "Clubhaus und Plätze",
+      "beispiel": true
     },
     {
       "datum": "2027-05-08",
@@ -26,14 +27,16 @@
       "art": "club",
       "titel": "Arbeitseinsatz",
       "text": "Gemeinsam die Anlage herrichten. Wer mitmacht, bekommt Frühstück.",
-      "ort": "Treffpunkt am Clubhaus"
+      "ort": "Treffpunkt am Clubhaus",
+      "beispiel": true
     },
     {
       "datum": "2027-06-12",
       "uhrzeit": "10:00",
       "art": "info",
       "titel": "Tag der offenen Tür",
-      "text": "Schläger ausprobieren, Platz testen, Leute kennenlernen. Ohne Anmeldung."
+      "text": "Schläger ausprobieren, Platz testen, Leute kennenlernen. Ohne Anmeldung.",
+      "beispiel": true
     },
     {
       "datum": "2026-03-16",

@@ -66,6 +66,8 @@ export default {
     .termin__titel { font-size: var(--fs-md); font-weight: 500; line-height: 1.2; margin: 0 0 3px; }
     .termin__mehr { display: inline-block; margin-top: 8px; font-size: var(--fs-sm); color: var(--signal);
       text-decoration: none; border-bottom: 1px solid transparent; }
+    .termin__beispiel { display: inline-block; margin-left: 6px; padding: 1px 9px; border: 1px solid var(--linie-stark);
+      border-radius: var(--r-pill); font-size: 12px; font-weight: 500; color: var(--text-leise); vertical-align: middle; }
     .termin__mehr:hover { border-bottom-color: var(--signal); }
     /* Die Monatsueberschrift gliedert die Liste grob nach der Zeit. */
     .termine__monat { font-size: 14px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
@@ -109,10 +111,7 @@ export default {
       max-width: var(--breite-text); }
     .termin__ort { font-size: 14px; color: var(--text-leise); margin-top: 6px;
       display: block; }
-    .termine__mehr { display: inline-block; margin-top: var(--raum-3);
-      font-size: var(--fs-md); color: var(--signal); text-decoration: none;
-      border-bottom: 1px solid transparent; }
-    .termine__mehr:hover { border-bottom-color: var(--signal); }
+    .termine__mehr { margin-top: var(--raum-3); }
 
     /* Kompakt (Spielwochenenden): eine Zeile, der Titel ist der Link, weniger Polster. */
     .termin--kompakt { padding: var(--raum-2) 0; }
@@ -201,13 +200,13 @@ export default {
       // Kompakt: der Titel ist der Link, der Text steht in derselben Zeile.
       if (t.kompakt && linkZiel) {
         return html`<article class="termin termin--kompakt">${wann}
-          <div><h4 class="termin__titel"><a class="termin__link" href="${raw(escapeAttr(linkZiel))}">${t.titel}</a>${
+          <div><h4 class="termin__titel"><a class="termin__link" href="${raw(escapeAttr(linkZiel))}">${t.titel}</a>${t.beispiel ? html` <span class="termin__beispiel">Beispiel</span>` : ''}${
             t.text ? html`<span class="termin__kurz"> · ${t.text}</span>` : ''}</h4></div>
         </article>`;
       }
       return html`<article class="termin">${wann}
         <div>
-          <h4 class="termin__titel">${t.titel}</h4>
+          <h4 class="termin__titel">${t.titel}${t.beispiel ? html` <span class="termin__beispiel">Beispiel</span>` : ''}</h4>
           ${t.text ? html`<p>${markdownInline(t.text)}</p>` : ''}
           ${(t.gruppen || []).map((g) => html`<div class="termin__gruppe">
             <h4>${g.titel}</h4>
@@ -263,7 +262,7 @@ export default {
         ${data.stand && liste.some((t) => t.art === 'spiel')
           ? html`<p class="termine__stand">${data.stand}</p>` : ''}
         ${data.mehrLabel && mehr
-          ? html`<a class="termine__mehr" href="${raw(escapeAttr(mehr))}">${data.mehrLabel} →</a>`
+          ? html`<a class="pille termine__mehr" href="${raw(escapeAttr(mehr))}">${data.mehrLabel} →</a>`
           : ''}
       </div></section>`;
   },

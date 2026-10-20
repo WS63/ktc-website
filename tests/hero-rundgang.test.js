@@ -148,3 +148,40 @@ test('Rundgang: das Zähl-Skript ist für die Content-Security-Policy gemeldet',
   assert.equal(hero.skripte.length, 1);
   assert.match(hero.skripte[0], /\.hero--rundgang/);
 });
+
+test('Aktuelles: die Wege zu den Listen stehen als Pillen in einer Zeile, keine Knöpfe', () => {
+  const h = renderPage({ slug: 'p', page_type: 'home', status: 'published', title: 'P', content_json: { blocks: [{ type: 'aktuell',
+    data: { beitraegeHref: '/aktuelles/', termineHref: '/kalender/', gesamt: 24, beitraege: [{ titel: 'T', datum: 'd', href: '/x/' }],
+      termine: [{ titel: 'U', tag: '1. Mai', datum: '2027-05-01' }] } }] } });
+  const zeile = h.slice(h.indexOf('<div class="aktuell__pillen">'));
+  assert.equal((zeile.match(/class="pille"/g) || []).length, 2);
+  assert.match(zeile, /Alle Beiträge \(24\) →/);
+  assert.doesNotMatch(h, /class="knopf"/);
+});
+
+test('Rundgang: das Thema steht im Akzent, mit Linie davor; der Block liegt mittig zwischen Claim und Knöpfen', () => {
+  const h = renderPage(seite(grund));
+  assert.match(h, /\.hero__thema-kicker \{[^}]*color: var\(--titel-akzent\)/);
+  assert.match(h, /\.hero__thema-kicker::before \{ content: ''/);
+  assert.match(h, /\.hero__themen \{[^}]*margin: clamp\(28px, 5.5vh, 60px\) 0;/, 'gleicher Abstand oben und unten');
+  assert.match(h, /\.hero--rundgang \.hero__knoepfe \{[^}]*margin-top: 0;/);
+});
+
+test('Rundgang: Dabei sein zeigt dreimal null (Gebühr, Arbeitsstunden, Verzehrgutscheine), der Beitrag steht in der Aussage', () => {
+  const hero = seiten.find((s) => s.slug === 'start').blocks.find((x) => x.type === 'hero').data;
+  const dabei = hero.bilder.find((b) => b.kicker === 'Dabei sein');
+  assert.equal(dabei.fakten.length, 3);
+  assert.ok(dabei.fakten.every((f) => f.ab > 0 && /^\{\{facts\.beitraege\./.test(f.wert)), 'jede Null kommt aus den Fakten');
+  assert.match(dabei.text, /neumitglied_erstes_jahr/);
+  assert.ok(!hero.bilder.some((b) => b.fakten.some((f) => f.quelle === 'termin')), 'der nächste Termin steht schon unter dem Aufmacher');
+});
+
+test('Rundgang: der Preis für Neue nennt seine Bedingung im selben Block, und die Leiste schreibt in Großbuchstaben', () => {
+  const hero = seiten.find((s) => s.slug === 'start').blocks.find((x) => x.type === 'hero').data;
+  const dabei = hero.bilder.find((b) => b.kicker === 'Dabei sein');
+  assert.match(dabei.text, /Als Neumitglied/);
+  assert.match(dabei.fussnote, /neumitglied_voraussetzung/);
+  const h = renderPage(seite({ ...grund, bilder: [th('a', 'Ort', { fussnote: 'Voraussetzung: x.' }), th('b', 'Spielen')] }));
+  assert.match(h, /<p class="hero__thema-fuss hero__t-teil hero__intro" [^>]*>Voraussetzung: x\.<\/p>/);
+  assert.match(h, /\.hero__reiter span\.hero__reiter-name \{[^}]*text-transform: uppercase/);
+});

@@ -57,9 +57,7 @@ export default {
     .blaettern .hier { background: var(--signal); color: var(--text-hell);
       border: 1px solid var(--signal); font-weight: 500; }
     .blaettern .luecke { color: var(--text-still); min-width: 0; padding: 8px 2px; }
-    .liste__mehr { display: inline-block; margin-top: var(--raum-3); font-size: var(--fs-md);
-      color: var(--signal); text-decoration: none; border-bottom: 1px solid transparent; }
-    .liste__mehr:hover { border-bottom-color: var(--signal); }
+    .liste__mehr { margin-top: var(--raum-3); }
   `,
   render(data) {
     const alle = data.eintraege || [];
@@ -108,7 +106,7 @@ export default {
         <div>${eintraege}</div>
         ${blaettern}
         ${data.mehrLabel && mehr
-          ? html`<a class="liste__mehr" href="${raw(escapeAttr(mehr))}">${data.mehrLabel}${
+          ? html`<a class="pille liste__mehr" href="${raw(escapeAttr(mehr))}">${data.mehrLabel}${
               liste.length < gesamt ? ` (${gesamt})` : ''} →</a>`
           : ''}
       </div></section>`;

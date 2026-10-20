@@ -28,7 +28,7 @@ const menue = [
   { ort: 'kopf', label: 'Termine', href: '/kalender/' },
   { ort: 'kopf', label: 'Kontakt', href: '/kontakt/' },
   { ort: 'fuss', label: 'Clubhaus', href: '/clubhaus/' },
-  { ort: 'fuss', label: 'FAQ', href: '/faq/' },
+  { ort: 'fuss', label: 'Häufige Fragen', href: '/faq/' },
 ];
 
 test('ein fehlender Punkt kommt hinter seinen Vorgaenger, nicht ans Ende', async () => {
@@ -89,4 +89,24 @@ test('009: Clubhaus rutscht in der Fusszeile vor FAQ, wenn es hinten angehaengt 
   ]);
   d.exec(migration('009_menue_reihenfolge_2.sql'));
   assert.deepEqual(reihenfolge('fuss'), ['/clubhaus/', '/faq/', '/impressum/', '/datenschutz/']);
+});
+
+test('013: FAQ heißt in der Fußzeile „Häufige Fragen“, ein selbst benannter Punkt bleibt', () => {
+  const { d } = datenbank([['fuss', '/faq/', 0], ['fuss', '/impressum/', 1]]);
+  d.exec("UPDATE navigation SET label = 'FAQ' WHERE href = '/faq/'");
+  d.exec("UPDATE navigation SET label = 'Fragen und Antworten' WHERE href = '/impressum/'");
+  d.exec(migration('013_haeufige_fragen.sql'));
+  const label = (href) => d.prepare('SELECT label FROM navigation WHERE href = ?').get(href).label;
+  assert.equal(label('/faq/'), 'Häufige Fragen');
+  d.exec("UPDATE navigation SET label = 'Fragen und Antworten' WHERE href = '/faq/'");
+  d.exec(migration('013_haeufige_fragen.sql'));
+  assert.equal(label('/faq/'), 'Fragen und Antworten', 'ein selbst vergebener Name wird nicht überschrieben');
+  assert.equal(label('/impressum/'), 'Fragen und Antworten');
+});
+
+test('Die Seiten und Vorgaben nennen den Link nirgends mehr „FAQ“', () => {
+  for (const datei of ['src/seiten.js', 'src/seiten-teile.js', 'scripts/seed-struktur.js']) {
+    const text = readFileSync(datei, 'utf8');
+    assert.doesNotMatch(text, /label: *'FAQ'/, `${datei}: der sichtbare Name ist „Häufige Fragen“`);
+  }
 });

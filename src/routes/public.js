@@ -116,7 +116,7 @@ function aboText(feed, basis, nurSaison = '') {
   const anschrift = v.strasse ? `${v.name}, ${v.strasse}, ${v.plz} ${v.ort}` : '';
   if (feed === 'club') {
     return kalenderText({ name: 'KTC · Clubleben', beschreibung: 'Termine des Krifteler Tennis-Clubs',
-      ereignisse: vereinsEreignisse(vereinsTermine(), { basis }) });
+      ereignisse: vereinsEreignisse(vereinsTermine().filter((t) => !t.beispiel), { basis }) });
   }
   if (feed === 'heimspiele') {
     return kalenderText({ name: 'KTC · Heimspiele', beschreibung: 'Medenspiele auf der Anlage des Krifteler Tennis-Clubs',
@@ -207,6 +207,34 @@ const SRCSETS = Object.fromEntries(Object.values(bilderVerzeichnis).flatMap((b) 
 }));
 
 /**
+ * Der Aufhaenger eines Beitrags in Listen: der erste Satz, sonst am Wortende gekuerzt. Die Beschreibung
+ * ist auf 160 Zeichen gekuerzt (fuer Google); in der Liste fing sie mitten im Wort an zu fehlen.
+ */
+export function aufhaenger(text, grenze = 150) {
+  const t = String(text || '').replace(/\s+/g, ' ').replace(/…$/, '').trim();
+  if (!t) return '';
+  // Satzende ist ein Punkt nach einem Wort, nicht nach einer Ordnungszahl ('24. Oktober') oder einer Abkuerzung ('ca.').
+  let satz = '';
+  for (const m of t.matchAll(/[.!?](?=\s|$)/g)) {
+    const vor = t.slice(0, m.index);
+    if (/\d$/.test(vor) || /(^|\s)(ca|bzw|ggf|usw|nr|evtl|inkl|z\. ?b|d\. ?h|u\. ?a|vgl|max|min)$/i.test(vor)) continue;
+    satz = t.slice(0, m.index + 1);
+    break;
+  }
+  if (satz && satz.length <= grenze) return satz;
+  if (t.length <= grenze) return t;
+  const schnitt = t.slice(0, grenze);
+  const wortende = schnitt.lastIndexOf(' ');
+  return schnitt.slice(0, wortende > 0 ? wortende : grenze).replace(/[\s,;:–-]+$/, '') + '…';
+}
+
+/** Ein Termin, der auf einen gezeigten Beitrag verweist ('mehr'), steht nicht noch einmal daneben. */
+export function ohneBeitragsDoppel(termine, eintraege) {
+  const gezeigt = new Set((eintraege || []).map((e) => e.href));
+  return (termine || []).filter((t) => !(t.mehr && gezeigt.has(t.mehr)));
+}
+
+/**
  * Menue, Fusszeile und Uebersichten sind Abfragen, keine gepflegten Listen (P3).
  * Neue Seite im Menue → sie steht drin, ohne dass jemand einen Baustein anfasst.
  */
@@ -277,7 +305,10 @@ async function dynamischeDaten(inhalt, page) {
     const b = inhalt.blocks.find((x) => x?.type === 'aktuell');
     const nB = Number(b?.data?.anzahlBeitraege) > 0 ? Number(b.data.anzahlBeitraege) : 2;
     const { gesamt, eintraege } = await beitraegeLaden(nB, 0);
-    daten.aktuell = { gesamt, beitraege: eintraege, termine: mitSymbol(kuenftige(kalenderTermine())),
+    // Ein Termin, der auf einen Beitrag in dieser Reihe verweist ('mehr'), steht nicht noch einmal daneben:
+    // der Beitrag ist die Nachricht, der Termin waere dieselbe Sache zum zweiten Mal.
+    const termine = ohneBeitragsDoppel(kuenftige(kalenderTermine()), eintraege);
+    daten.aktuell = { gesamt, beitraege: eintraege, termine: mitSymbol(termine),
       // Am Spieltag stehen hier die frischen Ergebnisse statt der naechsten Termine.
       ergebnisse: neuesteErgebnisse(spielstand(), { jetzt: Date.now() }) };
   }
@@ -347,7 +378,7 @@ async function beitraegeSuchen(q) {
   return beitraegeFiltern(zeilen, q).map((z) => ({
     datum: new Date(z.created_at).toLocaleDateString('de-DE',
       { day: 'numeric', month: 'long', year: 'numeric' }),
-    titel: z.title, text: z.description, href: `/aktuelles/${z.slug}/`,
+    titel: z.title, text: aufhaenger(z.description), href: `/aktuelles/${z.slug}/`,
     symbol: loadArten()[z.art]?.symbol || '', symbolText: loadArten()[z.art]?.label || '',
   }));
 }
@@ -367,7 +398,7 @@ async function beitraegeLaden(grenze, versatz) {
       datum: new Date(z.created_at).toLocaleDateString('de-DE',
         { day: 'numeric', month: 'long', year: 'numeric' }),
       titel: z.title,
-      text: z.description,
+      text: aufhaenger(z.description),
       href: `/aktuelles/${z.slug}/`,
       symbol: loadArten()[z.art]?.symbol || '',
       symbolText: loadArten()[z.art]?.label || '',

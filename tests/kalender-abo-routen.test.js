@@ -7,7 +7,7 @@ import { spawn } from 'node:child_process';
  * kommt dort beim ersten Start aus inhalte/spielplan/ (Saison 2026), die Mannschaften
  * aus inhalte/mannschaften/.
  */
-const PORT = 3912;
+const PORT = 3913;   // 3912 gehört redaktion.test.js — derselbe Port ließ beide je nach Zeitablauf rot werden
 const B = `http://localhost:${PORT}`;
 const DB = 'data/test-abo.db';
 let server;

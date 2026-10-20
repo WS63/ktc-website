@@ -6,6 +6,7 @@
  * Dafuer braucht es ein ausdrueckliches Force:  npm run seed -- --force
  */
 import { readFileSync, existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { runMigrations, query, queryOne } from '../src/db.js';
 import { validateContent } from '../src/archetypes.js';
 import { seiten } from '../src/seiten.js';
@@ -22,6 +23,10 @@ const bildText = (name) => (name && bildVerzeichnis[name]?.alt) || '';
 import { loadArten } from '../src/config.js';
 
 const FORCE = process.argv.includes('--force');
+
+/** Der Stand einer Seite, wie der Seed ihn schreibt — und wie er ihn beim naechsten Lauf wiedererkennt. */
+const stand = (title, description, inhaltJson) =>
+  createHash('sha256').update(JSON.stringify([title ?? '', description ?? '', inhaltJson])).digest('hex');
 
 /**
  * Einen Anfang auf hoechstens n Zeichen kuerzen — an der Wortgrenze, mit Auslassung.
@@ -49,7 +54,8 @@ async function schreiben({ slug, page_type, title, description, blocks, created_
   }
 
   const jetzt = new Date().toISOString();
-  const alt = await queryOne('SELECT id, status FROM pages WHERE slug = $1', [slug]);
+  const alt = await queryOne(
+    'SELECT id, status, title, description, content_json, seed_hash FROM pages WHERE slug = $1', [slug]);
 
   // Ein Entwurf aus der Importdatei wird nur ANGELEGT, nie wieder angefasst: was
   // jemand im Cockpit daran aendert oder veroeffentlicht, ueberlebt jeden Seed.
@@ -63,22 +69,32 @@ async function schreiben({ slug, page_type, title, description, blocks, created_
     return 'uebersprungen';
   }
 
+  // Eine veroeffentlichte Seite, die im Cockpit geaendert wurde, bleibt: ihr Stand weicht von dem ab,
+  // den der Seed zuletzt geschrieben hat. (Ohne gemerkten Stand, also vor dieser Pruefung, gilt der Seed.)
+  if (alt && alt.seed_hash && !FORCE
+      && stand(alt.title, alt.description, alt.content_json) !== alt.seed_hash) {
+    console.log(`[Seed] ${slug}: übersprungen (im Cockpit geändert — mit --force überschreiben)`);
+    return 'uebersprungen';
+  }
+
+  const inhaltJson = JSON.stringify(inhalt);
+  const merk = stand(title, description, inhaltJson);
   if (alt) {
     await query(
       `UPDATE pages SET page_type = $1, title = $2, description = $3, content_json = $4,
        status = 'published', bild = $5, bild_alt = $6, updated_at = $7,
-       art = COALESCE($8, art) WHERE slug = $9`,
-      [page_type, title, description, JSON.stringify(inhalt),
-       bild || null, bild_alt || null, jetzt, art || null, slug]);
+       art = COALESCE($8, art), seed_hash = $9 WHERE slug = $10`,
+      [page_type, title, description, inhaltJson,
+       bild || null, bild_alt || null, jetzt, art || null, merk, slug]);
     return 'aktualisiert';
   }
   await query(
     `INSERT INTO pages (id, slug, page_type, status, title, description, content_json,
-                        bild, bild_alt, created_at, updated_at, art)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+                        bild, bild_alt, created_at, updated_at, art, seed_hash)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`,
     [crypto.randomUUID(), slug, page_type, status, title, description,
-     JSON.stringify(inhalt), bild || null, bild_alt || null, created_at || jetzt, jetzt,
-     art || null]);
+     inhaltJson, bild || null, bild_alt || null, created_at || jetzt, jetzt,
+     art || null, merk]);
   return 'angelegt';
 }
 

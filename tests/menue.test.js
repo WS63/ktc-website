@@ -110,3 +110,49 @@ test('Die Seiten und Vorgaben nennen den Link nirgends mehr „FAQ“', () => {
     assert.doesNotMatch(text, /label: *'FAQ'/, `${datei}: der sichtbare Name ist „Häufige Fragen“`);
   }
 });
+
+test('015: die Satzung verschwindet aus der Fußzeile, andere Punkte und Kopfzeile bleiben', () => {
+  const { d } = datenbank([['fuss', '/satzung-und-ordnungen/', 0], ['fuss', '/impressum/', 1], ['kopf', '/satzung-und-ordnungen/', 0]]);
+  d.exec(migration('015_satzung_nicht_im_fuss.sql'));
+  const sichtbar = (ort, href) => d.prepare('SELECT visible FROM navigation WHERE ort = ? AND href = ?').get(ort, href).visible;
+  assert.equal(sichtbar('fuss', '/satzung-und-ordnungen/'), 0);
+  assert.equal(sichtbar('fuss', '/impressum/'), 1);
+  assert.equal(sichtbar('kopf', '/satzung-und-ordnungen/'), 1, 'nur die Fußzeile');
+});
+
+test('Die Satzung steht auf „Mitglied werden“, nicht in der Fußzeile; die Kündigung nennt das Jahresende', async () => {
+  const { seiten } = await import('../src/seiten.js');
+  const mw = seiten.find((x) => x.slug === 'mitglied-werden');
+  assert.match(JSON.stringify(mw.blocks.at(-3)), /satzung-und-ordnungen/, 'ganz hinten, vor Assistent und Fußzeile');
+  const text = JSON.stringify(mw.blocks);
+  assert.match(text, /Kündigung zum Jahresende/);
+  assert.match(text, /Spätester Termin ist der \{\{facts\.beitraege\.kuendigungsfrist\}\}/);
+  for (const s of seiten) {
+    const fuss = s.blocks.find((b) => b.type === 'footer');
+    if (fuss) assert.doesNotMatch(JSON.stringify(fuss), /satzung/i, `${s.slug}: Fußzeile ohne Satzung`);
+  }
+});
+
+test('016: die Platzordnung ist archiviert, die alte Adresse leitet um, der Index verliert die Stücke; läuft zweimal', () => {
+  const { d } = datenbank([]);
+  d.exec('CREATE TABLE pages (slug TEXT, status TEXT)');
+  d.exec('CREATE TABLE redirects (from_path TEXT PRIMARY KEY, to_path TEXT NOT NULL, code INT, created_at TEXT)');
+  d.exec('CREATE TABLE chunks (page_slug TEXT, text TEXT)');
+  d.exec("INSERT INTO pages VALUES ('platzordnung','published'), ('sport','published')");
+  d.exec("INSERT INTO chunks VALUES ('platzordnung','x'), ('sport','y')");
+  d.exec(migration('016_platzordnung_in_ebusy.sql'));
+  d.exec(migration('016_platzordnung_in_ebusy.sql'));
+  const status = (slug) => d.prepare('SELECT status FROM pages WHERE slug = ?').get(slug).status;
+  assert.equal(status('platzordnung'), 'archived');
+  assert.equal(status('sport'), 'published');
+  assert.deepEqual(d.prepare('SELECT from_path, to_path, code FROM redirects').all().map((r) => ({ ...r })),
+    [{ from_path: '/platzordnung/', to_path: '/satzung-und-ordnungen/', code: 301 }]);
+  assert.deepEqual(d.prepare('SELECT page_slug FROM chunks').all().map((r) => r.page_slug), ['sport']);
+});
+
+test('Keine Seite verlinkt mehr auf /platzordnung/; die Platzordnung kommt aus eBuSy', async () => {
+  const { seiten } = await import('../src/seiten.js');
+  assert.equal(seiten.find((s) => s.slug === 'platzordnung'), undefined);
+  assert.doesNotMatch(JSON.stringify(seiten), /\(\/platzordnung\/\)|"\/platzordnung\/"/);
+  assert.match(JSON.stringify(seiten.find((s) => s.slug === 'satzung-und-ordnungen')), /Platzordnung in eBuSy\]\(\{\{facts\.links\.buchung\}\}\)/);
+});

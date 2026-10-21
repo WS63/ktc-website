@@ -17,11 +17,17 @@
     "belag": "Sand",
     "mitglieder": "über 500",
     "jugendliche": "rund 120",
-    "mannschaften": "rund 20",
-    "_saison": "saison_start und saison_ende sind die genauen Angaben für Fließtext. 'saison' ist dieselbe Auskunft in einer kurzen Spanne — für Kacheln und Zeilen, in die 'Mitte bis Ende April bis November' nicht passt. Ändert sich eines, ändern sich beide.",
-    "saison": "April bis November",
+    "_mannschaften": "17 eigene Mannschaften = die, die bei uns auf der Anlage Heimspiele haben: 12 Erwachsene, 2 Jugend und 3 eigene Spielgemeinschaften (Jugend). Dazu 10 Spielgemeinschaften bei Partnervereinen (3 Erwachsene, 7 Jugend). Insgesamt also 27 Mannschaften mit KTC-Beteiligung.",
+    "mannschaften": "17",
+    "_sport": "Kennzahlen des Sport-Themas im Aufmacher. 'mannschaftsspieler' ist eine SCHAETZUNG (ca. 80 Erwachsene in 15 Mannschaften plus 25-30 eigene Jugendliche), 'hobbyrunde' ein PLATZHALTER — beide vom Sportwart bestaetigen lassen. 'jugendmannschaften': 12, davon 10 Spielgemeinschaften.",
+    "mannschaftsspieler": "über 100",
+    "jugendmannschaften": "12",
+    "hobbyrunde": "über 25",
+    "_saison": "saison_start und saison_ende sind die genauen Angaben für Fließtext. 'saison' ist dieselbe Auskunft in einer kurzen Spanne — für Kacheln und Zeilen, in die 'Mitte bis Ende April bis November' nicht passt. 'saison_tage' ist die Zahl der Kalendertage von Mitte April bis Ende Oktober (Kennzahl im Aufmacher) und wird NICHT gerechnet: ändert sich die Saison, ändern sich saison, saison_start, saison_ende UND saison_tage. Ende Oktober / Anfang November — Oktober steht hier bewusst auf der sicheren Seite.",
+    "saison": "April bis Oktober",
+    "saison_tage": "200",
     "saison_start": "Mitte bis Ende April",
-    "saison_ende": "November",
+    "saison_ende": "Oktober",
     "tennisschule": "Tennisschule Kaus",
     "tennisschule_seit": "über 35 Jahren",
     "flutlicht_bis": "22:00 Uhr",
@@ -86,6 +92,11 @@
     "halber_beitrag_ab": "1. Juli",
     "neumitglied_voraussetzung": "keine Mitgliedschaft in den letzten 5 Jahren",
     "verzehrgutscheine": "keine"
+  },
+  "einsteiger": {
+    "_hinweis": "Einsteigertraining: startet zu Saisonbeginn, nach Bedarf. Rhythmus und Ende sind Erfahrungswerte (ebbt ueblicherweise ab Mitte Juni ab), keine feste Zusage — der Vorstand bzw. die Tennisschule sollte sie bestaetigen.",
+    "rhythmus": "einmal pro Woche oder alle zwei Wochen",
+    "ende": "Mitte Juni"
   },
   "gast": {
     "gebuehr": "15,00",

@@ -17,6 +17,7 @@ export default {
     mailLabel:   { type: 'text', default: '', label: 'Zweispaltig: Zeile über der Adresse' },
     mailAdresse: { type: 'text', default: '', label: 'Zweispaltig: E-Mail-Adresse, groß neben dem Formular' },
     knopfStil:   { type: 'auswahl', default: 'gelb', label: 'Knopf', optionen: ['gelb', 'leise'] },
+    kontakte:    { type: 'liste', default: [], label: 'Kompakt: Zeilen unter dem Text, je: label, text, href (Anschrift, Telefon, E-Mail)' },
   },
   css: `
     .formular { max-width: 46rem; }
@@ -81,6 +82,13 @@ export default {
       grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
     .formular__kompakt .formular__titel { font-size: clamp(22px, 2.4vw, 28px); margin-bottom: 6px; }
     .formular__kompakt .formular__vorspann { font-size: var(--fs-sm); margin: 0; }
+    .formular__kontakte { list-style: none; margin: var(--raum-3) 0 0; padding: 0; display: grid; gap: 6px; }
+    .formular__kontakte li { display: flex; gap: var(--raum-2); align-items: baseline; font-size: var(--fs-sm); }
+    .formular__kontakt-label { flex: none; width: 6.4em; font-size: 12px; font-weight: 500; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--text-leise); }
+    .formular__kontakte a { color: var(--signal); font-weight: 500; overflow-wrap: anywhere; text-decoration: none;
+      border-bottom: 1px solid transparent; }
+    .formular__kontakte a:hover { border-bottom-color: var(--signal); }
     .formular--kompakt { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--raum-4); align-items: end; }
     .formular--kompakt .feld { margin-bottom: var(--raum-2); }
     .formular--kompakt .feld--breit, .formular--kompakt .formular__fuss, .formular--kompakt .formular__antwort,
@@ -132,7 +140,11 @@ export default {
       <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}${raw(kompakt ? ' section--kompakt' : '')}"><div class="container">
         ${kompakt
           ? html`<div class="formular__kompakt">
-              <div>${kopf}</div>
+              <div>${kopf}${(data.kontakte || []).length ? html`<ul class="formular__kontakte">${data.kontakte.map((k) => {
+                const z = ziel(k.href);
+                return html`<li><span class="formular__kontakt-label">${k.label}</span>${
+                  z ? html`<a href="${raw(escapeAttr(z))}">${k.text}</a>` : html`<span>${k.text}</span>`}</li>`;
+              })}</ul>` : ''}</div>
               <form class="formular formular--offen formular--kompakt" data-formular="${raw(escapeAttr(data.name))}" novalidate>${fuss}</form>
             </div>`
           : zwei

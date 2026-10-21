@@ -83,3 +83,17 @@ test('Testdomain wird nicht indiziert', () => {
       `${s.slug} wäre auf der Testdomain für Google freigegeben`);
   }
 });
+
+test('Sport: der gelbe Knopf steht am Ende (Aufruf), im Aufmacher nur ein leiser Einstieg', async () => {
+  const { seiten } = await import('../src/seiten.js');
+  const sport = seiten.find((s) => s.slug === 'sport');
+  const hero = sport.blocks.find((b) => b.type === 'hero').data;
+  assert.equal(hero.ctaLabel, undefined, 'kein gelber Knopf im Aufmacher');
+  assert.equal(hero.zweitHref, '#einsteiger');
+  assert.ok(sport.blocks.some((b) => b.type === 'richtext' && b.data.anker === 'einsteiger'), 'das Sprungziel gibt es');
+  const typen = sport.blocks.map((b) => b.type);
+  assert.equal(typen.filter((t) => t === 'aufruf').length, 1);
+  assert.ok(typen.indexOf('aufruf') < typen.indexOf('assistent'), 'vor dem Assistenten und der Fußzeile');
+  const aufruf = sport.blocks.find((b) => b.type === 'aufruf').data;
+  assert.match(aufruf.text, /\{\{facts\.beitraege\.neumitglied_erstes_jahr\}\} €/);
+});

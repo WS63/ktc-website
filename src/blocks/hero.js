@@ -20,6 +20,8 @@ export default {
                  optionen: ['nein', 'ja'] },
     aufbau:    { type: 'auswahl',  default: 'bild', label: 'Aufbau mit Bild',
                  optionen: ['bild', 'zeile', 'rundgang'] },
+    hoehe:     { type: 'auswahl',  default: 'hoch', label: 'Höhe des Bildbereichs',
+                 optionen: ['hoch', 'niedrig'] },
     weiterLabel: { type: 'text', default: '', label: 'Rundgang: Hinweis nach unten, Beschriftung' },
     weiterHref:  { type: 'text', default: '', label: 'Rundgang: Hinweis nach unten, Ziel (Sprungmarke)' },
     wortmarke: { type: 'text',     default: '', label: 'Vereinsname neben dem Zeichen' },
@@ -32,22 +34,15 @@ export default {
     .hero__titel { font-size: clamp(34px, 6vw, 60px); margin: 0 0 var(--raum-2); max-width: 15ch; }
     .hero__sub { font-size: 19px; color: var(--text-leise); max-width: 46ch; }
     .hero__knoepfe { margin-top: var(--raum-4); display: flex; gap: 12px; flex-wrap: wrap; }
-    .knopf { display: inline-block; text-decoration: none; font-weight: 500; font-size: 16px;
-      padding: 14px 30px; border-radius: var(--radius-knopf);
-      background: var(--handlung); color: var(--handlung-text);
-      transition: transform .12s ease, background .12s ease; }
-    .knopf:hover { background: var(--handlung-hover); color: var(--handlung-text);
-      transform: translateY(-1px); }
-    .knopf:active { transform: translateY(0); }
-    .knopf--leise { background: transparent; color: var(--signal);
-      border: 1px solid var(--signal); padding: 13px 28px; font-weight: 400; }
-    .knopf--leise:hover { background: var(--signal-leise); color: var(--signal); }
 
     /* Mit Bild: der Text steht auf dem Bild, nicht daneben. Ein Verlauf sorgt
        dafuer, dass er lesbar bleibt, egal wie hell das Foto an der Stelle ist. */
     /* Zwei Klassen statt einer: sonst gewinnt die Regel fuer schmale Schirme
        weiter unten, weil sie spaeter im Stylesheet steht. */
     .hero.hero--bild { padding: 0; }
+    /* Niedrig: fuer Seiten, deren Inhalt (Tabellen, Listen) zaehlt. Das Foto bleibt, es zeigt nur weniger. Drei
+       Klassen, damit die Regel fuer schmale Schirme (72vh) sie nicht ueberstimmt. */
+    .hero.hero--bild.hero--niedrig .hero__rahmen { min-height: min(40vh, 320px); }
     .hero--bild .hero__rahmen { position: relative; min-height: min(72vh, 620px);
       display: flex; align-items: flex-end; overflow: hidden; }
     /* Eine Klasse, kein Elementselektor: '.hero--bild img' ist spezifischer
@@ -192,6 +187,9 @@ export default {
     .hero--rundgang .hero__zeile { align-items: flex-start; }
     .hero__themen { display: grid; max-width: 64ch;
       margin: clamp(28px, 5.5vh, 60px) 0; }
+    /* Ein einziges Thema (eine Unterseite): es steht da, ohne Wechsel; nur die Zahlen zaehlen beim Laden. */
+    .hero--einzeln .hero__thema, .hero--einzeln .hero__slide { opacity: 1; visibility: visible; animation: none; }
+    .hero--einzeln .hero__foto { animation: none; }
     .hero__thema { grid-area: 1 / 1; opacity: 0; visibility: hidden; color: var(--text-hell);
       animation-duration: calc(var(--n) * var(--slot));
       animation-delay: calc(var(--i) * var(--slot) - var(--blende)); animation-iteration-count: infinite;
@@ -395,7 +393,7 @@ export default {
              ${raw(i === 0 ? 'fetchpriority="high"' : 'aria-hidden="true" fetchpriority="low"')} decoding="async">`);
 
     return html`
-      <section class="section hero hero--bild${raw(zeile ? ' hero--zeile' : '')}"
+      <section class="section hero hero--bild${raw(zeile ? ' hero--zeile' : '')}${raw(data.hoehe === 'niedrig' ? ' hero--niedrig' : '')}"
                style="--n: ${raw(String(n))}; --slot: ${raw(String(SLOT_S))}s">
         ${n > 1 ? raw(`<style>${keyframes(n)}</style>`) : ''}
         <div class="hero__rahmen">
@@ -547,7 +545,7 @@ function rundgangAufmacher(data, bild, inhalt) {
     </form>` : '';
 
   return html`
-    <section class="section hero hero--bild hero--zeile hero--rundgang"
+    <section class="section hero hero--bild hero--zeile hero--rundgang${raw(n === 1 ? ' hero--einzeln' : '')}${raw(data.hoehe === 'niedrig' ? ' hero--niedrig' : '')}"
              style="--n: ${raw(String(n))}; --slot: ${raw(String(RUNDGANG_SLOT_S))}s; --blende: ${raw(String(RUNDGANG_BLENDE_S))}s">
       ${n > 1 ? raw(`<style>${rundgangRegeln(n)}</style>`) : ''}
       <div class="hero__rahmen">
@@ -557,7 +555,7 @@ function rundgangAufmacher(data, bild, inhalt) {
         ${leiste}
       </div>
       ${data.weiterHref && ziel(data.weiterHref) ? html`<a class="hero__weiter" href="${raw(escapeAttr(ziel(data.weiterHref)))}">${data.weiterLabel || 'Weiter'} <span class="hero__weiter-pfeil" aria-hidden="true">↓</span></a>` : ''}
-      ${n > 1 && folge.some((b) => b.fakten.some((f) => zahlTeile(f))) ? raw(`<script>${SKRIPT}</script>`) : ''}
+      ${folge.some((b) => b.fakten.some((f) => zahlTeile(f))) ? raw(`<script>${SKRIPT}</script>`) : ''}
     </section>`;
 }
 
@@ -604,6 +602,8 @@ const SKRIPT = `
     th.addEventListener('animationstart', los);
     th.addEventListener('animationiteration', los);
   });
+  var einzige = wurzel.querySelectorAll('.hero__thema');
+  if (einzige.length === 1) thema(einzige[0]);   // ein Thema ohne Wechsel: gleich zaehlen
   wurzel.querySelectorAll('.hero__t').forEach(function (r, i) {
     r.addEventListener('change', function () { thema(wurzel.querySelector('.hero__thema[data-i="' + i + '"]')); });
   });
@@ -655,7 +655,7 @@ function rundgangThemen(data, bild) {
     ? `style="--k: ${k}; animation-name: hero-rg-teil-${n}${i === 0 ? ', hero-rg-intro' : ''}"` : '');
   const klasse = (i) => (mehr && i === 0 ? ' hero__intro' : '');
   const wert = (f) => {
-    const z = mehr ? zahlTeile(f) : null;
+    const z = zahlTeile(f);   // auch bei einem einzigen Thema: die Zahlen zaehlen beim Laden der Seite
     if (!z) return html`<span class="hero__thema-wert">${f.wert}</span>`;
     // Im Markup steht der Endwert; das Skript zaehlt von 'von' dorthin. Vorleser lesen den ganzen Wert.
     const anzeige = `<span class="hero__zahl" data-von="${z.von}" data-bis="${z.zahl}">${z.zahl}</span>${z.plus ? '<span class="hero__plus">+</span>' : ''}${escapeHtml(z.nach)}`;

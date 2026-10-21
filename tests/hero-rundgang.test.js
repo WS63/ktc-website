@@ -278,3 +278,33 @@ test('Dabei sein: der Preis für Kinder und Jugendliche steht als eigene, normal
   assert.match(h, /<p class="hero__thema-text3 [^>]*>Eine Zeile unter den Zahlen<\/p>/);
   assert.match(h, /<p>Eine Zeile unter den Zahlen<\/p>/, 'Vorleser hören sie');
 });
+
+test('Hero: „niedrig“ macht den Bildbereich flacher, ohne dass die schmale-Schirm-Regel ihn überstimmt; Mannschaften und Sport nutzen es', async () => {
+  const bild = { titel: 'T', bild: '/bilder/a.jpg', bildAlt: 'A' };
+  const hoch = renderPage(seite(bild));
+  const niedrig = renderPage(seite({ ...bild, hoehe: 'niedrig' }));
+  assert.doesNotMatch(hoch.slice(hoch.indexOf('<section')), /class="section hero hero--bild hero--niedrig/);
+  assert.match(niedrig, /class="section hero hero--bild hero--niedrig/);
+  assert.match(niedrig, /\.hero\.hero--bild\.hero--niedrig \.hero__rahmen \{ min-height: min\(40vh, 320px\); \}/);
+  const { seiten: alle } = await import('../src/seiten.js');
+  for (const slug of ['mannschaften', 'sport']) {
+    assert.equal(alle.find((s) => s.slug === slug).blocks.find((b) => b.type === 'hero').data.hoehe, 'niedrig', slug);
+  }
+  assert.notEqual(alle.find((s) => s.slug === 'start').blocks.find((b) => b.type === 'hero').data.hoehe, 'niedrig');
+});
+
+test('Ein einziges Thema (Unterseite): Bild und Thema stehen sofort da, die Zahlen zählen beim Laden', async () => {
+  const { seiten: alle } = await import('../src/seiten.js');
+  const mw = alle.find((s) => s.slug === 'mitglied-werden').blocks.find((b) => b.type === 'hero').data;
+  assert.equal(mw.aufbau, 'rundgang');
+  assert.equal(mw.bilder.length, 1);
+  const start = alle.find((s) => s.slug === 'start').blocks.find((b) => b.type === 'hero').data;
+  assert.ok(start.bilder.includes(mw.bilder[0]), 'dieselbe Quelle wie das Thema der Startseite (P3)');
+  const h = renderPage(seite({ ...mw }));
+  assert.match(h, /class="section hero hero--bild hero--zeile hero--rundgang hero--einzeln hero--niedrig"/);
+  assert.match(h, /\.hero--einzeln \.hero__thema, \.hero--einzeln \.hero__slide \{ opacity: 1; visibility: visible; animation: none; \}/);
+  assert.match(h, /data-von="100" data-bis="0"/, 'die Nullen zählen herunter');
+  const skript = h.split('<script>').find((x) => x.includes("querySelector('.hero--rundgang')"));
+  assert.match(skript, /einzige\.length === 1\) thema\(einzige\[0\]\)/);
+  assert.doesNotMatch(h, /class="hero__leiste"/, 'ohne Wechsel keine Leiste');
+});

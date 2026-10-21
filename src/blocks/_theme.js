@@ -69,6 +69,18 @@ a[href^="mailto:"] { white-space: nowrap; }
    etwa ein Nachsatz unter einer Tabelle. */
 .section--eng { padding-top: 0; }
 .section--eng + .section { border-top: 1px solid var(--linie); }
+/* Der Knopf: die eine Handlung (gelb) und seine leise Fassung. Global, weil auch Bausteine ausserhalb des Aufmachers
+   ihn tragen (der Schluss-Aufruf einer Seite). */
+.knopf { display: inline-block; text-decoration: none; font-weight: 500; font-size: 16px;
+  padding: 14px 30px; border-radius: var(--radius-knopf);
+  background: var(--handlung); color: var(--handlung-text);
+  transition: transform .12s ease, background .12s ease; }
+.knopf:hover { background: var(--handlung-hover); color: var(--handlung-text);
+  transform: translateY(-1px); }
+.knopf:active { transform: translateY(0); }
+.knopf--leise { background: transparent; color: var(--signal);
+  border: 1px solid var(--signal); padding: 13px 28px; font-weight: 400; }
+.knopf--leise:hover { background: var(--signal-leise); color: var(--signal); }
 /* Die Pille: der weiterfuehrende Weg am Ende eines Blocks ('Alle Beitraege', 'Mehr zum Restaurant').
    Ebene 2 zwischen dem gelben Knopf (die eine Handlung) und dem Text-Link (im Fliesstext, Fusszeile, Menue).
    Auf Fotos steht dieselbe Form als dunkles Glas: '.knopf--leise' im Aufmacher. */

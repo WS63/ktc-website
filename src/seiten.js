@@ -598,7 +598,11 @@ export const seiten = [
     { type: 'hero', data: {
       pill: 'Aus dem Verein',
       titel: 'Aktuelles',
-      sub: 'Ergebnisse, Termine und was sonst auf der Anlage passiert.',
+      // Der Schriftzug 'KTC DROP SHOT' im Foto muss lesbar bleiben: er liegt bei 28 bis 53 % der Bildhoehe und
+      // 52 bis 82 % der Breite. Hoher Aufmacher, Ausschnitt auf den Schriftzug (waagerecht 70, senkrecht 36).
+      bildFokus: '70 36',
+      sub: 'Berichte, Ergebnisse und was sonst auf der Anlage passiert.',
+      zweitLabel: 'Zum Clubkalender', zweitHref: '/kalender/',
       bild: bild('club-newspaper'), bildAlt: bildAlt('club-newspaper'),
     }},
     { type: 'beitragsliste', data: {
@@ -747,21 +751,22 @@ export const seiten = [
     { type: 'hero', data: {
       pill: 'Kontakt',
       titel: 'Kontakt und Anfahrt',
-      sub: 'Ruf an, schreib uns oder komm einfach vorbei. Am schnellsten geht es über {{facts.verein.email}}.',
+      hoehe: 'niedrig',
+      sub: 'Ruf an, schreib uns oder komm einfach vorbei.',
       zweitLabel: 'Direkt anrufen', zweitHref: '#vorstand',
       bild: bild('anlage-zentrum-oben'), bildAlt: bildAlt('anlage-zentrum-oben'),
     }},
-    // Bevor jemand schreibt: der kuerzere Weg. Steht die Antwort schon in der FAQ oder weiss sie
-    // der Assistent, spart sich der Fragende das Warten und der Vorstand die Mail.
-    { type: 'hinweisband', data: {
-      titel: 'Erst kurz nachschauen?',
-      text: 'Vieles lässt sich schnell klären: Schau in die [häufigen Fragen](/faq/) oder frag [Lisa](#frag-lisa), unsere KI-Assistentin: Sie antwortet sofort. Bleibt trotzdem etwas offen, melde dich einfach bei uns, per Mail oder am Telefon.',
-    }},
-    // Die haeufigste Handlung der Seite zuerst: schreiben. Der Aufmacher verspricht die
-    // Adresse, hier steht sie neben dem Formular. Die Vorstandskarten sind das Verzeichnis
-    // fuer alle, die jemanden direkt anrufen wollen — sie stehen danach.
-    { ...FORMULAR, data: { ...FORMULAR.data, aufbau: 'zweispaltig',
-      mailLabel: 'Oder direkt per E-Mail', mailAdresse: '{{facts.verein.email}}' } },
+    // Alles zum Schreiben an einem Ort: links der Weg ueber FAQ und Assistent (vorher ein eigenes Band), die
+    // Anschrift, das Telefon und die Adresse; rechts das Formular. Die Doppelungen (E-Mail im Aufmacher und gross neben
+    // dem Formular) entfallen. Die Vorstandskarten sind das Verzeichnis fuer alle, die jemanden direkt anrufen wollen.
+    { ...FORMULAR, data: { ...FORMULAR.data, aufbau: 'kompakt',
+      titel: 'Schreib uns',
+      vorspann: 'Vieles klärst du schneller über die [häufigen Fragen](/faq/) oder [Lisa](#frag-lisa), unsere KI-Assistentin. Bleibt etwas offen, melde dich hier, per Mail oder am Telefon.',
+      kontakte: [
+        { label: 'Anschrift', text: '{{facts.verein.strasse}}, {{facts.verein.plz}} {{facts.verein.ort}}', href: '{{facts.links.karte}}' },
+        { label: 'Telefon', text: '{{facts.vorstand.erster.telefon}}', href: 'tel:{{facts.vorstand.erster.telefon_waehlen}}' },
+        { label: 'E-Mail', text: '{{facts.verein.email}}', href: 'mailto:{{facts.verein.email}}' },
+      ] } },
     { type: 'personen', data: {
       titel: 'Der Vorstand',
       anker: 'vorstand',

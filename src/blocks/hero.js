@@ -22,6 +22,7 @@ export default {
                  optionen: ['bild', 'zeile', 'rundgang'] },
     hoehe:     { type: 'auswahl',  default: 'hoch', label: 'Höhe des Bildbereichs',
                  optionen: ['hoch', 'niedrig'] },
+    bildFokus: { type: 'text',     default: '', label: 'Bildausschnitt in Prozent: senkrecht (0 = oben, 50 = Mitte, 100 = unten) oder waagerecht und senkrecht, z. B. 70 36. Damit das Wichtige im Bild bleibt, auch wenn das Foto angeschnitten wird' },
     weiterLabel: { type: 'text', default: '', label: 'Rundgang: Hinweis nach unten, Beschriftung' },
     weiterHref:  { type: 'text', default: '', label: 'Rundgang: Hinweis nach unten, Ziel (Sprungmarke)' },
     wortmarke: { type: 'text',     default: '', label: 'Vereinsname neben dem Zeichen' },
@@ -49,7 +50,7 @@ export default {
        als '.hero__marke' und hat das Logo auf volle Bildgroesse aufgeblasen.
        Hier gebaut und im Browser gesehen. */
     .hero__foto { position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; z-index: 0; }
+      object-fit: cover; object-position: var(--fokus-x, 50%) var(--fokus, 50%); z-index: 0; }
 
     /* Mehrere Bilder liegen uebereinander und blenden durch. Reines CSS: kein
        Skript, nichts zu laden, und der Render-Cache bleibt wirksam, weil die
@@ -364,6 +365,11 @@ export default {
 
     // Das Hauptbild zuerst, dann die weiteren. Doppelte fliegen raus — sonst
     // steht dasselbe Foto zweimal im Lauf und wirkt wie ein Haenger.
+    // Der senkrechte Bildausschnitt: nur eine Zahl von 0 bis 100, sonst bleibt es bei der Mitte.
+    const teile = String(data.bildFokus ?? '').trim().split(/\s+/);
+    const gueltig = (t) => /^\d{1,3}$/.test(t) && Number(t) <= 100;
+    const fokus = teile.length === 1 && gueltig(teile[0]) ? `; --fokus: ${Number(teile[0])}%`
+      : teile.length === 2 && teile.every(gueltig) ? `; --fokus-x: ${Number(teile[0])}%; --fokus: ${Number(teile[1])}%` : '';
     const alle = [bild];
     for (const b of data.bilder || []) {
       const z = ziel(typeof b === 'string' ? b : b && b.src);
@@ -394,7 +400,7 @@ export default {
 
     return html`
       <section class="section hero hero--bild${raw(zeile ? ' hero--zeile' : '')}${raw(data.hoehe === 'niedrig' ? ' hero--niedrig' : '')}"
-               style="--n: ${raw(String(n))}; --slot: ${raw(String(SLOT_S))}s">
+               style="--n: ${raw(String(n))}; --slot: ${raw(String(SLOT_S))}s${raw(fokus)}">
         ${n > 1 ? raw(`<style>${keyframes(n)}</style>`) : ''}
         <div class="hero__rahmen">
           ${fotos}

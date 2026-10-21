@@ -308,3 +308,26 @@ test('Ein einziges Thema (Unterseite): Bild und Thema stehen sofort da, die Zahl
   assert.match(skript, /einzige\.length === 1\) thema\(einzige\[0\]\)/);
   assert.doesNotMatch(h, /class="hero__leiste"/, 'ohne Wechsel keine Leiste');
 });
+
+test('Hero: bildFokus setzt den Bildausschnitt (eine Zahl = senkrecht, zwei = waagerecht und senkrecht); Aktuelles hält den Schriftzug im Bild', async () => {
+  const bild = { titel: 'T', bild: '/bilder/a.jpg', bildAlt: 'A' };
+  assert.match(renderPage(seite({ ...bild, bildFokus: '62' })), /--slot: [^"]*; --fokus: 62%"/);
+  assert.match(renderPage(seite({ ...bild, bildFokus: '70 36' })), /; --fokus-x: 70%; --fokus: 36%"/);
+  for (const falsch of ['', 'oben', '101', '-5', '50%', '5 0 1', '70 abc']) {
+    assert.doesNotMatch(renderPage(seite({ ...bild, bildFokus: falsch })), /; --fokus(-x)?: \d+%/, `„${falsch}“`);
+  }
+  assert.match(renderPage(seite(bild)), /object-position: var\(--fokus-x, 50%\) var\(--fokus, 50%\)/);
+  const { seiten: alle } = await import('../src/seiten.js');
+  const ak = alle.find((s) => s.slug === 'aktuelles').blocks.find((b) => b.type === 'hero').data;
+  assert.notEqual(ak.hoehe, 'niedrig', 'der Schriftzug im Foto braucht Höhe');
+  assert.equal(ak.bildFokus, '70 36');
+  assert.doesNotMatch(ak.sub, /Termine/, 'die Seite zeigt keine Termine, also verspricht der Satz keine');
+});
+
+test('Die Arten: Spielbericht ist ein Ball, Mitteilung eine Zeitung; die Flamme kommt nirgends mehr vor', async () => {
+  const { readFileSync } = await import('node:fs');
+  const arten = JSON.parse(readFileSync('config/arten.json', 'utf8'));
+  assert.equal(arten.spiel.symbol, '🎾');
+  assert.equal(arten.info.symbol, '📰');
+  assert.doesNotMatch(readFileSync('config/arten.json', 'utf8'), /🔥/);
+});

@@ -16,6 +16,8 @@ export default {
     basis:    { type: 'auto', default: '', label: 'Pfad der Übersicht, für die Blätterlinks' },
     suche:    { type: 'auswahl', default: 'aus', label: 'Suchfeld über der Liste', optionen: ['aus', 'an'] },
     q:        { type: 'auto', default: '', label: 'Suchtext — kommt aus der Adresse' },
+    kategorien: { type: 'auto', default: [], label: 'Die Arten der Beiträge mit ihrer Zahl — kommen aus der Datenbank' },
+    art:      { type: 'auto', default: '', label: 'Gewählte Art — kommt aus der Adresse' },
     leerText: { type: 'text', default: 'Noch keine Beiträge.', label: 'Text, wenn nichts da ist' },
     anzahl:   { type: 'text', default: '', label: 'Höchstens so viele zeigen — leer heißt alle' },
     mehrLabel:{ type: 'text', default: '', label: 'Link unter der Liste' },
@@ -24,6 +26,14 @@ export default {
   css: `
     ${SUCHE_CSS}
     .liste__titel { font-size: clamp(24px, 3vw, 32px); margin-bottom: 4px; }
+    /* Auswahl der Art: Links, keine Schaltflaechen, ohne Skript; jede Ansicht ist eine Adresse (?art=...). */
+    .liste__auswahl { display: flex; flex-wrap: wrap; gap: var(--raum-1); margin-bottom: var(--raum-2); }
+    .liste__auswahl a { display: inline-block; padding: 6px 14px; font-size: 15px; line-height: 1.3;
+      color: var(--text); text-decoration: none; border: 1px solid var(--linie-stark); border-radius: var(--r-pill); }
+    .liste__auswahl a:hover { background: var(--signal-leise); border-color: var(--signal); }
+    .liste__auswahl a[aria-current="true"] { background: var(--signal-leise); border-color: var(--signal);
+      color: var(--signal); font-weight: 600; }
+    .liste__auswahl small { font-size: 13px; color: var(--text-leise); margin-left: 4px; }
     .liste__zaehler { font-size: 15px; color: var(--text-leise); margin-bottom: var(--raum-3); }
     /* Links ein Symbol, rechts Datum, Titel und Text. Das Symbol (ein Emoji)
        ersetzt das Vorschaubild: bei fuenfzig Beitraegen im Jahr hat nicht jeder
@@ -72,11 +82,20 @@ export default {
     const gesamt = Number(data.gesamt) > 0 ? Number(data.gesamt) : n;
     // Das Suchfeld steht ueber der Liste, auch wenn eine Suche nichts findet —
     // sonst muesste man mit der Zurueck-Taste wieder heraus.
+    // Die Auswahl nach Art steht nur, wenn es mindestens zwei Arten gibt: ein Filter mit einer Wahl ist keiner.
+    const arten = data.kategorien || [];
+    const adresse = (art) => `${data.basis || ''}${art ? `?art=${art}` : ''}`;
+    const auswahl = arten.length >= 2
+      ? html`<nav class="liste__auswahl" aria-label="Beiträge nach Art">
+          <a href="${raw(escapeAttr(adresse('')))}"${!data.art ? raw(' aria-current="true"') : ''}>Alle</a>
+          ${arten.map((k) => html`<a href="${raw(escapeAttr(adresse(k.key)))}"${data.art === k.key ? raw(' aria-current="true"') : ''}>${k.symbol} ${k.label}<small>${k.anzahl}</small></a>`)}
+        </nav>` : '';
     const suchen = data.suche === 'an'
-      ? sucheFeld({ aktion: data.basis, q: data.q, treffer: n, platzhalter: 'Beiträge durchsuchen …' }) : '';
+      ? sucheFeld({ aktion: data.basis, q: data.q, treffer: n, platzhalter: 'Beiträge durchsuchen …', art: data.art }) : '';
     if (!n) {
       return html`<section class="section"><div class="container">
         ${data.titel ? html`<h2 class="liste__titel">${data.titel}</h2>` : ''}
+        ${auswahl}
         ${suchen}
         <p class="liste__zaehler">${data.q ? 'Dazu gibt es keinen Beitrag. Probier ein anderes Wort.' : data.leerText}</p>
       </div></section>`;
@@ -99,10 +118,12 @@ export default {
     return html`
       <section class="section"><div class="container">
         ${data.titel ? html`<h2 class="liste__titel">${data.titel}</h2>` : ''}
+        ${auswahl}
         ${suchen}
         ${liste.length < gesamt || data.q
           ? ''
-          : html`<p class="liste__zaehler">${gesamt} ${gesamt === 1 ? 'Beitrag' : 'Beiträge'}</p>`}
+          : html`<p class="liste__zaehler">${gesamt} ${data.art ? (arten.find((k) => k.key === data.art)?.label || 'Beiträge')
+              : (gesamt === 1 ? 'Beitrag' : 'Beiträge')}</p>`}
         <div>${eintraege}</div>
         ${blaettern}
         ${data.mehrLabel && mehr

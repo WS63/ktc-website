@@ -283,10 +283,13 @@ async function dynamischeDaten(inhalt, page) {
     const seite = uebersicht ? Math.max(1, Number(page.seitenzahl) || 1) : 1;
     // Mit Suchtext: ALLE Treffer, ohne Blaettern. Die Treffer kommen aus derselben
     // Quelle wie die Liste (P3) und werden hier nur gefiltert.
-    if (page.suche) {
-      const treffer = await beitraegeSuchen(page.suche);
+    // Die Arten, nach denen sich die Uebersicht filtern laesst: nur die, zu denen es Beitraege gibt, mit ihrer Zahl
+    // (gerechnet, nie getippt). Eine gewaehlte Art oder ein Suchtext zeigt ALLE Treffer ohne Blaettern.
+    const kategorien = uebersicht ? await beitragsArten() : [];
+    if (page.suche || page.art) {
+      const treffer = await beitraegeSuchen(page.suche || '', page.art || '');
       daten.beitragsliste = { gesamt: treffer.length, seite: 1, seiten: 1, basis: '/aktuelles/',
-        eintraege: treffer, q: page.suche };
+        eintraege: treffer, q: page.suche || '', art: page.art || '', kategorien };
     } else {
     const { gesamt, eintraege } = await beitraegeLaden(grenze, (seite - 1) * grenze);
     daten.beitragsliste = {
@@ -294,7 +297,7 @@ async function dynamischeDaten(inhalt, page) {
       seite: uebersicht ? seite : 1,
       seiten: uebersicht ? Math.max(1, Math.ceil(gesamt / grenze)) : 1,
       basis: '/aktuelles/',
-      eintraege,
+      eintraege, kategorien,
     };
     }
   }
@@ -371,16 +374,27 @@ function mitSymbol(termine) {
  * einigen Dutzend Beitraegen im Jahr ist das billiger als eine zweite
  * Suchlogik in SQL, die je nach Datenbank anders waere.
  */
-async function beitraegeSuchen(q) {
-  const zeilen = await query(
+async function beitraegeSuchen(q, art = '') {
+  let zeilen = await query(
     `SELECT slug, title, description, created_at, art, content_json FROM pages
      WHERE page_type = 'beitrag' AND status = 'published' ORDER BY created_at DESC`);
-  return beitraegeFiltern(zeilen, q).map((z) => ({
+  if (art) zeilen = zeilen.filter((z) => z.art === art);
+  return (q ? beitraegeFiltern(zeilen, q) : zeilen).map((z) => ({
     datum: new Date(z.created_at).toLocaleDateString('de-DE',
       { day: 'numeric', month: 'long', year: 'numeric' }),
     titel: z.title, text: aufhaenger(z.description), href: `/aktuelles/${z.slug}/`,
     symbol: loadArten()[z.art]?.symbol || '', symbolText: loadArten()[z.art]?.label || '',
   }));
+}
+
+/** Die Arten der veroeffentlichten Beitraege mit ihrer Zahl, in der Reihenfolge von config/arten.json. */
+async function beitragsArten() {
+  const zeilen = await query(
+    `SELECT art, COUNT(*) AS n FROM pages WHERE page_type = 'beitrag' AND status = 'published' GROUP BY art`);
+  const zahl = Object.fromEntries(zeilen.filter((z) => z.art).map((z) => [z.art, Number(z.n)]));
+  return Object.entries(loadArten())
+    .filter(([k, v]) => k[0] !== '_' && v.beitraege && zahl[k] > 0)
+    .map(([key, v]) => ({ key, label: v.beitraege, symbol: v.symbol, anzahl: zahl[key] }));
 }
 
 async function beitraegeLaden(grenze, versatz) {

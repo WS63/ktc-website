@@ -30,15 +30,17 @@ export const SUCHE_CSS = `
  * @param q           der aktuelle Suchtext, leer = keine Suche
  * @param treffer     Zahl der Treffer (nur bei aktiver Suche)
  * @param platzhalter Hinweis im leeren Feld
+ * @param art         eine gewaehlte Art bleibt beim Suchen erhalten (verstecktes Feld), leer = keine
  */
-export function sucheFeld({ aktion, q, treffer, platzhalter }) {
+export function sucheFeld({ aktion, q, treffer, platzhalter, art }) {
   return html`
     <form class="suche" method="get" action="${raw(escapeAttr(aktion || ''))}" role="search">
       <label class="nur-vorleser" for="suche-q">${platzhalter}</label>
       <input id="suche-q" type="search" name="q" value="${raw(escapeAttr(q || ''))}"
              placeholder="${raw(escapeAttr(platzhalter))}" maxlength="80" autocomplete="off">
+      ${art ? html`<input type="hidden" name="art" value="${raw(escapeAttr(art))}">` : ''}
       <button type="submit">Suchen</button>
     </form>
     ${q ? html`<p class="suche__ergebnis" role="status">${treffer} Treffer für „${q}“ ·
-      <a href="${raw(escapeAttr(aktion || ''))}">Suche zurücksetzen</a></p>` : ''}`;
+      <a href="${raw(escapeAttr(`${aktion || ''}${art ? `?art=${art}` : ''}`))}">Suche zurücksetzen</a></p>` : ''}`;
 }

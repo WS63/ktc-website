@@ -298,3 +298,36 @@ test('Seed: ein Entwurf wird nur angelegt; was jemand veroeffentlicht, bleibt es
     execFileSync('rm', ['-f', 'data/test-entwurf.db', 'data/test-entwurf.db-wal', 'data/test-entwurf.db-shm']);
   }
 });
+
+// ── Filter nach Art auf /aktuelles/ ────────────────────────────────────
+const liste = (daten) => renderPage({ slug: 'aktuelles', page_type: 'aktuelles', status: 'published', title: 'A',
+  content_json: { blocks: [{ type: 'beitragsliste', data: { suche: 'an' } }] } },
+{ dynamicData: { beitragsliste: { gesamt: 3, basis: '/aktuelles/', eintraege: [
+  { datum: '1. Mai 2026', titel: 'Eins', symbol: '🎾', href: '/aktuelles/eins/' }], ...daten } } });
+const arten3 = [{ key: 'spiel', label: 'Spielberichte', symbol: '🎾', anzahl: 2 }, { key: 'info', label: 'Mitteilungen', symbol: '📰', anzahl: 1 }];
+
+test('Beitragsliste: die Auswahl nach Art besteht aus Adressen, mit Zahl und markierter Wahl', () => {
+  const h = liste({ kategorien: arten3, art: 'spiel' });
+  assert.match(h, /<nav class="liste__auswahl" aria-label="Beiträge nach Art">/);
+  assert.match(h, /<a href="\/aktuelles\/">Alle<\/a>/);
+  assert.match(h, /<a href="\/aktuelles\/\?art=spiel" aria-current="true">🎾 Spielberichte<small>2<\/small><\/a>/);
+  assert.match(h, /<a href="\/aktuelles\/\?art=info">📰 Mitteilungen<small>1<\/small><\/a>/);
+  // Die Suche behält die Art, und das Zurücksetzen der Suche auch.
+  assert.match(h, /<input type="hidden" name="art" value="spiel">/);
+  const mitSuche = liste({ kategorien: arten3, art: 'spiel', q: 'Mixed' });
+  assert.match(mitSuche, /href="\/aktuelles\/\?art=spiel">Suche zurücksetzen</);
+});
+
+test('Beitragsliste: mit nur einer Art oder ohne Arten gibt es keine Auswahl; ohne Wahl steht „Alle“ markiert', () => {
+  assert.doesNotMatch(liste({ kategorien: [arten3[0]] }), /<nav class="liste__auswahl"/);
+  assert.doesNotMatch(liste({}), /<nav class="liste__auswahl"/);
+  assert.match(liste({ kategorien: arten3 }), /<a href="\/aktuelles\/" aria-current="true">Alle<\/a>/);
+  assert.match(liste({ kategorien: arten3, art: 'info', gesamt: 1 }), /<p class="liste__zaehler">1 Mitteilungen<\/p>/);
+});
+
+test('Beitragsarten: jede Art hat einen Namen für die Beitragsliste, die Seite Aktuelles filtert', () => {
+  for (const [k, a] of Object.entries(loadArten())) {
+    if (k[0] === '_') continue;
+    assert.ok(a.beitraege, `Art '${k}' braucht 'beitraege' (Name im Filter)`);
+  }
+});

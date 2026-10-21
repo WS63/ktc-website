@@ -112,7 +112,7 @@ test('Adressen der Abos: aus dem Mannschaftsnamen, eindeutig fuer alle Teams', (
   assert.equal(slugVon('Herren 40 II'), 'herren-40-ii');
   assert.equal(slugVon('Juniorinnen U15 III'), 'juniorinnen-u15-iii');
   const { mannschaften } = { mannschaften: [...new Set(seiten.find((s) => s.slug === 'mannschaften')
-    .blocks.filter((x) => x.type === 'tabelle').flatMap((t) => t.data.zeilen.map((z) => z[0])))] };
+    .blocks.filter((x) => x.type === 'tabelle').flatMap((t) => t.data.spalten.flat().flatMap((g) => g.zeilen.filter((z) => Array.isArray(z)).map((z) => z[0].text ?? z[0]))))] };
   const slugs = mannschaften.map(slugVon);
   assert.equal(new Set(slugs).size, slugs.length, 'zwei Mannschaften mit derselben Abo-Adresse');
 });

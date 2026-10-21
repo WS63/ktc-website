@@ -99,11 +99,37 @@ import { saison } from './mannschaften.js';
 import { slugVon } from './kalender-abo.js';
 export { saison };
 
-/** Eine Mannschaft als Tabellenzeile, mit Link auf ihre HTV-Gruppe. */
+/**
+ * Eine Mannschaft als Tabellenzeile: der Name, bei einer Spielgemeinschaft mit dem Partner klein darunter (statt
+ * einer fast leeren Spalte), die Staerke, und die Spielklasse als Link auf ihre HTV-Gruppe. Alle Zeilen sind gleich
+ * hoch; wer keine Spielgemeinschaft ist, hat unter dem Namen einfach Luft.
+ */
 const mannschaftsZeile = (m) => [
-  m.name, m.sg, m.staerke,
+  m.sg && m.sg !== '—' ? { text: m.name, zusatz: `SG ${m.sg}` } : m.name,
+  m.staerke,
   { text: m.klasse, href: htv(m.gruppe, saison.wettbewerbe[m.wettbewerb || 'standard']) },
 ];
+
+/**
+ * Mannschaften in zwei Spalten gruppieren: 'links' und 'rechts' sind je ein Namensanfang (Damen / Herren,
+ * Juniorinnen / Junioren). Was zu keinem passt (Mixed, Gemischt), steht in der linken Spalte, mit
+ * 'zwischenzeile' unter einer eigenen Ueberschrift (sie zaehlt als eine Zeile), sonst ohne und die linke
+ * Ueberschrift nennt es mit ('Juniorinnen und gemischt'). Ziel: beide Spalten haben gleich viele Zeilen und
+ * enden unten buendig. Alles kommt aus der Jahresdatei, nichts davon ist getippt.
+ */
+function inZweiSpalten(liste, links, rechts, rest, { zwischenzeile = true } = {}) {
+  const nach = (re) => liste.filter((m) => re.test(m.name));
+  const uebrig = liste.filter((m) => !links.re.test(m.name) && !rechts.re.test(m.name));
+  const alleRest = uebrig.length && uebrig.every((m) => rest.re.test(m.name));
+  return [
+    [{ titel: links.titel, zeilen: [
+      ...nach(links.re).map(mannschaftsZeile),
+      ...(uebrig.length && zwischenzeile ? [{ zwischen: alleRest ? rest.titel : 'Weitere' }] : []),
+      ...uebrig.map(mannschaftsZeile),
+    ] }],
+    [{ titel: rechts.titel, zeilen: nach(rechts.re).map(mannschaftsZeile) }],
+  ];
+}
 
 /**
  * Die Mannschaften fuer die Auswahl im Kalender-Abo — aus derselben Jahresdatei
@@ -379,15 +405,17 @@ export const seiten = [
     }},
     { type: 'tabelle', data: {
       titel: 'Mannschaften der Erwachsenen',
-      kopf: ['Mannschaft', 'Spielgemeinschaft', 'Stärke', 'Spielklasse'],
-      zeilen: saison.erwachsene.map(mannschaftsZeile),
-      hinweis: 'Ein Klick auf die Spielklasse führt zur Gruppe beim Hessischen Tennisverband. Dort stehen Spielplan, Tabelle und Ergebnisse. Alle Spiele deiner Mannschaft direkt in deinem Kalender: [Kalender abonnieren](/kalender/#abo)',
+      kopf: ['Mannschaft', 'Teamstärke', 'Spielklasse'],
+      spalten: inZweiSpalten(saison.erwachsene, { titel: 'Damen', re: /^Damen/ }, { titel: 'Herren', re: /^Herren/ },
+        { titel: 'Mixed', re: /^Summer Mixed/ }),
+      hinweis: 'SG steht für Spielgemeinschaft: ein Team zusammen mit einem Partnerverein. Ein Klick auf die Spielklasse führt zur Gruppe beim Hessischen Tennisverband. Dort stehen Spielplan, Tabelle und Ergebnisse. Alle Spiele deiner Mannschaft direkt in deinem Kalender: [Kalender abonnieren](/kalender/#abo)',
     }},
     { type: 'tabelle', data: {
       titel: 'Mannschaften der Jugend',
-      kopf: ['Mannschaft', 'Spielgemeinschaft', 'Stärke', 'Spielklasse'],
-      zeilen: saison.jugend.map(mannschaftsZeile),
-      hinweis: 'Mehrere Jugendteams treten als Spielgemeinschaft mit Diedenbergen und Kelkheim an. So bekommt jede Altersklasse genug Spielerinnen und Spieler zusammen.',
+      kopf: ['Mannschaft', 'Teamstärke', 'Spielklasse'],
+      spalten: inZweiSpalten(saison.jugend, { titel: 'Juniorinnen und gemischt', re: /^Juniorinnen/ }, { titel: 'Junioren', re: /^Junioren/ },
+        { titel: 'Gemischt', re: /^Gemischt/ }, { zwischenzeile: false }),
+      hinweis: 'Mehrere Jugendteams treten als Spielgemeinschaft (SG) mit Diedenbergen und Kelkheim an. So bekommt jede Altersklasse genug Spielerinnen und Spieler zusammen.',
     }},
     { type: 'richtext', data: {
       absaetze: [

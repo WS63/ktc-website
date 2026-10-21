@@ -18,12 +18,13 @@ test('infokarten zeigen das Angebotsband nur, wenn eine Zahl dafür da ist', () 
   assert.doesNotMatch(ohne, /class="info__angebot"/);
 });
 
-test('die Seite Mitglied werden nennt das Angebot und den Partnerbeitrag aus den Fakten', async () => {
+test('die Seite Mitglied werden hat kein Angebotsband mehr: Aufmacher und Tabelle tragen den Preis für Neue, den Partnerbeitrag nennt die Tabelle', async () => {
   const { seiten } = await import('../src/seiten.js');
   const s = seiten.find((x) => x.slug === 'mitglied-werden');
-  const band = s.blocks.find((b) => b.type === 'infokarten' && b.data.angebotWert);
-  assert.match(band.data.angebotWert, /facts\.beitraege\.neumitglied_erstes_jahr/);
-  assert.match(band.data.angebotText, /facts\.beitraege\.aktiv_partner/);
+  assert.equal(s.blocks.filter((b) => b.type === 'infokarten' && b.data.angebotWert).length, 0);
+  const tabelle = s.blocks.find((b) => b.type === 'preise').data;
+  assert.ok(tabelle.zeilen.some((z) => /Lebenspartner/.test(z.label) && /facts\.beitraege\.aktiv_partner/.test(z.wert)));
+  assert.ok(tabelle.zeilen.some((z) => /Neumitglied/.test(z.label) && /neumitglied_erstes_jahr/.test(z.wert)));
 });
 
 test('infokarten zählen nur mit zaehlen: ja, und der Endwert steht immer da', () => {
@@ -78,5 +79,36 @@ test('Kontaktseite: erst das Formular, dann der Vorstand mit Sprungmarke; Mitgli
   assert.equal(kb.find((b) => b.type === 'personen').data.anker, 'vorstand');
   assert.equal(kb.find((b) => b.type === 'hero').data.zweitHref, '#vorstand');
   const mw = seiten.find((x) => x.slug === 'mitglied-werden').blocks.find((b) => b.type === 'formular');
+  assert.equal(mw.data.knopfStil, 'leise');
+});
+
+test('Mitglied werden: die Voraussetzung für den Neumitglieder-Preis steht im Aufmacher und an der Tabellenzeile, sonst nirgends', async () => {
+  const { seiten } = await import('../src/seiten.js');
+  const mw = seiten.find((x) => x.slug === 'mitglied-werden');
+  assert.equal((JSON.stringify(mw.blocks).match(/neumitglied_voraussetzung/g) || []).length, 2);
+});
+
+test('Mitglied werden: ein gelber Knopf im Aufmacher, unter der Tabelle nur der Hinweis zur Anmeldung', async () => {
+  const { seiten } = await import('../src/seiten.js');
+  const mw = seiten.find((x) => x.slug === 'mitglied-werden');
+  const tabelle = mw.blocks.find((b) => b.type === 'preise').data;
+  assert.equal(tabelle.knopfLabel, undefined);
+  assert.match(tabelle.knopfHinweis, /\[eBuSy\]\(\{\{facts\.links\.buchung\}\}\)/);
+  const h = renderPage({ slug: mw.slug, page_type: mw.page_type, status: 'published', title: mw.title, content_json: { blocks: mw.blocks } });
+  assert.equal((h.match(/class="knopf"/g) || []).length, 1);
+});
+
+test('formular: kompakt setzt Frage links und das Formular rechts, Name und E-Mail nebeneinander; Mitglied werden nutzt es', async () => {
+  const h = renderPage(formularSeite({ aufbau: 'kompakt', grund: 'ruhig',
+    felder: [{ name: 'name', label: 'Name', typ: 'text' }, { name: 'email', label: 'E-Mail', typ: 'email' },
+      { name: 'nachricht', label: 'Nachricht', typ: 'mehrzeilig' }] }));
+  assert.match(h, /class="section section--ruhig section--kompakt"/);
+  assert.match(h, /<div class="formular__kompakt">/);
+  assert.match(h, /<form class="formular formular--offen formular--kompakt"/);
+  assert.match(h, /<div class="feld feld--breit">\s*<label[^>]*>Nachricht/, 'nur die Nachricht läuft über die ganze Breite');
+  assert.equal((h.match(/<form/g) || []).length, 1);
+  const { seiten } = await import('../src/seiten.js');
+  const mw = seiten.find((x) => x.slug === 'mitglied-werden').blocks.find((b) => b.type === 'formular');
+  assert.equal(mw.data.aufbau, 'kompakt');
   assert.equal(mw.data.knopfStil, 'leise');
 });

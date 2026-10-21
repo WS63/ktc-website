@@ -13,7 +13,7 @@ export default {
     knopf:    { type: 'text',  default: 'Absenden', label: 'Beschriftung des Knopfs' },
     danke:    { type: 'text',  default: 'Danke, wir melden uns.', label: 'Text nach dem Absenden' },
     grund:    { type: 'auswahl', default: 'weiss', label: 'Hintergrund', optionen: ['weiss', 'ruhig'] },
-    aufbau:   { type: 'auswahl', default: 'einfach', label: 'Aufbau', optionen: ['einfach', 'zweispaltig'] },
+    aufbau:   { type: 'auswahl', default: 'einfach', label: 'Aufbau', optionen: ['einfach', 'zweispaltig', 'kompakt'] },
     mailLabel:   { type: 'text', default: '', label: 'Zweispaltig: Zeile über der Adresse' },
     mailAdresse: { type: 'text', default: '', label: 'Zweispaltig: E-Mail-Adresse, groß neben dem Formular' },
     knopfStil:   { type: 'auswahl', default: 'gelb', label: 'Knopf', optionen: ['gelb', 'leise'] },
@@ -73,10 +73,27 @@ export default {
     .formular--offen .feld textarea { min-height: 96px; }
     .formular--offen .feld input:focus, .formular--offen .feld textarea:focus {
       border-bottom-color: var(--signal); box-shadow: 0 1px 0 0 var(--signal); }
+    /* Kompakt: links die Frage in kleiner Schrift, rechts das Formular im offenen Stil. Name und E-Mail stehen
+       nebeneinander, die Nachricht ist kurz, Knopf und Datenschutzhinweis in einer Zeile. Etwa ein Drittel der
+       Hoehe des einfachen Aufbaus. */
+    .section--kompakt { padding: var(--raum-5) 0; }
+    .formular__kompakt { display: grid; gap: var(--raum-5); align-items: start;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+    .formular__kompakt .formular__titel { font-size: clamp(22px, 2.4vw, 28px); margin-bottom: 6px; }
+    .formular__kompakt .formular__vorspann { font-size: var(--fs-sm); margin: 0; }
+    .formular--kompakt { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--raum-4); align-items: end; }
+    .formular--kompakt .feld { margin-bottom: var(--raum-2); }
+    .formular--kompakt .feld--breit, .formular--kompakt .formular__fuss, .formular--kompakt .formular__antwort,
+    .formular--kompakt .formular__topf { grid-column: 1 / -1; }
+    .formular--kompakt .feld textarea { min-height: 64px; }
+    .formular--kompakt .formular__fuss { margin-top: var(--raum-1); }
+    .formular--kompakt button { padding: 11px 24px; }
     @media (max-width: 860px) {
       .formular__zwei { grid-template-columns: 1fr; gap: var(--raum-4); }
       .formular__linie { display: none; }
+      .formular__kompakt { grid-template-columns: 1fr; gap: var(--raum-3); }
     }
+    @media (max-width: 520px) { .formular--kompakt { grid-template-columns: 1fr; } }
     .formular__antwort { margin-top: var(--raum-2); font-size: 16px; }
     .formular__antwort[data-art="ok"] { color: var(--bestaetigt); }
     .formular__antwort[data-art="fehler"] { color: var(--warnung); }
@@ -89,7 +106,7 @@ export default {
         ? html`<textarea id="${raw(escapeAttr(id))}" name="${raw(escapeAttr(f.name))}"${pflicht}></textarea>`
         : html`<input id="${raw(escapeAttr(id))}" name="${raw(escapeAttr(f.name))}"
                  type="${raw(escapeAttr(['email', 'tel'].includes(f.typ) ? f.typ : 'text'))}"${pflicht}>`;
-      return html`<div class="feld">
+      return html`<div class="feld${raw(f.typ === 'mehrzeilig' ? ' feld--breit' : '')}">
         <label for="${raw(escapeAttr(id))}">${f.label}${f.pflicht ? ' *' : ''}</label>${steuer}
       </div>`;
     });
@@ -107,12 +124,18 @@ export default {
           </div>
           <p class="formular__antwort" role="status" data-danke="${raw(escapeAttr(data.danke))}"></p>`;
     const zwei = data.aufbau === 'zweispaltig';
+    const kompakt = data.aufbau === 'kompakt';
     const mail = ziel(`mailto:${data.mailAdresse || ''}`);
     const kopf = html`${data.titel ? html`<h2 class="formular__titel">${data.titel}</h2>` : ''}
           ${data.vorspann ? html`<p class="formular__vorspann">${markdownInline(data.vorspann)}</p>` : ''}`;
     return html`
-      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}"><div class="container">
-        ${zwei
+      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}${raw(kompakt ? ' section--kompakt' : '')}"><div class="container">
+        ${kompakt
+          ? html`<div class="formular__kompakt">
+              <div>${kopf}</div>
+              <form class="formular formular--offen formular--kompakt" data-formular="${raw(escapeAttr(data.name))}" novalidate>${fuss}</form>
+            </div>`
+          : zwei
           ? html`<div class="formular__zwei">
               <div>${kopf}
                 ${data.mailAdresse ? html`<p class="formular__mail-label">${data.mailLabel}</p>

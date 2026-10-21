@@ -13,7 +13,7 @@ export default {
     infos:    { type: 'liste', default: [], label: 'Hinweise nebeneinander in einem Band: label, text' },
     knopfLabel:  { type: 'text', default: '', label: 'Leiser Knopf unter dem Band: Beschriftung' },
     knopfHref:   { type: 'text', default: '', label: 'Leiser Knopf: Ziel' },
-    knopfHinweis:{ type: 'text', default: '', label: 'Leiser Knopf: Hinweis daneben' },
+    knopfHinweis:{ type: 'text', default: '', label: 'Leiser Knopf: Hinweis daneben (ohne Knopf steht er allein, mit [Link](/ziel/))' },
     titelGroesse: { type: 'auswahl', default: 'gross', label: 'Größe der Überschrift', optionen: ['gross', 'klein'] },
     grund:    { type: 'auswahl', default: 'weiss', label: 'Hintergrund', optionen: ['weiss', 'ruhig'] },
   },
@@ -120,7 +120,7 @@ export default {
           <a class="knopf knopf--leise" href="${raw(escapeAttr(ziel(data.knopfHref)))}"${
             istExtern(ziel(data.knopfHref)) ? raw(' target="_blank" rel="noopener noreferrer"') : ''}>${data.knopfLabel}</a>
           ${data.knopfHinweis ? html`<span class="preise__aktion-hinweis">${data.knopfHinweis}</span>` : ''}
-        </div>` : ''}
+        </div>` : data.knopfHinweis ? html`<p class="hinweis">${markdownInline(data.knopfHinweis)}</p>` : ''}
       </div></section>`;
   },
 };

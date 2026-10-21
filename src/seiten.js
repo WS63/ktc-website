@@ -47,6 +47,18 @@ const thema = (name, kicker, text, fakten, links, fussnote = '', text2 = '', tex
   ({ src: bild(name), alt: bildAlt(name), kicker, reiter: kicker, text, text2, text3, fakten, links, fussnote });
 // Die Aussage steht weiss, die Zahlen darunter im Akzent (Schluesselwoerter zwischen Sternen, *Wort*, waeren
 // moeglich, sind hier nicht gesetzt: weiss und eine farbige Zahlenzeile wirken ruhiger).
+// Das Thema 'Dabei sein': EINE Quelle fuer den Aufmacher der Startseite und den der Seite 'Mitglied werden' (P3).
+const THEMA_DABEI_SEIN =
+thema('anlage-wiese', 'Dabei sein',
+    'Als Neumitglied im ersten Jahr nur *{{facts.beitraege.neumitglied_erstes_jahr}} €*',
+    [{ wert: '{{facts.beitraege.aufnahmegebuehr}}', ab: 100, einheit: '€', label: 'Aufnahmegebühr' },
+     { wert: '{{facts.beitraege.arbeitsstunden}}', ab: 20, label: 'Arbeitsstunden' },
+     { wert: '{{facts.beitraege.verzehrgutscheine}}', ab: 100, einheit: '€', label: 'Verzehrgutscheine' }],
+    [{ label: 'Beiträge und Anmeldung', href: '/mitglied-werden/' }, { label: 'Aktuelles und Termine', href: '/aktuelles/' }],
+    'Voraussetzung für den Neumitglieder-Preis: {{facts.beitraege.neumitglied_voraussetzung}}.',
+    'Nur das Training kommt dazu.',
+    'Kinder und Jugendliche zahlen {{facts.beitraege.jugend}} €, mit einem aktiven Elternteil {{facts.beitraege.jugend_familie}} €.');
+
 // Zahlen zaehlen mit dem Einblenden: 'rund 120' erscheint als '120+', 'keine' mit 'ab' zaehlt herunter
 // (von 100 auf 0 Euro; die 100 ist nur die Startmarke der Animation, kein Beitrag).
 const AUFMACHER_RUNDGANG = [
@@ -73,15 +85,7 @@ const AUFMACHER_RUNDGANG = [
     '', 'Von den Minis bis zu den Jugendmannschaften. Die Tennisschule Kaus trainiert und betreut Kinder wie Erwachsene.'),
   // Dreimal null: was beim Einstieg wegfaellt. Die Zahlen zaehlen von einer Startmarke auf 0 herunter (die Marke
   // ist Animation, kein Beitrag). Der Beitrag fuer Neue steht als Schluesselwort in der Aussage.
-  thema('anlage-wiese', 'Dabei sein',
-    'Als Neumitglied im ersten Jahr nur *{{facts.beitraege.neumitglied_erstes_jahr}} €*',
-    [{ wert: '{{facts.beitraege.aufnahmegebuehr}}', ab: 100, einheit: '€', label: 'Aufnahmegebühr' },
-     { wert: '{{facts.beitraege.arbeitsstunden}}', ab: 20, label: 'Arbeitsstunden' },
-     { wert: '{{facts.beitraege.verzehrgutscheine}}', ab: 100, einheit: '€', label: 'Verzehrgutscheine' }],
-    [{ label: 'Beiträge und Anmeldung', href: '/mitglied-werden/' }, { label: 'Aktuelles und Termine', href: '/aktuelles/' }],
-    'Voraussetzung für den Neumitglieder-Preis: {{facts.beitraege.neumitglied_voraussetzung}}.',
-    'Nur das Training kommt dazu.',
-    'Kinder und Jugendliche zahlen {{facts.beitraege.jugend}} €, mit einem aktiven Elternteil {{facts.beitraege.jugend_familie}} €.'),
+  THEMA_DABEI_SEIN,
 ].filter((b) => b.src);
 
 /**
@@ -277,8 +281,10 @@ export const seiten = [
     { type: 'hero', data: {
       pill: 'Spielen beim KTC',
       titel: 'Tennis in jedem Alter und auf jedem Niveau',
+      hoehe: 'niedrig',
       sub: 'Vom ersten Schläger bis zum Punktspiel. Such dir aus, was zu dir passt. Wechseln kannst du jederzeit.',
-      ctaLabel: 'Mitglied werden', ctaHref: '/mitglied-werden/',
+      // Der gelbe Knopf steht am Ende der Seite (Aufruf), wenn man das Angebot kennt. Oben ein leiser Einstieg.
+      zweitLabel: 'Einsteigertraining', zweitHref: '#einsteiger',
       bild: bild('anlage-tennisplatz'), bildAlt: bildAlt('anlage-tennisplatz'),
     }},
     // Die vier Wege ins Spielen, gleich oben. Wer die Jugendarbeit sucht,
@@ -379,6 +385,12 @@ export const seiten = [
         'Die Gruppen sind klein: bis zu {{facts.minis.gruppengroesse_kinder}} Kinder, parallel {{facts.minis.gruppengroesse_erwachsene}} Erwachsene. **Bitte ruf vor der Anmeldung kurz an**, damit wir die passende Altersgruppe finden. Ansprechpartner: {{facts.minis.kontakt_name}}, {{facts.minis.kontakt_telefon}}.',
       ],
     }},
+    // Der eine gelbe Knopf der Seite: hier, wo das Angebot gelesen ist, nicht schon im Aufmacher.
+    { type: 'aufruf', data: {
+      titel: 'Dabei sein?',
+      text: 'Als Neumitglied zahlen Erwachsene im ersten Jahr nur {{facts.beitraege.neumitglied_erstes_jahr}} €. Keine Aufnahmegebühr, keine Arbeitsstunden.',
+      knopfLabel: 'Mitglied werden', knopfHref: '/mitglied-werden/',
+    }},
     ASSISTENT,
     FOOTER,
   ],
@@ -398,6 +410,7 @@ export const seiten = [
     { type: 'hero', data: {
       pill: 'Medenrunde',
       titel: 'Unsere Mannschaften',
+      hoehe: 'niedrig',
       sub: 'Alle Wettspiel-Teams der Erwachsenen und der Jugend, von der Kreis- bis zur Landesebene.',
       // Wer die Teams ansieht, will meist wissen, wie sie gespielt haben.
       zweitLabel: 'Ergebnisse vom Wochenende', zweitHref: '/ergebnisse/',
@@ -435,12 +448,13 @@ export const seiten = [
   blocks: [
     NAV,
     { type: 'hero', data: {
-      pill: 'Dabei sein',
       titel: 'Mitglied werden',
-      sub: 'Keine Aufnahmegebühr, keine Arbeitsstunden. Im ersten Jahr zahlen Erwachsene nur {{facts.beitraege.neumitglied_erstes_jahr}} €.',
+      // Derselbe Aufmacher wie das Thema 'Dabei sein' der Startseite: ein Thema, die drei Nullen zaehlen herunter.
+      aufbau: 'rundgang', hoehe: 'niedrig',
+      bild: bild('anlage-wiese'), bildAlt: bildAlt('anlage-wiese'),
+      bilder: [THEMA_DABEI_SEIN],
       ctaLabel: 'Jetzt anmelden', ctaHref: '{{facts.links.buchung}}',
       zweitLabel: 'Erst mal fragen', zweitHref: '/kontakt/',
-      bild: bild('anlage-zentrum-unten'), bildAlt: bildAlt('anlage-zentrum-unten'),
     }},
     // Die Antwort auf die haeufigste Frage zuerst, gross: drei Betraege, darunter das
     // Angebot fuer Neue, dann die ganze Liste.
@@ -448,12 +462,6 @@ export const seiten = [
       titel: 'Unsere Mitgliedsbeiträge',
       titelGroesse: 'gross',
       grund: 'weiss',
-      // Das Angebot fuer Neue steht fuer sich unter den Standardkarten. Der
-      // Partnerbeitrag wird gerechnet, nicht getippt: sind beide Betraege
-      // gleich, steht das nicht im Text, sondern in den Zahlen (P2).
-      angebotWert: '{{facts.beitraege.neumitglied_erstes_jahr}} €',
-      angebotText: '**Neu dabei?** So viel zahlst du im ersten Jahr als Neumitglied. Ein Partner als zweites Mitglied zahlt {{facts.beitraege.aktiv_partner}} €.',
-      angebotFussnote: 'Voraussetzung: {{facts.beitraege.neumitglied_voraussetzung}}.',
       karten: [
         { label: 'Erwachsene',   wert: '{{facts.beitraege.aktiv}} €',           zusatz: 'pro Jahr, aktives Mitglied' },
         { label: 'In Ausbildung', wert: '{{facts.beitraege.aktiv_ausbildung}} €', zusatz: 'pro Jahr, bis 27 mit Nachweis' },
@@ -488,9 +496,8 @@ export const seiten = [
         { label: 'Einstieg ab {{facts.beitraege.halber_beitrag_ab}}', text: 'Wer später einsteigt, zahlt für das laufende Jahr die Hälfte.' },
         { label: 'Kündigung zum Jahresende', text: 'Spätester Termin ist der {{facts.beitraege.kuendigungsfrist}}.' },
       ],
-      // Die Anmeldung am Ende der Preise: derselbe Weg wie der gelbe Knopf oben, leise.
-      knopfLabel: 'Jetzt anmelden', knopfHref: '{{facts.links.buchung}}',
-      knopfHinweis: 'Die Anmeldung läuft über unsere eBuSy-Mitgliedsverwaltung.',
+      // Kein zweiter Knopf: der gelbe steht im Aufmacher. Hier nur der Hinweis, wohin die Anmeldung fuehrt.
+      knopfHinweis: 'Die Anmeldung läuft über unsere Mitgliedsverwaltung [eBuSy]({{facts.links.buchung}}).',
     }},
     // Kinder im laengeren Schnupperkurs brauchen keine Mitgliedschaft, aber die Anmeldung ueber eBuSy:
     // einmaliger Gastspielbeitrag fuer EINE Saison, dort der Haken statt des Mitgliedsantrags.
@@ -498,6 +505,7 @@ export const seiten = [
       titel: 'Kindertraining ohne Mitgliedschaft',
       anker: 'kinder-training',
       grund: 'ruhig',
+      bild: bild('sport-jugend', 'mittel'), bildAlt: bildAlt('sport-jugend'),
       absaetze: [
         'Nimmt dein Kind an einem längeren Schnupperkurs bei der {{facts.anlage.tennisschule}} teil, muss es nicht gleich Mitglied werden. Für die Sommersaison zahlt es einmalig **{{facts.kindertraining.beitrag}} €** Gastspielbeitrag. Das gilt für **eine Saison**: Im Folgejahr ist für das Training eine Mitgliedschaft nötig.',
         'Der Beitrag gilt für die Plätze **während des Trainings**. Zum freien Spielen außerhalb des Trainings braucht dein Kind eine Mitgliedschaft. Den Unterricht selbst stellt die Tennisschule gesondert in Rechnung.',
@@ -506,12 +514,14 @@ export const seiten = [
     }},
     { type: 'richtext', data: {
       titel: 'Gastspieler und Spinde',
+      bild: bild('anlage-platz2', 'mittel'), bildAlt: bildAlt('anlage-platz2'),
       absaetze: [
         'Gäste sind willkommen, egal ob jung oder alt. Ein Gastspiel kostet {{facts.gast.gebuehr}} € pro Gast, höchstens {{facts.gast.max_doppel}} Gäste im Doppel, und dauert {{facts.gast.dauer_einzel}} im Einzel oder {{facts.gast.dauer_doppel}} im Doppel. Es ist nur zusammen mit einem Vereinsmitglied möglich, nicht aber zeitgleich zu Turnieren oder Punktspielen. Buchung und Abrechnung laufen über das Vereinsmitglied. Die Regeln dazu stehen in der [Platzordnung in eBuSy]({{facts.links.buchung}}).',
         'Einen Spind gibt es für {{facts.spind.gebuehr}} € im Jahr. Schreib dazu an [{{facts.verein.email}}](mailto:{{facts.verein.email}}).',
       ],
     }},
     { ...FORMULAR, data: { ...FORMULAR.data,
+      aufbau: 'kompakt',
       titel: 'Noch eine Frage offen?',
       vorspann: 'Schreib uns, bevor du dich anmeldest. Wir antworten meist am selben Tag.',
       // Der gelbe Knopf dieser Seite steht schon im Aufmacher.

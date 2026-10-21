@@ -33,7 +33,7 @@ Das heißt **nicht** betulich. Es heißt: nah, ohne anzubiedern.
 | statt | lieber |
 |---|---|
 | eine hervorragend gepflegte Anlage | sieben Sandplätze |
-| zahlreiche Mannschaften | rund 20 Mannschaften |
+| zahlreiche Mannschaften | 17 eigene Mannschaften |
 | günstige Konditionen | 225 € im ersten Jahr |
 | in unmittelbarer Nähe | 100 Meter den Schmelzweg hoch |
 | ein erfahrenes Trainerteam | die Tennisschule Kaus, seit über 35 Jahren |
@@ -48,6 +48,11 @@ Nicht weil sie falsch wären, sondern weil sie nichts sagen:
 Event · rundum · optimal · attraktiv · Wohlfühlatmosphäre · Wir freuen uns auf Sie*
 
 Und: **keine Ausrufezeichen.** Höchstens eines pro Seite, und auch das selten.
+
+**Keine Gedankenstriche** (kein ` — `, kein ` – ` zwischen Wörtern) in Seitentexten.
+Statt dessen ein neuer Satz mit Punkt, ein Semikolon, ein Komma oder ein Doppelpunkt. Das gilt
+auch für Überschriften und Zeilen unter Überschriften. Zahlenbereiche (`11:00 – 14:30 Uhr`)
+sind etwas anderes und bleiben.
 
 **Keine Emojis** in Seitentexten. In Beiträgen über ein Vereinsfest ist eines
 verkraftbar, mehr nicht.

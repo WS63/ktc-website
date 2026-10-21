@@ -128,7 +128,7 @@ export default {
             text: 'Alle Medenspiele auf unserer Anlage, je Anwurfzeit ein Termin mit allen Begegnungen.',
             unten: wege('heimspiele') })}
           ${karte({ zeichen: ZEICHEN.club, fuer: 'Für alle Mitglieder', titel: 'Clubleben',
-            text: 'Feste, Arbeitseinsätze, Camps und Versammlungen — was der Verein plant.',
+            text: 'Feste, Arbeitseinsätze, Camps und Versammlungen. Was der Verein plant.',
             unten: wege('club') })}
         </div>
         <ol class="abo__schritte">

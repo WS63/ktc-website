@@ -131,7 +131,7 @@ function aboText(feed, basis, nurSaison = '') {
   return kalenderText({
     name: `KTC · ${name}${nurSaison ? ` · ${nurSaison}` : ''}`,
     beschreibung: `Medenspiele der Mannschaft ${name}${nurSaison ? ` in der Saison ${nurSaison}` : ''}.`
-      + (gemeldet || nurSaison ? '' : ' In der laufenden Saison ist sie nicht gemeldet — hier stehen ihre bisherigen Spiele.'),
+      + (gemeldet || nurSaison ? '' : ' In der laufenden Saison ist sie nicht gemeldet. Hier stehen ihre bisherigen Spiele.'),
     ereignisse });
 }
 

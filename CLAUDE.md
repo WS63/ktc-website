@@ -43,10 +43,13 @@ Ein Test hält das fest: höchstens ein `.knopf` je Seite.
   Es markiert, es füllt keine großen Flächen.
 - **Akzent `#ffbe00` (Gelb)** hat zwei Aufgaben, mehr nicht: die Fläche des Knopfes „Mitglied
   werden" — **ein gelber Knopf pro Bildschirm** — und, nur im Aufmacher der Startseite auf dem
-  dunklen Foto, den Akzent für Thema, Zahlen und laufenden Balken (`--titel-akzent`, derselbe
+  dunklen Foto, den Akzent für ein Schlüsselwort, Zahlen und laufenden Balken (`--titel-akzent`, derselbe
   Gelbton; so am 20.10.2026 entschieden, Blau und Grün trugen auf dem Foto nicht). Sonst nirgends.
   Gelb hat auf Weiß 1,66:1 Kontrast: **nie Textfarbe auf hellem Grund**, nur Fläche mit dunkler
   Schrift oder Schrift auf dem dunklen Foto.
+- **Ein Etikett auf einem Foto** (Thema im Aufmacher, Zeile in der Kontakt-Kopfzeile) ist eine
+  dunkle, runde Pille mit weißer Schrift (`--etikett-grund`) — **kein Link**. Links sind die
+  hellblauen Pillen.
 - Das Logo bleibt vierfarbig. Es ist die Marke, nicht die Bedienung.
 - **Hell ist der Normalfall.** Zwei helle Töne wechseln sich ab. Ein einzelner Abschnitt darf
   dunkel sein: `.section--dunkel` setzt dieselben Variablennamen neu — die Tokens kippen, die

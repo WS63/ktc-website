@@ -131,7 +131,7 @@ test('Rundgang: Zahlen zählen per Skript mit dem Einblenden; Vorwörter werden 
   assert.match(skript, /addEventListener\('change'/);
   assert.match(skript, /plus\.style\.opacity = '0'/, 'das Plus erscheint erst, wenn die Zahl angekommen ist');
   assert.match(skript, /plus\.style\.opacity = '1'/);
-  assert.match(skript, /if \(el\.__fertig\) return;/, 'jede Zahl zählt nur einmal');
+  assert.doesNotMatch(skript, /__fertig/, 'die Zahlen zählen in jeder Runde neu');
   assert.match(skript, /classList\.add\('hero__feder'\)/, 'am Ende federt die Zahl');
   assert.match(h, /@keyframes hero-feder \{ 0% \{ transform: scale\(1\); \} 40% \{ transform: scale\(1\.14\)/);
   assert.match(skript, /prefers-reduced-motion: reduce/);
@@ -159,10 +159,13 @@ test('Aktuelles: die Wege zu den Listen stehen als Pillen in einer Zeile, keine 
   assert.doesNotMatch(h, /class="knopf"/);
 });
 
-test('Rundgang: das Thema steht im Akzent, mit Linie davor; der Block liegt mittig zwischen Claim und Knöpfen', () => {
+test('Rundgang: das Thema ist ein dunkles Etikett (kein Link, kein Gelb); der Block liegt mittig zwischen Claim und Knöpfen', () => {
   const h = renderPage(seite(grund));
-  assert.match(h, /\.hero__thema-kicker \{[^}]*color: var\(--titel-akzent\)/);
-  assert.match(h, /\.hero__thema-kicker::before \{ content: ''/);
+  const kicker = h.match(/\.hero__thema-kicker \{[^}]*\}/)[0];
+  assert.match(kicker, /background: var\(--etikett-grund\)/);
+  assert.match(kicker, /border-radius: var\(--r-pill\)/);
+  assert.doesNotMatch(kicker, /titel-akzent/, 'Gelb gehört den Zahlen, dem Balken und dem Knopf');
+  assert.doesNotMatch(h, /\.hero__thema-kicker::before/);
   assert.match(h, /\.hero__themen \{[^}]*margin: clamp\(28px, 5.5vh, 60px\) 0;/, 'gleicher Abstand oben und unten');
   assert.match(h, /\.hero--rundgang \.hero__knoepfe \{[^}]*margin-top: 0;/);
 });
@@ -212,6 +215,66 @@ test('Cockpit: das Schema nennt die Felder eines Themas, daraus macht der Editor
   const hero = (await import('../src/blocks/hero.js')).default;
   // Dieselbe Regel wie vorlageSchluessel() in admin/app.js: alles nach dem ersten Doppelpunkt, getrennt am Komma.
   const felder = hero.schema.bilder.label.match(/:\s*(.+)$/)[1].split(',').map((s) => s.trim());
-  assert.deepEqual(felder, ['src', 'reiter', 'alt', 'kicker', 'text', 'fakten', 'links', 'fussnote']);
-  for (const f of felder) assert.match(f, /^[a-zA-Z]+$/, `${f}: sonst lässt der Editor das Feld weg`);
+  assert.deepEqual(felder, ['src', 'reiter', 'alt', 'kicker', 'text', 'text2', 'fakten', 'text3', 'links', 'fussnote']);
+  for (const f of felder) assert.match(f, /^[a-zA-Z][a-zA-Z0-9]*$/, `${f}: sonst lässt der Editor das Feld weg`);
+});
+
+test('Rundgang: die zweite Zeile (text2) steht unter der Aussage, nur wenn sie da ist, und Vorleser hören sie', () => {
+  const h = renderPage(seite({ ...grund, bilder: [th('a', 'Ort', { text2: 'Gemütlich *und* sonnig' }), th('b', 'Spielen')] }));
+  assert.equal((h.match(/class="hero__thema-text2 /g) || []).length, 1);
+  assert.match(h, /hero__thema-text hero__t-teil[^>]*>Aussage a<\/p>\s*<p class="hero__thema-text2/);
+  assert.match(h, /<span class="hero__stich">und<\/span>/);
+  assert.match(h, /<p>Gemütlich und sonnig<\/p>/, 'Vorleser: ohne Hervorhebung');
+});
+
+test('Der Club: Zahlen 7 / 4 / 200 Tage, die Gastronomie steht im Satz darunter und nicht an einer Zahl', async () => {
+  const { seiten: alle } = await import('../src/seiten.js');
+  const th1 = alle.find((x) => x.slug === 'start').blocks.find((b) => b.type === 'hero').data.bilder[0];
+  assert.deepEqual(th1.fakten.map((f) => f.wert),
+    ['{{facts.anlage.plaetze}}', '{{facts.anlage.plaetze_led}}', '{{facts.anlage.saison_tage}}']);
+  assert.match(th1.fakten[2].label, /^Tage Freiluft-Tennis, \{\{facts\.anlage\.saison\}\}$/);
+  assert.match(th1.text2, /Clubhaus.*Terrasse.*Gastronomie/);
+  assert.doesNotMatch(JSON.stringify(th1), /Spice|Restaurant/, 'der Wirt und das Restaurant stehen auf der Clubhaus-Seite');
+});
+
+test('Alle vier Themen der Startseite haben das gleiche Format: Aussage, zweite Zeile, mindestens zwei Zahlen, Links', async () => {
+  const { seiten: alle } = await import('../src/seiten.js');
+  const themen = alle.find((x) => x.slug === 'start').blocks.find((b) => b.type === 'hero').data.bilder;
+  assert.equal(themen.length, 4);
+  for (const t of themen) {
+    assert.ok(t.text, `${t.kicker}: Aussage`);
+    assert.ok(t.text2, `${t.kicker}: zweite Zeile`);
+    assert.ok(t.fakten.length >= 2, `${t.kicker}: mindestens zwei Zahlen`);
+    assert.ok(t.links.length >= 1, `${t.kicker}: Links`);
+    for (const f of t.fakten) assert.match(f.wert, /^\{\{facts\./, `${t.kicker}: Zahlen kommen aus den Fakten, nie getippt`);
+  }
+  const sport = themen.find((t) => t.kicker === 'Sport');
+  assert.equal(sport.fakten.length, 3);
+  assert.match(sport.text2, /Schnupperkurs.*Hobbyrunde.*Medenspiele/);
+  assert.doesNotMatch(JSON.stringify(themen), /ohne Anmeldung/, 'auch wer reinschnuppert, meldet sich an');
+});
+
+test('Rundgang: der Strich des letzten Themas bleibt gelb, kein Schlüsselbild liegt jenseits von 100 %', () => {
+  const css = renderPage(seite(grund)).match(/<style>([^<]*hero-rg-fuell[^<]*)<\/style>/)[1];
+  for (const m of css.matchAll(/(\d+(?:\.\d+)?)%\{/g)) assert.ok(Number(m[1]) <= 100, `${m[1]} % ist kein gültiges Schlüsselbild`);
+  const letzter = css.match(/@keyframes hero-rg-fuell-3-2\{[^@]*\}\}?/)[0];
+  assert.doesNotMatch(letzter, /text-hell-leise/, 'beim letzten Thema wird der Strich nicht hellgrau');
+  assert.match(letzter, /100%\{transform:scaleX\(1\);background:var\(--titel-akzent\)\}/);
+  assert.match(css.match(/@keyframes hero-rg-fuell-3-0\{[^@]*\}\}?/)[0], /text-hell-leise/, 'frühere Themen werden hellgrau');
+});
+
+test('Keine Seite verspricht „ohne Anmeldung“: auch wer nur reinschnuppert, meldet sich an', async () => {
+  const { seiten: alle } = await import('../src/seiten.js');
+  assert.doesNotMatch(JSON.stringify(alle), /ohne (vorherige )?Anmeldung|Anmeldung ist nicht nötig/i);
+});
+
+test('Dabei sein: der Preis für Kinder und Jugendliche steht als eigene, normal große Zeile unter den Zahlen', async () => {
+  const { seiten: alle } = await import('../src/seiten.js');
+  const dabei = alle.find((x) => x.slug === 'start').blocks.find((b) => b.type === 'hero').data.bilder.find((t) => t.kicker === 'Dabei sein');
+  assert.equal(dabei.text2, 'Nur das Training kommt dazu.');
+  assert.match(dabei.text3, /Kinder und Jugendliche zahlen \{\{facts\.beitraege\.jugend\}\} €, mit einem aktiven Elternteil \{\{facts\.beitraege\.jugend_familie\}\} €/);
+  assert.match(dabei.fussnote, /^Voraussetzung für den Neumitglieder-Preis: \{\{facts\.beitraege\.neumitglied_voraussetzung\}\}\.$/);
+  const h = renderPage(seite({ ...grund, bilder: [th('a', 'Ort', { text3: 'Eine Zeile unter den Zahlen' }), th('b', 'Spielen')] }));
+  assert.match(h, /<p class="hero__thema-text3 [^>]*>Eine Zeile unter den Zahlen<\/p>/);
+  assert.match(h, /<p>Eine Zeile unter den Zahlen<\/p>/, 'Vorleser hören sie');
 });

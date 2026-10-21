@@ -390,7 +390,7 @@ function vorlageSchluessel(blockTyp, feld) {
   const label = bausteinVon(blockTyp)?.schema?.[feld]?.label || '';
   const m = label.match(/:\s*(.+)$/);
   if (!m) return [];
-  return m[1].split(',').map((s) => s.trim()).filter((s) => /^[a-zA-Z]+$/.test(s));
+  return m[1].split(',').map((s) => s.trim()).filter((s) => /^[a-zA-Z][a-zA-Z0-9]*$/.test(s));
 }
 
 // ══════════════════════════════════════════════ NAVIGATION

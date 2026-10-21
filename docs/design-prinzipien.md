@@ -73,7 +73,7 @@ Verbindlich sind die Werte in `config/theme.json`. Hier steht, was sie tun.
 | Signal, gedrückt | `--signal-hover` | `#0000c8` | Hover und aktiver Zustand |
 | Signal, gedeckt | `--signal-leise` | `#eaf0ff` | Getönte Fläche hinter Signal-Elementen |
 | Signal auf Dunkel | `--signal-hell` | `#5b8cff` | dieselbe Rolle im dunklen Abschnitt |
-| **Akzent** | `--handlung` | `#ffbe00` | der Knopf „Mitglied werden"; im Aufmacher auf dunklem Foto zusätzlich Thema, Zahlen und laufender Balken (`--titel-akzent`, gleicher Ton) |
+| **Akzent** | `--handlung` | `#ffbe00` | der Knopf „Mitglied werden"; im Aufmacher auf dunklem Foto zusätzlich Schlüsselwort, Zahlen und laufender Balken (`--titel-akzent`, gleicher Ton) |
 | Akzent, gedrückt | `--handlung-hover` | `#e8ac00` | Hover auf genau diesem Knopf |
 | Schrift auf Akzent | `--handlung-text` | `#1e1e18` | dunkel, weil Gelb keine weiße Schrift trägt |
 | Text | `--text` | `#1e1e18` | Fließtext, Überschriften |
@@ -85,7 +85,7 @@ Verbindlich sind die Werte in `config/theme.json`. Hier steht, was sie tun.
 - **Signal `#0050ff` macht die Arbeit.** Es markiert, es füllt keine großen Flächen. Ein
   Abschnitt ganz in Blau ist ein Fehler; eine blaue Kante an einer Karte ist richtig.
 - **Akzent `#ffbe00` hat zwei Aufgaben:** der Knopf „Mitglied werden" und, im Aufmacher der
-  Startseite auf dem dunklen Foto, der Akzent für Thema, Zahlen und laufenden Balken
+  Startseite auf dem dunklen Foto, der Akzent für Schlüsselwort, Zahlen und laufenden Balken
   (`--titel-akzent` in `config/theme.json`, derselbe Gelbton). **Ein gelber Knopf pro
   Bildschirm, sonst nirgends** — auch „Platz buchen" bekommt ihn nicht. Ein Test hält das fest:
   höchstens ein `.knopf` je Seite.
@@ -273,6 +273,12 @@ Sammeldatei — sonst weiß niemand mehr, welche Regel zu welchem Bauteil gehör
   in derselben Farbe mit niedriger Deckkraft — etwa `--signal-leise` mit `--signal`-Rahmen.
 - **Eyebrow:** Versalien, weites Tracking, `--fs-xs`, Signalfarbe, über der Überschrift.
   Eyebrow → H2 → Einleitungsabsatz, in dieser Reihenfolge, Abstände `--raum-2`.
+- **Etikett auf einem Foto** (das Thema im Aufmacher, die Zeile in der Kontakt-Kopfzeile): **dunkle,
+  runde Pille mit weißer Schrift** (`--etikett-grund`, `--etikett-rand` in `config/theme.json`).
+  Der eigene Grund trägt auf jedem Foto; gelbe Schrift direkt auf dem Foto trug nicht überall.
+  **Ein Etikett ist kein Link.** Links sind die hellblauen Pillen (siehe 8.4); dunkel = nur
+  Information, nie klickbar. Wer ein Etikett anklickbar machen will, nimmt eine Link-Pille.
+  *Entschieden am 21.10.2026.*
 - **Meta-Pille** (Datum, Version): Monospace, `--text-leise`, sehr zurückhaltend.
 
 ### 8.4 Formulare

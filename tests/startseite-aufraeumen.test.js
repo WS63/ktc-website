@@ -58,7 +58,7 @@ test('Menü: „Mitglied werden“ steht als Pille am Ende, ohne passendes Ziel 
 test('Sport im Aufmacher: „Vom ersten Schläger bis zum Punktspiel“ nennt Einsteiger und Wettkämpfer', async () => {
   const { seiten } = await import('../src/seiten.js');
   const hero = seiten.find((s) => s.slug === 'start').blocks.find((b) => b.type === 'hero').data;
-  assert.equal(hero.bilder.find((b) => b.kicker === 'Sport').text, 'Vom ersten Schläger bis zum Punktspiel');
+  assert.equal(hero.bilder.find((b) => b.kicker === 'Sport').text, 'Du entscheidest, wie ernst es wird');
 });
 
 test('Aufmacher: ein Hinweis nach unten führt zu Aktuelles, und der Aufmacher lässt den Rand von Aktuelles sehen', () => {

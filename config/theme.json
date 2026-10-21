@@ -32,6 +32,9 @@
     "signal-hell":  "#5b8cff",
     "_titel": "Schluesselwoerter in den Aussagen auf Fotos (im Aufmacher) und der laufende Balken der Themenleiste. Bewusst dasselbe Gelb wie der Knopf Mitglied werden: auf dunklem Foto tragen Blau und Gruen nicht. Nie als Textfarbe auf Weiss (1,66:1).",
     "titel-akzent": "#ffbe00",
+    "_etikett": "Die dunkle Pille auf einem Foto: ein Etikett (Thema im Aufmacher, Kontakt-Zeile), kein Link. Eigener dunkler Grund, damit die weisse Schrift auf jedem Foto traegt. Nicht klickbar — Links sind die hellblauen Pillen.",
+    "etikett-grund": "rgba(22,22,18,.62)",
+    "etikett-rand": "rgba(255,255,255,.16)",
 
     "_handlung": "Der Akzent hat genau eine Aufgabe: der Knopf 'Mitglied werden'. Ein gelber Knopf pro Bildschirm, sonst nirgends. Gelb hat auf Weiß 1,66:1 — es kann niemals Textfarbe sein.",
     "handlung":       "#ffbe00",

@@ -15,7 +15,7 @@ export default {
     zweitHref: { type: 'text',     default: '', label: 'Ziel des zweiten Knopfs' },
     bild:      { type: 'image',    default: '', label: 'Hintergrundbild' },
     bildAlt:   { type: 'text',     default: '', label: 'Alt-Text des Bildes' },
-    bilder:    { type: 'liste',    default: [], label: 'Weitere Bilder — blenden nacheinander durch, im Rundgang ein Thema je Bild: src, reiter, alt, kicker, text, fakten, links, fussnote' },
+    bilder:    { type: 'liste',    default: [], label: 'Weitere Bilder — blenden nacheinander durch, im Rundgang ein Thema je Bild: src, reiter, alt, kicker, text, text2, fakten, text3, links, fussnote' },
     marke:     { type: 'auswahl',  default: 'nein', label: 'Logo ins Bild',
                  optionen: ['nein', 'ja'] },
     aufbau:    { type: 'auswahl',  default: 'bild', label: 'Aufbau mit Bild',
@@ -86,8 +86,9 @@ export default {
     .hero--bild .hero__titel, .hero--bild .hero__sub { color: #fff;
       text-shadow: 0 1px 12px rgba(30,30,24,.45); }
     .hero--bild .hero__sub { color: rgba(255,255,255,.88); }
-    .hero--bild .hero__pill { color: #fff; border-color: rgba(255,255,255,.65);
-      background: rgba(255,255,255,.10); backdrop-filter: blur(2px); }
+    /* Ein Etikett auf dem Foto: dunkle, runde Pille mit weisser Schrift (kein Link, siehe theme.json 'etikett'). */
+    .hero--bild .hero__pill { color: #fff; border: 1px solid var(--etikett-rand); border-radius: var(--r-pill);
+      background: var(--etikett-grund); padding: 6px 14px; letter-spacing: .14em; }
     /* Der leise Knopf auf dem Foto bekommt eine eigene, abgedunkelte Glasflaeche.
        Nur Kontur und weisse Schrift trugen auf dunklen Fotos, auf hellen (der
        Clubkalender: weisse Papierschnipsel) war er kaum zu finden. Mit 45 %
@@ -195,16 +196,23 @@ export default {
       animation-duration: calc(var(--n) * var(--slot));
       animation-delay: calc(var(--i) * var(--slot) - var(--blende)); animation-iteration-count: infinite;
       animation-timing-function: ease-out; }
-    /* Das Thema: im Akzent, fett, mit kurzer Linie davor (wie die Marken-Zeile der Vorbilder): gut lesbar auf jedem Foto. */
-    .hero__thema-kicker { display: flex; align-items: center; gap: 12px; margin: 0 0 14px;
-      font-size: clamp(14px, 1.3vw, 17px); font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
-      color: var(--titel-akzent); text-shadow: 0 1px 12px rgba(30,30,24,.7); }
-    .hero__thema-kicker::before { content: ''; flex: none; width: 30px; height: 2px; background: currentColor; }
+    /* Das Thema: ein dunkles Etikett mit weisser Schrift. Der eigene Grund traegt auf jedem Foto; Gelb bleibt
+       den Zahlen, dem Balken und dem Knopf. Es ist kein Link, darum dunkel und nicht hellblau. */
+    .hero__thema-kicker { display: inline-flex; align-items: center; margin: 0 0 14px; padding: 7px 16px;
+      border: 1px solid var(--etikett-rand); border-radius: var(--r-pill); background: var(--etikett-grund);
+      font-size: clamp(12px, 1.1vw, 14px); font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: #fff; }
     /* Die Aussage: weiss, Schluesselwoerter im Akzent (*Wort* im Text). Der Schatten liegt als Filter auf
        dem Absatz, damit er auch unter den Woertern im Akzent sitzt. */
     .hero__thema-text { font-size: clamp(22px, 2.8vw, 38px); font-weight: 700; line-height: 1.15;
       letter-spacing: -.01em; margin: 0 0 var(--raum-3); filter: drop-shadow(0 1px 12px rgba(30,30,24,.6)); }
     .hero__stich { color: var(--titel-akzent); }
+    /* Die zweite Zeile unter der Aussage: leiser und naeher dran, ein Satz, der das Bild erklaert. */
+    .hero__thema-text2 { font-size: clamp(17px, 1.7vw, 22px); font-weight: 500; line-height: 1.4; max-width: 46ch;
+      margin: calc(-1 * var(--raum-2)) 0 var(--raum-3); filter: drop-shadow(0 1px 12px rgba(30,30,24,.6)); }
+    /* Eine Zeile unter den Zahlen in normaler Groesse: das, was Eltern und Neue sofort wissen muessen. */
+    .hero__thema-text3 { font-size: clamp(16px, 1.5vw, 19px); font-weight: 500; line-height: 1.4; max-width: 60ch;
+      margin: 0 0 var(--raum-3); filter: drop-shadow(0 1px 12px rgba(30,30,24,.6)); }
     .hero__thema-fakten { display: flex; flex-wrap: wrap; gap: 14px 44px; list-style: none; padding: 0;
       margin: 0 0 var(--raum-3); }
     .hero__thema-wert { display: block; font-size: clamp(34px, 4vw, 56px); font-weight: 800; color: var(--titel-akzent);
@@ -463,7 +471,7 @@ function rundgangFolge(data, bild) {
     const fakten = (e.fakten || []).map((f) => (f && f.quelle === 'termin'
       ? (termin ? { wert: termin.tag, label: termin.titel } : null) : f)).filter((f) => f && f.wert).slice(0, 3);
     const links = (e.links || []).filter((l) => l && l.label && ziel(l.href)).slice(0, 2);
-    return { src: ziel(e.src), alt: e.alt || '', kicker: e.kicker || '', reiter: e.reiter || e.kicker || '', text: e.text || '', fakten, links, fussnote: e.fussnote || '' };
+    return { src: ziel(e.src), alt: e.alt || '', kicker: e.kicker || '', reiter: e.reiter || e.kicker || '', text: e.text || '', text2: e.text2 || '', text3: e.text3 || '', fakten, links, fussnote: e.fussnote || '' };
   };
   const liste = (data.bilder || []).map(norm).filter((e) => e.src);
   if (!liste.some((e) => e.src === bild)) liste.unshift({ ...norm({ src: bild, alt: data.bildAlt }) });
@@ -490,10 +498,15 @@ function rundgangRegeln(n) {
     const von = Math.round((i / n) * 10000) / 100;
     const bis = Math.round(((i + 1) / n) * 10000) / 100;
     // Der laufende Strich ist gelb; ist sein Thema durch, wird er hellgrau und bleibt es bis zum Rundenende.
-    const nach = Math.round((bis + 0.01) * 100) / 100;
+    // Beim LETZTEN Thema gibt es kein Rundenende mehr nach dem Fuellen: dort bleibt er gelb. Ein Schlüsselbild
+    // bei 100,01 % waere ungueltig, und das zweite '100%' haette den Strich beim Fuellen nach weiss ueberblendet.
     css += `@keyframes hero-rg-fuell-${n}-${i}{0%{transform:scaleX(0);background:var(--titel-akzent)}${von}%{transform:scaleX(0)}`
-      + `${bis}%{transform:scaleX(1);background:var(--titel-akzent)}${nach}%{background:var(--text-hell-leise)}`
-      + `100%{transform:scaleX(1);background:var(--text-hell-leise)}}`;
+      + `${bis}%{transform:scaleX(1);background:var(--titel-akzent)}`;
+    if (i < n - 1) {
+      const nach = Math.round((bis + 0.01) * 100) / 100;
+      css += `${nach}%{background:var(--text-hell-leise)}100%{transform:scaleX(1);background:var(--text-hell-leise)}`;
+    }
+    css += '}';
   }
   // Ein Thema angetippt: der Wechsel steht, genau dieses Thema ist zu sehen.
   const w = '.hero--rundgang:has(.hero__t:checked)';
@@ -562,7 +575,6 @@ const SKRIPT = `
   function zaehle(el) {
     var von = parseInt(el.getAttribute('data-von'), 10), bis = parseInt(el.getAttribute('data-bis'), 10);
     if (isNaN(von) || isNaN(bis)) return;
-    if (el.__fertig) return;   // jede Zahl zaehlt nur einmal: in den naechsten Runden steht sie einfach da
     var lauf = (el.__lauf = (el.__lauf || 0) + 1), start = null;
     var plus = el.nextElementSibling && el.nextElementSibling.classList.contains('hero__plus') ? el.nextElementSibling : null;
     if (plus) plus.style.opacity = '0';
@@ -576,7 +588,6 @@ const SKRIPT = `
       el.textContent = Math.round(von + (bis - von) * stufe(t));
       if (t < 1) { setTimeout(schritt, 30); return; }
       el.textContent = bis;
-      el.__fertig = true;
       if (plus) plus.style.opacity = '1';
       // Der Feder-Effekt am Ende: die Zahl federt einmal kurz nach.
       var wert = el.closest('.hero__thema-wert');
@@ -628,7 +639,9 @@ function vorleserUeberblick(folge) {
   return html`<section class="nur-vorleser" aria-label="Das Wichtigste im Überblick">${folge.map((b) => html`
     ${b.kicker || b.reiter ? html`<h2>${b.kicker || b.reiter}</h2>` : ''}
     ${b.text ? html`<p>${String(b.text).replace(/\*([^*]+)\*/g, '$1')}</p>` : ''}
+    ${b.text2 ? html`<p>${String(b.text2).replace(/\*([^*]+)\*/g, '$1')}</p>` : ''}
     ${b.fakten.length ? html`<ul>${b.fakten.map((f) => html`<li>${f.wert} ${f.label}</li>`)}</ul>` : ''}
+    ${b.text3 ? html`<p>${String(b.text3).replace(/\*([^*]+)\*/g, '$1')}</p>` : ''}
     ${b.fussnote ? html`<p>${b.fussnote}</p>` : ''}`)}</section>`;
 }
 
@@ -636,7 +649,7 @@ function vorleserUeberblick(folge) {
 function rundgangThemen(data, bild) {
   const folge = rundgangFolge(data, bild);
   const n = folge.length;
-  if (!folge.some((b) => b.text || b.kicker || b.fakten.length)) return '';
+  if (!folge.some((b) => b.text || b.text2 || b.kicker || b.fakten.length)) return '';
   const mehr = n > 1;
   const teil = (i, k) => raw(mehr
     ? `style="--k: ${k}; animation-name: hero-rg-teil-${n}${i === 0 ? ', hero-rg-intro' : ''}"` : '');
@@ -655,7 +668,9 @@ function rundgangThemen(data, bild) {
   const themen = html`<div class="hero__themen">${folge.map((b, i) => html`<div class="hero__thema" data-i="${raw(String(i))}" style="--i: ${raw(String(i))}${raw(mehr ? `; animation-name: hero-rg-text-${n}` : '')}"${raw(!mehr || i === 0 ? '' : ' aria-hidden="true"')}>
       ${b.kicker ? html`<p class="hero__thema-kicker hero__t-teil${raw(klasse(i))}" ${teil(i, 0)}${stumm}>${b.kicker}</p>` : ''}
       ${b.text ? html`<p class="hero__thema-text hero__t-teil${raw(klasse(i))}" ${teil(i, 1)}${stumm}>${aussage(b.text)}</p>` : ''}
+      ${b.text2 ? html`<p class="hero__thema-text2 hero__t-teil${raw(klasse(i))}" ${teil(i, 1.5)}${stumm}>${aussage(b.text2)}</p>` : ''}
       ${b.fakten.length ? html`<ul class="hero__thema-fakten hero__t-teil${raw(klasse(i))}" ${teil(i, 2)}${stumm}>${b.fakten.map((f) => html`<li>${wert(f)}<span class="hero__thema-label">${f.label}</span></li>`)}</ul>` : ''}
+      ${b.text3 ? html`<p class="hero__thema-text3 hero__t-teil${raw(klasse(i))}" ${teil(i, 2.5)}${stumm}>${aussage(b.text3)}</p>` : ''}
       ${b.links.length ? html`<div class="hero__thema-links hero__t-teil${raw(klasse(i))}" ${teil(i, 3)}>${b.links.map((l) => html`<a class="hero__thema-link" href="${raw(escapeAttr(ziel(l.href)))}">${l.label} →</a>`)}</div>` : ''}
       ${b.fussnote ? html`<p class="hero__thema-fuss hero__t-teil${raw(klasse(i))}" ${teil(i, 4)}${stumm}>${b.fussnote}</p>` : ''}
     </div>`)}</div>`;

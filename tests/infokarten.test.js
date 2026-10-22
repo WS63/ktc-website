@@ -112,3 +112,14 @@ test('formular: kompakt setzt Frage links und das Formular rechts, Name und E-Ma
   assert.equal(mw.data.aufbau, 'kompakt');
   assert.equal(mw.data.knopfStil, 'leise');
 });
+
+test('infokarten: kräftig getönt mit größerer Zahl; ruhig bleibt wie es war; die Beitragskarten sind kräftig', async () => {
+  const k = [{ label: 'Erwachsene', wert: '290 €', zusatz: 'pro Jahr' }];
+  assert.match(renderPage(seite({ karten: k, stil: 'kraeftig' })), /<div class="info info--kraeftig">/);
+  assert.doesNotMatch(renderPage(seite({ karten: k })), /<div class="info info--kraeftig">/);
+  assert.doesNotMatch(renderPage(seite({ karten: k, stil: 'kraeftig' })), /data-bis/, 'kräftig heißt nicht animiert');
+  const { seiten } = await import('../src/seiten.js');
+  const mw = seiten.find((x) => x.slug === 'mitglied-werden').blocks.find((b) => b.type === 'infokarten');
+  assert.equal(mw.data.stil, 'kraeftig');
+  assert.notEqual(mw.data.zaehlen, 'ja');
+});

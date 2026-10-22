@@ -12,6 +12,8 @@ export default {
               optionen: ['ruhig', 'weiss', 'anschluss'] },
     titelGroesse: { type: 'auswahl', default: 'normal', label: 'Größe der Überschrift', optionen: ['normal', 'gross'] },
     zaehlen: { type: 'auswahl', default: 'nein', label: 'Zahlen beim Sichtbarwerden hochzählen', optionen: ['nein', 'ja'] },
+    stil: { type: 'auswahl', default: 'ruhig', label: 'Karten: ruhig (weiß, dezenter Rahmen) oder kräftig (getönt, größere Zahl, Schatten)',
+            optionen: ['ruhig', 'kraeftig'] },
     angebotWert: { type: 'text', default: '', label: 'Angebotsband: die große Zahl' },
     angebotText: { type: 'text', default: '', label: 'Angebotsband: der Satz daneben' },
     angebotFussnote: { type: 'text', default: '', label: 'Angebotsband: Fußnote — das Zeichen ¹ steht dann an der Zahl' },
@@ -37,6 +39,14 @@ export default {
     .info { background: var(--grund); border: 1.5px solid var(--linie-stark);
       border-radius: var(--radius); padding: var(--raum-3); text-align: right; }
     .section--ruhig .info { background: var(--grund); }
+    /* Kraeftig: fuer die Karten, die die Antwort sind (die drei Beitraege). Getoente Flaeche in der Signalfarbe,
+       ein Schatten, der sie vom Grund hebt, und die Zahl eine Stufe groesser. Die Karten bleiben rechtsbuendig. */
+    .info--kraeftig { background: var(--signal-leise); border: 1.5px solid var(--linie-aktiv);
+      box-shadow: var(--schatten-m); padding: var(--raum-3) var(--raum-3) var(--raum-3); }
+    .section--ruhig .info--kraeftig { background: var(--signal-leise); }
+    .info--kraeftig .info__label { font-size: 13px; letter-spacing: .09em; color: var(--signal); }
+    .info--kraeftig .info__wert { font-size: clamp(46px, 5vw, 60px); letter-spacing: -.03em; }
+    .info--kraeftig .info__zusatz { color: var(--text); opacity: .78; }
     /* Das Label traegt die Betonung ueber Gewicht, nicht ueber Farbe.
        Farbig waere es ein zweites Signal neben der Kante — und Gelb kann
        auf Weiss ohnehin nie Textfarbe sein (1,66:1). */
@@ -95,7 +105,8 @@ export default {
       return html`<p class="info__wert"><span aria-hidden="true">${m[1]}<span class="info__zahl" data-bis="${m[2]}"
         style="min-width:${m[2].length}ch">${m[2]}</span>${m[3]}</span><span class="nur-vorleser">${w}</span></p>`;
     };
-    const karten = (data.karten || []).map((k) => html`<div class="info">
+    const klasse = data.stil === 'kraeftig' ? 'info info--kraeftig' : 'info';
+    const karten = (data.karten || []).map((k) => html`<div class="${raw(klasse)}">
       <p class="info__label">${k.label}</p>
       ${wert(k.wert, data.zaehlen === 'ja')}
       ${k.zusatz ? html`<p class="info__zusatz">${markdownInline(k.zusatz)}</p>` : ''}

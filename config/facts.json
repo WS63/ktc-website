@@ -3,7 +3,7 @@
   "verein": {
     "name": "Krifteler Tennis-Club e.V.",
     "kurz": "KTC",
-    "gegruendet": "",
+    "gegruendet": "1971",
     "strasse": "Schmelzweg 6",
     "plz": "65830",
     "ort": "Kriftel",
@@ -95,7 +95,7 @@
     "verzehrgutscheine": "keine"
   },
   "einsteiger": {
-    "_hinweis": "Einsteigertraining: startet zu Saisonbeginn, nach Bedarf. Rhythmus und Ende sind Erfahrungswerte (ebbt ueblicherweise ab Mitte Juni ab), keine feste Zusage — der Vorstand bzw. die Tennisschule sollte sie bestaetigen.",
+    "_hinweis": "Einsteigertraining: startet zu Saisonbeginn, nach Bedarf. Rhythmus und Ende sind Erfahrungswerte (ebbt ueblicherweise ab Mitte Juni ab), keine feste Zusage. Am 22.10.2026 als uebliche Vorgehensweise bestaetigt.",
     "rhythmus": "einmal pro Woche oder alle zwei Wochen",
     "ende": "Mitte Juni"
   },
@@ -132,7 +132,7 @@
     "sitz": "Larnaka, Zypern"
   },
   "datenschutz": {
-    "_hinweis": "Stand und Aufbewahrungsfristen der Datenschutzerklaerung. Die Fristen sind eine ENTSCHEIDUNG DES VORSTANDS, nicht der Technik — und der Text verspricht sie. Sie gelten nur, solange das Aufraeumen sie auch durchsetzt.",
+    "_hinweis": "Stand und Aufbewahrungsfristen der Datenschutzerklaerung. Die Fristen sind eine ENTSCHEIDUNG DES VORSTANDS, nicht der Technik (vom Vorstand bestaetigt, Stand 22.10.2026) — und der Text verspricht sie. Sie gelten nur, solange das Aufraeumen sie auch durchsetzt.",
     "stand": "Oktober 2026",
     "frist_anfragen": "12 Monate",
     "frist_chat": "90 Tage"

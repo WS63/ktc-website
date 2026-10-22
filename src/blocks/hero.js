@@ -20,8 +20,10 @@ export default {
                  optionen: ['nein', 'ja'] },
     aufbau:    { type: 'auswahl',  default: 'bild', label: 'Aufbau mit Bild',
                  optionen: ['bild', 'zeile', 'rundgang'] },
-    hoehe:     { type: 'auswahl',  default: 'hoch', label: 'Höhe des Bildbereichs',
+    hoehe:     { type: 'auswahl',  default: 'hoch', label: 'Höhe des Bildbereichs (zwei Standards: hoch oder niedrig)',
                  optionen: ['hoch', 'niedrig'] },
+    aufhellen: { type: 'auswahl',  default: 'nein', label: 'Dunkles Foto aufhellen (Text bleibt lesbar)',
+                 optionen: ['nein', 'ja'] },
     bildFokus: { type: 'text',     default: '', label: 'Bildausschnitt in Prozent: senkrecht (0 = oben, 50 = Mitte, 100 = unten) oder waagerecht und senkrecht, z. B. 70 36. Damit das Wichtige im Bild bleibt, auch wenn das Foto angeschnitten wird' },
     weiterLabel: { type: 'text', default: '', label: 'Rundgang: Hinweis nach unten, Beschriftung' },
     weiterHref:  { type: 'text', default: '', label: 'Rundgang: Hinweis nach unten, Ziel (Sprungmarke)' },
@@ -43,12 +45,17 @@ export default {
     .hero.hero--bild { padding: 0; }
     /* Niedrig: fuer Seiten, deren Inhalt (Tabellen, Listen) zaehlt. Das Foto bleibt, es zeigt nur weniger. Drei
        Klassen, damit die Regel fuer schmale Schirme (72vh) sie nicht ueberstimmt. */
-    .hero.hero--bild.hero--niedrig .hero__rahmen { min-height: min(40vh, 320px); }
+    .hero.hero--bild.hero--niedrig .hero__rahmen { min-height: min(48vh, 420px); }
     .hero--bild .hero__rahmen { position: relative; min-height: min(72vh, 620px);
       display: flex; align-items: flex-end; overflow: hidden; }
     /* Eine Klasse, kein Elementselektor: '.hero--bild img' ist spezifischer
        als '.hero__marke' und hat das Logo auf volle Bildgroesse aufgeblasen.
        Hier gebaut und im Browser gesehen. */
+    /* Ein dunkles Foto heller zeigen (zum Beispiel das Fragezeichen der FAQ): das Foto selbst wird aufgehellt, der
+       Schleier darunter sanfter, damit die Schrift trotzdem traegt. */
+    .hero--hell .hero__foto { filter: brightness(1.38) contrast(.95); }
+    .hero--hell .hero__schleier { background: linear-gradient(180deg, rgba(30,30,24,0) 0%, rgba(30,30,24,.04) 45%,
+      rgba(30,30,24,.34) 78%, rgba(30,30,24,.52) 100%); }
     .hero__foto { position: absolute; inset: 0; width: 100%; height: 100%;
       object-fit: cover; object-position: var(--fokus-x, 50%) var(--fokus, 50%); z-index: 0; }
 
@@ -399,7 +406,7 @@ export default {
              ${raw(i === 0 ? 'fetchpriority="high"' : 'aria-hidden="true" fetchpriority="low"')} decoding="async">`);
 
     return html`
-      <section class="section hero hero--bild${raw(zeile ? ' hero--zeile' : '')}${raw(data.hoehe === 'niedrig' ? ' hero--niedrig' : '')}"
+      <section class="section hero hero--bild${raw(zeile ? ' hero--zeile' : '')}${raw(data.hoehe === 'niedrig' ? ' hero--niedrig' : '')}${raw(data.aufhellen === 'ja' ? ' hero--hell' : '')}"
                style="--n: ${raw(String(n))}; --slot: ${raw(String(SLOT_S))}s${raw(fokus)}">
         ${n > 1 ? raw(`<style>${keyframes(n)}</style>`) : ''}
         <div class="hero__rahmen">

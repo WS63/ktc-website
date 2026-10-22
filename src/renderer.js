@@ -84,6 +84,6 @@ ${(page.status === 'published' && site.suchmaschinen !== false && !page.suche)
   ? '' : '<meta name="robots" content="noindex, nofollow">'}
 <style>${themeCss()}${css}</style>
 </head>
-<body>${koerper}</body>
+<body class="seite-${escapeHtml(page.page_type || 'standard')}">${koerper}</body>
 </html>`);
 }

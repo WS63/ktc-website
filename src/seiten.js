@@ -462,6 +462,7 @@ export const seiten = [
       titel: 'Unsere Mitgliedsbeiträge',
       titelGroesse: 'gross',
       grund: 'weiss',
+      stil: 'kraeftig',
       karten: [
         { label: 'Erwachsene',   wert: '{{facts.beitraege.aktiv}} €',           zusatz: 'pro Jahr, aktives Mitglied' },
         { label: 'In Ausbildung', wert: '{{facts.beitraege.aktiv_ausbildung}} €', zusatz: 'pro Jahr, bis 27 mit Nachweis' },
@@ -627,7 +628,7 @@ export const seiten = [
       sub: 'Spieltage, Veranstaltungen und Termine rund um die Anlage.',
       // Leise, kein Gelb: der Weg zum Abo, das sonst unter der ganzen Liste uebersehen wird.
       zweitLabel: 'Kalender abonnieren', zweitHref: '#abo',
-      bild: bild('club-kalender'), bildAlt: bildAlt('club-kalender'),
+      hoehe: 'niedrig', bild: bild('club-kalender'), bildAlt: bildAlt('club-kalender'),
     }},
     { type: 'termine', data: {
       // Keine Suche: eine Handvoll Termine, und die Auswahl darueber filtert schon.
@@ -677,7 +678,7 @@ export const seiten = [
       pill: 'Spieltage',
       titel: 'Ergebnisse',
       sub: 'Alle Mannschaften, ein Wochenende. Aktuell vom Hessischen Tennisverband.',
-      bild: bild('sport-ergebnisse'), bildAlt: bildAlt('sport-ergebnisse'),
+      hoehe: 'niedrig', bild: bild('sport-ergebnisse'), bildAlt: bildAlt('sport-ergebnisse'),
     }},
     { type: 'ergebnisse', data: {} },
     { type: 'richtext', data: {
@@ -710,7 +711,7 @@ export const seiten = [
       pill: 'Neu',
       titel: 'Nie wieder wichtige Infos verpassen.',
       sub: 'Neuigkeiten, Ergebnisse, Platzinfos und Ankündigungen. Schnell, direkt, auf dein Handy.',
-      bild: bild('club-whatsapp'), bildAlt: bildAlt('club-whatsapp'),
+      hoehe: 'niedrig', bild: bild('club-whatsapp'), bildAlt: bildAlt('club-whatsapp'),
     }},
     { type: 'richtext', data: {
       absaetze: [
@@ -805,7 +806,7 @@ export const seiten = [
     { type: 'hero', data: {
       pill: 'Kurz beantwortet',
       titel: 'Häufige Fragen',
-      bild: bild('recht-faq'), bildAlt: bildAlt('recht-faq'),
+      hoehe: 'niedrig', aufhellen: 'ja', bildFokus: '50', bild: bild('recht-faq'), bildAlt: bildAlt('recht-faq'),
     }},
     { type: 'faq', data: {
       fragen: [
@@ -908,7 +909,7 @@ export const seiten = [
   blocks: [
     NAV,
     { type: 'hero', data: { titel: 'Impressum',
-      bild: bild('recht-impressum'), bildAlt: bildAlt('recht-impressum') } },
+      hoehe: 'niedrig', bild: bild('recht-impressum'), bildAlt: bildAlt('recht-impressum') } },
     { type: 'richtext', data: {
       titel: 'Angaben nach § 5 DDG',
       absaetze: [
@@ -961,7 +962,7 @@ export const seiten = [
   blocks: [
     NAV,
     { type: 'hero', data: { titel: 'Datenschutz',
-      bild: bild('recht-datenschutz'), bildAlt: bildAlt('recht-datenschutz') } },
+      hoehe: 'niedrig', bild: bild('recht-datenschutz'), bildAlt: bildAlt('recht-datenschutz') } },
     { type: 'richtext', data: {
       absaetze: [
         'Der {{facts.verein.name}} nimmt den Schutz deiner Daten ernst. Diese Seite sagt dir, welche Daten bei der Nutzung dieser Website anfallen, wofür wir sie brauchen und was du tun kannst. Sie gilt für diese Website. Für Angebote anderer Anbieter, auf die wir verlinken, gelten deren eigene Erklärungen.',

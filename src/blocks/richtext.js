@@ -56,6 +56,13 @@ export default {
     .text__bild--logo img { width: 220px; mix-blend-mode: multiply; }
     /* Hohes Logo mit Anschrift und Siegeln (Tennisschule): halb so breit, sonst aendert sich nichts. */
     .text__bild--logoklein img { width: 120px; mix-blend-mode: multiply; }
+    /* Rechtstexte (Impressum, Datenschutz): viel Text, wenig Schmuck. Kleinere Schrift, engere Abschnitte, ruhigere
+       Ueberschriften. Der Seitentyp steht als Klasse am body (src/renderer.js), die Bausteine bleiben unveraendert. */
+    .seite-rechtstext .text-abschnitt { padding: var(--raum-4) 0; }
+    .seite-rechtstext .text__titel { font-size: clamp(19px, 2vw, 23px); font-weight: 600; color: var(--text);
+      margin-bottom: var(--raum-2); max-width: none; }
+    .seite-rechtstext .text__koerper { font-size: var(--fs-sm); line-height: 1.65; max-width: 78ch; }
+    .seite-rechtstext .text__koerper p + p { margin-top: var(--raum-2); }
     @media (max-width: 760px) {
       .text--bild .text__innen { grid-template-columns: 1fr; gap: var(--raum-3); }
       .text__bild--logo img { width: 180px; }
@@ -98,7 +105,7 @@ export default {
     const bildLink = ziel(data.bildLink);
     const fotos = (data.bilder || []).filter((f) => ziel(f.pfad));
     const sektion = (innen) => html`
-      <section class="section${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}${raw(b ? ' text--bild' : fotos.length ? ' text--fotos' : '')}${raw(b && data.bildStil === 'karte' ? ' text--karte' : '')}"${
+      <section class="section text-abschnitt${raw(data.grund === 'ruhig' ? ' section--ruhig' : '')}${raw(b ? ' text--bild' : fotos.length ? ' text--fotos' : '')}${raw(b && data.bildStil === 'karte' ? ' text--karte' : '')}"${
         anker ? raw(` id="${escapeAttr(anker)}"`) : ''}><div class="container">${innen}</div></section>`;
     const text = html`<div class="text__koerper">${absaetze}</div>
         ${data.schluss ? html`<p class="text__schluss">${data.schluss}</p>` : ''}`;

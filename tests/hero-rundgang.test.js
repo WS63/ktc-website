@@ -285,10 +285,14 @@ test('Hero: „niedrig“ macht den Bildbereich flacher, ohne dass die schmale-S
   const niedrig = renderPage(seite({ ...bild, hoehe: 'niedrig' }));
   assert.doesNotMatch(hoch.slice(hoch.indexOf('<section')), /class="section hero hero--bild hero--niedrig/);
   assert.match(niedrig, /class="section hero hero--bild hero--niedrig/);
-  assert.match(niedrig, /\.hero\.hero--bild\.hero--niedrig \.hero__rahmen \{ min-height: min\(40vh, 320px\); \}/);
+  assert.match(niedrig, /\.hero\.hero--bild\.hero--niedrig \.hero__rahmen \{ min-height: min\(48vh, 420px\); \}/);
   const { seiten: alle } = await import('../src/seiten.js');
-  for (const slug of ['mannschaften', 'sport']) {
+  // Zwei Standards: Informationsseiten niedrig, die Seiten, in denen das Foto die Botschaft trägt, hoch.
+  for (const slug of ['mannschaften', 'sport', 'kontakt', 'kalender', 'ergebnisse', 'faq', 'impressum', 'datenschutz', 'whatsapp', 'mitglied-werden']) {
     assert.equal(alle.find((s) => s.slug === slug).blocks.find((b) => b.type === 'hero').data.hoehe, 'niedrig', slug);
+  }
+  for (const slug of ['start', 'aktuelles', 'clubhaus']) {
+    assert.notEqual(alle.find((s) => s.slug === slug).blocks.find((b) => b.type === 'hero').data.hoehe, 'niedrig', slug);
   }
   assert.notEqual(alle.find((s) => s.slug === 'start').blocks.find((b) => b.type === 'hero').data.hoehe, 'niedrig');
 });
@@ -330,4 +334,16 @@ test('Die Arten: Spielbericht ist ein Ball, Mitteilung eine Zeitung; die Flamme 
   assert.equal(arten.spiel.symbol, '🎾');
   assert.equal(arten.info.symbol, '📰');
   assert.doesNotMatch(readFileSync('config/arten.json', 'utf8'), /🔥/);
+});
+
+test('Hero: „aufhellen“ hellt ein dunkles Foto auf (FAQ), und Rechtstexte tragen eine eigene Klasse für kleinere Schrift', async () => {
+  const bild = { titel: 'T', bild: '/bilder/a.jpg', bildAlt: 'A' };
+  assert.match(renderPage(seite({ ...bild, aufhellen: 'ja' })), /class="section hero hero--bild[^"]* hero--hell"/);
+  assert.doesNotMatch(renderPage(seite(bild)).slice(renderPage(seite(bild)).indexOf('<section')), /hero--hell"/);
+  const { seiten: alle } = await import('../src/seiten.js');
+  const faq = alle.find((s) => s.slug === 'faq').blocks.find((b) => b.type === 'hero').data;
+  assert.equal(faq.aufhellen, 'ja');
+  assert.ok(faq.bildFokus, 'das orange Fragezeichen bleibt im Ausschnitt');
+  const rechts = renderPage({ slug: 'impressum', page_type: 'rechtstext', status: 'published', title: 'I', content_json: { blocks: [] } });
+  assert.match(rechts, /<body class="seite-rechtstext">/);
 });

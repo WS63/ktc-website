@@ -33,6 +33,8 @@ export default {
     fussnote:  { type: 'text',  default: '', label: 'Kleingedrucktes unter den Zeilen' },
     linkLabel: { type: 'text',  default: '', label: 'Link' },
     linkHref:  { type: 'text',  default: '', label: 'Ziel des Links' },
+    link2Label: { type: 'text', default: '', label: 'Zweiter Link (steht neben dem ersten)' },
+    link2Href:  { type: 'text', default: '', label: 'Ziel des zweiten Links' },
     seite:     { type: 'auswahl', default: 'links', label: 'Bild steht',
                  optionen: ['links', 'rechts'] },
     grund:     { type: 'auswahl', default: 'weiss', label: 'Hintergrund',
@@ -87,7 +89,9 @@ export default {
     .streifen__fussnote { font-size: 14px; color: var(--text-leise);
       margin-top: var(--raum-2); line-height: 1.55; }
 
+    .streifen__links { display: flex; flex-wrap: wrap; gap: var(--raum-2); margin-top: var(--raum-3); }
     .streifen__mehr { margin-top: var(--raum-3); }
+    .streifen__links .streifen__mehr { margin-top: 0; }
 
     /* Unter 760 px untereinander. Das Bild bleibt oben — auch in der
        Fassung 'rechts': auf dem Telefon gibt es kein Rechts, und ein Bild
@@ -103,6 +107,12 @@ export default {
     const b = ziel(data.bild);
     const l = ziel(data.linkHref);
     const extern = l && istExtern(l) ? raw(' target="_blank" rel="noopener noreferrer"') : '';
+    const l2 = ziel(data.link2Href);
+    const extern2 = l2 && istExtern(l2) ? raw(' target="_blank" rel="noopener noreferrer"') : '';
+    const link1 = data.linkLabel && l
+      ? html`<a class="pille streifen__mehr" href="${raw(escapeAttr(l))}"${extern}>${data.linkLabel} →</a>` : '';
+    const link2 = data.link2Label && l2
+      ? html`<a class="pille streifen__mehr" href="${raw(escapeAttr(l2))}"${extern2}>${data.link2Label} →</a>` : '';
 
     const zeilen = (data.zeilen || []).map((z) => {
       const werte = Array.isArray(z.wert) ? z.wert : [z.wert];
@@ -121,9 +131,7 @@ export default {
       ${data.text ? html`<p class="streifen__text">${markdownInline(data.text)}</p>` : ''}
       ${zeilen.length ? html`<ul class="streifen__zeilen">${zeilen}</ul>` : ''}
       ${data.fussnote ? html`<p class="streifen__fussnote">${markdownInline(data.fussnote)}</p>` : ''}
-      ${data.linkLabel && l
-        ? html`<a class="pille streifen__mehr" href="${raw(escapeAttr(l))}"${extern}>${data.linkLabel} →</a>`
-        : ''}
+      ${link1 && link2 ? html`<div class="streifen__links">${link1}${link2}</div>` : html`${link1}${link2}`}
     </div>`;
 
     // Ohne Bild kein Gitter: eine leere Haelfte waere ein Loch, kein Layout.

@@ -99,6 +99,12 @@
     "rhythmus": "einmal pro Woche oder alle zwei Wochen",
     "ende": "Mitte Juni"
   },
+  "tennisschule": {
+    "_hinweis": "Die Tennisschule Kaus ist selbststaendig: Training fuer Kinder und Erwachsene und das Mannschaftstraining organisiert sie direkt. Was der Club selbst anbietet (Schnupperkurse, Camps, Tennis fuer Minis, Angebote fuer Neumitglieder), steht im Fruehjahr im Clubkalender.",
+    "kontakt_name": "Oliver Kaus",
+    "telefon": "+49 172 6750873",
+    "email": "o.kaus@gmx.de"
+  },
   "gast": {
     "gebuehr": "15,00",
     "dauer_einzel": "60 Minuten",
@@ -135,17 +141,17 @@
     "_hinweis": "Stand und Aufbewahrungsfristen der Datenschutzerklaerung. Die Fristen sind eine ENTSCHEIDUNG DES VORSTANDS, nicht der Technik (vom Vorstand bestaetigt, Stand 22.10.2026) — und der Text verspricht sie. Sie gelten nur, solange das Aufraeumen sie auch durchsetzt.",
     "stand": "Oktober 2026",
     "frist_anfragen": "12 Monate",
-    "frist_chat": "90 Tage"
+    "frist_chat": "90 Tage",
+    "mail_anbieter": ""
   },
   "gastronomie": {
-    "_hinweis": "Der Clubwirt ist Pächter, kein Vereinsorgan — er kann wechseln. Deshalb stehen Name, Nummer und Zeiten HIER und nirgends im Seitentext. Die Zeiten gelten für die Freiluftsaison; 'stand' sagt das sichtbar, sonst behauptet die Seite im Januar Sommerzeiten.",
+    "_hinweis": "Der Clubwirt ist Pächter, kein Vereinsorgan — er kann wechseln. Deshalb stehen Name, Nummer und Zeiten HIER und nirgends im Seitentext. Die Zeiten gelten das ganze Jahr, auch im Winterhalbjahr (am 28.10.2026 bestätigt); ändert der Pächter sie, ändert sich nur dieser Fakt.",
     "name": "Spice of India",
     "wirt": "Sukhjinder Singh",
     "kueche": "indisch",
     "telefon": "06192 9624546",
     "telefon_mobil": "0170 4012831",
     "telefon_waehlen": "+4961929624546",
-    "zeiten_stand": "Sommer 2026",
     "zeiten_mittag": "11:00 – 14:30 Uhr",
     "zeiten_abend": "17:00 – 22:30 Uhr",
     "zeiten_wochenende": "12:00 – 22:30 Uhr",

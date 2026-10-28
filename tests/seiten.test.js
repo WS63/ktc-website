@@ -84,7 +84,7 @@ test('Testdomain wird nicht indiziert', () => {
   }
 });
 
-test('Sport: der gelbe Knopf steht am Ende (Aufruf), im Aufmacher nur ein leiser Einstieg', async () => {
+test('Sport: kein gelber Knopf und kein Minis-Angebot; die Tennisschule erklärt, was sie selbst und was der Club anbietet', async () => {
   const { seiten } = await import('../src/seiten.js');
   const sport = seiten.find((s) => s.slug === 'sport');
   const hero = sport.blocks.find((b) => b.type === 'hero').data;
@@ -92,8 +92,10 @@ test('Sport: der gelbe Knopf steht am Ende (Aufruf), im Aufmacher nur ein leiser
   assert.equal(hero.zweitHref, '#einsteiger');
   assert.ok(sport.blocks.some((b) => b.type === 'richtext' && b.data.anker === 'einsteiger'), 'das Sprungziel gibt es');
   const typen = sport.blocks.map((b) => b.type);
-  assert.equal(typen.filter((t) => t === 'aufruf').length, 1);
-  assert.ok(typen.indexOf('aufruf') < typen.indexOf('assistent'), 'vor dem Assistenten und der Fußzeile');
-  const aufruf = sport.blocks.find((b) => b.type === 'aufruf').data;
-  assert.match(aufruf.text, /\{\{facts\.beitraege\.neumitglied_erstes_jahr\}\} €/);
+  assert.ok(!typen.includes('aufruf') && !typen.includes('infokarten'), 'Mitglied werden steht im Menü; die Minis kommen im Frühjahr zurück');
+  const schule = sport.blocks.find((b) => b.type === 'richtext' && b.data.titel === 'Tennisschule Kaus').data.absaetze.join(' ');
+  assert.match(schule, /direkt bei ihr/);
+  assert.match(schule, /facts\.tennisschule\.telefon/);
+  assert.match(schule, /Clubkalender.*Aktuelles/, 'Angebote des Clubs stehen im Frühjahr dort');
+  assert.doesNotMatch(JSON.stringify(sport), /facts\.minis/, 'die Minis-Daten bleiben in den Fakten, bis das Angebot feststeht');
 });

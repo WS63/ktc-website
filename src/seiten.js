@@ -266,6 +266,24 @@ export const seiten = [
       termineHref: '/kalender/',
       ergebnisseHref: '/ergebnisse/',
     }},
+    // Das Clubrestaurant: ein Grund, auch ohne Schlaeger zu kommen. Weiss, damit die Flaechen wechseln (Foto, grau,
+    // weiss, dunkel). Die Zeiten gelten das ganze Jahr, auch im Winterhalbjahr.
+    // Zwei Pillen, kein gelber Knopf: der gehoert dem Aufmacher.
+    { type: 'streifen', data: {
+      seite: 'rechts', grund: 'weiss',
+      logo: bild('logo-restaurant', 'mittel'), logoAlt: bildAlt('logo-restaurant'),
+      titel: 'Das Clubrestaurant',
+      text: '**{{facts.gastronomie.name}}**: Hier wird {{facts.gastronomie.kueche}} gekocht, nach Originalrezepten, dazu gibt es die wohl schönste Sonnenterrasse Kriftels. Auch ohne Schläger.',
+      bild: bild('anlage-wiese', 'mittel'), bildAlt: bildAlt('anlage-wiese'),
+      zeilen: [
+        { label: '{{facts.gastronomie.zeiten_werktage}}',
+          wert: ['{{facts.gastronomie.zeiten_mittag}}', '{{facts.gastronomie.zeiten_abend}}'] },
+        { label: 'Samstag und Sonntag', wert: '{{facts.gastronomie.zeiten_wochenende}}' },
+        { label: 'Ruhetag', wert: '{{facts.gastronomie.ruhetag}}' },
+      ],
+      linkLabel: 'Tisch reservieren', linkHref: 'tel:{{facts.gastronomie.telefon_waehlen}}',
+      link2Label: 'Mehr zum Restaurant', link2Href: '/clubhaus/',
+    }},
     ASSISTENT,
     FOOTER,
   ],
@@ -364,32 +382,9 @@ export const seiten = [
       absaetze: [
         'Seit {{facts.anlage.tennisschule_seit}} vertraut der KTC auf die Kompetenz der {{facts.anlage.tennisschule}}. Geleitet von den staatlich geprüften Tennislehrern Bertrand und Oliver Kaus, steht sie für Qualität, Engagement und messbaren Trainingserfolg.',
         'Mit einem motivierten Trainerteam und modernen Lehrmethoden begleitet sie Kinder, Jugendliche und Erwachsene, vom Einsteiger bis zum Turnierspieler. Sie gehört zu den vom Deutschen Tennis Bund und vom Verband Deutscher Tennislehrer anerkannten Top-50-Tennisschulen.',
-        'Kosten für individuelles Training, Tennis-Camps und Kurse sind nicht im Clubbeitrag enthalten. Eines ihrer Angebote ist der Kurs **Tennis für Minis** für die Jüngsten. Kinder können in der ersten Saison ohne Mitgliedschaft mittrainieren, [so geht’s](/mitglied-werden/#kinder-training).',
+        '**Training und Kurse der Tennisschule buchst du direkt bei ihr.** Training für Kinder und Erwachsene und das Mannschaftstraining organisiert sie selbst, die Kosten sind nicht im Clubbeitrag enthalten. Ansprechpartner: {{facts.tennisschule.kontakt_name}}, {{facts.tennisschule.telefon}} oder [{{facts.tennisschule.email}}](mailto:{{facts.tennisschule.email}}).',
+        'Was der Club selbst anbietet, zum Beispiel Schnupperkurse, Tenniscamps, Tennis für Minis und die Angebote für Neumitglieder, stehen im Frühjahr im [Clubkalender](/kalender/) und unter [Aktuelles](/aktuelles/), sobald sie feststehen.',
       ],
-    }},
-    { type: 'infokarten', data: {
-      titel: 'Tennis für Minis',
-      karten: [
-        { label: 'Wann',    wert: '{{facts.minis.tag}}', zusatz: '{{facts.minis.zeit}}, außer in den Schulferien' },
-        { label: 'Wer',     wert: '{{facts.minis.alter}}', zusatz: 'Kinder und Eltern gemeinsam auf dem Platz' },
-        { label: 'Umfang',  wert: '{{facts.minis.einheiten}} Einheiten', zusatz: 'Schläger werden gestellt, Sportschuhe mitbringen' },
-        { label: 'Kosten',  wert: '{{facts.minis.kursgebuehr_kind}} €', zusatz: 'Kind · Erwachsene parallel {{facts.minis.kursgebuehr_erwachsen}} €' },
-      ],
-    }},
-    // Grauer Grund wie Tennisschule und Minikarten darueber: die drei
-    // Abschnitte sind EIN Bereich. Weiss an dieser Stelle riss den Kurs
-    // von seinen eigenen Eckdaten ab.
-    { type: 'richtext', data: {
-      grund: 'ruhig',
-      absaetze: [
-        'Die Gruppen sind klein: bis zu {{facts.minis.gruppengroesse_kinder}} Kinder, parallel {{facts.minis.gruppengroesse_erwachsene}} Erwachsene. **Bitte ruf vor der Anmeldung kurz an**, damit wir die passende Altersgruppe finden. Ansprechpartner: {{facts.minis.kontakt_name}}, {{facts.minis.kontakt_telefon}}.',
-      ],
-    }},
-    // Der eine gelbe Knopf der Seite: hier, wo das Angebot gelesen ist, nicht schon im Aufmacher.
-    { type: 'aufruf', data: {
-      titel: 'Dabei sein?',
-      text: 'Als Neumitglied zahlen Erwachsene im ersten Jahr nur {{facts.beitraege.neumitglied_erstes_jahr}} €. Keine Aufnahmegebühr, keine Arbeitsstunden.',
-      knopfLabel: 'Mitglied werden', knopfHref: '/mitglied-werden/',
     }},
     ASSISTENT,
     FOOTER,
@@ -574,7 +569,6 @@ export const seiten = [
         { label: 'Samstag und Sonntag', wert: '{{facts.gastronomie.zeiten_wochenende}}' },
         { label: 'Ruhetag', wert: '{{facts.gastronomie.ruhetag}}' },
       ],
-      fussnote: 'Öffnungszeiten {{facts.gastronomie.zeiten_stand}}. **Außerhalb der Freiluftsaison gelten andere Zeiten.** Wenn kein Tennisbetrieb mehr auf der Anlage ist, ändern sich Ruhetage und Zeiten. Dann vorher kurz anrufen.',
       linkLabel: 'Tisch reservieren: {{facts.gastronomie.telefon}}',
       linkHref: 'tel:{{facts.gastronomie.telefon_waehlen}}',
     }},
@@ -811,27 +805,27 @@ export const seiten = [
     { type: 'faq', data: {
       fragen: [
         { frage: 'Wie werde ich Mitglied?',
-          antwort: 'Schreib uns an [{{facts.verein.email}}](mailto:{{facts.verein.email}}) oder sprich uns auf der Anlage an. Zum Saisonstart im April bieten wir Schnupperkurse an. Ideal, um den Club kennenzulernen. Alle Beiträge stehen auf der Seite [Mitglied werden](/mitglied-werden/).' },
+          antwort: 'Schreib uns an [{{facts.verein.email}}](mailto:{{facts.verein.email}}) oder sprich uns auf der Anlage an. Zum Saisonstart im Frühjahr gibt es üblicherweise Schnupperkurse, ideal zum Kennenlernen. Sobald sie feststehen, stehen sie im [Clubkalender](/kalender/) und unter [Aktuelles](/aktuelles/). Alle Beiträge stehen auf der Seite [Mitglied werden](/mitglied-werden/).' },
         { frage: 'Was kosten die Mitgliedsbeiträge?',
           antwort: 'Zwischen {{facts.beitraege.passiv}} € für eine passive und {{facts.beitraege.aktiv}} € für eine aktive Mitgliedschaft im Jahr, mit eigenen Beiträgen für Jugendliche und Familien. Im ersten Jahr zahlen Erwachsene nur {{facts.beitraege.neumitglied_erstes_jahr}} € (Voraussetzung: {{facts.beitraege.neumitglied_voraussetzung}}). Die vollständige Liste steht auf der Seite [Mitglied werden](/mitglied-werden/). Bei Fragen helfen wir dir gern persönlich weiter.' },
         { frage: 'Wann ist Saison und wann haben die Außenplätze geöffnet?',
-          antwort: 'Die Freiluftsaison startet {{facts.anlage.saison_start}} und endet im {{facts.anlage.saison_ende}}. In den Sommermonaten stehen {{facts.anlage.plaetze}} gepflegte Sandplätze zur Verfügung. Der Trainingsbetrieb beginnt ebenfalls im April mit Tenniscamps und Schnupperkursen. Die beste Zeit zum Einsteigen. Auch im Winter gibt es Alternativen, etwa unsere beliebte Winterrunde.' },
+          antwort: 'Die Freiluftsaison startet {{facts.anlage.saison_start}} und endet im {{facts.anlage.saison_ende}}. In den Sommermonaten stehen {{facts.anlage.plaetze}} gepflegte Sandplätze zur Verfügung. Im Frühjahr gibt es üblicherweise Tenniscamps, Tennis für Minis (Kinder gemeinsam mit Mutter oder Vater) und Schnupperkurse, zum Teil auch intensiver. Die beste Zeit zum Einsteigen; die aktuellen Angebote stehen ab dem Frühjahr im [Clubkalender](/kalender/). Auch im Winter gibt es Alternativen, etwa unsere beliebte Winterrunde.' },
         { frage: 'Kann ich als Nichtmitglied einen Platz buchen?',
           antwort: 'Die Plätze sind für Vereinsmitglieder reserviert. Als Gast eines Mitglieds kannst du aber mitspielen. Sprich einfach ein Mitglied an oder schnupper bei uns rein. Die Gastspielgebühr beträgt {{facts.gast.gebuehr}} € pro Gast. Mitglieder buchen ihre Plätze bequem über [eBuSy]({{facts.links.buchung}}).' },
         { frage: 'Gibt es eine Flutlichtanlage für das Abendspiel?',
           antwort: 'Ja. Die Flutlichtanlage springt bei Dämmerung automatisch an und ermöglicht Spiel bis {{facts.anlage.flutlicht_bis}}. Ohne Aufpreis; die Nutzung ist im Beitrag enthalten. Perfekt für alle, die nach Feierabend noch Tennis spielen möchten.' },
         { frage: 'Gibt es Tennistraining für Kinder und Jugendliche?',
-          antwort: 'Ja. Vom Kindertennis für die Kleinsten bis zum Angebot „Tennis für Minis“, bei dem Kinder und Eltern gemeinsam auf den Platz gehen, ist für jede Altersgruppe etwas dabei. Die {{facts.anlage.tennisschule}} unter Leitung von Oliver Kaus kümmert sich mit einem erfahrenen Trainerteam um den Nachwuchs. Die Jugendmannschaften nehmen an den Punktspielen teil, und in den Ferien finden regelmäßig Tenniscamps statt. Mehr dazu unter [Sport](/sport/#jugend).' },
+          antwort: 'Ja. Das Training für Kinder und Jugendliche organisiert die {{facts.anlage.tennisschule}} unter Leitung von Oliver Kaus direkt, mit einem erfahrenen Trainerteam. Vom Club kommen im Frühjahr üblicherweise Tenniscamps, Tennis für Minis (Kinder und Eltern gemeinsam auf dem Platz) und Schnupperkurse; was genau stattfindet, steht dann im [Clubkalender](/kalender/). Die Jugendmannschaften nehmen an den Punktspielen teil. Mehr dazu unter [Sport](/sport/#jugend).' },
         { frage: 'Bietet der KTC Tenniskurse für Anfänger und Erwachsene an?',
           antwort: 'Selbstverständlich. Die {{facts.anlage.tennisschule}} bietet Kurse für alle Levels, vom Anfänger bis zum Turnierspieler. Oliver Kaus und sein Team sorgen für individuelle Betreuung. Ob Einzeltraining, Gruppenkurs oder Wiedereinsteiger-Angebot: Wir finden das Passende für dich. Beliebt ist auch das gesellige „T-Time“-Format an Sonntagen während der Sommerferien. Mehr zur Schule unter [Sport](/sport/#tennisschule).' },
         { frage: 'Ab welchem Alter können Kinder mit Tennis beginnen?',
-          antwort: 'Bereits im Vorschulalter. Das Kindertennis-Programm vermittelt spielerisch die Grundlagen. Besonders beliebt ist „Tennis für Minis“, wo Eltern mit ihren Kleinsten erste Schritte auf dem Platz machen. Die {{facts.anlage.tennisschule}} passt das Training altersgerecht an. Ohne Druck, mit viel Freude.' },
+          antwort: 'Bereits im Vorschulalter. Das Kindertennis-Programm vermittelt spielerisch die Grundlagen. Üblicherweise gibt es im Frühjahr das Angebot „Tennis für Minis“, bei dem Mutter oder Vater mit den Kleinsten die ersten Schritte auf dem Platz machen. Die {{facts.anlage.tennisschule}} passt das Training altersgerecht an. Ohne Druck, mit viel Freude.' },
         { frage: 'Kann mein Kind erst einmal ohne Mitgliedschaft trainieren?',
           antwort: 'Ja, für eine Saison. Nimmt dein Kind an einem längeren Schnupperkurs der {{facts.anlage.tennisschule}} teil, zahlt es einmalig {{facts.kindertraining.beitrag}} € Gastspielbeitrag statt eines Mitgliedsbeitrags. Die Anmeldung läuft über [eBuSy]({{facts.links.buchung}}), dort wird der Haken „{{facts.kindertraining.ebusy_haken}}“ gesetzt. Im Folgejahr ist eine Mitgliedschaft nötig. Alle Einzelheiten stehen auf [Mitglied werden](/mitglied-werden/#kinder-training).' },
         { frage: 'Welche Mannschaften spielen beim KTC in der Medenrunde?',
           antwort: 'Der KTC ist breit aufgestellt: Wir haben Jugend-, Damen- und Herrenmannschaften in verschiedenen Altersklassen und Spielklassen. Alle Teams stehen auf der Seite [Mannschaften](/mannschaften/), die Ergebnisse unter [Ergebnisse](/ergebnisse/). Die Punktspiele laufen während der Sommersaison. Du möchtest mitspielen? Sprich uns an. Wir freuen uns über Verstärkung.' },
         { frage: 'Brauche ich eigene Ausrüstung?',
-          antwort: 'Für die Minis-Kurse werden Schläger gestellt, du brauchst nur Sportschuhe. Ansonsten hilft dir die {{facts.anlage.tennisschule}} gern bei der Auswahl.' },
+          antwort: 'Bei „Tennis für Minis“ werden Schläger gestellt, du brauchst nur Sportschuhe. Ansonsten hilft dir die {{facts.anlage.tennisschule}} gern bei der Auswahl.' },
         { frage: 'Gibt es Gastronomie?',
           antwort: 'Ja. Das Clubrestaurant {{facts.gastronomie.name}} mit sonniger Terrasse gehört zur Anlage und ist auch für Gäste ohne Schläger offen. Öffnungszeiten, Ruhetag und die Nummer für eine Tischreservierung stehen auf [Restaurant und Terrasse](/clubhaus/).' },
         { frage: 'Wie erreiche ich den Tennisclub und wo kann ich parken?',
@@ -995,7 +989,7 @@ export const seiten = [
       titel: '4. Wenn du uns schreibst',
       absaetze: [
         'Über das Formular auf den Seiten „Kontakt“ und „Mitglied werden“ kannst du uns Fragen stellen, ebenso per E-Mail oder Telefon. Wir speichern deinen Namen, deine E-Mail-Adresse und deine Nachricht, um sie zu beantworten (Art. 6 Abs. 1 lit. b und f DSGVO). Alle Angaben sind freiwillig.',
-        'Die Anfragen liegen in der Datenbank des Servers und sind nur für Personen mit Zugang zum Redaktionsbereich sichtbar. Wir geben sie nicht weiter. Wir löschen sie {{facts.datenschutz.frist_anfragen}} nach Eingang, auf Wunsch früher.',
+        'Die Anfragen liegen in der Datenbank des Servers und sind nur für Personen mit Zugang zum Redaktionsbereich sichtbar. Jede Anfrage geht außerdem per E-Mail an das Postfach des Vereins ({{facts.verein.email}}); das Postfach betreibt {{facts.datenschutz.mail_anbieter}} in unserem Auftrag. Darüber hinaus geben wir sie nicht weiter. Wir löschen sie {{facts.datenschutz.frist_anfragen}} nach Eingang, auch die Kopie im Postfach, auf Wunsch früher.',
       ],
     }},
     { type: 'richtext', data: {

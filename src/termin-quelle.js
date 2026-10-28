@@ -180,7 +180,7 @@ export function spielplanHinweis() {
       + ` verschoben, damit der Kalender etwas zeigt. Es sind keine echten Termine.`;
   }
   return `Spieltermine vom HTV, Stand ${stand}. Verlegungen stehen erst nach dem nächsten Abruf hier`
-    + ' — maßgeblich ist immer der Spielplan beim Verband.';
+    + '. Maßgeblich ist immer der Spielplan beim Verband.';
 }
 
 /** Alles, was im Kalender stehen soll — vor dem Aussortieren abgelaufener. */

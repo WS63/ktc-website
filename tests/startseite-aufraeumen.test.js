@@ -95,3 +95,21 @@ test('Menü: die Pille ist dezent (16 px, feiner Rand), die Abstände geben den 
   assert.match(h, /\.kopf__menue a\.kopf__pille \{ border: 1px solid var\(--signal\);[^}]*font-size: 16px; font-weight: 500;/);
   assert.match(h, /\.kopf__menue \{ display: flex; gap: var\(--raum-3\); align-items: center;\s*font-size: 19px; margin-left: var\(--raum-4\); \}/);
 });
+
+test('Startseite: das Clubrestaurant steht als weißer Abschnitt unter Aktuelles, mit Zeiten aus den Fakten und ohne gelben Knopf', async () => {
+  const { seiten: alle } = await import('../src/seiten.js');
+  const start = alle.find((x) => x.slug === 'start');
+  const typen = start.blocks.map((b) => b.type);
+  assert.ok(typen.indexOf('aktuell') < typen.indexOf('streifen') && typen.indexOf('streifen') < typen.indexOf('assistent'));
+  const st = start.blocks.find((b) => b.type === 'streifen').data;
+  assert.equal(st.grund, 'weiss', 'Foto, grau, weiß, dunkel: die Flächen wechseln');
+  assert.match(JSON.stringify(st.zeilen), /facts\.gastronomie\.zeiten_mittag/);
+  assert.equal(st.fussnote, undefined, 'die Zeiten gelten das ganze Jahr: keine Einschränkung auf den Sommer');
+  assert.doesNotMatch(JSON.stringify(alle), /zeiten_stand|Freiluftsaison gelten andere Zeiten/);
+  assert.equal(st.link2Href, '/clubhaus/');
+  assert.match(st.linkHref, /^tel:\{\{facts\.gastronomie\.telefon_waehlen\}\}$/);
+  const h = renderPage({ slug: 'start', page_type: 'home', status: 'published', title: 'S', content_json: { blocks: [{ type: 'streifen', data: st }] } });
+  assert.equal((h.match(/class="knopf"/g) || []).length, 0);
+  assert.equal((h.match(/class="pille streifen__mehr"/g) || []).length, 2);
+  assert.match(h, /class="streifen__links"/);
+});

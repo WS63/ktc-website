@@ -123,3 +123,12 @@ test('infokarten: kräftig getönt mit größerer Zahl; ruhig bleibt wie es war;
   assert.equal(mw.data.stil, 'kraeftig');
   assert.notEqual(mw.data.zaehlen, 'ja');
 });
+
+test('formular: nach dem Absenden steht die Bestätigung allein und groß da, mit „Weitere Nachricht schreiben“', () => {
+  const h = renderPage(formularSeite({ aufbau: 'kompakt' }));
+  assert.match(h, /\.formular--fertig \.feld, \.formular--fertig \.formular__fuss/);
+  assert.match(h, /classList\.add\('formular--fertig'\)/);
+  assert.match(h, /Weitere Nachricht schreiben/);
+  assert.match(h, /Die Antwort geht an/);
+  assert.match(h, /role="status"/);
+});

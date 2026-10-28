@@ -23,6 +23,14 @@ services:
       # 1 = der Server holt die Ergebnisse selbst beim HTV (8, 16, 24 Stunden nach
       # Spielbeginn). Leer = er zeigt, was in der Datenbank steht.
       HTV_ABRUF: ${HTV_ABRUF:-}
+      # E-Mail bei neuen Anfragen (Postfach des Vereins, SMTP). Leer = kein Versand, die Anfragen stehen im Cockpit.
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      MAIL_VON: ${MAIL_VON:-}
+      MAIL_AN: ${MAIL_AN:-}
+      WEBSITE_ADRESSE: ${WEBSITE_ADRESSE:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       CHAT_MODELL: ${CHAT_MODELL:-claude-haiku-5-5}
     volumes:

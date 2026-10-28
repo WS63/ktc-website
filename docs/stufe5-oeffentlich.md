@@ -75,6 +75,28 @@ Coolify den Server prüfen kann.
 - Die Werte stehen **nur** in Coolify, nie im Repository (`compose.yaml` reicht
   sie nur durch).
 
+### E-Mail bei neuen Anfragen
+
+Das Formular speichert jede Anfrage im Cockpit (Anfragen). Damit der Vorstand sie auch sieht, ohne täglich
+nachzuschauen, schickt der Server zusätzlich eine Mail an das Postfach des Vereins. Der Versand läuft über das
+bestehende Postfach (SMTP), es gibt keinen weiteren Dienst.
+
+| Variable | Wert |
+|---|---|
+| `SMTP_HOST` | Server des Mailanbieters. **Leer = kein Versand.** |
+| `SMTP_PORT` | `587` (STARTTLS, Vorgabe) oder `465` (SSL) |
+| `SMTP_USER` | meist die ganze Adresse, `info@tennisclub-kriftel.de` |
+| `SMTP_PASSWORD` | das Passwort des Postfachs |
+| `MAIL_VON`, `MAIL_AN` | optional; Vorgabe ist `SMTP_USER` für beide. `MAIL_VON` muss dem Postfach gehören. |
+| `WEBSITE_ADRESSE` | optional, für den Link zum Cockpit in der Mail |
+
+- **Testen** ohne Formular: im Terminal des Containers `npm run mailtest`. Es schickt eine Testmail und nennt bei einem
+  Fehler die Meldung des Servers.
+- **Schlägt der Versand fehl,** geht nichts verloren: die Anfrage steht im Cockpit, im Log steht `[FEHLER] Benachrichtigung`.
+- **Datenschutz:** die Mail ist eine Kopie der Anfrage im Postfach. Die Löschfrist (12 Monate) gilt dort ebenfalls, aber
+  das Löschen im Postfach macht der Vorstand von Hand; die Datenschutzerklärung sagt das, und der Postfachanbieter steht
+  in `datenschutz.mail_anbieter` (leer = sichtbar `[…]`).
+
 ### Demo-Spieltermine in der Vorschau
 
 Die Saison 2026 ist vorbei, der Kalender blendet Vergangenes aus — bis zum April

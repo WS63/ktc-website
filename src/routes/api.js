@@ -48,8 +48,9 @@ router.post('/form/:name', express.json({ limit: '64kb' }), async (req, res) => 
 
     // 3. Eine scheiternde Benachrichtigung scheitert leise (P6).
     //    Die Anfrage liegt in der Tabelle, jemand sieht sie im Cockpit.
-    try { await benachrichtige(id, daten); }
-    catch (err) { console.error(`[Motor] [FEHLER] Benachrichtigung zu ${id}: ${err.message}`); }
+    // Nicht abwarten: ein langsamer Mailserver soll den Besucher nicht warten lassen. Die Anfrage ist gespeichert.
+    benachrichtige(id, daten)
+      .catch((err) => console.error(`[Motor] [FEHLER] Benachrichtigung zu ${id}: ${err.message}`));
 
     res.json({ ok: true });
   } catch (err) {
@@ -113,8 +114,12 @@ router.post('/chat', express.json({ limit: '16kb' }), async (req, res) => {
 });
 
 async function benachrichtige(id, daten) {
-  // Noch kein Mailversand eingerichtet. Bis dahin: sichtbar im Log und im Cockpit.
+  // Immer ins Log (ohne Inhalt: kein Name, keine Adresse), dann die Mail, wenn ein Server eingetragen ist
+  // (src/mail.js). Ohne Server bleibt es bei Log und Cockpit.
   console.log(`[Motor] Neue Anfrage ${id}:`, Object.keys(daten).join(', '));
+  const { benachrichtigeUeberMail } = await import('../mail.js');
+  const ergebnis = await benachrichtigeUeberMail(id, daten);
+  if (ergebnis === 'gesendet') console.log(`[Mail] Anfrage ${id} an das Vereinspostfach gesendet.`);
 }
 
 // ── Ab hier: nur angemeldet ──────────────────────────────────────────

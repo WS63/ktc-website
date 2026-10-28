@@ -20,6 +20,7 @@
     "generiere": "node --env-file=.env scripts/generiere.js",
     "bilder": "node scripts/bilder-bauen.js",
     "spielplan": "node scripts/spielplan.js",
+    "mailtest": "node --env-file-if-exists=.env scripts/mailtest.js",
     "spielbericht": "node --env-file-if-exists=.env scripts/spielbericht.js"
   },
   "keywords": [],
@@ -30,6 +31,7 @@
     "@anthropic-ai/sdk": "^0.127.0",
     "dotenv": "^18.0.1",
     "express": "^5.2.1",
+    "nodemailer": "^10.2.1",
     "pg": "^8.23.0"
   }
 }

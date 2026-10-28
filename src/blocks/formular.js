@@ -103,6 +103,18 @@ export default {
     }
     @media (max-width: 520px) { .formular--kompakt { grid-template-columns: 1fr; } }
     .formular__antwort { margin-top: var(--raum-2); font-size: 16px; }
+    /* Nach dem Absenden: die Felder verschwinden, die Bestaetigung steht allein da, gross und mit Haken. Vorher stand
+       sie klein unter dem Knopf und ging neben den leeren Feldern unter. */
+    .formular--fertig .feld, .formular--fertig .formular__fuss, .formular--fertig .formular__topf { display: none; }
+    .formular--fertig .formular__antwort { margin: 0; padding: var(--raum-3); font-size: var(--fs-md); font-weight: 600;
+      line-height: 1.4; background: var(--signal-leise); border-left: 4px solid var(--bestaetigt); border-radius: var(--radius);
+      color: var(--text); }
+    .formular--fertig .formular__antwort::before { content: '✓'; display: inline-block; margin-right: 12px;
+      color: var(--bestaetigt); font-weight: 800; }
+    .formular button.formular__neu { margin-top: var(--raum-2); background: transparent; color: var(--signal);
+      border: 1px solid var(--signal); padding: 11px 24px; font-weight: 400; }
+    .formular button.formular__neu:hover { background: var(--signal-leise); }
+    .formular--kompakt .formular__neu { grid-column: 1 / -1; justify-self: start; }
     .formular__antwort[data-art="ok"] { color: var(--bestaetigt); }
     .formular__antwort[data-art="fehler"] { color: var(--warnung); }
   `,
@@ -186,8 +198,18 @@ document.querySelectorAll('form[data-formular]').forEach(function (f) {
     }).then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
       .then(function () {
         antwort.dataset.art = 'ok';
-        antwort.textContent = antwort.dataset.danke;
+        antwort.textContent = antwort.dataset.danke + (daten.email ? ' Die Antwort geht an ' + daten.email + '.' : '');
         f.querySelectorAll('input, textarea').forEach(function (i) { i.value = ''; });
+        f.classList.add('formular--fertig');
+        var neu = document.createElement('button');
+        neu.type = 'button'; neu.className = 'formular__neu'; neu.textContent = 'Weitere Nachricht schreiben';
+        neu.addEventListener('click', function () {
+          f.classList.remove('formular--fertig'); neu.remove(); antwort.textContent = ''; antwort.dataset.art = '';
+          var erstes = f.querySelector('input, textarea'); if (erstes) erstes.focus();
+        });
+        antwort.insertAdjacentElement('afterend', neu);
+        antwort.setAttribute('tabindex', '-1'); antwort.focus();
+        antwort.scrollIntoView({ block: 'center', behavior: 'smooth' });
       })
       .catch(function () {
         antwort.dataset.art = 'fehler';

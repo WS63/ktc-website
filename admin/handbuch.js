@@ -128,6 +128,23 @@ const HANDBUCH = [
     ],
   },
   {
+    titel: 'Einen Termin eintragen, ändern oder löschen',
+    wann: 'Wenn der Verein etwas plant: Mitgliederversammlung, Arbeitseinsatz, Fest, Camp. Die Spieltermine der Medenrunde musst du nicht eintragen, sie kommen vom Verband.',
+    schritte: [
+      'Links auf <b>Termine</b>. Oben stehen die kommenden, ganz unten (zugeklappt) die vergangenen.',
+      '<b>+ Neuer Termin</b>. Pflicht sind <b>Titel</b> und <b>Datum</b>. Alles andere ist freiwillig: Uhrzeit, Ort, eine Beschreibung in ein bis drei Sätzen, ein Link zu mehr Informationen.',
+      'Dauert der Termin mehrere Tage (ein Camp), trage das <b>Enddatum</b> ein. Gilt er jeden Tag zur selben Uhrzeit, trage zusätzlich Beginn und Ende der Uhrzeit ein.',
+      'Bei <b>Art</b> den Bereich wählen (Sport, Jugend, Clubleben, Hinweis): daraus ergibt sich das Symbol und die Auswahl im Kalender.',
+      'Ändern und Löschen: die Knöpfe an der Zeile. Ein gelöschter Termin verschwindet sofort aus Kalender, Startseite, Kalender-Abo und den Antworten des Assistenten.',
+    ],
+    motor: 'Er prüft jede Eingabe (gültiges Datum, Ende nach Beginn, Links nur zu dieser Website oder mit https), speichert sie und lädt Kalender, Startseite und Abos sofort neu. Vergangene Termine blendet die Website selbst aus; sie bleiben hier unter <b>Vergangen</b>.',
+    fallstricke: [
+      'Ein Termin mit dem Vermerk <b>Beispiel</b> ist erfunden. Er erscheint mit dem Zeichen „Beispiel“ und darf nicht live gehen: ersetzen oder löschen. Die rote Meldung oben zählt sie.',
+      'Wer das Abo im Kalender hat, bekommt eine Änderung beim nächsten Abruf seines Kalenders, nicht sofort. Eine Verschiebung also früh eintragen.',
+      'Der Link „Mehr erfahren“ soll auf einen Beitrag zeigen (zum Beispiel <code>/aktuelles/…/</code>), in dem die Einzelheiten stehen. Im Termin selbst reichen ein bis drei Sätze.',
+    ],
+  },
+  {
     titel: 'Eine Anfrage bearbeiten',
     wann: 'Wenn jemand über ein Formular auf der Website geschrieben hat.',
     schritte: [
@@ -139,7 +156,8 @@ const HANDBUCH = [
     motor: 'Er speichert jede Anfrage, <b>bevor</b> er irgendetwas anderes versucht. Klemmt später die Benachrichtigung, liegt die Anfrage trotzdem hier. Verloren geht nichts.',
     fallstricke: [
       'Eine Anfrage, die niemand ansieht, ist so gut wie keine. Schau einmal am Tag auf die rote Zahl.',
-      'Es kommen keine E-Mails, solange kein Versand eingerichtet ist. Bis dahin ist diese Liste der einzige Ort.',
+      'Ist der Mailversand eingerichtet, kommt zu jeder Anfrage auch eine Mail ins Vereinspostfach; <b>Antworten</b> geht dann direkt an den Absender. Ohne Versand ist diese Liste der einzige Ort. In beiden Fällen bleibt sie die sichere Kopie.',
+      'Die Datenschutzerklärung verspricht, Anfragen nach der Frist (12 Monate) zu löschen. Der Server löscht sie hier von allein; <b>die Mail im Postfach löschst du von Hand</b>.',
     ],
   },
   {

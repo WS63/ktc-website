@@ -95,6 +95,8 @@ const REDAKTION_DARF = [
   ['GET', /^\/pages(\/[\w-]+)?$/], ['POST', /^\/pages$/], ['PUT', /^\/pages\/[\w-]+$/],
   ['GET', /^\/media$/], ['POST', /^\/media$/], ['PUT', /^\/media\/[\w-]+$/],
   ['GET', /^\/redaktion\/.*$/], ['POST', /^\/redaktion\/.*$/],
+  // Termine eintragen gehoert zur Redaktion: die Pressewartin pflegt den Kalender.
+  ['GET', /^\/termine$/], ['POST', /^\/termine$/], ['PUT', /^\/termine\/[\w-]+$/], ['DELETE', /^\/termine\/[\w-]+$/],
 ];
 export function nurErlaubtes(req, res, next) {
   if (istAdmin(req)) return next();

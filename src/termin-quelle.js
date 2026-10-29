@@ -17,10 +17,15 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { planAusSpeicher } from './spielstand.js';
 import { wochenenden } from './ergebnisse.js';
+import { termineAusSpeicher } from './vereinstermine.js';
 
 const DATEI = 'inhalte/termine.json';
 
 export function vereinsTermine() {
+  // Im Betrieb kommen sie aus der Datenbank (im Cockpit gepflegt, src/vereinstermine.js). Ohne Datenbank, in Tests
+  // und in einem frischen Checkout, bleibt die Datei die Quelle.
+  const ausDb = termineAusSpeicher();
+  if (ausDb) return ausDb;
   try {
     const liste = JSON.parse(readFileSync(DATEI, 'utf8')).termine;
     return Array.isArray(liste) ? liste : [];

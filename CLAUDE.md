@@ -242,6 +242,16 @@ ersten Zeile eines Spieltags, die folgenden Begegnungen erben es). Ein Import
 der Termine ist also möglich — er braucht dann aber ein sichtbares „Stand: …"
 und muss einen Ausfall des Abrufs überleben, ohne die Seite zu beschädigen.
 
+### Die Vereinstermine: im Cockpit gepflegt
+
+Sie liegen in der Tabelle `vereinstermine` (Migration 017), im Speicher gehalten wie der Spielstand
+(`src/vereinstermine.js`), gepflegt unter **Cockpit → Termine** (auch die Redaktion darf). `pruefe()` prüft jede
+Eingabe (gültiges Datum, Ende nach Beginn, Links nur `/…` oder `https://`). **`inhalte/termine.json` ist nur die
+Ausgangslage:** beim ersten Start mit leerer Tabelle wird sie einmal übernommen, danach verhindert die Marke
+`vereinstermine_importiert`, dass gelöschte Termine zurückkommen. Wer dort etwas ändert, ändert nur frische
+Datenbanken. Eine Änderung leert den Seiten-Cache und liest die Seiten mit Terminen für Lisa neu ein. Ein Server
+mit `suchmaschinen: true` und Beispielterminen warnt beim Start.
+
 ### Die Terminliste auf `/kalender/`
 
 - **Nach vorn wichtig, nach hinten nicht:** `termine` mit `zuklappen: 'an'` ordnet die
@@ -261,7 +271,7 @@ im Kalender kündigt man nach einer Woche:
 
 | Adresse | Inhalt | ein Termin je |
 |---|---|---|
-| `/kalender/club.ics` | Vereinstermine aus `inhalte/termine.json` | Termin |
+| `/kalender/club.ics` | Vereinstermine (Cockpit → Termine, Tabelle `vereinstermine`) | Termin |
 | `/kalender/heimspiele.ics` | Medenspiele auf **unserer** Anlage (ohne Heimspiele einer Partner-SG) | Datum + Anwurfzeit |
 | `/kalender/mannschaft/<name>.ics` | eine Mannschaft, Name wie `herren-40-ii` | Begegnung |
 
@@ -330,7 +340,7 @@ Jedes davon ist in `tests/cockpit.test.js` festgehalten und läuft bei `npm test
 
 ### Das Handbuch pflegt sich mit
 
-`admin/handbuch.js` beschreibt acht Abläufe, im Cockpit lesbar. **Ändert ein Commit einen
+`admin/handbuch.js` beschreibt zehn Abläufe, im Cockpit lesbar. **Ändert ein Commit einen
 Knopf, wird das Handbuch im selben Commit mitgezogen** — eine Anleitung mit falschen
 Knopfnamen zerstört das Vertrauen in alle anderen Einträge. Die Fallstricke kommen aus
 echten Vorfällen, nicht aus Vermutungen.

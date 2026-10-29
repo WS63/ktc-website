@@ -459,6 +459,56 @@ router.put('/config/:was', async (req, res) => {
 // Die Arten von Beitraegen und Terminen, fuer das Auswahlfeld im Cockpit.
 router.get('/arten', (_req, res) => res.json(loadArten()));
 
+// ── Vereinstermine (Cockpit → Termine). Die Redaktion darf sie pflegen (src/auth.js). ──
+// Jede Eingabe laeuft durch pruefe(): der Server vertraut nie dem, was das Cockpit schickt. Nach jeder Aenderung ist
+// der Speicher neu geladen (vereinstermine.js) und der Seiten-Cache geleert: Kalender, Startseite, Abos und der
+// Assistent zeigen sofort dasselbe.
+const terminArten = () => Object.keys(loadArten()).filter((k) => k[0] !== '_');
+const terminFehler = (res, fehler) => res.status(400).json({ fehler: fehler.join(' ') });
+
+/** Der Assistent liest den Kalender beim Indizieren: nach einer Aenderung die Seiten mit Terminen neu einlesen (im Hintergrund, P6). */
+function terminIndexNeu() {
+  query("SELECT * FROM pages WHERE status = 'published' AND content_json LIKE '%\"type\":\"termine\"%'")
+    .then(async (seiten) => {
+      const { indiziere } = await import('../assistent/zerlegen.js');
+      for (const s of seiten) await indiziere(s);
+    })
+    .catch((e) => console.error('[Motor] [FEHLER] Index nach Terminen:', e.message));
+}
+
+router.get('/termine', async (_req, res) => {
+  const { alleFuerCockpit } = await import('../vereinstermine.js');
+  res.json(await alleFuerCockpit());
+});
+
+router.post('/termine', async (req, res) => {
+  const { pruefe, anlegen } = await import('../vereinstermine.js');
+  const p = pruefe(req.body, terminArten());
+  if (!p.ok) return terminFehler(res, p.fehler);
+  const id = await anlegen(p.termin);
+  leereCache();
+  terminIndexNeu();
+  res.json({ ok: true, id });
+});
+
+router.put('/termine/:id', async (req, res) => {
+  const { pruefe, aendern } = await import('../vereinstermine.js');
+  const p = pruefe(req.body, terminArten());
+  if (!p.ok) return terminFehler(res, p.fehler);
+  if (!await aendern(req.params.id, p.termin)) return res.status(404).json({ fehler: 'Gibt es nicht.' });
+  leereCache();
+  terminIndexNeu();
+  res.json({ ok: true });
+});
+
+router.delete('/termine/:id', async (req, res) => {
+  const { loeschen } = await import('../vereinstermine.js');
+  if (!await loeschen(req.params.id)) return res.status(404).json({ fehler: 'Gibt es nicht.' });
+  leereCache();
+  terminIndexNeu();
+  res.json({ ok: true });
+});
+
 // ── Generator (Stufe 4) ──────────────────────────────────────────────
 router.get('/generator', async (_req, res) => {
   const { istBereit } = await import('../generator.js');

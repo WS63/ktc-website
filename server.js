@@ -8,6 +8,8 @@ import { zugangsschutz } from './src/zugang.js';
 import { sicherheitsKoepfe } from './src/sicherheit.js';
 import { DEMO_AN } from './src/termin-quelle.js';
 import { starten as spielstandLaden, starteZeitplan } from './src/spielstand.js';
+import { starten as termineLaden, termineAusSpeicher } from './src/vereinstermine.js';
+import { loadArten, loadSite } from './src/config.js';
 import { starteAufraeumen } from './src/aufraeumen.js';
 
 /**
@@ -23,6 +25,13 @@ try {
   // Der Spielstand: aus der Datenbank, beim allerersten Start aus der Jahresdatei.
   const anzahl = await spielstandLaden();
   console.log(`[Spielstand] ${anzahl} Begegnungen geladen.`);
+  // Die Vereinstermine: aus der Datenbank (im Cockpit gepflegt), beim allerersten Start aus inhalte/termine.json.
+  const artenSchluessel = Object.keys(loadArten()).filter((k) => k[0] !== '_');
+  console.log(`[Termine] ${await termineLaden(artenSchluessel)} Vereinstermine geladen.`);
+  // Beispieltermine duerfen nicht live gehen: sie sind erfunden. Der Server sagt es beim Start laut.
+  if (loadSite().suchmaschinen !== false && (termineAusSpeicher() || []).some((t) => t.beispiel)) {
+    console.error('[Termine] [WARNUNG] Die Seite ist für Suchmaschinen freigegeben, aber es stehen noch Beispieltermine im Kalender (Cockpit → Termine).');
+  }
 } catch (err) {
   const ziel = process.env.DATABASE_URL
     ? process.env.DATABASE_URL.replace(/\/\/[^@]*@/, '//***@')

@@ -67,7 +67,14 @@ function frage({ titel, text, knopf = 'Ja, machen', gefahr = false, felder = [],
     el('h2', { text: titel }),
     text ? el('p', { class: 'hinweis', style: 'margin-bottom:16px', text }) : null,
     ...felder.map((f) => {
-      const i = el('input', { value: f.wert || '', placeholder: f.platzhalter || '' });
+      // Ein Feld ist Text (Vorgabe), 'langtext' (mehrere Zeilen), 'auswahl' (optionen: [{ wert, label }]) oder ein
+      // Eingabetyp wie 'date' und 'time' (f.eingabe).
+      const i = f.typ === 'auswahl'
+        ? el('select', {}, ...f.optionen.map((o) => el('option', { value: o.wert, text: o.label, selected: o.wert === f.wert })))
+        : f.typ === 'langtext'
+          ? el('textarea', { placeholder: f.platzhalter || '', style: 'min-height:84px' })
+          : el('input', { value: f.wert || '', placeholder: f.platzhalter || '', ...(f.eingabe ? { type: f.eingabe } : {}) });
+      if (f.typ === 'langtext') i.value = f.wert || '';
       eingaben[f.name] = i;
       return el('div', { class: 'feldreihe' }, el('label', { text: f.label }), i,
         f.hinweis ? el('p', { class: 'hinweis', text: f.hinweis }) : null);
@@ -77,7 +84,7 @@ function frage({ titel, text, knopf = 'Ja, machen', gefahr = false, felder = [],
       el('button', { class: gefahr ? 'gefahr' : 'stark', text: knopf })),
   );
   fenster(form);
-  setTimeout(() => form.querySelector('input')?.focus(), 30);
+  setTimeout(() => form.querySelector('input, textarea')?.focus(), 30);
 }
 
 // ══════════════════════════════════════════════ SEITEN
@@ -567,6 +574,78 @@ function anfrageKarte(a) {
         el('td', { text: String(v) })))));
 }
 
+// ══════════════════════════════════════════════ TERMINE
+const heuteTag = () => new Date().toLocaleDateString('sv-SE');          // JJJJ-MM-TT in Ortszeit
+const deutschesDatum = (d) => d.split('-').reverse().join('.');
+
+function terminFelder(t = {}, arten = {}) {
+  const art = Object.entries(arten).filter(([k, v]) => k[0] !== '_' && v.termin)
+    .map(([k, v]) => ({ wert: k, label: `${v.symbol} ${v.termin}` }));
+  return [
+    { name: 'titel', label: 'Titel', wert: t.titel, platzhalter: 'zum Beispiel Mitgliederversammlung' },
+    { name: 'datum', label: 'Datum (Beginn)', eingabe: 'date', wert: t.datum },
+    { name: 'bis', label: 'Enddatum (nur bei mehreren Tagen)', eingabe: 'date', wert: t.bis },
+    { name: 'uhrzeit', label: 'Beginn (Uhrzeit, wenn bekannt)', eingabe: 'time', wert: t.uhrzeit },
+    { name: 'ende', label: 'Ende (Uhrzeit, wenn bekannt)', eingabe: 'time', wert: t.ende },
+    { name: 'art', label: 'Art', typ: 'auswahl', optionen: art, wert: t.art || 'club' },
+    { name: 'ort', label: 'Ort', wert: t.ort, platzhalter: 'zum Beispiel Clubhaus' },
+    { name: 'text', label: 'Beschreibung', typ: 'langtext', wert: t.text,
+      hinweis: 'Ein bis drei Sätze: was passiert, was man mitbringt, ob man sich anmelden soll.' },
+    { name: 'mehr', label: 'Link zu mehr Informationen (freiwillig)', wert: t.mehr, platzhalter: '/aktuelles/…/',
+      hinweis: 'Eine Seite dieser Website (beginnt mit /) oder eine Adresse mit https://' },
+    { name: 'mehrLabel', label: 'Text des Links', wert: t.mehrLabel, platzhalter: 'Mehr erfahren' },
+    ...(t.beispiel ? [{ name: 'beispiel', label: 'Dieser Termin war ein Beispiel. Ist er echt?', typ: 'auswahl',
+      wert: 'ja', optionen: [{ wert: 'ja', label: 'Ja, der Termin steht fest' }, { wert: 'nein', label: 'Nein, bleibt ein Beispiel' }] }] : []),
+  ];
+}
+
+async function zeigeTermine() {
+  const [liste, arten] = await Promise.all([api('/termine'), api('/arten')]);
+  const heute = heuteTag();
+  const vorbei = (t) => (t.bis || t.datum) < heute;
+  const kommend = liste.filter((t) => !vorbei(t));
+  const vergangen = liste.filter(vorbei).reverse();
+  const beispiele = liste.filter((t) => t.beispiel).length;
+  const symbol = (k) => arten[k]?.symbol || '';
+
+  const speichern = (id) => async (w) => {
+    const koerper = { ...w, beispiel: w.beispiel === 'nein' };
+    await api(id ? `/termine/${id}` : '/termine', { method: id ? 'PUT' : 'POST', body: JSON.stringify(koerper) });
+    melde(id ? 'Gespeichert.' : 'Termin angelegt.'); zeigeTermine();
+  };
+  const neu = () => frage({ titel: 'Neuer Termin', knopf: 'Anlegen', felder: terminFelder({}, arten), dann: speichern(null) });
+  const bearbeiten = (t) => frage({ titel: 'Termin bearbeiten', knopf: 'Speichern', felder: terminFelder(t, arten), dann: speichern(t.id) });
+  const loeschen = (t) => frage({ titel: 'Termin löschen?', knopf: 'Ja, löschen', gefahr: true,
+    text: `„${t.titel}“ am ${deutschesDatum(t.datum)} verschwindet aus Kalender, Startseite und Kalender-Abo.`,
+    dann: async () => { await api(`/termine/${t.id}`, { method: 'DELETE' }); melde('Gelöscht.'); zeigeTermine(); } });
+
+  const zeile = (t) => el('div', { class: 'karte' }, el('div', { class: 'zeile' },
+    el('div', {},
+      el('h3', { text: `${symbol(t.art)} ${t.titel}` }),
+      el('span', { class: 'hinweis', text: [
+        deutschesDatum(t.datum) + (t.bis ? ` bis ${deutschesDatum(t.bis)}` : ''),
+        t.uhrzeit ? `${t.uhrzeit}${t.ende ? ` bis ${t.ende}` : ''} Uhr` : '', t.ort || ''].filter(Boolean).join(' · ') }),
+      t.beispiel ? el('p', { class: 'hinweis', style: 'color:var(--warnung)',
+        text: 'Beispiel: erfunden, bitte durch einen echten Termin ersetzen oder löschen.' }) : null),
+    el('div', { class: 'rechts' },
+      el('button', { class: 'klein', text: 'Bearbeiten', onclick: () => bearbeiten(t) }),
+      el('button', { class: 'klein gefahr', text: 'Löschen', onclick: () => loeschen(t) }))));
+
+  $('#buehne').replaceChildren(
+    el('div', { class: 'kopfzeile' }, el('h1', { text: 'Termine' }),
+      el('span', { class: 'hinweis', text: `${kommend.length} kommend` }),
+      el('div', { class: 'rechts' }, el('button', { class: 'stark', text: '+ Neuer Termin', onclick: neu }))),
+    el('p', { class: 'hinweis', style: 'margin-bottom:14px',
+      text: 'Die Vereinstermine für Kalender, Startseite und Kalender-Abo. Die Spieltermine der Medenrunde kommen vom HTV und stehen hier nicht. Vergangene Termine blendet die Website selbst aus, sie bleiben unter „Vergangen“.' }),
+    beispiele ? el('div', { class: 'warnbox', style: 'margin-bottom:14px',
+      text: `${beispiele} Beispieltermin${beispiele === 1 ? '' : 'e'} (erfunden) stehen noch im Kalender. Vor dem Livegang ersetzen oder löschen.` }) : null,
+    kommend.length ? el('div', {}, ...kommend.map(zeile))
+      : el('p', { class: 'leer', text: 'Zurzeit steht kein Termin an. Mit „Neuer Termin“ legst du einen an.' }),
+    vergangen.length ? el('details', { style: 'margin-top:22px' },
+      el('summary', { text: `Vergangen (${vergangen.length})`, style: 'cursor:pointer;font-weight:600;margin-bottom:10px' }),
+      ...vergangen.map(zeile)) : null);
+}
+
 // ══════════════════════════════════════════════ UMLEITUNGEN
 async function zeigeUmleitungen() {
   const liste = await api('/redirects');
@@ -1028,7 +1107,7 @@ async function zeigeRedaktion() {
 const SEITEN = {
   redaktion: zeigeRedaktion,
   seiten: zeigeSeiten, navigation: zeigeNavigation, medien: zeigeMedien,
-  anfragen: zeigeAnfragen, umleitungen: zeigeUmleitungen,
+  termine: zeigeTermine, anfragen: zeigeAnfragen, umleitungen: zeigeUmleitungen,
   fakten: zeigeFakten, generator: zeigeGenerator,
   assistent: zeigeAssistent, aufrufe: zeigeAufrufe,
   handbuch: zeigeHandbuch,
@@ -1076,7 +1155,7 @@ async function start() {
   ROLLE = (await api('/ich')).rolle;
   if (ROLLE === 'redaktion') {
     $$('nav a[data-ziel]').forEach((a) => {
-      if (!['redaktion', 'seiten', 'medien', 'handbuch'].includes(a.dataset.ziel)) a.remove();
+      if (!['redaktion', 'seiten', 'medien', 'termine', 'handbuch'].includes(a.dataset.ziel)) a.remove();
     });
     SCHEMA.typen = SCHEMA.typen.filter((t) => t.name === 'beitrag');
     if (!location.hash) location.hash = '#redaktion';

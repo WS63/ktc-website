@@ -1,0 +1,292 @@
+{
+  "_hinweis": "Der Rahmenspielplan des HTV fuer die Medenrunde im Sommer: nur die TERMINE und welche Altersklassen grundsaetzlich an diesem Tag spielen. Welche Mannschaft in welcher Gruppe gegen wen spielt, steht erst mit der Gruppeneinteilung fest. Diese Tage erscheinen im Kalender als 'HTV-Medenspieltag' (ein Eintrag je Wochenende), NICHT in den Ergebnissen. Sobald der echte Spielplan eines Wochenendes importiert ist (npm run spielplan), ersetzt er den Rahmen-Eintrag dieses Wochenendes von selbst. Kuerzel: D = Damen, H = Herren, U = Jugend (Junioren/Juniorinnen). 'ausweich': true = Ausweichtermin (beim HTV 'Z/A') fuer verlegte Spiele dieser Altersklassen.",
+  "saison": "2027",
+  "stand": "2026-11-09",
+  "tage": [
+    {
+      "datum": "2027-05-21",
+      "klassen": [
+        "U10",
+        "U15"
+      ]
+    },
+    {
+      "datum": "2027-05-22",
+      "klassen": [
+        "D40",
+        "D50",
+        "D55",
+        "H50",
+        "H55",
+        "H60",
+        "U12",
+        "U18"
+      ]
+    },
+    {
+      "datum": "2027-05-23",
+      "klassen": [
+        "D",
+        "D30",
+        "D60",
+        "H",
+        "H30",
+        "H40"
+      ]
+    },
+    {
+      "datum": "2027-06-04",
+      "klassen": [
+        "U10",
+        "U15"
+      ]
+    },
+    {
+      "datum": "2027-06-05",
+      "klassen": [
+        "D40",
+        "D50",
+        "D55",
+        "H50",
+        "H55",
+        "H60",
+        "U12",
+        "U18"
+      ]
+    },
+    {
+      "datum": "2027-06-06",
+      "klassen": [
+        "D",
+        "D30",
+        "D60",
+        "H",
+        "H30",
+        "H40"
+      ]
+    },
+    {
+      "datum": "2027-06-11",
+      "klassen": [
+        "U10",
+        "U15"
+      ]
+    },
+    {
+      "datum": "2027-06-12",
+      "klassen": [
+        "D40",
+        "D50",
+        "D55",
+        "H50",
+        "H55",
+        "H60",
+        "U12",
+        "U18"
+      ]
+    },
+    {
+      "datum": "2027-06-13",
+      "klassen": [
+        "D",
+        "D30",
+        "D60",
+        "H",
+        "H30",
+        "H40"
+      ]
+    },
+    {
+      "datum": "2027-06-18",
+      "klassen": [
+        "U10",
+        "U15"
+      ]
+    },
+    {
+      "datum": "2027-06-19",
+      "klassen": [
+        "D40",
+        "D50",
+        "D55",
+        "H50",
+        "H55",
+        "H60",
+        "U12",
+        "U18"
+      ]
+    },
+    {
+      "datum": "2027-06-20",
+      "klassen": [
+        "D",
+        "D30",
+        "D60",
+        "H",
+        "H30",
+        "H40"
+      ]
+    },
+    {
+      "datum": "2027-08-06",
+      "ausweich": true,
+      "klassen": [
+        "U10",
+        "U15"
+      ]
+    },
+    {
+      "datum": "2027-08-07",
+      "ausweich": true,
+      "klassen": [
+        "D40",
+        "D50",
+        "D55",
+        "H50",
+        "H55",
+        "H60",
+        "U12",
+        "U18"
+      ]
+    },
+    {
+      "datum": "2027-08-08",
+      "ausweich": true,
+      "klassen": [
+        "D",
+        "D30",
+        "D60",
+        "H",
+        "H30",
+        "H40"
+      ]
+    },
+    {
+      "datum": "2027-08-13",
+      "klassen": [
+        "U10",
+        "U15"
+      ]
+    },
+    {
+      "datum": "2027-08-14",
+      "klassen": [
+        "D40",
+        "D50",
+        "D55",
+        "H50",
+        "H55",
+        "H60",
+        "U12",
+        "U18"
+      ]
+    },
+    {
+      "datum": "2027-08-15",
+      "klassen": [
+        "D",
+        "D30",
+        "D60",
+        "H",
+        "H30",
+        "H40"
+      ]
+    },
+    {
+      "datum": "2027-08-20",
+      "klassen": [
+        "U10",
+        "U15"
+      ]
+    },
+    {
+      "datum": "2027-08-21",
+      "klassen": [
+        "D40",
+        "D50",
+        "D55",
+        "H50",
+        "H55",
+        "H60",
+        "U12",
+        "U18"
+      ]
+    },
+    {
+      "datum": "2027-08-22",
+      "klassen": [
+        "D",
+        "D30",
+        "D60",
+        "H",
+        "H30",
+        "H40"
+      ]
+    },
+    {
+      "datum": "2027-08-27",
+      "ausweich": true,
+      "klassen": [
+        "U10",
+        "U15"
+      ]
+    },
+    {
+      "datum": "2027-08-28",
+      "ausweich": true,
+      "klassen": [
+        "D40",
+        "D50",
+        "D55",
+        "H50",
+        "H55",
+        "H60",
+        "U12",
+        "U18"
+      ]
+    },
+    {
+      "datum": "2027-08-29",
+      "ausweich": true,
+      "klassen": [
+        "D",
+        "D30",
+        "D60",
+        "H",
+        "H30",
+        "H40"
+      ]
+    },
+    {
+      "datum": "2027-09-03",
+      "klassen": [
+        "U10",
+        "U15"
+      ]
+    },
+    {
+      "datum": "2027-09-04",
+      "klassen": [
+        "D40",
+        "D50",
+        "D55",
+        "H50",
+        "H55",
+        "H60",
+        "U12",
+        "U18"
+      ]
+    },
+    {
+      "datum": "2027-09-05",
+      "klassen": [
+        "D",
+        "D30",
+        "D60",
+        "H",
+        "H30",
+        "H40"
+      ]
+    }
+  ]
+}

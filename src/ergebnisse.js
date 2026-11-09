@@ -84,6 +84,10 @@ function fensterEintraege(spiele, w, jetzt) {
       tag: s.datum, wochentag: WOCHENTAG(s.datum), uhrzeit: s.uhrzeit || '',
       mannschaft: s.mannschaft, sg: s.sg || '', sgart: sgArt(s.sg), heim: s.heim, gast: s.gast, zuhause: s.zuhause,
       gegner: s.gegner, matchpunkte: s.matchpunkte || '', ausgang: e?.ausgang || '',
+      // Dieselbe Zahl aus Sicht des KTC (wir:sie). Die Tabelle nennt den KTC immer zuerst, egal ob Heim oder Gast:
+      // dort muss die Zahl dieselbe Reihenfolge haben, sonst steht 2:4 neben einem Sieg. 'matchpunkte' bleibt
+      // Heim:Gast wie beim Verband, fuer jede Ansicht, die die Namen in der Reihenfolge des Verbands nennt.
+      punktenWir: e ? `${e.wir}:${e.sie}` : '',
       status: e ? 'gespielt' : (Number.isFinite(start) && jetzt < start ? 'kommt' : 'offen'),
       gemeldet: s.gemeldet_um ? Date.parse(s.gemeldet_um) : 0,
       bericht: s.bericht || '',

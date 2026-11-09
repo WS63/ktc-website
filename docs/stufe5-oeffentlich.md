@@ -142,9 +142,14 @@ Stunden nach Spielbeginn und am Folgetag um 14 Uhr**, nur in den Gruppen, in den
 Ergebnis fehlt, dazu montags ein Gesamtabruf für Verlegungen. Ohne die Variable zeigt der
 Server, was in der Datenbank steht. Lokal und in Tests bleibt sie leer.
 
-- Beim allerersten Start füllt sich die Datenbank aus `inhalte/spielplan/<jahr>.json`.
+- Beim allerersten Start füllt sich die Datenbank aus `inhalte/spielplan/<jahr>.json`. Eine schon benutzte
+  Datenbank füllt der Deploy **nicht** nach: neue Spiele (Saison oder Winterrunde) kommen mit dem nächsten Abruf,
+  im Cockpit sofort per „Jetzt beim Verband nachsehen" (Bereich Redaktion).
 - Im April: neue Mannschaftsliste anlegen (`inhalte/mannschaften/2027.json`), einmal
   `npm run spielplan` (Jahresdatei und Ausgangsbestand), committen, deployen.
+- Im Herbst: die Winterrunde als Abschnitt `winter` in die Jahresdatei des laufenden Jahres, dann ebenso
+  (`npm run spielplan`, committen, deployen). Die Datei fürs neue Jahr erst anlegen, wenn die Winterrunde durch ist;
+  siehe `CLAUDE.md`, Abschnitt „Die Winterrunde". Betriebsabläufe insgesamt: `docs/betrieb.md`.
 - Die Seite `/ergebnisse/` ist öffentlich und zeigt nur Mannschaften und Ergebnisse.
 
 ## Schritt 1 — Git

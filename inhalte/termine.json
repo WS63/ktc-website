@@ -1,7 +1,7 @@
 {
   "_achtung_betrieb": "AUSGANGSLAGE, nicht mehr die Quelle. Im Betrieb werden die Vereinstermine im Cockpit gepflegt (Cockpit → Termine, Tabelle vereinstermine). Diese Datei wird nur beim ersten Start mit leerer Tabelle einmal uebernommen; spaetere Aenderungen hier wirken nicht auf eine bestehende Datenbank.",
   "_hinweis": "Die Vereinstermine — EINE Quelle für Clubkalender und Startseite (P3). Datum als JJJJ-MM-TT, art ist spiel (Sport), jugend, club oder info (Hinweis). Abgelaufene Termine blendet die Website selbst aus, hier muss nichts gelöscht werden. Nach einer Änderung den Server neu starten: fertige Seiten liegen bis Mitternacht im Speicher. Spieltage der Medenrunde stehen NICHT hier: sie kommen aus dem HTV-Import (npm run spielplan). art ist spiel, club oder info (config/arten.json) — daraus ergibt sich das Symbol.",
-  "_achtung": "Der Herbst-Aktionstag am 24.10.2026 ist ein ECHTER Termin (Einladung vom Vorstand), die drei Einträge mit Datum 2027 sind BEISPIELE aus Stufe 2. 'mehr' verweist auf einen Beitrag mit der Langfassung; 'bis' (JJJJ-MM-TT) macht einen mehrtägigen Termin. Die vier Einträge von 2026 (Mitgliederversammlung, Putztag, Himmelfahrt, Pfingsten) sind echte Termine aus den Beiträgen, für die Rückschau; Himmelfahrt und Pfingsten sind aus dem Feiertagskalender abgeleitet, bitte prüfen. Beispiele tragen \"beispiel\": true: sie erscheinen mit dem Zeichen „Beispiel“, kommen nicht in die Kalender-Abos und nicht in Lisas Antworten, und ein Test schlägt fehl, sobald die Seite für Suchmaschinen freigegeben wird (suchmaschinen: true), solange noch eines drinsteht.",
+  "_achtung": "Der Herbst-Aktionstag am 24.10.2026 ist ein ECHTER Termin (Einladung vom Vorstand), die Einträge vom 31.01. bis 18.04.2027 sind echte Termine des Vorstands (Stand 9.11.2026; Mitgliederversammlung, Putztag und Saisoneröffnung noch nicht endgültig), die zwei Einträge vom 8.5. und 12.6.2027 sind BEISPIELE aus Stufe 2. 'mehr' verweist auf einen Beitrag mit der Langfassung; 'bis' (JJJJ-MM-TT) macht einen mehrtägigen Termin. Die vier Einträge von 2026 (Mitgliederversammlung, Putztag, Himmelfahrt, Pfingsten) sind echte Termine aus den Beiträgen, für die Rückschau; Himmelfahrt und Pfingsten sind aus dem Feiertagskalender abgeleitet, bitte prüfen. Beispiele tragen \"beispiel\": true: sie erscheinen mit dem Zeichen „Beispiel“, kommen nicht in die Kalender-Abos und nicht in Lisas Antworten, und ein Test schlägt fehl, sobald die Seite für Suchmaschinen freigegeben wird (suchmaschinen: true), solange noch eines drinsteht.",
   "termine": [
     {
       "datum": "2026-10-24",
@@ -14,13 +14,34 @@
       "mehrLabel": "Aufgaben und was du mitbringst"
     },
     {
+      "datum": "2027-01-31",
+      "art": "info",
+      "titel": "Frist: Ausbildungsbescheinigung, Passiv-Wechsel, Spind-Kündigung",
+      "text": "Bis zu diesem Tag reichst du Ausbildungsbescheinigungen ein, wechselst zur Passiv-Mitgliedschaft oder kündigst deinen Spind."
+    },
+    {
+      "datum": "2027-02-15",
+      "art": "info",
+      "titel": "Einzug der Mitgliedsbeiträge und der Spindgebühr",
+      "text": "Der Verein bucht die Beiträge und die Spindgebühr ab."
+    },
+    {
+      "datum": "2027-03-16",
+      "art": "info",
+      "titel": "Mitgliederversammlung für das Geschäftsjahr 2026",
+      "text": "Der Termin steht noch nicht endgültig fest."
+    },
+    {
       "datum": "2027-04-17",
-      "uhrzeit": "14:00",
+      "art": "club",
+      "titel": "Frühjahrs-Putztag",
+      "text": "Gemeinsam die Anlage für die Sommersaison herrichten. Der Termin steht noch nicht endgültig fest."
+    },
+    {
+      "datum": "2027-04-18",
       "art": "club",
       "titel": "Saisoneröffnung",
-      "text": "Start in die Freiluftsaison mit Schleifchenturnier und anschließendem Grillen.",
-      "ort": "Clubhaus und Plätze",
-      "beispiel": true
+      "text": "Start in die Freiluftsaison. Der Termin steht noch nicht endgültig fest."
     },
     {
       "datum": "2027-05-08",

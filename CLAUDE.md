@@ -118,6 +118,8 @@ tests/               node --test
   **Die Schritte stehen in `docs/stufe5-oeffentlich.md`.**
 - **Stufe 6 · teilweise** — neue Bausteine und Seitentypen sind Stufe-6-Arbeit
 - **Stufe 7 · abgeschlossen** — der Assistent. 67 Stücke, Antworten nur aus dem Bestand
+- **Winterrunde 2026/27 · abgeschlossen** (9.11.2026) — Spielplan, Ergebnisse, Abos, `/mannschaften/`
+- **Betriebshandbuch** `docs/betrieb.md` — Zugänge, Notfälle, Sicherung, Übergabe in Stufen
 
 ## Bilder
 
@@ -219,7 +221,12 @@ Spielklasse und die **Gruppennummer** beim HTV — nicht die ganze URL. Die baut
   "saison": "2026",
   "wettbewerbe": { "standard": "Medenrunde+2026", "sommer": "HTV-Summer-Mixed+Tour+2026" },
   "erwachsene": [{ "name": "Damen", "sg": "…", "staerke": "6er", "klasse": "…", "gruppe": "10" }],
-  "jugend":     [{ "name": "Gemischt U12", …, "wettbewerb": "sommer" }]
+  "jugend":     [{ "name": "Gemischt U12", …, "wettbewerb": "sommer" }],
+  "winter": {                                    // optional, siehe „Die Winterrunde"
+    "runde": "Winter 2026/27", "wettbewerb": "Winterrunde+26%2F27",
+    "erwachsene": [{ "name": "Herren 30", "sg": "—", "staerke": "2er", "klasse": "Kreisliga A", "gruppe": "100" }],
+    "jugend":     [{ "name": "Junioren U15", "sg": "KTC/Diedenbergen", … }]
+  }
 }
 ```
 
@@ -247,6 +254,15 @@ Format wie im Sommer: Wettbewerb `winter`, Runde `Winter 2026/27`, alle Mannscha
   Stunden), nicht die fünf der Medenrunde; fehlt der Fakt, steht nur der Anfang. Die Spalten „Halle" und „Platz" beim HTV liest der Parser nicht (er zählt von hinten).
 - **Abos:** Erwachsene behalten eine Adresse für Sommer und Winter; die Jugend je Jahr
   (`/kalender/mannschaft/2026/junioren-u15.ics` enthält beide Runden).
+- **Die Ergebnisseite** zeigt über dem Datum den Marker (`Sommer 2026`, `Winter 2026/27`, am Übergang beide:
+  „… und …"), er kommt aus `spiele.runde`, geordnet wird nach Datum. Der Pfeil führt **auch in die Zukunft**
+  (dort steht „Ergebnis folgt"); der Kasten **„Als Nächstes"** zeigt das erste Wochenende, das noch nicht
+  angefangen hat, solange man ein älteres ansieht. Beides rechnet `ansicht()` in `src/ergebnisse.js` (rein, P1).
+- **Die Seite `/mannschaften/`** hat unter den Sommer-Tabellen eine eigene Tabelle „Winterrunde 2026/27" mit dem
+  Hinweis zur Halle. Sie entsteht nur, wenn die Jahresdatei einen Abschnitt `winter` hat, und entfällt mit der
+  Datei des neuen Jahres von allein. Die Auswahl im Kalender-Abo nimmt die Winter-Mannschaften dazu (Duplikate
+  fallen weg: `Herren 40` bleibt eine Adresse).
+- **Tests:** `tests/winterrunde.test.js` hält das fest (Halle, Marker, Dauer, Abos, Jahreswechsel).
 - **Beim Jahreswechsel:** die Datei für das neue Jahr **erst anlegen, wenn die Winterrunde durch ist.** Danach
   holt der Abruf die Winter-Gruppen des Vorjahres nicht mehr, und fehlende Endergebnisse blieben offen.
 - **Auf dem Server** füllt `ausDateiFuellen` nur eine leere Tabelle: die Winterspiele kommen mit dem nächsten
@@ -286,6 +302,21 @@ mit `suchmaschinen: true` und Beispielterminen warnt beim Start.
 - **Demo-Modus verschiebt in Schritten von 52 Wochen**, nicht um Kalenderjahre: sonst
   wird aus dem Spielwochenende Fr–So ein Sa–Mo.
 
+### Der Rahmenspielplan
+
+`inhalte/rahmenspielplan/<jahr>.json`: die Medenspieltage einer Saison, **bevor die Gruppen feststehen**: nur der Tag
+und welche Altersklassen grundsätzlich spielen (Kürzel D, H, U; `ausweich: true` = Ausweichtermin, beim HTV
+„Z/A"). `rahmenTermine()` in `src/termin-quelle.js` macht daraus **einen Kalendereintrag je Wochenende**
+(„HTV-Medenspieltag", Ausweichtermine sind benannt). Die Datei geht mit dem Deploy mit, braucht weder Datenbank noch Cockpit.
+
+- **Nicht in den Ergebnissen, nicht in den Abos.** Ohne Mannschaft und Gegner ist es keine Begegnung; die Einträge
+  stehen im Kalender, bei Lisa und auf der Startseite, aber nicht in `/ergebnisse/` und nicht in `club.ics`,
+  `heimspiele.ics` oder den Mannschafts-Abos.
+- **Der echte Spielplan ersetzt ihn von selbst:** liegen für ein Wochenende Begegnungen vor (`npm run spielplan` nach
+  der Gruppeneinteilung), entfällt der Rahmen-Eintrag dieses Wochenendes. Die Datei muss dafür nicht angefasst werden.
+- **Neue Saison:** Datei `<jahr>.json` mit `tage` anlegen (`datum`, `klassen`, optional `ausweich`). Ein Test prüft
+  Wochentag (Fr bis So) und jedes Kürzel; ein unbekanntes Kürzel macht ihn rot statt unleserlich im Kalender zu stehen.
+
 ### Das Kalender-Abo
 
 `src/kalender-abo.js` baut drei Zuschnitte, **kein „Alles“** — zweihundert Termine
@@ -294,7 +325,7 @@ im Kalender kündigt man nach einer Woche:
 | Adresse | Inhalt | ein Termin je |
 |---|---|---|
 | `/kalender/club.ics` | Vereinstermine (Cockpit → Termine, Tabelle `vereinstermine`) | Termin |
-| `/kalender/heimspiele.ics` | Medenspiele auf **unserer** Anlage (ohne Heimspiele einer Partner-SG) | Datum + Anwurfzeit |
+| `/kalender/heimspiele.ics` | Medenspiele auf **unserer** Anlage (ohne Heimspiele einer Partner-SG, **ohne die Winterrunde**: die läuft in einer Halle) | Datum + Anwurfzeit |
 | `/kalender/mannschaft/<name>.ics` | eine Mannschaft, Name wie `herren-40-ii` | Begegnung |
 
 - **Immer die echten Termine** (`echterSpielplan()`), nie die im Demo-Modus

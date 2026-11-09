@@ -118,6 +118,69 @@ export function wochenendTermine(plan) {
   });
 }
 
+/**
+ * Der Rahmenspielplan des HTV (inhalte/rahmenspielplan/<jahr>.json): die Spieltage einer Saison, bevor die Gruppen
+ * feststehen. Er nennt nur den Tag und die Altersklassen, die grundsaetzlich spielen — keine Mannschaft, keinen
+ * Gegner. Deshalb steht er im Kalender (ein Eintrag je Wochenende, wie die echten Medenspieltage), aber nie in den
+ * Ergebnissen und nie in den Mannschafts-Abos.
+ */
+const RAHMEN_VERZ = 'inhalte/rahmenspielplan';
+const KLASSEN_REIHENFOLGE = ['Damen', 'Herren', 'Jugend', 'Weitere'];
+
+/** 'D40' → Damen 40, 'H' → Herren, 'U12' → Jugend U12. Unbekanntes bleibt, wie es steht. */
+export function klasseText(kuerzel) {
+  const kurz = String(kuerzel ?? '').trim();
+  let m;
+  if ((m = /^D(\d{2})?$/.exec(kurz))) return { gruppe: 'Damen', text: m[1] ? `Damen ${m[1]}` : 'Damen' };
+  if ((m = /^H(\d{2})?$/.exec(kurz))) return { gruppe: 'Herren', text: m[1] ? `Herren ${m[1]}` : 'Herren' };
+  if (/^U\d{2}$/.test(kurz)) return { gruppe: 'Jugend', text: kurz };
+  return { gruppe: 'Weitere', text: kurz };
+}
+
+/** Die Altersklassen eines Tages als Satz: 'Damen 40, Damen 50 · Herren 50 · Jugend U12, U18'. */
+export function klassenText(klassen) {
+  const teile = (klassen || []).map(klasseText);
+  return KLASSEN_REIHENFOLGE.map((g) => {
+    const liste = teile.filter((k) => k.gruppe === g).map((k) => k.text);
+    return liste.length ? (g === 'Jugend' ? 'Jugend ' : '') + liste.join(', ') : '';
+  }).filter(Boolean).join(' · ');
+}
+
+/**
+ * Die Rahmen-Spieltage als Kalendereintraege: einer je Spielwochenende. Liegt fuer ein Wochenende schon ein echter
+ * Spielplan vor (Begegnungen mit Datum in diesem Zeitraum), entfaellt der Rahmen-Eintrag: der echte ersetzt ihn.
+ * Rein: Rahmen und Plan kommen als Parameter.
+ */
+export function rahmenTermine(rahmen, plan) {
+  const tage = (rahmen?.tage || []).filter((t) => /^\d{4}-\d{2}-\d{2}$/.test(t?.datum || ''));
+  const echteTage = (plan?.begegnungen || []).map((b) => b.datum).filter(Boolean);
+  return wochenenden(tage).flatMap((w) => {
+    if (echteTage.some((d) => d >= w.von && d <= w.bis)) return [];
+    const dabei = tage.filter((t) => t.datum >= w.von && t.datum <= w.bis).sort((a, b) => a.datum.localeCompare(b.datum));
+    const ausweich = dabei.every((t) => t.ausweich);
+    return [{
+      datum: w.von, bis: w.bis, uhrzeit: '', art: 'spiel',
+      titel: ausweich ? 'HTV-Medenspieltag (Ausweichtermin)' : 'HTV-Medenspieltag',
+      text: (ausweich ? 'Ausweichtermin für verlegte Spiele dieser Altersklassen. ' : '')
+        + 'Rahmenspielplan: Mannschaften und Gegner folgen mit der Gruppeneinteilung. '
+        + dabei.map((t) => `**${teile(t.datum)?.w ?? ''}:** ${klassenText(t.klassen)}.`).join(' '),
+    }];
+  });
+}
+
+function ladeRahmen() {
+  try {
+    if (!existsSync(RAHMEN_VERZ)) return { tage: [] };
+    const tage = readdirSync(RAHMEN_VERZ).filter((f) => f.endsWith('.json')).sort()
+      .flatMap((f) => JSON.parse(readFileSync(`${RAHMEN_VERZ}/${f}`, 'utf8')).tage || []);
+    return { tage };
+  } catch (err) {
+    console.warn(`[Termine] Rahmenspielplan nicht lesbar: ${err.message}`);
+    return { tage: [] };
+  }
+}
+const RAHMEN = ladeRahmen();
+
 const SPIELPLAN_VERZ = 'inhalte/spielplan';
 
 /**
@@ -211,13 +274,15 @@ export const echterSpielplan = () => spielplan({ echt: true }).plan;
 
 export const alleTermine = ({ echt = false } = {}) =>
   // 'echt' ist die Sicht fuer Lisa und die Abos: ohne Beispieltermine und ohne verschobene Spieltage.
-  [...vereinsTermine().filter((t) => !echt || !t.beispiel), ...spieltageAus(spielplan({ echt }).plan)];
+  [...vereinsTermine().filter((t) => !echt || !t.beispiel), ...spieltageAus(spielplan({ echt }).plan),
+    ...rahmenTermine(RAHMEN, echterSpielplan())];
 
 /**
  * Was der KALENDER und die Startseite zeigen: Vereinstermine und je Spielwochenende ein
  * Eintrag. Die Einzelspiele (alleTermine) bleiben dem Assistenten.
  */
-export const kalenderTermine = () => [...vereinsTermine(), ...wochenendTermine(spielplan().plan)];
+export const kalenderTermine = () => [...vereinsTermine(), ...wochenendTermine(spielplan().plan),
+  ...rahmenTermine(RAHMEN, echterSpielplan())];
 
 /** Heute 0:00 — ein Termin von heute Abend ist noch nicht vorbei. */
 function heuteNull() {

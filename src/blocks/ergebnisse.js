@@ -153,7 +153,7 @@ export default {
         <td class="erg__sie">${e.gegner}</td>
         <td class="erg__bericht-sp">${bericht}</td>
         ${e.status === 'gespielt'
-          ? html`<td class="erg__zahl">${e.matchpunkte}</td>
+          ? html`<td class="erg__zahl">${e.punktenWir || e.matchpunkte}</td>
                  <td class="erg__aus"><span aria-hidden="true">${sym}</span> ${wort}</td>`
           : html`<td class="erg__offen" colspan="2">${e.status === 'kommt' ? `${e.uhrzeit} Uhr` : 'Ergebnis steht noch aus'}</td>`}
       </tr>`;

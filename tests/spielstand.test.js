@@ -258,3 +258,31 @@ test('Startseite: die rechte Spalte wechselt zwischen Ergebnissen und Terminen',
   assert.match(ohne, /Saisoneröffnung/);
   assert.doesNotMatch(ohne, /Gerade gemeldet/);
 });
+
+test('Ergebnisseite: die Zahl steht aus Sicht des KTC, der Sieg also vorn, egal ob Heim oder Gast', () => {
+  const jetzt = berlinEpoch('2026-05-09', '20:00');
+  // Der Verband nennt Heim:Gast. Wir sind links, also muss die Zahl wir:sie heissen.
+  const faelle = [
+    { mannschaft: 'Heim Sieg',  zuhause: true,  matchpunkte: '5:1', erwartet: '5:1', ausgang: 'Sieg' },
+    { mannschaft: 'Heim Verlust', zuhause: true,  matchpunkte: '2:4', erwartet: '2:4', ausgang: 'Niederlage' },
+    { mannschaft: 'Gast Sieg',  zuhause: false, matchpunkte: '2:4', erwartet: '4:2', ausgang: 'Sieg' },
+    { mannschaft: 'Gast Verlust', zuhause: false, matchpunkte: '5:1', erwartet: '1:5', ausgang: 'Niederlage' },
+  ];
+  const a = ansicht(faelle.map((f) => sp({ ...f, gespielt: true })), { jetzt });
+  for (const f of faelle) {
+    const e = a.eintraege.find((x) => x.mannschaft === f.mannschaft);
+    assert.equal(e.punktenWir, f.erwartet, f.mannschaft);
+    assert.equal(e.ausgang, f.ausgang, f.mannschaft);
+    assert.equal(e.matchpunkte, f.matchpunkte, 'die Zahl des Verbands bleibt für Ansichten in seiner Reihenfolge');
+    // Wer vorn mehr hat, hat gewonnen: Zahl und Ausgang widersprechen sich nie.
+    const [v, h] = e.punktenWir.split(':').map(Number);
+    assert.equal(v > h ? 'Sieg' : v < h ? 'Niederlage' : 'Unentschieden', e.ausgang, f.mannschaft);
+  }
+  const html = renderPage({ slug: 'e', page_type: 'standard', status: 'published', title: 'E',
+    content_json: { blocks: [{ type: 'ergebnisse', data: {} }] } }, { dynamicData: { ergebnisse: { ansicht: a } } });
+  const zahl = (name) => new RegExp(`<td class="erg__wir">${name}[\\s\\S]*?<td class="erg__zahl">([\\d:]+)</td>`).exec(html)[1];
+  assert.equal(zahl('Gast Sieg'), '4:2');
+  assert.equal(zahl('Gast Verlust'), '1:5');
+  assert.equal(zahl('Heim Sieg'), '5:1');
+  assert.equal(zahl('Heim Verlust'), '2:4');
+});

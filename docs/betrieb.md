@@ -5,7 +5,7 @@ jemand aus dem Verein. Du musst nicht programmieren können, um den Alltag zu er
 (Teil 2) und im Notfall richtig zu handeln (Teil 5). Für alles, was Code betrifft, steht in
 Teil 8, wie jemand mit Claude Code weiterarbeitet.
 
-**Stand:** 29.10.2026. Was hier noch nicht stimmt oder fehlt, steht ganz unten (Teil 9) —
+**Stand:** 9.11.2026 (mit Winterrunde 2026/27). Was hier noch nicht stimmt oder fehlt, steht ganz unten (Teil 9) —
 nicht versteckt in einer Fußnote.
 
 > **Eine Regel vorweg:** In dieses Dokument gehören **keine Passwörter und Schlüssel**. Sie
@@ -24,7 +24,7 @@ Programm macht daraus jedes Mal dasselbe HTML. Daraus folgt, was du wissen musst
 | **Programm und Seitenvorlagen** | Code-Repository auf GitHub (`WS63/ktc-website`) | Entwicklung, mit Claude Code |
 | **Texte der Seiten, Beiträge, Termine, Fakten (Preise, Adressen, Zeiten), Anfragen** | **Datenbank** (Postgres auf dem Server) | Redaktion und Vorstand im **Cockpit** unter `/admin/` |
 | **Hochgeladene Bilder** | Dauerhaftes Volume `/app/data` auf dem Server | Cockpit → Medien |
-| **Spielpläne und Ergebnisse** | Verband (HTV); Kopie in der Datenbank | automatisch; im April von Hand eine neue Saison anlegen (Teil 4) |
+| **Spielpläne und Ergebnisse** (Sommer und Winterrunde) | Verband (HTV); Kopie in der Datenbank | automatisch; im April (Sommer) und im Herbst (Winter) von Hand die Mannschaften anlegen (Teil 4) |
 | **Passwörter, Schlüssel** | Umgebungsvariablen in **Coolify** | wer Coolify verwaltet |
 
 **Die wichtigste Folge:** Was im Cockpit geändert wird, steht nur in der Datenbank — **nicht im
@@ -118,7 +118,9 @@ Eine Variable ändern: Coolify → Application → *Environment Variables* → W
 | **nach jedem Spieltag** | Ergebnisse kommen vom HTV von selbst (8, 16, 24 Stunden nach Spielbeginn). Ein Spielbericht ist ein Beitrag | automatisch / Redaktion |
 | **jede Woche** | In den Cockpit-Bereich *Anfragen* schauen. Offene Anfragen abarbeiten (nur mit dem Administrator-Zugang sichtbar) | Vorstand |
 | **jeden Monat** | Cockpit → *Assistent*: Fragen **ohne Treffer** sind rot markiert. Das sind Lücken auf der Website — die Antwort fehlt dort | Redaktion |
-| **jede Saison, im April** | Neue Mannschaftsliste anlegen (siehe unten) | Technik |
+| **jede Saison, im April** | Neue Mannschaftsliste für den Sommer anlegen (siehe unten) | Technik |
+| **jedes Jahr im Herbst** | Winterrunde in die Jahresdatei eintragen (siehe unten), sobald der HTV die Gruppen veröffentlicht hat | Technik |
+| **sobald der HTV den Rahmenspielplan veröffentlicht** (meist im Herbst oder Winter) | Die Medenspieltage des nächsten Sommers in `inhalte/rahmenspielplan/<jahr>.json` eintragen; sie stehen dann im Kalender. Im April ersetzt der echte Spielplan sie von selbst | Technik |
 | **Ende des Jahres** | Termine fürs nächste Jahr eintragen (Mitgliederversammlung, Putztag, Aktionstage). Preise/Beiträge in den Fakten prüfen | Vorstand |
 
 ### Neue Saison im April (heute noch Handarbeit am Code)
@@ -130,10 +132,24 @@ Sobald der HTV die Gruppeneinteilung veröffentlicht hat:
 2. `npm run spielplan` — holt die Termine beim HTV und schreibt `inhalte/spielplan/<jahr>.json`.
 3. `npm run seed` — übernimmt die neuen Seiten (überspringt Seiten, die im Cockpit geändert wurden).
 4. Committen, pushen, Deploy abwarten.
+5. **Danach im Cockpit einmal „Jetzt beim Verband nachsehen"** (Bereich *Redaktion*, dauert rund eine Minute).
+   Der Server übernimmt die Spieltermine nur beim allerersten Start aus der Datei; neue Spiele kommen mit dem
+   nächsten Abruf, spätestens mit dem Gesamtabruf am Montag. Ohne diesen Schritt ist der Kalender bis dahin leer.
 
-**Die Winterrunde** (Oktober bis April) steht als Abschnitt `winter` in der Jahresdatei des Jahres, in dem sie
-beginnt (Winterrunde 2026/27 in `2026.json`). Die Datei für das neue Jahr erst anlegen, wenn die Winterrunde durch
-ist (siehe `CLAUDE.md`, Abschnitt „Die Winterrunde").
+**Die Winterrunde** (Oktober bis April, der HTV nennt sie z. B. „Winterrunde 2026/27") steht als Abschnitt
+`winter` in der Jahresdatei des Jahres, in dem sie beginnt (2026/27 in `2026.json`). Der Ablauf im Herbst:
+
+1. In der Jahresdatei den Abschnitt `winter` anlegen: `runde` (z. B. `Winter 2026/27`), `wettbewerb` (so, wie er in
+   der HTV-Adresse steht, z. B. `Winterrunde+26%2F27`) und die Mannschaften mit Klasse, Stärke und **Gruppennummer**.
+   Die Gruppennummern und Adressen liefert der Verband; am einfachsten kommen sie als HTV-Links aus dem Verein.
+2. `npm run spielplan`, `npm run seed`, committen, pushen, Deploy abwarten.
+3. Im Cockpit **„Jetzt beim Verband nachsehen"** (wie oben, Schritt 5).
+
+Zu wissen: Die Winterrunde wird **in einer Halle** gespielt. Die erstgenannte Mannschaft bleibt „Heim", aber es gibt
+keinen Heimvorteil und kein „Heimspiel auf unserer Anlage" (Winterspiele stehen deshalb nicht in `heimspiele.ics`).
+Die Dauer im Kalender steht in den Fakten (`dauer_winterrunde_stunden`, derzeit 4). Die Datei für das neue Jahr
+**erst anlegen, wenn die Winterrunde durch ist**, sonst holt der Abruf die Winter-Gruppen nicht mehr
+(siehe `CLAUDE.md`, Abschnitt „Die Winterrunde").
 
 Das ist heute die größte Lücke für eine Übergabe an Nicht-Entwickler; geplant ist,
 Mannschaften im Cockpit pflegbar zu machen (Teil 9).
@@ -180,7 +196,11 @@ Ein Fakt fehlt. Cockpit → *Fakten* → eintragen. Das ist kein Fehler, sondern
 ### Der Kalender ist leer oder zeigt falsche Spieltermine
 
 - Läuft `HTV_ABRUF=1`? Ohne diese Variable zeigt der Server nur, was in der Datenbank steht.
-- Gibt es für die laufende Saison eine Jahresdatei und einen Spielplan (Teil 4)?
+- Gibt es für die laufende Saison eine Jahresdatei und einen Spielplan (Teil 4)? Fehlen **neue** Spiele
+  (z. B. nach dem Eintrag der Winterrunde), im Cockpit „Jetzt beim Verband nachsehen" drücken: der Deploy allein
+  füllt eine schon benutzte Datenbank nicht.
+- Eine Winterrunden-Begegnung hat im Kalender-Abo **keinen Ort** (gespielt wird in einer Halle, die der HTV in der
+  Gruppe nennt). Das ist gewollt, kein Fehler.
 - `SPIELPLAN_DEMO` darf auf der Live-Seite **nicht** gesetzt sein: es verschiebt Termine um
   Jahre und zeigt erfundene Daten.
 
@@ -268,7 +288,7 @@ Das Projekt ist so gebaut, dass jemand mit Claude Code ohne Vorwissen weiterarbe
 
 1. Repository klonen, `npm install`, in `.env.beispiel` nachsehen, welche Werte nötig sind
    (Datei `.env` anlegen, **nie** committen). `npm run dev` startet lokal, `npm test` führt
-   die Tests aus (rund 280).
+   die Tests aus (einige hundert; nicht gleichzeitig mit `seed` oder `index`).
 2. **`CLAUDE.md`** im Hauptordner lesen. Dort stehen die Regeln, gegen die man nicht
    verstoßen darf (u. a. keine Farbe, Zahl oder Adresse fest in den Code schreiben; nie
    `edited`-Seiten überschreiben), und der Aufbau.
@@ -293,7 +313,7 @@ Das Projekt ist so gebaut, dass jemand mit Claude Code ohne Vorwissen weiterarbe
 
 ---
 
-## 9 · Was heute noch fehlt (ehrliche Liste, Stand 29.10.2026)
+## 9 · Was heute noch fehlt (ehrliche Liste, Stand 9.11.2026)
 
 **Vor dem Livegang auf `tennisclub-kriftel.de`:**
 
@@ -311,7 +331,7 @@ Das Projekt ist so gebaut, dass jemand mit Claude Code ohne Vorwissen weiterarbe
 
 **Für eine echte Übergabe an Nicht-Entwickler:**
 
-- [ ] Mannschaften und Saisonwechsel im Cockpit statt am Code (Teil 4)
+- [ ] Mannschaften, Saisonwechsel im April und Winterrunde im Herbst im Cockpit statt am Code (Teil 4)
 - [ ] Bilder-Pipeline (`npm run bilder`) läuft nur auf einem Mac (`sips`). Bilder, die im Cockpit
   hochgeladen werden, gehen; die Verarbeitung großer Originale nicht
 - [ ] Überwachung: eine automatische Meldung, wenn `/health` ausfällt (z. B. kostenloser

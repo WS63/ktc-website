@@ -144,7 +144,17 @@ function inZweiSpalten(liste, links, rechts, rest, { zwischenzeile = true } = {}
 const ABO_MANNSCHAFTEN = [
   ...saison.erwachsene.map((m) => ({ name: m.name, slug: slugVon(m.name), gruppe: 'Erwachsene' })),
   ...saison.jugend.map((m) => ({ name: m.name, slug: slugVon(m.name), gruppe: 'Jugend' })),
-];
+  // Die Winterrunde gehoert zum selben Jahr: wer 'Herren 40' schon im Sommer abonniert, hat dieselbe Adresse und
+  // bekommt die Winterspiele dazu. Neu steht nur da, was im Sommer nicht gemeldet ist (z. B. Herren 30 II).
+  ...(saison.winter ? [
+    ...saison.winter.erwachsene.map((m) => ({ name: m.name, slug: slugVon(m.name), gruppe: 'Erwachsene' })),
+    ...saison.winter.jugend.map((m) => ({ name: m.name, slug: slugVon(m.name), gruppe: 'Jugend' })),
+  ] : []),
+].filter((m, i, alle) => alle.findIndex((x) => x.slug === m.slug) === i);
+
+/** 'Winter 2026/27' → 'Winterrunde 2026/27': die Ueberschrift ueber den Winter-Mannschaften. */
+const winterTitel = saison.winter ? `Winterrunde ${saison.winter.runde.replace(/^Winter\s*/i, '')}`.trim() : '';
+const winterMit = (liste) => liste.map((m) => ({ ...m, wettbewerb: 'winter' }));
 
 /**
  * Die Adresse einer Spielgruppe beim Hessischen Tennisverband.
@@ -425,6 +435,15 @@ export const seiten = [
         { titel: 'Gemischt', re: /^Gemischt/ }, { zwischenzeile: false }),
       hinweis: 'Mehrere Jugendteams treten als Spielgemeinschaft (SG) mit Diedenbergen und Kelkheim an. So bekommt jede Altersklasse genug Spielerinnen und Spieler zusammen.',
     }},
+    // Die Winterrunde ist klein; sie gehoert zum Jahr, in dem sie beginnt. Im neuen Jahr (neue Jahresdatei) entfaellt sie von allein.
+    ...(saison.winter ? [{ type: 'tabelle', data: {
+      titel: `Mannschaften der ${winterTitel}`,
+      kopf: ['Mannschaft', 'Teamstärke', 'Spielklasse'],
+      spalten: inZweiSpalten(winterMit([...saison.winter.erwachsene, ...saison.winter.jugend]),
+        { titel: 'Herren', re: /^Herren/ }, { titel: 'Junioren', re: /^Junioren/ }, { titel: 'Weitere', re: /./ },
+        { zwischenzeile: false }),
+      hinweis: 'Die Winterrunde wird in einer Halle gespielt. Die erstgenannte Mannschaft ist die Heimmannschaft, einen Heimvorteil gibt es nicht. Welche Halle und wann, steht in der Gruppe beim Hessischen Tennisverband (Klick auf die Spielklasse).',
+    }}] : []),
     { type: 'richtext', data: {
       absaetze: [
         'Du willst mitspielen? Schreib an {{facts.vorstand.sport.name}} oder schau dir an, [wie eine Mitgliedschaft aussieht](/mitglied-werden/).',

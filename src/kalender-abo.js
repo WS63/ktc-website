@@ -28,7 +28,7 @@
  */
 import { createHash } from 'node:crypto';
 import { ergebnis } from './spielbericht.js';
-import { sgArt } from './ergebnisse.js';
+import { sgArt, inHalle, rundeVon } from './ergebnisse.js';
 
 /**
  * Derselbe Schluessel wie spielstand.schluessel() — hier nachgebaut statt importiert:
@@ -174,12 +174,25 @@ export function vereinsEreignisse(termine, { basis = '' } = {}) {
 
 // ── Medenspiele ────────────────────────────────────────────────────────
 
-/** Spielt die Begegnung auf UNSERER Anlage? Heimspiele einer Partner-SG finden dort statt. */
-const beiUns = (b) => b.zuhause && sgArt(b.sg) !== 'partner';
+/**
+ * Spielt die Begegnung auf UNSERER Anlage? Heimspiele einer Partner-SG finden dort nicht statt, und die Winterrunde
+ * spielt in einer Halle: Heim und Gast gelten dort weiter (die erstgenannte Mannschaft ist Heim), einen Ort auf
+ * unserer Anlage gibt es nicht.
+ */
+const beiUns = (b) => b.zuhause && sgArt(b.sg) !== 'partner' && !inHalle(b);
 
-const mitDauer = (b, stunden) => (UHR.test(b.uhrzeit || '')
-  ? { uhrzeit: b.uhrzeit, ...(stunden ? { ende: plusStunden(b.datum, b.uhrzeit, stunden) } : {}) }
-  : {});
+/**
+ * Anfang und, wo die Dauer bekannt ist, Ende. Es gibt zwei Dauern aus den Fakten: die der Medenrunde im Sommer
+ * (kalender.dauer_wettkampf_stunden) und die der Winterrunde mit ihren 2er-Mannschaften
+ * (kalender.dauer_winterrunde_stunden). Fehlt der Fakt der Runde, steht nur der Anfang.
+ */
+const dauerVon = (b, stunden, stundenWinter) => (inHalle(b) ? stundenWinter : stunden);
+
+const mitDauer = (b, stunden, stundenWinter = null) => {
+  if (!UHR.test(b.uhrzeit || '')) return {};
+  const h = dauerVon(b, stunden, stundenWinter);
+  return { uhrzeit: b.uhrzeit, ...(h ? { ende: plusStunden(b.datum, b.uhrzeit, h) } : {}) };
+};
 
 const HINWEIS_DAUER = 'Das Ende ist geschätzt, der Verband nennt nur die Anfangszeit. Maßgeblich ist der Spielplan beim HTV.';
 
@@ -196,7 +209,7 @@ export const mannschaftenImPlan = (plan) => [...new Set((plan?.begegnungen || []
  *                laeuft weiter). Gesetzt = nur diese (Jugend: die Mannschaft gibt es so
  *                nur ein Jahr — ein altes Abo zeigt nie die Spiele fremder Kinder).
  */
-export function mannschaftsEreignisse(plan, name, { stunden = null, anschrift = '', saison: nur = '' } = {}) {
+export function mannschaftsEreignisse(plan, name, { stunden = null, stundenWinter = null, anschrift = '', saison: nur = '' } = {}) {
   return (plan?.begegnungen || [])
     .filter((b) => b.mannschaft === name && TAG.test(b.datum || '') && (!nur || saisonVon(plan, b) === String(nur)))
     .map((b) => {
@@ -205,11 +218,13 @@ export function mannschaftsEreignisse(plan, name, { stunden = null, anschrift = 
       const titel = e ? `${name} · ${e.wir}:${e.sie} gegen ${b.gegner}`
         : b.zuhause ? `${name} · Heimspiel gegen ${b.gegner}`
         : `${name} · Auswärts bei ${b.gegner}`;
+      const runde = rundeVon(b);
       const text = [
         `${b.heim} – ${b.gast}`,
+        runde,
         b.sg ? `Spielgemeinschaft ${b.sg}` : '',
         e ? `Ergebnis ${b.matchpunkte} (${e.ausgang})` : '',
-        stunden && b.uhrzeit ? HINWEIS_DAUER : '',
+        dauerVon(b, stunden, stundenWinter) && b.uhrzeit ? HINWEIS_DAUER : '',
         b.bericht ? `Spielbericht: ${b.bericht}` : '',
       ].filter(Boolean).join('\n');
       return {
@@ -217,7 +232,7 @@ export function mannschaftsEreignisse(plan, name, { stunden = null, anschrift = 
         // kennt Gruppe, Heim, Gast und Runde, aber kein Datum.
         uid: `spiel-${kurzHash(b.id || begegnungsSchluessel(saison, b))}@tennisclub-kriftel`,
         titel, text, ort: beiUns(b) ? anschrift : '', url: b.bericht || '',
-        datum: b.datum, ...mitDauer(b, stunden),
+        datum: b.datum, ...mitDauer(b, stunden, stundenWinter),
       };
     });
 }

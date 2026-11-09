@@ -24,6 +24,14 @@ export default {
     .erg__kopf { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--raum-1) var(--raum-3);
       justify-content: space-between; margin-bottom: var(--raum-2); }
     .erg__titel { font-size: clamp(24px, 3vw, 32px); }
+    /* 'Als Naechstes': ein Anhaengsel unter dem Wochenende, mit derselben Tabelle, nur leiser ueberschrieben. */
+    .erg__naechste { margin-top: var(--raum-5); padding-top: var(--raum-3); border-top: 1px solid var(--linie-stark); }
+    .erg__titel--klein { font-size: clamp(19px, 2.2vw, 24px); }
+    .erg__kopf--klein { margin-bottom: 0; }
+    /* Der Marker der Runde: eine Orientierung, kein Bedienelement. */
+    .erg__runde { display: inline-block; vertical-align: middle; margin-left: var(--raum-2); font-size: 13px;
+      font-weight: 600; letter-spacing: .02em; color: var(--text-leise); border: 1px solid var(--linie-stark);
+      border-radius: var(--r-pill); padding: 2px 10px; }
     .erg__blaettern { font-size: var(--fs-sm); display: flex; gap: var(--raum-3); }
     .erg__blaettern a { color: var(--signal); text-decoration: none; }
     .erg__blaettern a:hover { text-decoration: underline; }
@@ -120,13 +128,17 @@ export default {
     };
 
     // Gruppiert nach Tag und Anwurfzeit: wer um 14 Uhr zuschaut, sucht den 14-Uhr-Block.
-    const slots = [];
-    for (const e of a.eintraege) {
-      const schluessel = `${e.tag} ${e.uhrzeit}`;
-      let s = slots.at(-1);
-      if (!s || s.schluessel !== schluessel) { s = { schluessel, e, zeilen: [] }; slots.push(s); }
-      s.zeilen.push(e);
-    }
+    const inSlots = (eintraege) => {
+      const slots = [];
+      for (const e of eintraege) {
+        const schluessel = `${e.tag} ${e.uhrzeit}`;
+        let s = slots.at(-1);
+        if (!s || s.schluessel !== schluessel) { s = { schluessel, e, zeilen: [] }; slots.push(s); }
+        s.zeilen.push(e);
+      }
+      return slots;
+    };
+    const slots = inSlots(a.eintraege);
 
     const b = a.bilanz;
     const zeile = (e) => {
@@ -147,10 +159,17 @@ export default {
       </tr>`;
     };
 
+    // Ein Block je Anwurfzeit, mit denselben Spalten fuer das gezeigte und das naechste Wochenende.
+    const slotHtml = (s) => html`<div class="erg__slot">
+          <h3>${s.e.wochentag}${s.e.uhrzeit ? `, ${s.e.uhrzeit} Uhr` : ''}</h3>
+          <table class="erg__tabelle"><colgroup><col style="width:230px"><col style="width:68px"><col><col style="width:88px"><col style="width:56px"><col style="width:112px"></colgroup><tbody>${s.zeilen.map(zeile)}</tbody></table>
+        </div>`;
+
     return html`
       <section class="section"><div class="container">
         <div class="erg__kopf">
-          <h2 class="erg__titel">${a.fenster.text} ${a.fenster.jahr}</h2>
+          <h2 class="erg__titel">${a.fenster.text} ${a.fenster.jahr}${a.fenster.runde
+            ? html` <span class="erg__runde">${a.fenster.runde}</span>` : ''}</h2>
           <nav class="erg__blaettern" aria-label="Andere Wochenenden">${link(a.vorher?.we, a.vorher?.text, 'z')}${link(a.nachher?.we, a.nachher?.text, 'v')}</nav>
         </div>
         ${b.begegnungen
@@ -166,10 +185,16 @@ export default {
             <b>${e.matchpunkte}</b> <span aria-hidden="true">${sym}</span> ${wort}</li>`;
         })}</ul></div>` : ''}
 
-        ${slots.map((s) => html`<div class="erg__slot">
-          <h3>${s.e.wochentag}${s.e.uhrzeit ? `, ${s.e.uhrzeit} Uhr` : ''}</h3>
-          <table class="erg__tabelle"><colgroup><col style="width:230px"><col style="width:68px"><col><col style="width:88px"><col style="width:56px"><col style="width:112px"></colgroup><tbody>${s.zeilen.map(zeile)}</tbody></table>
-        </div>`)}
+        ${slots.map(slotHtml)}
+
+        ${a.naechste ? html`<div class="erg__naechste">
+          <div class="erg__kopf erg__kopf--klein">
+            <h2 class="erg__titel erg__titel--klein">Als Nächstes: ${a.naechste.text} ${a.naechste.jahr}${a.naechste.runde
+              ? html` <span class="erg__runde">${a.naechste.runde}</span>` : ''}</h2>
+            <nav class="erg__blaettern" aria-label="Zum nächsten Spielwochenende">${link(a.naechste.we, 'Zum Wochenende', 'v')}</nav>
+          </div>
+          ${inSlots(a.naechste.eintraege).map(slotHtml)}
+        </div>` : ''}
       </div></section>`;
   },
 };

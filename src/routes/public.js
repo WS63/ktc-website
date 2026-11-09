@@ -91,7 +91,8 @@ router.get('/sitemap.xml', async (_req, res, next) => {
 // seiner Saison stehen. Eine aufgeloeste Mannschaft liefert weiter ihre alten Spiele
 // statt 404: sonst zeigt der Kalender des Abonnenten einen Fehler.
 const ABO_FEST = { club: '/kalender/club.ics', heimspiele: '/kalender/heimspiele.ics' };
-const istJugend = (slug) => (saison.jugend || []).some((t) => slugVon(t.name) === slug);
+const istJugend = (slug) => [...(saison.jugend || []), ...(saison.winter?.jugend || [])]
+  .some((t) => slugVon(t.name) === slug);
 
 /** Der Name zu einer Abo-Adresse: aus der laufenden Saison, sonst aus dem Spielstand. */
 function aboName(slug) {
@@ -112,6 +113,8 @@ function aboText(feed, basis, nurSaison = '') {
   const f = loadFacts();
   // Fehlt die Dauer in den Fakten, haben Spiele nur einen Anfang — nichts wird erfunden (P2).
   const stunden = Number(f.kalender?.dauer_wettkampf_stunden) > 0 ? Number(f.kalender.dauer_wettkampf_stunden) : null;
+  // Die Winterrunde (2er-Mannschaften) hat ihre eigene Dauer; fehlt der Fakt, haben Winterspiele nur eine Startzeit.
+  const stundenWinter = Number(f.kalender?.dauer_winterrunde_stunden) > 0 ? Number(f.kalender.dauer_winterrunde_stunden) : null;
   const v = f.verein || {};
   const anschrift = v.strasse ? `${v.name}, ${v.strasse}, ${v.plz} ${v.ort}` : '';
   if (feed === 'club') {
@@ -124,13 +127,13 @@ function aboText(feed, basis, nurSaison = '') {
   }
   const name = aboName(feed);
   if (!name) return null;
-  const ereignisse = mannschaftsEreignisse(echterSpielplan(), name, { stunden, anschrift, saison: nurSaison });
+  const ereignisse = mannschaftsEreignisse(echterSpielplan(), name, { stunden, stundenWinter, anschrift, saison: nurSaison });
   // Eine Saison, in der die Mannschaft nie gespielt hat, ist eine falsche Adresse.
   if (nurSaison && !ereignisse.length) return null;
   const gemeldet = mannschaften.some((t) => t.name === name);
   return kalenderText({
     name: `KTC · ${name}${nurSaison ? ` · ${nurSaison}` : ''}`,
-    beschreibung: `Medenspiele der Mannschaft ${name}${nurSaison ? ` in der Saison ${nurSaison}` : ''}.`
+    beschreibung: `Spiele der Mannschaft ${name}${nurSaison ? ` in der Saison ${nurSaison}` : ''}, Medenrunde im Sommer und Winterrunde.`
       + (gemeldet || nurSaison ? '' : ' In der laufenden Saison ist sie nicht gemeldet. Hier stehen ihre bisherigen Spiele.'),
     ereignisse });
 }

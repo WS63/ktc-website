@@ -19,7 +19,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { query, queryOne } from './db.js';
 import { berlinEpoch, berlinTag, tagPlus } from './zeit.js';
-import { gruppenUrl, mitGeduld, schlaf, PAUSE_MS } from './htv.js';
+import { gruppenUrl, teamRunde, mitGeduld, schlaf, PAUSE_MS } from './htv.js';
 import { saison as aktuelleSaison, mannschaften } from './mannschaften.js';
 
 const STUNDE = 3600 * 1000;
@@ -67,16 +67,18 @@ export async function speichern(begegnungen, saisonName, jetzt = new Date().toIS
     const gemeldet = alt?.gemeldet_um || (neuGemeldet && alt ? jetzt : null);
     await query(
       `INSERT INTO spiele (id, saison, gruppe, mannschaft, sg, datum, uhrzeit, heim, gast, zuhause,
-                           gegner, matchpunkte, gespielt, bericht, gemeldet_um, geprueft_um, aktualisiert_um)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
+                           gegner, matchpunkte, gespielt, bericht, gemeldet_um, geprueft_um, aktualisiert_um, runde)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
        ON CONFLICT (id) DO UPDATE SET
          mannschaft = excluded.mannschaft, sg = excluded.sg, datum = excluded.datum, uhrzeit = excluded.uhrzeit,
          zuhause = excluded.zuhause, gegner = excluded.gegner, matchpunkte = excluded.matchpunkte,
          gespielt = excluded.gespielt, bericht = excluded.bericht, gemeldet_um = excluded.gemeldet_um,
-         geprueft_um = excluded.geprueft_um, aktualisiert_um = excluded.aktualisiert_um`,
+         geprueft_um = excluded.geprueft_um, aktualisiert_um = excluded.aktualisiert_um, runde = excluded.runde`,
       [id, saisonName, String(b.gruppe), b.mannschaft, b.sg || '', b.datum || '', b.uhrzeit || '',
        b.heim, b.gast, b.zuhause ? 1 : 0, b.gegner || '', b.matchpunkte || '', b.gespielt ? 1 : 0,
-       b.bericht || '', gemeldet, jetzt, jetzt]);
+       b.bericht || '', gemeldet, jetzt, jetzt,
+       // Alte Dateien kennen die Runde nicht: das war die Medenrunde im Sommer.
+       b.runde || `Sommer ${saisonName}`]);
   }
   return { neu };
 }
@@ -149,7 +151,7 @@ export async function abrufen({ art = 'manuell', gruppen = null, stufen = null }
       try {
         const spiele = await mitGeduld(gruppenUrl(aktuelleSaison, t), t.name);
         const sg = t.sg && t.sg !== '—' ? t.sg : '';
-        alle.push(...spiele.map((b) => ({ ...b, sg, gruppe: String(t.gruppe) })));
+        alle.push(...spiele.map((b) => ({ ...b, sg, gruppe: String(t.gruppe), runde: teamRunde(aktuelleSaison, t) })));
         geholt.add(String(t.gruppe));
       } catch (err) { fehler.push(`${t.name}: ${err.message}`); }
       if (i < ziel.length - 1) await schlaf(PAUSE_MS);

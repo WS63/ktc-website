@@ -160,7 +160,11 @@ test('Ansicht: standardmaessig das juengste Wochenende, das schon angefangen hat
   const a = ansicht(spiele, { jetzt });
   assert.equal(a.fenster.von, '2026-05-16');
   assert.equal(a.vorher.we, '2026-05-09');
-  assert.equal(a.nachher, null);                         // das naechste liegt noch in der Zukunft
+  // Der Pfeil fuehrt auch in die Zukunft, und der Kasten 'Als Naechstes' zeigt das Wochenende dahinter.
+  assert.equal(a.nachher.we, '2026-05-23');
+  assert.equal(a.naechste.we, '2026-05-23');
+  assert.equal(a.naechste.eintraege.length, 1);
+  assert.equal(a.naechste.eintraege[0].status, 'kommt');
   assert.equal(ansicht(spiele, { jetzt, we: '2026-05-09' }).fenster.von, '2026-05-09');
 });
 

@@ -213,5 +213,20 @@
       "klasse": "Kreisliga B",
       "gruppe": "709"
     }
-  ]
+  ],
+  "winter": {
+    "_hinweis": "Die Winterrunde 2026/27 gehoert zum Jahr 2026, auch wenn ihre Spiele bis in den April 2027 gehen. Gespielt wird in einer Halle; Heim ist die erstgenannte Mannschaft, einen Heimvorteil gibt es nicht. Die Spalten Halle und Platz beim HTV bleiben unbeachtet. Die Datei fuer 2027 erst anlegen, wenn die Winterrunde durch ist.",
+    "runde": "Winter 2026/27",
+    "wettbewerb": "Winterrunde+26%2F27",
+    "erwachsene": [
+      { "name": "Herren 30", "sg": "—", "staerke": "2er", "klasse": "Kreisliga A", "gruppe": "100" },
+      { "name": "Herren 30 II", "sg": "—", "staerke": "2er", "klasse": "Kreisliga B", "gruppe": "105" },
+      { "name": "Herren 40", "sg": "—", "staerke": "2er", "klasse": "Kreisliga A", "gruppe": "129" },
+      { "name": "Herren 40 II", "sg": "—", "staerke": "2er", "klasse": "Kreisliga A", "gruppe": "132" }
+    ],
+    "jugend": [
+      { "name": "Junioren U15", "sg": "KTC/Diedenbergen", "staerke": "2er", "klasse": "Kreisoberliga", "gruppe": "181" },
+      { "name": "Junioren U15 II", "sg": "KTC/Diedenbergen", "staerke": "2er", "klasse": "Kreisliga A", "gruppe": "185" }
+    ]
+  }
 }

@@ -230,6 +230,28 @@ Spielklasse und die **Gruppennummer** beim HTV — nicht die ganze URL. Die baut
 die Links gehen ins Leere. Das ist Absicht — eine Nummer, die stillschweigend
 auf die Gruppe des Vorjahres zeigt, wäre schlimmer.
 
+### Die Winterrunde: im Jahr, in dem sie beginnt
+
+Die Winterrunde 2026/27 steht in **`2026.json`**, als eigener Abschnitt `winter` (Runde, Wettbewerb beim HTV,
+eigene `erwachsene` und `jugend`). Sie gehört zum Jahr 2026, auch wenn ihre Spiele bis in den April 2027 gehen;
+ab Mai beginnt die Saison 2027 mit einer neuen Datei. `src/mannschaften.js` macht daraus für alle anderen dasselbe
+Format wie im Sommer: Wettbewerb `winter`, Runde `Winter 2026/27`, alle Mannschaften in `mannschaften`.
+
+- **Chronologisch, die Runde ist nur ein Marker.** Sommer und Winter stehen nach Datum in derselben Liste
+  (Kalender, Ergebnisse, Abos). `spiele.runde` (Migration 018) trägt `Sommer 2026` oder `Winter 2026/27` und
+  beschriftet nur; ohne Angabe war es der Sommer.
+- **Heim und Gast bleiben**: die erstgenannte Mannschaft ist Heim, die Rollen im Wettkampf bleiben.
+  Aber **gespielt wird in einer Halle** (`inHalle()` in `src/ergebnisse.js`: Runde beginnt mit „Winter"):
+  kein „Heimspiel auf unserer Anlage", kein Eintrag im Heimspiel-Abo, kein Ort im Kalender-Abo. Die Dauer ist
+  die eigene der Winterrunde (`facts.kalender.dauer_winterrunde_stunden`, 4: 2er-Mannschaften, höchstens vier
+  Stunden), nicht die fünf der Medenrunde; fehlt der Fakt, steht nur der Anfang. Die Spalten „Halle" und „Platz" beim HTV liest der Parser nicht (er zählt von hinten).
+- **Abos:** Erwachsene behalten eine Adresse für Sommer und Winter; die Jugend je Jahr
+  (`/kalender/mannschaft/2026/junioren-u15.ics` enthält beide Runden).
+- **Beim Jahreswechsel:** die Datei für das neue Jahr **erst anlegen, wenn die Winterrunde durch ist.** Danach
+  holt der Abruf die Winter-Gruppen des Vorjahres nicht mehr, und fehlende Endergebnisse blieben offen.
+- **Auf dem Server** füllt `ausDateiFuellen` nur eine leere Tabelle: die Winterspiele kommen mit dem nächsten
+  Abruf (Montags-Gesamtabruf oder im Cockpit von Hand), nicht mit dem Deploy.
+
 ### Verlinkt, nicht abgeschrieben
 
 Spielplan, Tabelle und Ergebnisse stehen beim HTV und sind dort immer aktuell.

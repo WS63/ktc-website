@@ -31,21 +31,18 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 
 
 
 // ── Die Saison bestimmen ───────────────────────────────────────────────
-const VERZ = 'inhalte/mannschaften';
-const datei = existsSync(VERZ)
-  ? readdirSync(VERZ).filter((f) => f.endsWith('.json')).sort().pop()
-  : null;
-if (!datei) {
-  console.error(`[Spielplan] ${VERZ}/ ist leer — ohne Mannschaftsliste gibt es nichts zu holen.`);
+// Die juengste Jahresdatei, mit Sommer- UND Winter-Mannschaften (src/mannschaften.js).
+import { saison, mannschaften as teams } from '../src/mannschaften.js';
+if (!saison.saison) {
+  console.error('[Spielplan] inhalte/mannschaften/ ist leer — ohne Mannschaftsliste gibt es nichts zu holen.');
   console.error('[Spielplan] Die Datei wird im April angelegt, wenn der HTV die Gruppen veröffentlicht.');
   process.exit(1);
 }
-const saison = JSON.parse(readFileSync(`${VERZ}/${datei}`, 'utf8'));
-const teams = [...(saison.erwachsene || []), ...(saison.jugend || [])];
-console.log(`[Spielplan] Saison ${saison.saison}, ${teams.length} Mannschaften.`);
+console.log(`[Spielplan] Saison ${saison.saison}, ${teams.length} Mannschaften`
+  + (saison.winter ? ` (davon ${saison.winter.erwachsene.length + saison.winter.jugend.length} in der ${saison.winter.runde}).` : '.'));
 
 // ── Hilfsmittel ────────────────────────────────────────────────────────
-import { PAUSE_MS, gruppenUrl, schlaf, mitGeduld } from '../src/htv.js';
+import { PAUSE_MS, gruppenUrl, teamRunde, schlaf, mitGeduld } from '../src/htv.js';
 
 // ── Abrufen ────────────────────────────────────────────────────────────
 const alle = [];
@@ -60,7 +57,7 @@ for (const [i, t] of teams.entries()) {
     // Jahres fuer sich vollstaendig ist: wer in zwei Jahren wissen will, mit
     // wem die Damen 2026 spielten, muss dafuer nicht die alte Liste suchen.
     const sg = t.sg && t.sg !== '—' ? t.sg : '';
-    const spiele = (await mitGeduld(url, t.name)).map((b) => ({ ...b, sg, gruppe: t.gruppe }));
+    const spiele = (await mitGeduld(url, t.name)).map((b) => ({ ...b, sg, gruppe: t.gruppe, runde: teamRunde(saison, t) }));
     if (!spiele.length) throw new Error('keine eigene Begegnung in dieser Gruppe');
     alle.push(...spiele);
     console.log(`${String(spiele.length).padStart(2)} Begegnungen`);

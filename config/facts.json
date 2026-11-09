@@ -125,8 +125,9 @@
     "platzordnung_pdf": "/assets/dokumente/ktc-platzordnung-2026.pdf"
   },
   "kalender": {
-    "_hinweis": "Fuer das Kalender-Abo (src/kalender-abo.js). Der HTV nennt nur die Anfangszeit eines Medenspiels; 5 Stunden sind ein Mittelwert, entschieden 2026-10-19. Vereinstermine haben KEINE Standarddauer: sie enden, wie es in inhalte/termine.json steht (Feld 'ende'), sonst haben sie nur eine Startzeit.",
-    "dauer_wettkampf_stunden": "5"
+    "_hinweis": "Fuer das Kalender-Abo (src/kalender-abo.js). Der HTV nennt nur die Anfangszeit eines Medenspiels; 5 Stunden sind ein Mittelwert, entschieden 2026-10-19. Die Winterrunde besteht aus 2er-Mannschaften und dauert hoechstens 4 Stunden (am 2026-11-09 genannt); fehlt dieser Fakt, haben Winterspiele nur eine Startzeit. Vereinstermine haben KEINE Standarddauer: sie enden, wie es in inhalte/termine.json steht (Feld 'ende'), sonst haben sie nur eine Startzeit.",
+    "dauer_wettkampf_stunden": "5",
+    "dauer_winterrunde_stunden": "4"
   },
   "kanal": {
     "_hinweis": "Der WhatsApp-Infodienst. links.whatsapp ist der Anmeldelink (wa.me mit vorbereiteter Nachricht), nummer die Clubnummer, an die man STOP schreibt. Beides leer = die Seite zeigt sichtbar […].",

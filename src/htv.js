@@ -23,6 +23,14 @@ export function gruppenUrl(saison, team) {
   return `${BASIS}?championship=${wb}&group=${team.gruppe}`;
 }
 
+/**
+ * Die Runde einer Mannschaft: 'Sommer 2026' oder 'Winter 2026/27'. Die Jahresdatei nennt sie unter 'runden',
+ * je Wettbewerb ('winter'); ohne Angabe ist es die Medenrunde im Sommer der Saison. Die Winterrunde 2026/27
+ * gehoert zur Saison 2026, auch wenn ihre Spiele bis in den April 2027 gehen.
+ */
+export const teamRunde = (saison, team) =>
+  saison.runden?.[team.wettbewerb || 'standard'] || `Sommer ${saison.saison}`;
+
 export const schlaf = (ms) => new Promise((r) => setTimeout(r, ms));
 const text = (s) => s
   .replace(/<[^>]+>/g, ' ')

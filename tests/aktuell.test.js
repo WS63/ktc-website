@@ -181,15 +181,21 @@ test('Demo: SPIELPLAN_DEMO=1 verschiebt die Termine, aber echt:true nie — der 
   const lauf = (env) => JSON.parse(execFileSync(process.execPath, ['-e', `
     import('./src/termin-quelle.js').then((m) => {
       const jahre = (l) => [...new Set(l.filter((t) => t.gruppen).map((t) => t.datum.slice(0, 4)))];
-      console.log(JSON.stringify({ an: m.DEMO_AN, normal: jahre(m.alleTermine()), echt: jahre(m.alleTermine({ echt: true })) }));
+      const spaet = m.alleTermine({ echt: true }).filter((t) => t.gruppen).map((t) => t.datum).sort().pop() || '';
+      console.log(JSON.stringify({ an: m.DEMO_AN, normal: jahre(m.alleTermine()), echt: jahre(m.alleTermine({ echt: true })), spaet }));
     });`], { env: { ...process.env, ...env }, encoding: 'utf8' }));
   const aus = lauf({ SPIELPLAN_DEMO: '' });
   assert.equal(aus.an, false);
   assert.deepEqual(aus.normal, aus.echt);
   const an = lauf({ SPIELPLAN_DEMO: '1' });
   assert.equal(an.an, true);
-  assert.deepEqual(an.echt, ['2026']);       // Spielplan der Saison 2026, unverschoben
-  assert.ok(!an.normal.includes('2026'));    // im Demo-Modus liegt alles in der Zukunft
+  assert.deepEqual(an.echt, aus.echt);       // die echten Termine bleiben unverschoben, Demo hin oder her
+  // Verschoben wird nur, solange der Plan abgelaufen ist (Winterrunde bis in den April eingeschlossen): ist der letzte
+  // Spieltag noch nicht vorbei, bleibt auch der Demo-Modus bei den echten Terminen.
+  const d = new Date();
+  const heute = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  if (an.spaet >= heute) assert.deepEqual(an.normal, an.echt);
+  else assert.notDeepEqual(an.normal, an.echt);
 });
 
 // ── Symbole (Emoji) statt Vorschaubild ─────────────────────────────────

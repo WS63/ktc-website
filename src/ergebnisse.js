@@ -32,6 +32,19 @@ export function wochenenden(spiele) {
 export const sgArt = (sg) => (!sg ? '' : /^ktc\b/i.test(String(sg).trim()) ? 'ktc' : 'partner');
 
 /**
+ * Die Runde einer Begegnung: 'Sommer 2026', 'Winter 2026/27'. Ein Marker zur Orientierung, geordnet wird
+ * nach dem Datum. Ohne Angabe (alte Dateien, Tests) war es die Medenrunde im Sommer der Saison.
+ */
+export const rundeVon = (b) => b.runde || (b.saison ? `Sommer ${b.saison}` : '');
+
+/**
+ * Die Winterrunde wird in einer Halle gespielt, nicht auf der Anlage der erstgenannten Mannschaft. Heim und Gast
+ * bleiben (die erstgenannte Mannschaft ist Heim, die Rollen im Wettkampf bleiben), einen Heimvorteil gibt es nicht.
+ * Deshalb steht ein Winterspiel nie 'auf unserer Anlage'.
+ */
+export const inHalle = (b) => /^winter/i.test(b?.runde || '');
+
+/**
  * Die Reihenfolge der Mannschaften in einem Block: Herren, Damen, Junioren, Juniorinnen,
  * gemischte Jugend — innerhalb davon nach Altersklasse und Zahl (Herren, Herren 30, Herren 40 II).
  */
@@ -52,6 +65,38 @@ export function wochenendeText(w) {
 const WOCHENTAG = (tag) => new Date(`${tag}T12:00:00Z`).toLocaleDateString('de-DE', { weekday: 'long', timeZone: 'UTC' });
 
 /**
+ * Die Spiele eines Spielwochenendes als Zeilen der Ergebnisseite.
+ * Je Anwurfzeit zuerst die Heimspiele, dann die Auswaertsspiele, dann nach Mannschaft: das ordnet die Liste, und wer
+ * zu Hause zuschaut, findet seine Spiele zusammen. Ohne Ergebnis steht 'kommt' (noch nicht angepfiffen) oder 'offen'
+ * (angepfiffen, Meldung fehlt). Dasselbe fuer das gewaehlte Wochenende und fuer den Kasten 'Als Naechstes'.
+ */
+function fensterEintraege(spiele, w, jetzt) {
+  const imFenster = spiele.filter((s) => s.datum >= w.von && s.datum <= w.bis)
+    .sort((a, b) => (a.datum + a.uhrzeit).localeCompare(b.datum + b.uhrzeit)
+      || (b.zuhause ? 1 : 0) - (a.zuhause ? 1 : 0)
+      || artRang(a.mannschaft) - artRang(b.mannschaft)
+      || a.mannschaft.localeCompare(b.mannschaft, 'de', { numeric: true }));
+
+  const eintraege = imFenster.map((s) => {
+    const e = s.gespielt ? ergebnis(s) : null;
+    const start = berlinEpoch(s.datum, s.uhrzeit || '12:00');
+    return {
+      tag: s.datum, wochentag: WOCHENTAG(s.datum), uhrzeit: s.uhrzeit || '',
+      mannschaft: s.mannschaft, sg: s.sg || '', sgart: sgArt(s.sg), heim: s.heim, gast: s.gast, zuhause: s.zuhause,
+      gegner: s.gegner, matchpunkte: s.matchpunkte || '', ausgang: e?.ausgang || '',
+      status: e ? 'gespielt' : (Number.isFinite(start) && jetzt < start ? 'kommt' : 'offen'),
+      gemeldet: s.gemeldet_um ? Date.parse(s.gemeldet_um) : 0,
+      bericht: s.bericht || '',
+      runde: rundeVon(s),
+    };
+  });
+  return { imFenster, eintraege };
+}
+
+/** Der Marker eines Wochenendes: meist eine Runde, am Uebergang auch zwei. */
+const rundenText = (eintraege) => [...new Set(eintraege.map((e) => e.runde).filter(Boolean))].join(' und ');
+
+/**
  * @param spiele  der Spielstand (Begegnungen mit datum, uhrzeit, gespielt, matchpunkte …)
  * @param we      Beginn des gewuenschten Wochenendes ('JJJJ-MM-TT'), leer = das juengste
  * @param jetzt   Millisekunden seit 1970
@@ -70,42 +115,31 @@ export function ansicht(spiele, { we = '', jetzt = Date.now() } = {}) {
   }
   const w = alle[i];
 
-  const imFenster = spiele.filter((s) => s.datum >= w.von && s.datum <= w.bis)
-    // Je Anwurfzeit zuerst die Heimspiele, dann die Auswaertsspiele, dann nach Mannschaft:
-    // das ordnet die Liste, und wer zu Hause zuschaut, findet seine Spiele zusammen.
-    .sort((a, b) => (a.datum + a.uhrzeit).localeCompare(b.datum + b.uhrzeit)
-      || (b.zuhause ? 1 : 0) - (a.zuhause ? 1 : 0)
-      || artRang(a.mannschaft) - artRang(b.mannschaft)
-      || a.mannschaft.localeCompare(b.mannschaft, 'de', { numeric: true }));
-
-  const eintraege = imFenster.map((s) => {
-    const e = s.gespielt ? ergebnis(s) : null;
-    const start = berlinEpoch(s.datum, s.uhrzeit || '12:00');
-    return {
-      tag: s.datum, wochentag: WOCHENTAG(s.datum), uhrzeit: s.uhrzeit || '',
-      mannschaft: s.mannschaft, sg: s.sg || '', sgart: sgArt(s.sg), heim: s.heim, gast: s.gast, zuhause: s.zuhause,
-      gegner: s.gegner, matchpunkte: s.matchpunkte || '', ausgang: e?.ausgang || '',
-      // ohne Ergebnis: ist das Spiel noch nicht angepfiffen, oder fehlt die Meldung?
-      status: e ? 'gespielt' : (Number.isFinite(start) && jetzt < start ? 'kommt' : 'offen'),
-      gemeldet: s.gemeldet_um ? Date.parse(s.gemeldet_um) : 0,
-      bericht: s.bericht || '',
-    };
-  });
-
+  const { imFenster, eintraege } = fensterEintraege(spiele, w, jetzt);
   const fertig = imFenster.filter((s) => s.gespielt && ergebnis(s));
   // 'Gerade gemeldet': Ergebnisse, die wir in den letzten 24 Stunden zum ersten Mal sahen.
   const zuletzt = eintraege.filter((e) => e.gemeldet && jetzt - e.gemeldet < 24 * 3600 * 1000)
     .sort((a, b) => b.gemeldet - a.gemeldet).slice(0, 5)
     .map((e) => ({ ...e, wann: berlinWann(e.gemeldet, jetzt) }));
 
+  // 'Als Naechstes': das erste Wochenende, das noch nicht angefangen hat — vorausgesetzt, es liegt hinter dem
+  // gezeigten. Wer ein kuenftiges Wochenende ansieht, braucht keinen Kasten dafuer, dafuer gibt es den Pfeil.
+  const kommend = alle.find((x) => x.von > heute);
+  const naechste = kommend && kommend.von > w.bis ? (() => {
+    const { eintraege: e } = fensterEintraege(spiele, kommend, jetzt);
+    return { we: kommend.von, text: wochenendeText(kommend), jahr: kommend.von.slice(0, 4), runde: rundenText(e), eintraege: e };
+  })() : null;
+
   return {
     leer: false,
-    fenster: { von: w.von, bis: w.bis, text: wochenendeText(w), jahr: w.von.slice(0, 4) },
+    fenster: { von: w.von, bis: w.bis, text: wochenendeText(w), jahr: w.von.slice(0, 4), runde: rundenText(eintraege) },
     eintraege, zuletzt,
     bilanz: bilanz(fertig),
     offen: eintraege.filter((e) => e.status !== 'gespielt').length,
     vorher: i > 0 ? { we: alle[i - 1].von, text: wochenendeText(alle[i - 1]) } : null,
-    nachher: i < alle.length - 1 && alle[i + 1].von <= heute ? { we: alle[i + 1].von, text: wochenendeText(alle[i + 1]) } : null,
+    // Der Pfeil fuehrt auch in die Zukunft: dort stehen die Spiele mit Termin, 'Ergebnis folgt'.
+    nachher: i < alle.length - 1 ? { we: alle[i + 1].von, text: wochenendeText(alle[i + 1]) } : null,
+    naechste,
   };
 }
 

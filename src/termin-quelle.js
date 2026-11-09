@@ -16,7 +16,7 @@
  */
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { planAusSpeicher } from './spielstand.js';
-import { wochenenden } from './ergebnisse.js';
+import { wochenenden, rundeVon, inHalle } from './ergebnisse.js';
 import { termineAusSpeicher } from './vereinstermine.js';
 
 const DATEI = 'inhalte/termine.json';
@@ -50,6 +50,12 @@ export function vereinsTermine() {
  * Rein: bekommt die Daten, gibt Eintraege zurueck. Das Lesen der Datei steht
  * darunter, damit sich die Gruppierung ohne Dateien testen laesst.
  */
+/** Die Runde(n) einer Liste von Begegnungen als Marker: 'Winter 2026/27'. Leer, wenn keine bekannt ist. */
+const rundenMarker = (liste) => [...new Set(liste.map(rundeVon).filter(Boolean))].join(' und ');
+/** Ein Heimspiel 'auf unserer Anlage' gibt es nur im Sommer: die Winterrunde spielt in einer Halle. */
+const aufAnlage = (b) => b.zuhause && !inHalle(b);
+const nurWinter = (liste) => liste.length > 0 && liste.every(inHalle);
+
 export function spieltageAus(plan) {
   const nachTermin = new Map();
   for (const b of plan?.begegnungen || []) {
@@ -65,14 +71,16 @@ export function spieltageAus(plan) {
     .map((liste) => {
       const heim = liste.filter((b) => b.zuhause).sort(nachName);
       const aus = liste.filter((b) => !b.zuhause).sort(nachName);
+      const anlage = liste.filter(aufAnlage).length;
+      const runde = rundenMarker(liste);
       return {
         datum: liste[0].datum,
         uhrzeit: liste[0].uhrzeit || '',
         art: 'spiel',
-        titel: 'Spieltag der HTV-Medenrunde',
+        titel: nurWinter(liste) ? 'Spieltag der HTV-Winterrunde' : 'Spieltag der HTV-Medenrunde',
         // Gerechnet, nie getippt (P3/P4): die Zahlen kommen aus der Liste.
-        text: `${liste.length} ${liste.length === 1 ? 'Begegnung' : 'Begegnungen'}`
-          + (heim.length ? `, davon ${heim.length} ${heim.length === 1 ? 'Heimspiel' : 'Heimspiele'} auf unserer Anlage.` : '.'),
+        text: (runde ? `${runde}: ` : '') + `${liste.length} ${liste.length === 1 ? 'Begegnung' : 'Begegnungen'}`
+          + (anlage ? `, davon ${anlage} ${anlage === 1 ? 'Heimspiel' : 'Heimspiele'} auf unserer Anlage.` : '.'),
         gruppen: [
           ...(heim.length ? [{ titel: 'Heimspiele', zuhause: true, zeilen: heim.map(zeile) }] : []),
           ...(aus.length ? [{ titel: 'Auswärtsspiele', zuhause: false, zeilen: aus.map(zeile) }] : []),
@@ -94,12 +102,13 @@ export function wochenendTermine(plan) {
   const begegnungen = (plan?.begegnungen || []).filter((b) => b.datum);
   return wochenenden(begegnungen).map((w) => {
     const dabei = begegnungen.filter((b) => b.datum >= w.von && b.datum <= w.bis);
-    const heim = dabei.filter((b) => b.zuhause).length;
+    const heim = dabei.filter(aufAnlage).length;
+    const runde = rundenMarker(dabei);
     return {
       datum: w.von, bis: w.bis, uhrzeit: '', art: 'spiel',
-      titel: 'HTV-Medenspieltag',
-      // Gerechnet, nie getippt (P3/P4).
-      text: `${dabei.length} ${dabei.length === 1 ? 'Begegnung' : 'Begegnungen'}`
+      titel: nurWinter(dabei) ? 'HTV-Winterspieltag' : 'HTV-Medenspieltag',
+      // Gerechnet, nie getippt (P3/P4). Der Marker der Runde orientiert; geordnet wird nach dem Datum.
+      text: (runde ? `${runde}: ` : '') + `${dabei.length} ${dabei.length === 1 ? 'Begegnung' : 'Begegnungen'}`
         + (heim ? `, davon ${heim} ${heim === 1 ? 'Heimspiel' : 'Heimspiele'} auf unserer Anlage.` : '.'),
       mehr: `/ergebnisse/?we=${w.von}`, mehrLabel: 'Spiele und Ergebnisse',
       // Einzeilig im Kalender: der Titel ist der Link. Zwanzig Spielwochenenden mit je

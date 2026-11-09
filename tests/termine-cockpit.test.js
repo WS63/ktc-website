@@ -66,7 +66,7 @@ before(async () => {
 });
 after(() => { server?.kill(); weg(); });
 
-test('beim ersten Start kommen die Termine aus der Datei in die Datenbank, auch die Beispiele (mit Vermerk)', async () => {
+test('beim ersten Start kommen die Termine aus der Datei in die Datenbank', async () => {
   const adm = await anmelden(PW_ADMIN);
   const { status, daten } = await api(adm, '/api/termine');
   assert.equal(status, 200);
@@ -105,9 +105,12 @@ test('anlegen, ändern, löschen: Kalender, Startseite und Abo zeigen es sofort,
 
 test('ein gelöschter Beispieltermin kommt beim Neustart nicht zurück, und die Redaktion darf Termine pflegen, aber sonst nichts', async () => {
   const adm = await anmelden(PW_ADMIN), red = await anmelden(PW_RED);
-  const liste = (await api(adm, '/api/termine')).daten;
-  const beispiel = liste.find((t) => t.beispiel);
-  assert.ok(beispiel, 'die Datei enthält noch Beispieltermine');
+  // Die Datei enthält keine Beispieltermine mehr: dieser Test legt sich seinen eigenen an.
+  const probe = await api(adm, '/api/termine', { method: 'POST', body: JSON.stringify({
+    titel: 'Beispielprobe', datum: '2027-07-01', art: 'club', beispiel: true }) });
+  assert.equal(probe.status, 200);
+  const beispiel = (await api(adm, '/api/termine')).daten.find((t) => t.id === probe.daten.id);
+  assert.equal(beispiel.beispiel, true, 'das Cockpit merkt sich den Vermerk „Beispiel“');
   assert.equal((await api(red, `/api/termine/${beispiel.id}`, { method: 'DELETE' })).status, 200, 'die Redaktion darf löschen');
   assert.equal((await api(red, '/api/termine', { method: 'POST', body: JSON.stringify({ titel: 'Fest', datum: '2027-06-19', art: 'club' }) })).status, 200);
   assert.equal((await api(red, '/api/redirects')).status, 403, 'aber keine Umleitungen');

@@ -34,7 +34,6 @@ test('Beispieltermine tragen das Zeichen „Beispiel“, kommen nicht zu Lisa un
   assert.match(html, /Probe <span class="aktuell__beispiel">Beispiel<\/span>/);
   assert.doesNotMatch(html, /Echt <span class="aktuell__beispiel"/);
   assert.ok(alleTermine({ echt: true }).every((t) => !t.beispiel));
-  assert.ok(alleTermine().some((t) => t.beispiel), 'die Seite selbst zeigt sie (mit Zeichen)');
 });
 
 test('Livegang-Sperre: sobald die Seite für Suchmaschinen frei ist, darf kein Beispieltermin mehr drinstehen', () => {

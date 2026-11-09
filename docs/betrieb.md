@@ -123,6 +123,19 @@ Eine Variable ändern: Coolify → Application → *Environment Variables* → W
 | **sobald der HTV den Rahmenspielplan veröffentlicht** (meist im Herbst oder Winter) | Die Medenspieltage des nächsten Sommers in `inhalte/rahmenspielplan/<jahr>.json` eintragen; sie stehen dann im Kalender. Im April ersetzt der echte Spielplan sie von selbst | Technik |
 | **Ende des Jahres** | Termine fürs nächste Jahr eintragen (Mitgliederversammlung, Putztag, Aktionstage). Preise/Beiträge in den Fakten prüfen | Vorstand |
 
+### Vereinstermine über die Datei einspielen (statt von Hand im Cockpit)
+
+Die Termine liegen im Betrieb in der Datenbank; die Datei `inhalte/termine.json` wird nur beim allerersten Start
+gelesen. Kommen viele Termine auf einmal (z. B. das Programm eines Jahres), geht es so:
+
+1. Termine in `inhalte/termine.json` ergänzen, committen, pushen, Deploy abwarten.
+2. In Coolify → Application → *Terminal*: `npm run termine-nachtragen -- --trocken` (zeigt, was eingetragen würde),
+   dann `npm run termine-nachtragen`.
+3. **Anwendung neu starten** (Coolify: *Restart*). Erst dann kennt der Server die neuen Termine.
+
+Das Skript ändert und löscht nichts und überspringt Beispiele, Vergangenes und schon Vorhandenes. Einzelne Termine
+trägt man schneller direkt im Cockpit ein (Bereich *Termine*), das wirkt sofort und ohne Neustart.
+
 ### Neue Saison im April (heute noch Handarbeit am Code)
 
 Sobald der HTV die Gruppeneinteilung veröffentlicht hat:

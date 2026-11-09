@@ -21,6 +21,7 @@
     "bilder": "node scripts/bilder-bauen.js",
     "spielplan": "node scripts/spielplan.js",
     "mailtest": "node --env-file-if-exists=.env scripts/mailtest.js",
+    "termine-nachtragen": "node --env-file-if-exists=.env scripts/termine-nachtragen.js",
     "spielbericht": "node --env-file-if-exists=.env scripts/spielbericht.js"
   },
   "keywords": [],

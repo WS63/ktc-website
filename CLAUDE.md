@@ -290,6 +290,13 @@ Ausgangslage:** beim ersten Start mit leerer Tabelle wird sie einmal übernommen
 Datenbanken. Eine Änderung leert den Seiten-Cache und liest die Seiten mit Terminen für Lisa neu ein. Ein Server
 mit `suchmaschinen: true` und Beispielterminen warnt beim Start.
 
+**Neue Termine über die Datei liefern:** `npm run termine-nachtragen` (`--trocken` zeigt nur, was passieren würde)
+trägt Termine aus der Datei nach, die in der Datenbank fehlen; auf dem Server im Terminal des Containers (Coolify →
+Application → Terminal). Es **ändert und löscht nichts** und übergeht Beispieltermine, vergangene Termine und alles, was
+(mit gleichem Datum und Titel) schon da ist. Ein im Cockpit gelöschter, noch künftiger Termin kommt beim nächsten Lauf
+zurück, solange er in der Datei steht. **Danach die Anwendung neu starten:** das Skript läuft in einem anderen Prozess,
+der laufende Server hält die Termine im Speicher. Logik: `nachzutragen()` in `src/vereinstermine.js` (rein, getestet).
+
 ### Die Terminliste auf `/kalender/`
 
 - **Nach vorn wichtig, nach hinten nicht:** `termine` mit `zuklappen: 'an'` ordnet die

@@ -67,6 +67,39 @@ export function pruefe(eingabe, arten) {
   return { ok: true, termin };
 }
 
+const schluesselVon = (t) => `${t.datum}|${String(t.titel || '').trim().toLowerCase()}`;
+
+/**
+ * Welche Termine aus der Datei fehlen in der Datenbank? Rein: Datei, Bestand, Arten und 'heute' kommen als Parameter.
+ *
+ * Gleich ist, was dasselbe Datum und denselben Titel hat. Nicht nachgetragen werden
+ *  - Beispieltermine (sie sollen nie live gehen),
+ *  - vergangene Termine (wer einen alten im Cockpit geloescht hat, will ihn nicht zurueck),
+ *  - was schon da ist, auch wenn es im Cockpit geaendert wurde (ein anderer Titel gilt als anderer Termin).
+ * Was die Pruefung nicht besteht, kommt mit den Fehlern in 'fehler' zurueck, nichts davon wird geschrieben.
+ *
+ * Ein Termin, der im Cockpit geloescht wurde, aber noch in der Datei und in der Zukunft steht, kommt beim naechsten
+ * Lauf zurueck. Wer ihn dauerhaft weg haben will, nimmt ihn auch aus der Datei.
+ */
+export function nachzutragen(ausDatei, bestand, arten, heute) {
+  const vorhanden = new Set((bestand || []).map(schluesselVon));
+  const neu = [];
+  const uebersprungen = [];
+  const fehler = [];
+  for (const roh of ausDatei || []) {
+    const p = pruefe({ ...roh, beispiel: roh?.beispiel === true }, arten);
+    if (!p.ok) { fehler.push({ titel: roh?.titel || '(ohne Titel)', fehler: p.fehler }); continue; }
+    const t = p.termin;
+    const grund = t.beispiel ? 'Beispiel'
+      : (t.bis || t.datum) < heute ? 'vergangen'
+        : vorhanden.has(schluesselVon(t)) ? 'schon vorhanden' : '';
+    if (grund) { uebersprungen.push({ titel: t.titel, datum: t.datum, grund }); continue; }
+    vorhanden.add(schluesselVon(t));
+    neu.push(t);
+  }
+  return { neu, uebersprungen, fehler };
+}
+
 const ausZeile = (z) => {
   const t = { datum: z.datum, art: z.art, titel: z.titel };
   for (const [k, v] of [['bis', z.bis], ['uhrzeit', z.uhrzeit], ['ende', z.ende], ['text', z.beschreibung],

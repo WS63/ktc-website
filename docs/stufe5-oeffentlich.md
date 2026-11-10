@@ -294,8 +294,10 @@ Dazu von Hand:
 
 ## Auto-Deploy
 
-Coolify → Application → **Webhooks** → beim Git-Dienst eintragen. Danach baut jeder Push
-auf `main` neu.
+Eingerichtet über die **GitHub-App von Coolify** (Application → *Auto Deploy* an), nicht über
+einen Webhook von Hand. Danach baut jeder Push auf `main` neu. Der Webhook-Weg
+(Coolify → Application → **Webhooks** → beim Git-Dienst eintragen) wäre die Alternative,
+falls das Repository einmal nicht über die App angebunden ist.
 
 **Migrationen laufen beim Start von allein** — `server.js` ruft `runMigrations()` auf,
 bevor der Server horcht. Eine neue `migrations/007_*.sql` ist damit Teil des Deploys.

@@ -81,7 +81,7 @@ vom Vorstand ausgefüllt und gepflegt — *ohne* Passwörter, nur mit Namen und 
 | **Domain** `tennisclub-kriftel.de` (Registrar + DNS) | Adresse der Website, E-Mail | […] | […] | […] |
 | **VPS bei Ionos** | der Server, auf dem alles läuft | Werner Schneider | […] | […] |
 | **Coolify** (auf dem VPS) | Deploy, Umgebungsvariablen, Datenbank, Sicherung | Werner Schneider | […] | […] |
-| **GitHub** `WS63/ktc-website` | der Code, Auslöser für Deploys | Werner Schneider (privates Konto) | […] | […] |
+| **GitHub** `WS63/ktc-website` | der Code, Auslöser für Deploys (Auto-Deploy über die GitHub-App von Coolify, kein Webhook von Hand: jeder Push auf `main` stößt einen Deploy an) | Werner Schneider (privates Konto) | […] | […] |
 | **Mail-Postfach** `info@tennisclub-kriftel.de` | Anfragen-Benachrichtigung, Kontakt | […] | […] | […] |
 | **Anthropic-Konto / API-Schlüssel** | der Assistent „Lisa", der Generator | Werner Schneider | […] | […] |
 | **Passwortmanager des Vereins** | verwahrt alle Zugangsdaten | […] | […] | — |
@@ -106,7 +106,8 @@ Dokument kopieren):
 | `HTV_ABRUF` | `1` = der Server holt Ergebnisse selbst beim HTV |
 
 Eine Variable ändern: Coolify → Application → *Environment Variables* → Wert ändern →
-**Redeploy** bzw. Neustart.
+**Redeploy** bzw. Neustart. Der Server liest die Werte nur beim Start, bis dahin gilt der alte
+Stand. Ein Push auf `main` deployt von selbst; für geänderte Variablen ist ein Redeploy nötig.
 
 ---
 

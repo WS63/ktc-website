@@ -221,12 +221,12 @@ export default {
       margin: 0 0 var(--raum-3); filter: drop-shadow(0 1px 12px rgba(30,30,24,.6)); }
     .hero__thema-fakten { display: flex; flex-wrap: wrap; gap: 14px 44px; list-style: none; padding: 0;
       margin: 0 0 var(--raum-3); }
-    .hero__thema-wert { display: block; font-size: clamp(34px, 4vw, 56px); font-weight: 800; color: var(--titel-akzent);
+    .hero__thema-wert { display: block; font-size: clamp(38px, 4.6vw, 64px); font-weight: 800; color: var(--titel-akzent);
       line-height: 1; text-shadow: 0 1px 14px rgba(30,30,24,.55); font-variant-numeric: tabular-nums; }
     .hero__plus { transition: opacity .35s ease; }
     .hero__feder { transform-origin: left center; animation: hero-feder .7s cubic-bezier(.3, 1.5, .5, 1) both; }
     @keyframes hero-feder { 0% { transform: scale(1); } 40% { transform: scale(1.14); } 100% { transform: scale(1); } }
-    .hero__thema-label { display: block; font-size: clamp(16px, 1.5vw, 19px); font-weight: 600; margin-top: 8px;
+    .hero__thema-label { display: block; font-size: clamp(17px, 1.6vw, 21px); font-weight: 600; margin-top: 8px;
       line-height: 1.3; text-shadow: 0 1px 8px rgba(30,30,24,.6); }
     /* Die Zahlen zaehlen mit dem Einblenden hoch (oder herunter): ein kleines Skript am Ende des Aufmachers
        (SKRIPT) setzt sie, sobald ihr Thema beginnt. Im Markup steht der Endwert: ohne Skript oder bei

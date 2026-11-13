@@ -48,6 +48,46 @@
   Modell: claude-haiku-5-5 (ANTHROPIC_API_KEY in .env). Umstellen: CHAT_MODELL in .env.
   Ohne Schlüssel erscheint kein Chatfenster — die Website läuft vollständig weiter (P6).
 
+**Datenbank (eingeordnet am 13.11.2026):**
+  · **Lokal SQLite** (Datei `data/site.db`), **auf dem VPS Postgres 17** (Coolify, Projekt „labor").
+    Nur `src/db.js` kennt den Unterschied; geschaltet wird allein über `DATABASE_URL`.
+    Der Umzug war ein Umgebungs-Eintrag, kein Umbau des Codes.
+  · **Belegte Gründe** (`ki-native-website-motor.md`, Stufe 0 und Stufe 5; `docs/stufe5-oeffentlich.md`):
+    SQLite ist eine Datei auf dem eigenen Rechner, ideal zum Bauen und Zeigen, aber nicht öffentlich.
+    Weg B/C (Server, Postgres) ist für eine öffentlich erreichbare Seite mit mehreren Menschen im
+    Cockpit gedacht. SQLite sperrt beim Schreiben die ganze Datei. Coolify bringt Postgres als fertige
+    Datenbank mit zeitgesteuerter Sicherung (Database → Backups) mit.
+  · **Nicht dokumentiert:** eine eigene Abwägung „Postgres statt SQLite auf dem VPS". Postgres stand von
+    Anfang an als Ziel fest (Weiche 2 = C), es gab keinen Auslöser wie ein Schreibproblem.
+    **Ehrliche Einschätzung:** SQLite im WAL-Modus (so läuft es lokal) würde eine Handvoll Redakteure
+    tragen, denn Schreibvorgänge laufen nacheinander und Lesen blockiert nicht. Gleichzeitiges Arbeiten
+    im Cockpit ist bei einem Verein deshalb kein zwingender Grund. Für Postgres sprechen vor allem: die
+    Daten liegen getrennt vom Anwendungscontainer, die Sicherung mit Zeitplan ist in Coolify eingebaut,
+    und es bleibt der Weg offen, falls es einmal mehr wird.
+  · **SQLite auf dem VPS wäre möglich.** `/app/data` ist ohnehin ein Volume (Bilder). Die Datei läge
+    daneben. Preis: die Sicherung muss man selbst bauen (Coolify sichert Volumes nicht von selbst), und
+    die Datei darf nur von einer Instanz beschrieben werden. Beschlossen ist das nicht.
+  · **Erinnerung des Betreibers (13.11.2026):** der Grund ist nicht mehr bekannt, vermutet wird
+    Leistungsfähigkeit. Belegt ist das nirgends. Bei dieser Datenmenge (beim Umzug 169 Zeilen) ist
+    Leistung kein Unterscheidungsmerkmal zwischen SQLite und Postgres.
+  · **Wo auf dem VPS was liegt:** (1) im Container: Code, `assets/bilder/`, `config/`, `inhalte/`,
+    kommt aus GitHub und wird bei jedem Deploy neu gebaut; (2) im Volume `/app/data`: die Uploads aus
+    dem Cockpit, überleben Deploys, stehen nur auf dem VPS; (3) im Postgres-Container mit eigenem
+    Speicher: die Datenbank, überlebt Deploys, Sicherung über Coolify. Punkt 2 und 3 stehen nicht in GitHub.
+  · **Was in der Datenbank liegt** (Migrationen `001` bis `018`): die Seiten samt Beiträgen
+    (`pages`, Inhalt als JSON, mit Status und Seed-Stand), Menü (`navigation`), Umleitungen
+    (`redirects`), Fakten, die im Cockpit geändert wurden (`config_overrides`), Vereinstermine
+    (`vereinstermine`), Spiele und Abrufe beim HTV (`spiele`, `abrufe`), Formular-Anfragen
+    (`submissions`), Suchindex und Fragen an Lisa (`chunks`, `chat_log`), Seitenaufrufe (`aufrufe`) und
+    die **Verweise** auf hochgeladene Bilder (`media`: Pfad, Alt-Text, Größe).
+  · **Was nicht darin liegt:** die Bilddateien selbst (erzeugte Fassungen im Repository unter
+    `assets/bilder/`, Cockpit-Uploads als Dateien unter `data/uploads/` auf dem Volume), das Design
+    (`config/theme.json`), die Grundfassung der Fakten (`config/facts.json`), die Mannschaften und der
+    Rahmenspielplan (`inhalte/`), die Startinhalte (`src/seiten.js`, per `npm run seed` in die Datenbank
+    kopiert) und der Code.
+  · **Folge:** Was im Cockpit geändert wird, steht nur in der Datenbank, nicht im Repository.
+    Deshalb braucht es zwei Sicherungen: Datenbank und Volume (siehe `docs/betrieb.md`, Teil 6).
+
 **Offene Punkte (Design/Inhalt):**
   - ~~Mannschaftstabelle auf /mannschaften/: die Links zum HTV fehlen.~~ **Erledigt.**
     Der `tabelle`-Baustein nimmt jetzt je Zelle entweder Text oder `{ text, href }`.

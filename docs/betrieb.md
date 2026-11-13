@@ -255,6 +255,13 @@ offene Punkt vor dem Livegang.
 Der **Code** ist durch GitHub gesichert, aber nur, solange das Repository nicht verloren geht
 (Teil 7: Kopie/Mirror an einem zweiten Ort).
 
+**Die Umgebungsvariablen** (Passwörter, Schlüssel, Mail-Zugang, Teil 3) stehen **nur in Coolify**
+und sind weder in der Datenbank noch in GitHub. Eine Kopie davon gehört in den
+**Passwortmanager des Vereins**: Coolify → Application → *Environment Variables* → **Developer
+View** (alle Variablen als Text `NAME=Wert`, den man kopieren und in einer neuen Anwendung wieder
+einfügen kann; die Bezeichnung kann je nach Coolify-Version abweichen). Nach jeder Änderung einer
+Variable die Kopie erneuern. **Nie** in das Repository, in eine Mail oder einen Chat kopieren.
+
 ### Wiederherstellung auf einem neuen Server (Skizze, noch nicht geprobt)
 
 1. Neuen VPS oder Coolify bereitstellen; Postgres 17 anlegen.

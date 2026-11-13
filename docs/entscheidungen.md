@@ -87,6 +87,24 @@
     kopiert) und der Code.
   · **Folge:** Was im Cockpit geändert wird, steht nur in der Datenbank, nicht im Repository.
     Deshalb braucht es zwei Sicherungen: Datenbank und Volume (siehe `docs/betrieb.md`, Teil 6).
+  · **SQLite oder Postgres auf dem VPS, zusammengefasst (13.11.2026).** Beide gingen. Postgres ist
+    gesetzt und lokal wie auf dem VPS getestet. Der wesentliche praktische Unterschied ist die
+    Sicherung und die Entkopplung, nicht die Leistung:
+
+    | | SQLite (Datei im Volume) | Postgres (eigener Dienst in Coolify) |
+    |---|---|---|
+    | Sicherung | selbst bauen: im WAL-Modus (`db.js`) besteht die Datenbank aus mehreren Dateien, eine Kopie im laufenden Betrieb kann inkonsistent sein, es braucht einen SQLite-eigenen Sicherungsbefehl, ein Skript, Zeitplan und Ziel | Coolify sichert nach Zeitplan an einen Ort außerhalb des VPS (Database → Backups) |
+    | Volume | Datei läge neben den Uploads, eine Sicherung des Ordners (richtig gemacht) deckt alles ab | Volume (Uploads) braucht trotzdem eine eigene Sicherung |
+    | Beim Deploy | alter und neuer Container laufen kurz nebeneinander auf derselben Datei, ein Risiko, das erst zu prüfen wäre | Datenbank ist vom Anwendungscontainer getrennt |
+    | Mehrere Instanzen | nicht möglich (eine Datei, ein Schreiber) | möglich |
+    | VPS → lokal abgleichen | eine Datei kopieren | Abzug nötig (Skript, noch nicht gebaut) |
+    | Rückweg | kein Skript Postgres → SQLite | `npm run umzug` (SQLite → Postgres) vorhanden |
+    | Schreiben von mehreren Redakteuren | im WAL-Modus für eine Handvoll Menschen unkritisch | unkritisch |
+
+    **Empfehlung:** bei Postgres bleiben. Ein Wechsel kostet Arbeit (Rückweg-Skript, Sicherung, neu
+    testen) und löst nur den Abgleich mit der lokalen Entwicklung, den ein Abzugs-Skript ebenfalls löst.
+    Der eigentliche offene Punkt ist unabhängig von der Datenbank: **die Sicherung von Datenbank und
+    Volume ist noch nicht eingerichtet** (`docs/betrieb.md`, Teil 6).
 
 **Offene Punkte (Design/Inhalt):**
   - ~~Mannschaftstabelle auf /mannschaften/: die Links zum HTV fehlen.~~ **Erledigt.**
